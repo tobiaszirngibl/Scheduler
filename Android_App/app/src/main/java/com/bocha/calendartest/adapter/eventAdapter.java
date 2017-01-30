@@ -90,7 +90,7 @@ public class eventAdapter extends ArrayAdapter {
 		 * Therefore, i refers to the current Item object.
 		 */
         Log.v(TAG, "EVENT" +events.get(position));
-        Event i = (Event) events.get(position);
+        Event i = events.get(position);
 
         if (i != null) {
 

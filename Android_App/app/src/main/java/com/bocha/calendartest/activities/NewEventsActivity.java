@@ -204,7 +204,7 @@ public class NewEventsActivity extends AppCompatActivity {
             Log.v(TAG, "New adapter");
         } else {
             myAdapter.clear();
-            myAdapter.addAll(eventName);
+            myAdapter.addAll(testEventList);
             myAdapter.notifyDataSetChanged();
             Log.v(TAG, "NotifyDataSetChanged");
         }
@@ -309,7 +309,7 @@ public class NewEventsActivity extends AppCompatActivity {
             //resume tasks needing this permission
             if(permissions[0].equals(Manifest.permission.READ_CALENDAR)){
                 Log.v(TAG, "Permission result read calendar success.");
-                setupNewEventsList();
+                //setupNewEventsList();
             }
         }
     }

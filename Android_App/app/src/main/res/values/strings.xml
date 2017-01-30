@@ -16,10 +16,12 @@
     <string name="new_event_dialog_duration">Event duration</string>
     <string name="new_event_starting_date">Starting date</string>
     <string name="new_event_desc">Description</string>
-    <string name="new_event_title">Title</string>
+    <string name="new_event_title">New Events</string>
     <string name="new_event_dialog_hour">h</string>
     <string name="new_event_dialog_minute">min</string>
     <string name="event_detail_description">Description</string>
     <string name="event_detail_event_collisions_hint">Event collisions</string>
     <string name="event_detail_event_collisions">No colliding events</string>
+    <string name="calendar_title">Calendar</string>
+    <string name="current_event_title">Current Events</string>
 </resources>
