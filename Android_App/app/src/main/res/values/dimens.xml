@@ -7,4 +7,10 @@
     <dimen name="new_event_picker_margin">40dp</dimen>
     <dimen name="new_event_duration_top_margin">12dp</dimen>
     <dimen name="new_event_hour_margin">-35dp</dimen>
+    <dimen name="new_event_element_title_margin_top">6dp</dimen>
+    <dimen name="new_event_element_desc_margin_bot">6dp</dimen>
+    <dimen name="new_event_element_date_margin_left">0dp</dimen>
+    <dimen name="new_event_element_time_margin_left">0dp</dimen>
+    <dimen name="new_event_element_accept_button_width">48dp</dimen>
+    <dimen name="new_event_element_accept_button_margin">6dp</dimen>
 </resources>
