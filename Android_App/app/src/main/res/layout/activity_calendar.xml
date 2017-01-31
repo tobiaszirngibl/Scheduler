@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.bocha.calendartest.views.ExpandedListView
+    <com.bocha.organized.views.ExpandedListView
     android:id="@+id/list_event_calendar"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

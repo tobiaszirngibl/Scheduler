@@ -2,17 +2,12 @@ package com.bocha.calendartest.activities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -20,28 +15,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.bocha.calendartest.LoginActivity;
 import com.bocha.calendartest.MainActivity;
 import com.bocha.calendartest.R;
 import com.bocha.calendartest.adapter.eventAdapter;
-import com.bocha.calendartest.data.Event;
-import com.bocha.calendartest.listener.SwipeListener;
-import com.bocha.calendartest.utility.EventUtility;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-import com.bocha.organized.logHelper;
+import com.bocha.organized.listener.SwipeListener;
+import com.bocha.organized.data.Event;
+import com.bocha.organized.utility.EventUtility;
 
 public class NewEventsActivity extends AppCompatActivity {
 

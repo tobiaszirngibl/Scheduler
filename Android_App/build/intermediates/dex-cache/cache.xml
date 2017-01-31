@@ -79,7 +79,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="b60dfbba8e94a012169c57d42a8e89b082035bde">
+        sha1="4716dfd20f2eb297a81fe3dc6e7f25659412395d">
         <dex dex="C:\Users\oCocha\Uni\Master\2 sem\ASE\ASE_WS1617_Terminabstimmung-1\Android_App\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_6a0789b7b4874d1cad80cb273bda986a601e4597\classes.dex" />
     </item>
     <item
@@ -93,21 +93,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\oCocha\Uni\Master\2 sem\ASE\ASE_WS1617_Terminabstimmung-1\Android_App\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
-        <dex dex="C:\Users\oCocha\Uni\Master\2 sem\ASE\ASE_WS1617_Terminabstimmung-1\Android_App\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.0.1_d1dc8cd5600c22a68b5bdb91e36960256c2fbd27\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\oCocha\Uni\Master\2 sem\ASE\ASE_WS1617_Terminabstimmung-1\Android_App\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.1\jars\libs\internal_impl-25.0.1.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
         sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
         <dex dex="C:\Users\oCocha\Uni\Master\2 sem\ASE\ASE_WS1617_Terminabstimmung-1\Android_App\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-25.0.1_13b9c0a29720b581be590bc91e054a5844dbcbe0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\oCocha\Uni\Master\2 sem\ASE\ASE_WS1617_Terminabstimmung-1\Android_App\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
+        <dex dex="C:\Users\oCocha\Uni\Master\2 sem\ASE\ASE_WS1617_Terminabstimmung-1\Android_App\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-25.0.1_d1dc8cd5600c22a68b5bdb91e36960256c2fbd27\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -187,7 +187,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="4b617051b3f80dc66e9d2b5a232bbaaf9f45b48d">
+        sha1="57e9d40c18400eef8cc37c428e5fc402381ae306">
         <dex dex="C:\Users\oCocha\Uni\Master\2 sem\ASE\ASE_WS1617_Terminabstimmung-1\Android_App\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_7fb6339e4c4db2c257139652cf31e43727ae66d8\classes.dex" />
     </item>
     <item

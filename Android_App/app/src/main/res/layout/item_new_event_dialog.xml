@@ -42,7 +42,7 @@
             android:textStyle="bold"
             android:text="@string/new_event_starting_date"/>
 
-        <com.bocha.calendartest.utility.TimePicker
+        <com.bocha.organized.widgets.TimePicker
             android:id="@+id/start_time_picker"
             android:hint="@string/title_edit_start"
             android:layout_weight="4"

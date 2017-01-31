@@ -1,8 +1,6 @@
 package com.bocha.calendartest.adapter;
 
-import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +10,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bocha.calendartest.R;
-import com.bocha.calendartest.activities.DetailEventActivity;
 import com.bocha.calendartest.activities.NewEventsActivity;
-import com.bocha.calendartest.data.Event;
-import com.bocha.calendartest.utility.EventUtility;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.bocha.organized.data.Event;
+import com.bocha.organized.utility.EventUtility;
 
 /**
  * Created by bob on 26.12.16.

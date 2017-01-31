@@ -10,13 +10,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bocha.calendartest.R;
-import com.bocha.calendartest.data.Event;
-import com.bocha.calendartest.utility.EventUtility;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import com.bocha.organized.data.Event;
+import com.bocha.organized.utility.EventUtility;
 
 /**
  * Created by bob on 04.01.17.
