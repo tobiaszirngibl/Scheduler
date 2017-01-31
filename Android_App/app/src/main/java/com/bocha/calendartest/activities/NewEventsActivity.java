@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import com.bocha.organized.logHelper;
+
 public class NewEventsActivity extends AppCompatActivity {
 
     private static final String TAG = "New Events";
