@@ -10,11 +10,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:label="@string/current_event_title">
         </activity>
-        <activity android:name=".activities.NewEventsActivity">
+        <activity android:name=".activities.NewEventsActivity"
+            android:label="@string/new_event_title">
         </activity>
-        <activity android:name=".activities.CalendarActivity">
+        <activity android:name=".activities.CalendarActivity"
+            android:label="@string/calendar_title">
         </activity>
         <activity android:name=".LoginActivity"
             android:screenOrientation="portrait">

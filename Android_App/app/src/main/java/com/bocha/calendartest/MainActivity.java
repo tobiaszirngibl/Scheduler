@@ -33,11 +33,12 @@ import android.widget.Toast;
 
 import com.bocha.calendartest.activities.CalendarActivity;
 import com.bocha.calendartest.activities.NewEventsActivity;
-import com.bocha.calendartest.data.Event;
-import com.bocha.calendartest.utility.EventUtility;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+
+import com.bocha.organized.data.Event;
+import com.bocha.organized.utility.EventUtility;
 
 public class MainActivity extends AppCompatActivity {
 

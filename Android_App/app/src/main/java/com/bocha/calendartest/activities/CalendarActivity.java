@@ -35,10 +35,6 @@ import com.bocha.calendartest.LoginActivity;
 import com.bocha.calendartest.MainActivity;
 import com.bocha.calendartest.R;
 import com.bocha.calendartest.adapter.eventAdapter;
-import com.bocha.calendartest.data.Event;
-import com.bocha.calendartest.utility.EventUtility;
-import com.bocha.calendartest.utility.MiscUtility;
-import com.bocha.calendartest.views.ExpandedListView;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
@@ -50,6 +46,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
+
+import com.bocha.organized.data.Event;
+import com.bocha.organized.utility.EventUtility;
+import com.bocha.organized.utility.MiscUtility;
+import com.bocha.organized.views.ExpandedListView;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -342,6 +343,16 @@ public class CalendarActivity extends AppCompatActivity {
         }
     }
 
+    /**Remove the given event from the calendar fragment*/
+    private void removeCalEvent(Date removeEventStart) {
+
+        if (caldroidFragment != null) {
+            ColorDrawable eventDrawable = new ColorDrawable(Color.WHITE);
+            caldroidFragment.setBackgroundDrawableForDate(eventDrawable, removeEventStart);
+            caldroidFragment.refreshView();
+        }
+    }
+
     /**Delay when adding a new event to the calendar
      * -> The list doesnt update correctly sometimes*/
     private void updateUI() {
@@ -395,9 +406,9 @@ public class CalendarActivity extends AppCompatActivity {
         TextView taskTextView = (TextView) parent.findViewById(R.id.event_title);
         String eventTitle = String.valueOf(taskTextView.getText());
 
+        /**Save the id, the start date of the event and the current context as final variables*/
         final Integer eventId = EventUtility.getEventIdByTitle(this, eventTitle);
-        Log.v(TAG, ""+eventId);
-
+        final Date removeEvent = new Date(EventUtility.getEventStartById(this, eventId));
         final Context context = this;
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -410,7 +421,7 @@ public class CalendarActivity extends AppCompatActivity {
                         EventUtility.deleteEventById(context, eventId);
 
                         updateUI();
-                        insertEvents();
+                        removeCalEvent(removeEvent);
                     }
                 })
                 .setNegativeButton("Decline", null)
