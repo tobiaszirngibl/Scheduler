@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+
+from website import views as website_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^get/', include('backend.urls')),
-    url(r'^', include('django.contrib.auth.urls')),
+    url(r'^login/$', auth_views.login, {'template_name': 'website/auth/login.html'}, name='login'),
+    url(r'^login-redirect$', website_views.login_redirect, name='login-redirect'),
+    url(r'^', include('website.urls')),
 ]
