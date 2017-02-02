@@ -1,5 +1,6 @@
 package com.bocha.organized.utility;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,5 +51,26 @@ public class MiscUtility {
         Date startingDate = calendar.getTime();
 
         return startingDate;
+    }
+
+    /**Convert a string date to a date object
+     * format: dd/MM/yyyy hh:mm a
+     *
+     * @param dateString date string
+     * @return date object
+     */
+    public static Date stringToDate(String dateString) {
+        SimpleDateFormat formatter = new SimpleDateFormat(
+                "yyyy-MM-dd:HH:mm");
+        Date date = null;
+
+        dateString = dateString.substring(0, 10)+dateString.substring(13, 18);
+
+        try{
+            date = formatter.parse(dateString);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        return date;
     }
 }

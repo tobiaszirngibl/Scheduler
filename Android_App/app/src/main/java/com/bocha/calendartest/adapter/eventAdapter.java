@@ -24,7 +24,7 @@ import com.bocha.organized.utility.EventUtility;
  */
 
 public class eventAdapter extends ArrayAdapter {
-    private final String TAG = "ArrayAdapter";
+    private final String TAG = "EventAdapter";
 
     private ArrayList<Event> events;
     private Context context;
@@ -87,7 +87,6 @@ public class eventAdapter extends ArrayAdapter {
 		 *
 		 * Therefore, i refers to the current Item object.
 		 */
-        Log.v(TAG, "EVENT" +events.get(position));
         Event i = events.get(position);
 
         if (i != null) {

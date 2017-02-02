@@ -28,27 +28,27 @@ import java.util.ArrayList;
 
 import com.bocha.organized.listener.SwipeListener;
 import com.bocha.organized.data.Event;
+import com.bocha.organized.network.JSONAsyncInterface;
+import com.bocha.organized.network.NetworkHelper;
 import com.bocha.organized.utility.EventUtility;
+import com.bocha.organized.network.JSONAsyncTask;
 
-public class NewEventsActivity extends AppCompatActivity {
+public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInterface{
 
     private static final String TAG = "New Events";
     public static final String PREFS_NAME = "LoginPrefs";
 
     private ListView myEventListView;
     private eventAdapter myAdapter;
-    private ArrayList<ArrayList> eventList;     //Placeholder not needed yet
 
     private AlertDialog permRequestDialog;
 
     private SharedPreferences userData;
 
-    /**Test event data*/
-    private ArrayList<int[]> eventStartDate = new ArrayList<>();
-    private ArrayList<int[]> eventEndDate = new ArrayList<>();
-    private ArrayList<String> eventName = new ArrayList<>();
-    private ArrayList<String> eventDescription = new ArrayList<>();
-    private ArrayList<Event> testEventList = new ArrayList<>();
+    private ArrayList<Event> newEventsList = new ArrayList<>();
+    private ArrayList eventList = new ArrayList<>();
+
+    private String newEventsUrl = "http://192.168.2.102:8000/get/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +56,21 @@ public class NewEventsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_events);
         myEventListView = (ListView) findViewById(R.id.list_new_events);
 
+        fetchEventData();
         readEvents();
-        setupNewEventsData();
-        setupNewEventsList();
+        //setupNewEventsData();
+        //setupNewEventsList();
         //setupNewEventsClickListener();
         setupNewEventsTouchListener();
     }
 
-    /**Setup a swipeListener on the newEventsList */
+    /**Try to fetch the new events data from the server and save the result*/
+    private void fetchEventData() {
+        JSONAsyncTask jsonAsyncTask = new JSONAsyncTask();
+        jsonAsyncTask.jsonAsyncInterface = this;
+        jsonAsyncTask.execute(newEventsUrl);
+    }
+
     /**Setup a swipeListener on the newEventsList */
     private void setupNewEventsTouchListener() {
 
@@ -133,36 +140,6 @@ public class NewEventsActivity extends AppCompatActivity {
         Log.v(TAG, "Event deleted "+position);
     }
 
-    private void setupNewEventsData() {
-        /**Setup the test start date*/
-        long tempStartDate1 = 1482561038000L;
-        //ALTeventStartDate.add(tempStartDate1);
-        long tempStartDate2 = 1482820238000L;
-        //ALTeventStartDate.add(tempStartDate2);
-        long tempStartDate3 = 1482215439000L;
-        //ALTeventStartDate.add(tempStartDate3);
-        /**Setup the test end date*/
-        long tempEndDate1 = 1482568238000L;
-        //ALTeventEndDate.add(tempEndDate1);
-        long tempEndDate2 = 1482842239000L;
-        //ALTeventEndDate.add(tempEndDate2);
-        long tempEndDate3 = 1483317449000L;
-        //ALTeventEndDate.add(tempEndDate3);
-        /**Setup the test names*/
-        eventName.add("Test event 1");
-        eventName.add("Test event 2");
-        eventName.add("Test event 3");
-        /**Setup the test descriptions*/
-        eventDescription.add("This is the description for test event 1");
-        eventDescription.add("This is the description for test event 2");
-        eventDescription.add("This is the description for test event 3");
-
-        /**Setup the test data events*/
-        testEventList.add(new Event(tempStartDate1, tempEndDate1, eventName.get(0), eventDescription.get(0)));
-        testEventList.add(new Event(tempStartDate2, tempEndDate2, eventName.get(1), eventDescription.get(1)));
-        testEventList.add(new Event(tempStartDate3, tempEndDate3, eventName.get(2), eventDescription.get(2)));
-    }
-
     /**Placeholder
      * not needed yet*/
     private void readEvents(){
@@ -188,12 +165,12 @@ public class NewEventsActivity extends AppCompatActivity {
                     R.layout.item_new_event,
                     R.id.new_event_title,
                     R.id.new_event_description,
-                    testEventList);
+                    newEventsList);
             myEventListView.setAdapter(myAdapter);
             Log.v(TAG, "New adapter");
         } else {
             myAdapter.clear();
-            myAdapter.addAll(testEventList);
+            myAdapter.addAll(newEventsList);
             myAdapter.notifyDataSetChanged();
             Log.v(TAG, "NotifyDataSetChanged");
         }
@@ -314,4 +291,14 @@ public class NewEventsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Save the new events list when the async task has finished fetching it from the server
+     * @param newEventsList
+     */
+    @Override
+    public void newEventsFetched(ArrayList<Event> newEventsList) {
+        this.newEventsList = newEventsList;
+        //Log.v(TAG, "LIST: "+newEventsList.get(0).getEventStartDate().getTime()+newEventsList.get(0).getEventEndDate().getTime());
+        setupNewEventsList();
+    }
 }
