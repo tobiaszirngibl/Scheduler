@@ -11,15 +11,17 @@ public class Event {
     private Date eventEndDate;
     private String eventName;
     private String eventDescription;
+    private Integer eventId;
 
-    public Event(Date startDate, Date endDate, String name, String description){
+    public Event(Date startDate, Date endDate, String name, String description/*, Integer Id*/){
         eventStartDate = startDate;
         eventEndDate = endDate;
         eventName = name;
         eventDescription = description;
+        //eventId = Id;
     }
 
-    public Event(Long startDateLong, Long endDateLong, String name, String description){
+    public Event(Long startDateLong, Long endDateLong, String name, String description/*, Integer Id*/){
         Date startDate = new Date();
         startDate.setTime(startDateLong);
         Date endDate = new Date();
@@ -28,6 +30,7 @@ public class Event {
         eventEndDate = endDate;
         eventName = name;
         eventDescription = description;
+        //eventId = Id;
     }
 
     public Date getEventEndDate() {
@@ -60,5 +63,9 @@ public class Event {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    public Integer getEventId(){
+        return eventId;
     }
 }

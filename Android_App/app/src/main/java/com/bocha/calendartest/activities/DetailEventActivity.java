@@ -57,25 +57,26 @@ public class DetailEventActivity extends AppCompatActivity {
 
         getIntentData();
         setIntentData();
-        checkForEventCollision();
+        //checkForEventCollision();
         setListener();
 
     }
 
+    /*
     private void checkForEventCollision() {
-        ArrayList<ArrayList> collidingEvents = EventUtility.checkEventCollision(eventStart, eventEnd);
+        ArrayList<String> collidingEvents = EventUtility.checkEventCollision(eventStart, eventEnd);
 
         if(collidingEvents.size() != 0){
             collideTextView.setTextColor(Color.RED);
             collideTextView.setText(getCollEventsString(collidingEvents));
         }
-    }
+    }*/
 
-    private String getCollEventsString(ArrayList<ArrayList> collidingEvents) {
+    private String getCollEventsString(ArrayList<String> collidingEvents) {
         String collEventsString = "";
 
         for(int i = 0, j = collidingEvents.size(); i < j; i++){
-            collEventsString += "  - " + collidingEvents.get(i).get(0) + "\n";
+            collEventsString += "  - " + collidingEvents.get(i) + "\n";
         }
 
         return collEventsString;

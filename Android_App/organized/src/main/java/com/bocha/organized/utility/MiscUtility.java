@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by oCocha on 31.01.2017.
@@ -54,17 +55,17 @@ public class MiscUtility {
     }
 
     /**Convert a string date to a date object
-     * format: dd/MM/yyyy hh:mm a
+     * format: yyyy-MM-dd:HH:mm
      *
      * @param dateString date string
      * @return date object
      */
-    public static Date stringToDate(String dateString) {
+    public static Date stringToDate(String dateString, String dateFormat) {
         SimpleDateFormat formatter = new SimpleDateFormat(
-                "yyyy-MM-dd:HH:mm");
+                dateFormat, Locale.GERMAN);
         Date date = null;
 
-        dateString = dateString.substring(0, 10)+dateString.substring(13, 18);
+        //dateString = dateString.substring(0, 10)+dateString.substring(13, 18);
 
         try{
             date = formatter.parse(dateString);

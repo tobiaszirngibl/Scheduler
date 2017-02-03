@@ -37,6 +37,7 @@ import com.bocha.calendartest.activities.NewEventsActivity;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import com.bocha.organized.data.CalEvent;
 import com.bocha.organized.data.Event;
 import com.bocha.organized.utility.EventUtility;
 
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView myEventListView;
     private ArrayAdapter<String> myAdapter;
-    private ArrayList<ArrayList> eventList;
+    private ArrayList<CalEvent> eventList;
     private ArrayList<String> eventNameList;
 
     private AlertDialog permRequestDialog;
@@ -87,10 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(eventList != null) {
             for (int i = 0, l = eventList.size(); i < l; i++) {
-                if(Integer.parseInt((String)eventList.get(i).get(6)) != 0) {
-                    Log.v(TAG, "Event: " + eventList.get(i).get(0) + "  deleted: " + eventList.get(i).get(6));
-                }
-                taskList.add((String) eventList.get(i).get(0));
+                taskList.add(eventList.get(i).getEventName());
             }
             Log.v(TAG, "TaskList: "+taskList);
             if (myAdapter == null) {

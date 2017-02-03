@@ -35,6 +35,7 @@ import com.bocha.calendartest.LoginActivity;
 import com.bocha.calendartest.MainActivity;
 import com.bocha.calendartest.R;
 import com.bocha.calendartest.adapter.eventAdapter;
+import com.bocha.organized.data.CalEvent;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
@@ -54,7 +55,7 @@ import com.bocha.organized.views.ExpandedListView;
 
 public class CalendarActivity extends AppCompatActivity {
 
-    private static final String TAG = "New Events";
+    private static final String TAG = "CalendarActivity";
     public static final String PREFS_NAME = "LoginPrefs";
 
     private SharedPreferences userData;
@@ -64,7 +65,7 @@ public class CalendarActivity extends AppCompatActivity {
     private ListView myEventListView;
     private TextView eventTextView;
 
-    private ArrayList<ArrayList> eventList;
+    private ArrayList<CalEvent> eventList;
 
     private ArrayAdapter<String> myAdapter;
 
@@ -121,7 +122,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                 eventTextView.setText(text);
 
-                ArrayList<ArrayList> matchingEvents = getMatchingEvents(date);
+                ArrayList<CalEvent> matchingEvents = getMatchingEvents(date);
                 if(matchingEvents.size() != 0){
                     showEventsData(matchingEvents);
                 }
@@ -211,26 +212,23 @@ public class CalendarActivity extends AppCompatActivity {
 
     /**Add the event using the EventUtility class*/
     private void addEvent(Date date, Long length, String eventTitle, String eventDescription) {
-        //int[] startDate = {2017, 0, 24, 7, 30};
-        //int[] endDate = {2017, 0, 24, 14, 30};
-        Log.v(TAG, "adding Event: "+date);
 
         Event event = new Event(date.getTime(), date.getTime() + length, eventTitle, eventDescription);
 
-        EventUtility.addEvent(CalendarActivity.this, event);
+        Log.v(TAG, "ID: "+EventUtility.addEvent(CalendarActivity.this, event));
 
         updateUI();
         insertEvents();
     }
 
     /**Check whether the clicked date contains any events and return the matches*/
-    private ArrayList<ArrayList> getMatchingEvents(Date date) {
+    private ArrayList<CalEvent> getMatchingEvents(Date date) {
         Long dateStart = date.getTime();
         Long dateEnd = dateStart + TimeUnit.DAYS.toMillis(1);
-        ArrayList<ArrayList> matchingEvents = new ArrayList<>();
+        ArrayList<CalEvent> matchingEvents = new ArrayList<>();
 
         for(int i = 0, j = eventList.size(); i < j; i++){
-            Long eventStart = Long.parseLong((String)eventList.get(i).get(1));
+            Long eventStart = eventList.get(i).getEventStartDate().getTime();
             if(eventStart >= dateStart && eventStart <= dateEnd){
                 matchingEvents.add(eventList.get(i));
             }
@@ -246,8 +244,8 @@ public class CalendarActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                String startDate = (String)eventList.get(position).get(1);
-                caldroidFragment.moveToDate(new Date(Long.parseLong(startDate)));
+                Date startDate = eventList.get(position).getEventStartDate();
+                caldroidFragment.moveToDate(startDate);
 
                 showEventData(position);
             }
@@ -260,7 +258,6 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 final String eventTitle = myEventListView.getItemAtPosition(position).toString();
-                Log.v(TAG, "Update: " + eventTitle);
                 final EditText eventEditText = new EditText(context);
                 AlertDialog dialog = new AlertDialog.Builder(context)
                         .setTitle("Update event title")
@@ -290,13 +287,13 @@ public class CalendarActivity extends AppCompatActivity {
      * @param position Positon of the event to display in the eventlist
      */
     private void showEventData(int position) {
-        ArrayList<String> clickedEvent = eventList.get(position);
-        String eventInfo = "" + clickedEvent.get(0) + "\n";
+        CalEvent clickedEvent = eventList.get(position);
+        String eventInfo = "" + clickedEvent.getEventName() + "\n";
 
-        String[] dateData = EventUtility.calculateDate(Long.parseLong(clickedEvent.get(1)), Long.parseLong(clickedEvent.get(2)));
+        String[] dateData = EventUtility.calculateDate(clickedEvent.getEventStartDate().getTime(), clickedEvent.getEventEndDate().getTime());
         eventInfo += dateData[0] + "\n";
         eventInfo += dateData[1] + "\n";
-        eventInfo += "" + clickedEvent.get(3) + "\n";
+        eventInfo += "" + clickedEvent.getEventDescription() + "\n";
 
         eventTextView.setText(eventInfo);
     }
@@ -305,18 +302,18 @@ public class CalendarActivity extends AppCompatActivity {
      *
      * @param eventList Arraylist containing the events to display
      */
-    private void showEventsData(ArrayList<ArrayList> eventList) {
-        ArrayList<String> clickedEvent;
+    private void showEventsData(ArrayList<CalEvent> eventList) {
+        CalEvent clickedEvent;
         String eventsInfo = new String();
         for(int i = 0, j = eventList.size(); i < j; i++){
             clickedEvent = eventList.get(i);
-            eventsInfo += "" + clickedEvent.get(0) + "\n";
+            eventsInfo += "" + clickedEvent.getEventName() + "\n";
 
-            String[] dateData = EventUtility.calculateDate(Long.parseLong(clickedEvent.get(1)), Long.parseLong(clickedEvent.get(2)));
+            String[] dateData = EventUtility.calculateDate(clickedEvent.getEventStartDate().getTime(), clickedEvent.getEventEndDate().getTime());
             eventsInfo += dateData[0] + "\n";
             eventsInfo += dateData[1] + "\n";
 
-            eventsInfo += "" + clickedEvent.get(3) + "\n" + "\n";
+            eventsInfo += "" + clickedEvent.getEventDescription() + "\n" + "\n";
         }
 
         eventTextView.setText(eventsInfo);
@@ -333,7 +330,7 @@ public class CalendarActivity extends AppCompatActivity {
             cal = Calendar.getInstance();
             cal.add(Calendar.DATE, 7);
             cal.getTime();
-            eventDate = new Date(Long.parseLong((String)eventList.get(i).get(1)));
+            eventDate = eventList.get(i).getEventStartDate();
 
             if (caldroidFragment != null) {
                 ColorDrawable eventDrawable = new ColorDrawable(Color.RED);
@@ -362,10 +359,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         if (eventList != null) {
             for (int i = 0, l = eventList.size(); i < l; i++) {
-                if(Integer.parseInt((String)eventList.get(i).get(6)) != 0) {
-                    Log.v(TAG, "Event: " + eventList.get(i).get(0) + "  deleted: " + eventList.get(i).get(6));
-                }
-                taskList.add((String) eventList.get(i).get(0));
+                taskList.add(eventList.get(i).getEventName());
             }
             if (myAdapter == null) {
                 myAdapter = new ArrayAdapter<>(this,
@@ -379,7 +373,6 @@ public class CalendarActivity extends AppCompatActivity {
                 myAdapter.addAll(taskList);
                 myAdapter.notifyDataSetChanged();
                 Log.v(TAG, "NotifyDataSetChanged");
-                Log.v(TAG, "TaskList: "+taskList);
             }
         }
         setupListClickListener();
@@ -393,7 +386,6 @@ public class CalendarActivity extends AppCompatActivity {
             }
             //Update the eventList
             eventList = EventUtility.readCalendarEvent(this);
-            Log.v(TAG, "EventList: " + eventList);
         }else{
             Log.v(TAG, "Read events permission not granted");
         }
@@ -402,14 +394,17 @@ public class CalendarActivity extends AppCompatActivity {
     /**Delete the according calendar event when the delete button is clicked
      * To delete the event the EventUtility class is used*/
     public void deleteEvent(View view) {
+        //Get the parent view and parent listview of the clicke button
+        //and therefore the index of the button that is used to receive the event data
         View parent = (View) view.getParent();
-        TextView taskTextView = (TextView) parent.findViewById(R.id.event_title);
-        String eventTitle = String.valueOf(taskTextView.getText());
+        ListView listView = (ListView) parent.getParent();
+        final int position = listView.getPositionForView(parent);
 
-        /**Save the id, the start date of the event and the current context as final variables*/
-        final Integer eventId = EventUtility.getEventIdByTitle(this, eventTitle);
-        final Date removeEvent = new Date(EventUtility.getEventStartById(this, eventId));
+        //Save the id, the name and the start date of the event and the current context
+        final Integer eventId = eventList.get(position).getEventId();
+        final Date removeEventDate = eventList.get(position).getEventStartDate();
         final Context context = this;
+        String eventTitle = eventList.get(position).getEventName();
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Delete event")
@@ -421,7 +416,7 @@ public class CalendarActivity extends AppCompatActivity {
                         EventUtility.deleteEventById(context, eventId);
 
                         updateUI();
-                        removeCalEvent(removeEvent);
+                        removeCalEvent(removeEventDate);
                     }
                 })
                 .setNegativeButton("Decline", null)

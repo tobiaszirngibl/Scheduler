@@ -26,10 +26,10 @@ import com.bocha.calendartest.adapter.eventAdapter;
 
 import java.util.ArrayList;
 
+import com.bocha.organized.data.CalEvent;
 import com.bocha.organized.listener.SwipeListener;
 import com.bocha.organized.data.Event;
 import com.bocha.organized.network.JSONAsyncInterface;
-import com.bocha.organized.network.NetworkHelper;
 import com.bocha.organized.utility.EventUtility;
 import com.bocha.organized.network.JSONAsyncTask;
 
@@ -46,9 +46,11 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
     private SharedPreferences userData;
 
     private ArrayList<Event> newEventsList = new ArrayList<>();
-    private ArrayList eventList = new ArrayList<>();
+    private ArrayList<CalEvent> eventList = new ArrayList<>();
+    //private ArrayList<ArrayList> eventList = new ArrayList<>();
 
     private String newEventsUrl = "http://192.168.2.102:8000/get/";
+    private String newEventsUrl2 = "http://192.168.178.43:8000/get/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,7 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
     private void fetchEventData() {
         JSONAsyncTask jsonAsyncTask = new JSONAsyncTask();
         jsonAsyncTask.jsonAsyncInterface = this;
-        jsonAsyncTask.execute(newEventsUrl);
+        jsonAsyncTask.execute(newEventsUrl2);
     }
 
     /**Setup a swipeListener on the newEventsList */
@@ -256,10 +258,6 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_CALENDAR},
                         1);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
             return false;
         }else{
@@ -298,7 +296,6 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
     @Override
     public void newEventsFetched(ArrayList<Event> newEventsList) {
         this.newEventsList = newEventsList;
-        //Log.v(TAG, "LIST: "+newEventsList.get(0).getEventStartDate().getTime()+newEventsList.get(0).getEventEndDate().getTime());
         setupNewEventsList();
     }
 }

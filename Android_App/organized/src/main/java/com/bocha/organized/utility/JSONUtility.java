@@ -1,5 +1,7 @@
 package com.bocha.organized.utility;
 
+import android.util.Log;
+
 import com.bocha.organized.data.Event;
 
 import org.json.JSONArray;
@@ -15,10 +17,10 @@ import java.util.Date;
 
 public class JSONUtility {
     private final static String TAG = "JSONUtility";
-    private final static String jsonTagName = "name";
-    private final static String jsonTagStartDate = "date";
-    private final static String jsonTagEndDate = "date";
-    private final static String jsonTagChange = "last_change";
+    private final static String JSON_TAG_NAME = "name";
+    private final static String JSON_TAG_START_DATE = "date";
+    private final static String JSON_TAG_END_DATE = "date";
+    private final static String JSON_TAG_CHANGE = "last_change";
 
 
     /**
@@ -51,9 +53,9 @@ public class JSONUtility {
         String title = null, description = "Description";
 
         try{
-            startDate = MiscUtility.stringToDate(jsonObject.getString(jsonTagStartDate));
-            endDate = MiscUtility.stringToDate(jsonObject.getString(jsonTagEndDate));
-            title = jsonObject.getString(jsonTagName);
+            startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            title = jsonObject.getString(JSON_TAG_NAME);
         }catch(JSONException e){
             e.printStackTrace();
         }
