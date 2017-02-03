@@ -281,11 +281,10 @@ public class EventUtility {
     }
 
     /**Check whether the new event collides with old events
-     * Ask the user if he wants to create the new event if collisions occur*//*
+     * Ask the user if he wants to create the new event if collisions occur*/
     public static ArrayList<String> checkEventCollision(long startMillis, long endMillis) {
         ArrayList<String> collidingEvents = new ArrayList<>();
-        Log.v(TAG, "Eventlist size: " + eventList.size());
-        Log.v(TAG, "Eventlist: " + eventList);
+
         for(int i = 0, l = eventList.size(); i < l; i++){
             if((eventList.get(i).getEventStartDate().getTime() >= startMillis) && ((eventList.get(i).getEventStartDate().getTime()) <= endMillis) ||
                     ((eventList.get(i).getEventEndDate().getTime() >= startMillis) && (eventList.get(i).getEventEndDate().getTime() <= endMillis))){
@@ -294,7 +293,7 @@ public class EventUtility {
             }
         }
         return collidingEvents;
-    }*/
+    }
 
     /**Check whether the app can write in the calendar device app
      * Request the necessary permisison if not*/

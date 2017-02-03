@@ -60,12 +60,15 @@ public class DetailEventActivity extends AppCompatActivity {
 
         getIntentData();
         setIntentData();
-        //checkForEventCollision();
+        checkForEventCollision();
         setListener();
 
     }
 
-    /*
+    /**
+     * Check whether the showed event collides with existing events
+     * and show the names of the colliding events in the according textView
+     */
     private void checkForEventCollision() {
         ArrayList<String> collidingEvents = EventUtility.checkEventCollision(eventStart, eventEnd);
 
@@ -73,7 +76,7 @@ public class DetailEventActivity extends AppCompatActivity {
             collideTextView.setTextColor(Color.RED);
             collideTextView.setText(getCollEventsString(collidingEvents));
         }
-    }*/
+    }
 
     private String getCollEventsString(ArrayList<String> collidingEvents) {
         String collEventsString = "";

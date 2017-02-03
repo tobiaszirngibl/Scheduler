@@ -25,7 +25,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="c4855e6b8cc8caa0f1e149d70a7158e8240c5a3f">
+        sha1="526fbcb8c1a81908943c0b438238d1ef4d8a4cd1">
         <dex dex="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Android_App/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_7d1d4289e32648035cb17e73509bda0db399c8d8/classes.dex" />
     </item>
     <item
@@ -70,7 +70,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="3cbe022773a91836e3681f26415ecb5a89d72eea">
+        sha1="160152d9468cefa76edd4be5a34cea9322ad642b">
         <dex dex="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Android_App/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_b86ca9ffb97db351b4cddf3341193062aa7aef08/classes.dex" />
     </item>
     <item

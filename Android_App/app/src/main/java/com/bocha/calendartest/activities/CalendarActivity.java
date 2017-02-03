@@ -290,6 +290,7 @@ public class CalendarActivity extends AppCompatActivity {
     private void showEventData(int position) {
         CalEvent clickedEvent = eventList.get(position);
         String eventInfo = "" + clickedEvent.getEventName() + "\n";
+        eventInfo = eventInfo + clickedEvent.getEventLocation() + "\n";
 
         String[] dateData = EventUtility.calculateDate(clickedEvent.getEventStartDate().getTime(), clickedEvent.getEventEndDate().getTime());
         eventInfo += dateData[0] + "\n";

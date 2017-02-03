@@ -121,6 +121,11 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
         });
     }
 
+    /**
+     * If the accept imageButton of a listElement is clicked
+     * start the detaileventactivity and provide the event data in the intent
+     * @param position
+     */
     public void onEventAccepted(int position){
         final Context context = this;
         Event event = (Event)myEventListView.getItemAtPosition(position);
@@ -133,7 +138,6 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
         detailIntent.putExtra("eventLastUpdate", event.getEventLastChanged().getTime());
         detailIntent.putExtra("eventLocation", event.getEventLocation());
         startActivity(detailIntent);
-        Log.v(TAG, "Event added "+position);
     }
 
     @Override
@@ -169,8 +173,6 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
         if (myAdapter == null) {
             myAdapter = new eventAdapter(this,
                     R.layout.item_new_event,
-                    R.id.new_event_title,
-                    R.id.new_event_description,
                     newEventsList);
             myEventListView.setAdapter(myAdapter);
             Log.v(TAG, "New adapter");

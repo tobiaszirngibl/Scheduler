@@ -31,7 +31,7 @@ public class eventAdapter extends ArrayAdapter {
 
     SimpleDateFormat formatter;
 
-    public eventAdapter(Context context, int eventId, int titleId, int descId, ArrayList<Event> events){
+    public eventAdapter(Context context, int eventId, ArrayList<Event> events){
         super(context, eventId, events);
         this.events = events;
         this.context = context;
@@ -91,30 +91,33 @@ public class eventAdapter extends ArrayAdapter {
 
         if (i != null) {
 
-            // This is how you obtain a reference to the TextViews.
-            // These TextViews are created in the XML files we defined.
+            // Gather references for the textviews
 
-            TextView tt = (TextView) v.findViewById(R.id.new_event_title);
-            TextView td = (TextView) v.findViewById(R.id.new_event_description);
-            TextView ts = (TextView) v.findViewById(R.id.new_event_date);
-            TextView te = (TextView) v.findViewById(R.id.new_event_time);
+            TextView titleView = (TextView) v.findViewById(R.id.new_event_title);
+            TextView locationView = (TextView) v.findViewById(R.id.new_event_location);
+            TextView descView = (TextView) v.findViewById(R.id.new_event_description);
+            TextView dateView = (TextView) v.findViewById(R.id.new_event_date);
+            TextView timeView = (TextView) v.findViewById(R.id.new_event_time);
 
             //Get the date and the time data as strings.
             String[] dateData = EventUtility.calculateDate(i.getEventStartDate().getTime(), i.getEventEndDate().getTime());
 
             // check to see if each individual textview is null.
             // if not, assign some text!
-            if (tt != null){
-                tt.setText(i.getEventName());
+            if (titleView != null){
+                titleView.setText(i.getEventName());
             }
-            if (td != null){
-                td.setText(i.getEventDescription());
+            if (locationView != null){
+                locationView.setText(i.getEventLocation());
             }
-            if (ts != null){
-                ts.setText(dateData[0]);
+            if (descView != null){
+                descView.setText(i.getEventDescription());
             }
-            if (te != null){
-                te.setText(dateData[1]);
+            if (dateView != null){
+                dateView.setText(dateData[0]);
+            }
+            if (timeView != null){
+                timeView.setText(dateData[1]);
             }
         }
 

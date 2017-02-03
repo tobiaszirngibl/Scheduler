@@ -19,16 +19,15 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_organized_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_organized_compileReleaseJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_organized_compileReleaseJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_organized_compileReleaseJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/CalendarActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/CalendarActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/DetailEventActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/DetailEventActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/NewEventsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/NewEventsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_new_event_dialog.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_new_event_dialog.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/CalEvent.java" afterPath="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/CalEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/Event.java" afterPath="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/Event.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/adapter/eventAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/adapter/eventAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_new_event.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_new_event.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/organized/organized.iml" afterPath="$PROJECT_DIR$/organized/organized.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/utility/EventUtility.java" afterPath="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/utility/EventUtility.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/utility/JSONUtility.java" afterPath="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/utility/JSONUtility.java" />
     </list>
     <ignored path="Android_App.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,11 +60,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="eventAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/adapter/eventAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1602">
+              <caret line="110" column="57" selection-start-line="110" selection-start-column="57" selection-end-line="110" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/Event.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="608">
+            <state relative-caret-position="554">
               <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CalendarActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/CalendarActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="146">
+              <caret line="292" column="29" selection-start-line="292" selection-start-column="29" selection-end-line="292" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -84,25 +103,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CalendarActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/CalendarActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="EventUtility.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/utility/EventUtility.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="402">
-              <caret line="274" column="57" selection-start-line="274" selection-start-column="57" selection-end-line="274" selection-end-column="57" />
+            <state relative-caret-position="222">
+              <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1486148812605" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
-                <marker date="1486148812605" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
+                <marker date="1486151372113" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
+                <marker date="1486151372113" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
@@ -2696,7 +2705,6 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/network/networkHelper.java" />
         <option value="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/network/NetworkHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/adapter/eventAdapter.java" />
         <option value="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/network/JSONAsyncInterface.java" />
         <option value="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/network/JSONAsyncTask.java" />
         <option value="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/calEvent.java" />
@@ -2705,10 +2713,12 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_new_event_dialog.xml" />
         <option value="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/CalEvent.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/NewEventsActivity.java" />
         <option value="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/utility/JSONUtility.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/DetailEventActivity.java" />
         <option value="$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/utility/EventUtility.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/DetailEventActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/NewEventsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/adapter/eventAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_new_event.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/CalendarActivity.java" />
       </list>
     </option>
@@ -2746,10 +2756,10 @@
       <pane id="AndroidView">
         <subPane />
       </pane>
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3090,7 +3100,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15075758" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -3119,6 +3129,25 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="738">
+          <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/CalEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+          <folding>
+            <element signature="e#771#772#0" expanded="true" />
+            <element signature="e#801#802#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/NewEventsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1008">
@@ -3175,8 +3204,8 @@
           <caret line="91" column="0" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1486148812605" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
-            <marker date="1486148812605" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
+            <marker date="1486151372113" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
+            <marker date="1486151372113" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -3216,8 +3245,8 @@
           <caret line="91" column="0" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1486148812605" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
-            <marker date="1486148812605" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
+            <marker date="1486151372113" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
+            <marker date="1486151372113" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -3245,8 +3274,8 @@
           <caret line="105" column="31" selection-start-line="105" selection-start-column="31" selection-end-line="105" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1486148812605" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
-            <marker date="1486148812605" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
+            <marker date="1486151372113" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
+            <marker date="1486151372113" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -3326,14 +3355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/adapter/eventAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="102" column="0" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
@@ -3345,30 +3366,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/CalEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
-          <folding>
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#801#802#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/DetailEventActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="128" column="0" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../../../../../Sdk/platforms/android-25/android.jar!/android/content/ContextWrapper.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
           <caret line="19" column="43" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3376,17 +3377,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="62" column="37" selection-start-line="62" selection-start-column="37" selection-end-line="62" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/NewEventsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-84">
-          <caret line="109" column="35" selection-start-line="109" selection-start-column="29" selection-end-line="109" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3401,30 +3391,88 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/Event.java">
+    <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/CalEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
-          <folding />
+        <state relative-caret-position="414">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+          <folding>
+            <element signature="e#771#772#0" expanded="true" />
+            <element signature="e#801#802#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/utility/EventUtility.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="274" column="57" selection-start-line="274" selection-start-column="57" selection-end-line="274" selection-end-column="57" />
+        <state relative-caret-position="222">
+          <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1486148812605" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
-            <marker date="1486148812605" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
+            <marker date="1486151372113" expanded="false" signature="5709:5717" ph="&lt;~&gt;" />
+            <marker date="1486151372113" expanded="false" signature="9064:9072" ph="&lt;~&gt;" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/DetailEventActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-252">
+          <caret line="79" column="4" selection-start-line="79" selection-start-column="4" selection-end-line="79" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../../Sdk/platforms/android-25/android.jar!/android/widget/ArrayAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_new_event.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="17" column="51" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="51" />
+          <folding>
+            <element signature="e#817#860#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/NewEventsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="174" column="44" selection-start-line="174" selection-start-column="44" selection-end-line="174" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/organized/src/main/java/com/bocha/organized/data/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="554">
+          <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/adapter/eventAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1602">
+          <caret line="110" column="57" selection-start-line="110" selection-start-column="57" selection-end-line="110" selection-end-column="57" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bocha/calendartest/activities/CalendarActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
+        <state relative-caret-position="146">
+          <caret line="292" column="29" selection-start-line="292" selection-start-column="29" selection-end-line="292" selection-end-column="29" />
           <folding />
         </state>
       </provider>
