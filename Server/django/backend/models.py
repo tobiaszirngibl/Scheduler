@@ -11,15 +11,32 @@ class Actor(models.Model):
 	def __str__(self):
 		return self.user.username
 
+
 class Appointment(models.Model):
+	# Name of the Appointment
 	name = models.CharField(max_length=150)
-	date = models.DateTimeField(auto_now=False, auto_now_add=False)
-	last_changed = models.DateTimeField(auto_now=False, auto_now_add=False)
+	# Marks the start of the Appointment
+	date_begin = models.DateTimeField()
+	# Marks the end of the Appointment
+	date_end = models.DateTimeField()
+	# All participants
 	participants = models.ManyToManyField(
 		Actor,
 		through="Participation"	
 	)
-
+	# The town in which the Appointment will take place
+	# May require own model
+	town = model.CharField(max_length=100, blank=True)
+	# Building the Appointment will take place in
+	# May require own model
+	location = model.CharField(max_length=100, blank=True)
+	# Description
+	description = model.TextField(blank=True)
+	# Important notes for the participants
+	notes = model.TextField(blank=True)
+	# Timestamp used for marking last modification date
+	last_changed = models.DateTimeField(auto_now=True, auto_now_add=True)
+	
 	def __str__(self):
 		return self.name
 
