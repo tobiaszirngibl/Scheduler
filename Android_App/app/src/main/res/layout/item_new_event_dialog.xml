@@ -27,6 +27,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/new_event_duration_top_margin"
             android:textStyle="bold"
+            android:text="@string/new_event_location"/>
+
+        <EditText
+            android:id="@+id/dialog_location_edit"
+            android:hint="@string/location_edit_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/new_event_duration_top_margin"
+            android:textStyle="bold"
             android:text="@string/new_event_desc"/>
 
         <EditText

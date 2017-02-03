@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_event:
-                final EditText eventEditText = new EditText(this);
+                /*final EditText eventEditText = new EditText(this);
                 AlertDialog dialog = new AlertDialog.Builder(this)
                         .setTitle("New event")
                         .setMessage("Accept the event?")
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .setNegativeButton("Decline", null)
                         .create();
-                dialog.show();
+                dialog.show();*/
                 return true;
             case R.id.activity_new_events:
                 Intent listIntent = new Intent(this, NewEventsActivity.class);
@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(logoutIntent);
     }
 
-    /**Add the event using the EventUtility class*/
+    /**Add the event using the EventUtility class*//*_OLD
     private void addEvent(String eventTitle) {
         long startDate = 1482561038000L;
         long endDate = 1482561038000L;
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         EventUtility.addEvent(MainActivity.this, event);
 
         //updateUI();
-    }
+    }*/
 
     /**Check whether the app can read in the calendar device app
      * Request the necessary permisison if not*/
@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
                 updateUI();
             }else if(permissions[0].equals(Manifest.permission.WRITE_CALENDAR)){
                 Log.v(TAG, "Permission result write calendar success.");
-                addEvent(standbyEvent.getEventName());
+                //_OLDaddEvent(standbyEvent.getEventName());
                 updateUI();
             }
         }

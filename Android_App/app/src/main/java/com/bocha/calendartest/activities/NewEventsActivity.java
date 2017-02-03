@@ -113,6 +113,8 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
                 detailIntent.putExtra("eventStart", event.getEventStartDate().getTime());
                 detailIntent.putExtra("eventEnd", event.getEventEndDate().getTime());
                 detailIntent.putExtra("eventDesc", event.getEventDescription());
+                detailIntent.putExtra("eventLastUpdate", event.getEventLastChanged().getTime());
+                detailIntent.putExtra("eventLocation", event.getEventLocation());
                 startActivity(detailIntent);
                 Log.v(TAG, "Clicked: " + event.getEventName());
             }
@@ -128,6 +130,8 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
         detailIntent.putExtra("eventStart", event.getEventStartDate().getTime());
         detailIntent.putExtra("eventEnd", event.getEventEndDate().getTime());
         detailIntent.putExtra("eventDesc", event.getEventDescription());
+        detailIntent.putExtra("eventLastUpdate", event.getEventLastChanged().getTime());
+        detailIntent.putExtra("eventLocation", event.getEventLocation());
         startActivity(detailIntent);
         Log.v(TAG, "Event added "+position);
     }

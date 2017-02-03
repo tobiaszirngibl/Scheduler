@@ -7,21 +7,27 @@ import java.util.Date;
  */
 
 public class Event {
+    private String eventName;
+    private Date eventLastChanged;
     private Date eventStartDate;
     private Date eventEndDate;
-    private String eventName;
+    private String eventLocation;
     private String eventDescription;
-    private Integer eventId;
+    private String eventNotes;
+    private String eventTown;
 
-    public Event(Date startDate, Date endDate, String name, String description/*, Integer Id*/){
+    public Event(String name, Date lastChanged,Date startDate, Date endDate, String location, String description/*, String notes, String town*/){
         eventStartDate = startDate;
         eventEndDate = endDate;
         eventName = name;
         eventDescription = description;
-        //eventId = Id;
+        eventLastChanged = lastChanged;
+        eventLocation = location;
+        /*eventNotes = notes;
+        eventTown = town;*/
     }
 
-    public Event(Long startDateLong, Long endDateLong, String name, String description/*, Integer Id*/){
+    public Event(String name, Date lastChanged,Long startDateLong,Long endDateLong, String location, String description/*, String notes, String town*/){
         Date startDate = new Date();
         startDate.setTime(startDateLong);
         Date endDate = new Date();
@@ -30,23 +36,19 @@ public class Event {
         eventEndDate = endDate;
         eventName = name;
         eventDescription = description;
-        //eventId = Id;
+        eventLastChanged = lastChanged;
+        eventLocation = location;
+        /*eventNotes = notes;
+        eventTown = town;*/
     }
 
-    public Date getEventEndDate() {
-        return eventEndDate;
+
+    public String getEventLocation() {
+        return eventLocation;
     }
 
-    public void setEventEndDate(Date eventEndDate) {
-        this.eventEndDate = eventEndDate;
-    }
-
-    public Date getEventStartDate() {
-        return eventStartDate;
-    }
-
-    public void setEventStartDate(Date eventStartDate) {
-        this.eventStartDate = eventStartDate;
+    public void setEventLocation(String eventLocation) {
+        this.eventLocation = eventLocation;
     }
 
     public String getEventName() {
@@ -57,6 +59,30 @@ public class Event {
         this.eventName = eventName;
     }
 
+    public Date getEventLastChanged() {
+        return eventLastChanged;
+    }
+
+    public void setEventLastChanged(Date eventLastChanged) {
+        this.eventLastChanged = eventLastChanged;
+    }
+
+    public Date getEventStartDate() {
+        return eventStartDate;
+    }
+
+    public void setEventStartDate(Date eventStartDate) {
+        this.eventStartDate = eventStartDate;
+    }
+
+    public Date getEventEndDate() {
+        return eventEndDate;
+    }
+
+    public void setEventEndDate(Date eventEndDate) {
+        this.eventEndDate = eventEndDate;
+    }
+
     public String getEventDescription() {
         return eventDescription;
     }
@@ -65,7 +91,19 @@ public class Event {
         this.eventDescription = eventDescription;
     }
 
-    public Integer getEventId(){
-        return eventId;
+    public String getEventNotes() {
+        return eventNotes;
+    }
+
+    public void setEventNotes(String eventNotes) {
+        this.eventNotes = eventNotes;
+    }
+
+    public String getEventTown() {
+        return eventTown;
+    }
+
+    public void setEventTown(String eventTown) {
+        this.eventTown = eventTown;
     }
 }

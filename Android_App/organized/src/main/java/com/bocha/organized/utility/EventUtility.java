@@ -84,15 +84,22 @@ public class EventUtility {
         return eventList;
     }
 
-
+    /**
+     * Create a new event object from a given cursor object
+     * @param cursor
+     * @return
+     */
     private static CalEvent cursorToCalEvent(Cursor cursor) {
         String title = cursor.getString(1);
         String description = cursor.getString(2);
+        String location = cursor.getString(5);
         Integer id = Integer.parseInt(cursor.getString(7));
-        //Date startDate = cursor.getString(0);
-        //Date endDate = cursor.getString(1);
+        Date startDate = new Date(Long.parseLong(cursor.getString(3)));
+        Date endDate = new Date(Long.parseLong(cursor.getString(4)));
+        //Date lastUpdated = cursor.getString(8);
+        //Log.v(TAG, "start: "+cursor.getString(2)+" --- end: "+cursor.getString(3)/*+" --- update: "+cursor.getString(8)*/);
 
-        CalEvent calEvent = new CalEvent(new Date(), new Date(), title, description, id);
+        CalEvent calEvent = new CalEvent(title, new Date(), startDate, endDate, location, description/*, notes, town*/, id);
         return calEvent;
     }
 
@@ -239,13 +246,20 @@ public class EventUtility {
     }*/
 
     private static ContentValues extractEventData(Event event) {
-        /**Save the data which is necessary to create a new event*/
+        /**Gather the data which is necessary to create a new event*/
         long calID = 1;
         long startMillis = event.getEventStartDate().getTime();
         long endMillis = event.getEventEndDate().getTime();
+        long lastChanged = event.getEventLastChanged().getTime();
+
         String eventName = event.getEventName();
         if(eventName.equals("")){
             eventName= "Title";
+        }
+
+        String eventLocation = event.getEventLocation();
+        if(eventName.equals("")){
+            eventName= "Location";
         }
 
         String eventDescription = event.getEventDescription();
@@ -258,6 +272,7 @@ public class EventUtility {
         values.put(CalendarContract.Events.DTSTART, startMillis);
         values.put(CalendarContract.Events.DTEND, endMillis);
         values.put(CalendarContract.Events.TITLE, eventName);
+        values.put(CalendarContract.Events.EVENT_LOCATION, eventLocation);
         values.put(CalendarContract.Events.DESCRIPTION, eventDescription);
         values.put(CalendarContract.Events.CALENDAR_ID, calID);
         values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/Berlin");

@@ -15,6 +15,7 @@ import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.bocha.organized.data.Event;
 import com.bocha.organized.utility.EventUtility;
@@ -24,7 +25,7 @@ import com.bocha.organized.utility.EventUtility;
  */
 
 public class DetailEventActivity extends AppCompatActivity {
-    private static final String TAG = "New Events";
+    private static final String TAG = "DetailEventActivity";
     public static final String PREFS_NAME = "LoginPrefs";
 
     private TextView titleTextView;
@@ -40,6 +41,8 @@ public class DetailEventActivity extends AppCompatActivity {
     private String eventDescription;
     private Long eventStart;
     private Long eventEnd;
+    private Date eventLastUpdate = new Date();
+    private String eventLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +102,7 @@ public class DetailEventActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
-        Event event = new Event(eventStart, eventEnd, eventTitle, eventDescription);
+        Event event = new Event(eventTitle, eventLastUpdate, eventStart, eventEnd, eventLocation, eventDescription);
         Log.v(TAG, "Add event");
         EventUtility.addEvent(DetailEventActivity.this, event);
 
@@ -118,9 +121,10 @@ public class DetailEventActivity extends AppCompatActivity {
     private void getIntentData() {
         Intent detailIntent = getIntent();
         eventTitle = detailIntent.getStringExtra("eventTitle");
+        eventLocation = detailIntent.getStringExtra("eventLocation");
+        eventLastUpdate.setTime(detailIntent.getLongExtra("eventLastUpdate", 1L));
         eventStart = detailIntent.getLongExtra("eventStart", 1L);
         eventEnd = detailIntent.getLongExtra("eventEnd", 1L);
         eventDescription = detailIntent.getStringExtra("eventDesc");
-        Log.v(TAG, "Fetch intent data: "+eventTitle+eventStart+eventEnd+eventDescription);
     }
 }

@@ -24,4 +24,6 @@
     <string name="event_detail_event_collisions">No colliding events</string>
     <string name="calendar_title">Calendar</string>
     <string name="current_event_title">Current Events</string>
+    <string name="new_event_location">Location</string>
+    <string name="location_edit_hint">Enter location</string>
 </resources>

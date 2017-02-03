@@ -9,13 +9,14 @@ import java.util.Date;
 public class CalEvent extends Event {
     private Integer eventId;
 
-    public CalEvent(Date startDate, Date endDate, String name, String description, Integer id) {
-        super(startDate, endDate, name, description);
+
+    public CalEvent(String name, Date lastChanged, Date startDate, Date endDate, String location, String description/*, String notes, String town*/, Integer id) {
+        super(name, lastChanged, startDate, endDate, location, description/*, notes, town*/);
         eventId = id;
     }
 
-    public CalEvent(Long startDateLong, Long endDateLong, String name, String description, Integer id) {
-        super(startDateLong, endDateLong, name, description);
+    public CalEvent(String name, Date lastChanged, Long startDate, Long endDate, String location, String description/*, String notes, String town*/, Integer id) {
+        super(name, lastChanged, startDate, endDate, location, description/*, notes, town*/);
         eventId = id;
     }
 

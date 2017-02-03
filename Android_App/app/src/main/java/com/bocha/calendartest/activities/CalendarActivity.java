@@ -147,6 +147,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                         TimePicker startPicker = (TimePicker) dialogView.findViewById(R.id.start_time_picker);
                         EditText titleBox = (EditText) dialogView.findViewById(R.id.dialog_title_edit);
+                        EditText locationBox = (EditText) dialogView.findViewById(R.id.dialog_location_edit);
                         EditText descBox = (EditText) dialogView.findViewById(R.id.dialog_desc_edit);
 
                         int startHour = startPicker.getCurrentHour();
@@ -155,7 +156,7 @@ public class CalendarActivity extends AppCompatActivity {
                         int durationHour = hourPicker.getValue();
                         int durationMinute = minutePicker.getValue();
 
-                        addEvent(MiscUtility.getStartingDate(date, startHour, startMinute), MiscUtility.getDurationMillis(durationHour, durationMinute), String.valueOf(titleBox.getText()), String.valueOf(descBox.getText()));
+                        addEvent(new Date(), MiscUtility.getStartingDate(date, startHour, startMinute), MiscUtility.getDurationMillis(durationHour, durationMinute), String.valueOf(titleBox.getText()), String.valueOf(descBox.getText()), String.valueOf(locationBox.getText()));
 
                         alertDialog.dismiss();
                     }});
@@ -211,9 +212,9 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     /**Add the event using the EventUtility class*/
-    private void addEvent(Date date, Long length, String eventTitle, String eventDescription) {
+    private void addEvent(Date lastUpdate, Date date, Long length, String eventTitle, String eventDescription, String location) {
 
-        Event event = new Event(date.getTime(), date.getTime() + length, eventTitle, eventDescription);
+        Event event = new Event(eventTitle, lastUpdate, date.getTime(), date.getTime() + length, location, eventDescription);
 
         Log.v(TAG, "ID: "+EventUtility.addEvent(CalendarActivity.this, event));
 

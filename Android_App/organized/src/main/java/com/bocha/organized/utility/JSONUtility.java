@@ -18,9 +18,13 @@ import java.util.Date;
 public class JSONUtility {
     private final static String TAG = "JSONUtility";
     private final static String JSON_TAG_NAME = "name";
-    private final static String JSON_TAG_START_DATE = "date";
-    private final static String JSON_TAG_END_DATE = "date";
     private final static String JSON_TAG_CHANGE = "last_change";
+    private final static String JSON_TAG_START_DATE = "date_begin";
+    private final static String JSON_TAG_END_DATE = "date_end";
+    private final static String JSON_TAG_LOCATION = "location";
+    private final static String JSON_TAG_DESCRIPTION = "description";
+    private final static String JSON_TAG_NOTES = "notes";
+    private final static String JSON_TAG_TOWN = "town";
 
 
     /**
@@ -49,18 +53,25 @@ public class JSONUtility {
      * @return
      */
     private static Event convertJSONToEvent(JSONObject jsonObject) {
-        Date startDate = null, endDate = null;
-        String title = null, description = "Description";
+        Date startDate = null, endDate = null, lastChanged = null;
+        String title = null, description = null, notes = null, town = null, location = null;
 
         try{
             startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
             endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            //lastChanged = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_CHANGE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            lastChanged = new Date();
             title = jsonObject.getString(JSON_TAG_NAME);
+            notes = jsonObject.getString(JSON_TAG_NOTES);
+            town = jsonObject.getString(JSON_TAG_TOWN);
+            location = jsonObject.getString(JSON_TAG_LOCATION);
+            description = jsonObject.getString(JSON_TAG_DESCRIPTION);
+
         }catch(JSONException e){
             e.printStackTrace();
         }
 
-        Event event = new Event(startDate, endDate, title, description);
+        Event event = new Event(title, lastChanged, startDate, endDate, location, description/*, notes, town*/);
 
         return event;
     }
