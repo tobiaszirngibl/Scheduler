@@ -26,17 +26,17 @@ class Appointment(models.Model):
 	)
 	# The town in which the Appointment will take place
 	# May require own model
-	town = model.CharField(max_length=100, blank=True)
+	town = models.CharField(max_length=100, blank=True)
 	# Building the Appointment will take place in
 	# May require own model
-	location = model.CharField(max_length=100, blank=True)
+	location = models.CharField(max_length=100, blank=True)
 	# Description
-	description = model.TextField(blank=True)
+	description = models.TextField(blank=True)
 	# Important notes for the participants
-	notes = model.TextField(blank=True)
+	notes = models.TextField(blank=True)
 	# Timestamp used for marking last modification date
-	last_changed = models.DateTimeField(auto_now=True, auto_now_add=True)
-	
+	last_changed = models.DateTimeField(auto_now=True)
+
 	def __str__(self):
 		return self.name
 

@@ -12,7 +12,13 @@ def getTest(request):
 	for a in result:
 		toAppend = {
 			'name' : a.name,
-			'date' : a.date,
+			'date_begin' : a.date_begin,
+			'date_end': a.date_end,
+			#'participants': a.participants.all(),
+			'town': a.town,
+			'location': a.location,
+			'description': a.description,
+			'notes': a.notes,
 			'last_changed' : a.last_changed,
 		}
 		response.append(toAppend)
