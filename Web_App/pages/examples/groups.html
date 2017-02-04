@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Organized Webapp</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/AdminLTE.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+
+ <header class="main-header">
+    <nav class="navbar navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+     
+       <a href="../calendar.html" class="navbar-brand pull-left"><b> ORGANIZED Terminplaner</b></a>
+        </div>
+          
+          
+          
+           <div class="navbar-custom-menu pull-right">
+        <ul class="nav navbar-nav">
+          <!-- Notifications: style can be found in dropdown.less -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning">2</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">You have 2 notifications</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                      page and may cause design problems
+                    </a>
+                  </li>
+                  
+                </ul>
+              </li>
+              <li class="footer"><a href="#">View all</a></li>
+            </ul>
+          </li>
+          <!-- Tasks: style can be found in dropdown.less -->
+   
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">Tobias Zirngibl</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                  Alexander Pierce - Web Developer
+                  <small>Member since Nov. 2012</small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+          
+              <!-- Menu Footer-->
+              <li class="user-footer">
+               
+                <div class="pull-right">
+                  <a href="login.html" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+          
+          
+          
+
+        <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../calendar.html"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender</a></li>
+            <li class="active"><a href="groups.html"><i class="fa fa-users" aria-hidden="true"></i> Gruppenverwaltung<span class="sr-only">(current)</span></a></li>
+              <li><a href="profile.html"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
+           
+          </ul>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+            </div>
+          </form>
+        </div>
+        
+     
+     
+        </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Gruppen
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        
+       
+        
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab_1" data-toggle="tab">Aktuelle Gruppen</a></li>
+              <li><a href="#tab_2" data-toggle="tab">Gruppenanfragen <span class="label label-success">2</span></a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_1">
+                
+             <div class="box box-solid">
+          
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="box-group" id="accordion">
+                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                <div class="panel box box-warning">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+Theatergruppe
+                        </a>
+                    </h4>
+                          <button type="button" class="leaveGroup btn btn-warning btn-sm pull-right" ><span class="ion-close-circled"> </span></button>
+                      
+                       <button type="button" class="delGroup btn btn-danger btn-sm pull-right"><span class="ion-trash-b"> </span></button>
+                        
+                       
+                     
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="box-body">
+                      <b>Mitglieder:</b>
+                        <br>
+                        <a class="withPointer" onclick="javascript:OpenModal();">25</a>
+                        <br>
+                        <b>Status:</b>
+                        <br>
+                        Ersteller
+                        <br>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel box box-danger">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+Uni-Gruppe                     </a>
+                    </h4>
+                      <button type="button" class="leaveGroup btn btn-warning btn-sm pull-right"><span class="ion-close-circled"> </span></button>
+                        
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="box-body">
+                  <b>Mitglieder:</b>
+                        <br>
+                        <a class="withPointer" onclick="javascript:OpenModal();">12</a>
+                        <br>
+                        <b>Status:</b>
+                        <br>
+                        Mitglied
+                        <br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                
+            </div>
+
+                  </div>
+                  
+                  
+                  
+                  
+          </div>
+             
+          
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="tab_2">
+               <div id="eventView">
+              <!-- THE CALENDAR -->
+              <div class="box box-solid">
+          
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="box-group" id="accordion">
+                <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+                <div class="panel box box-warning">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a class="groupInviteName" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+Essensgruppe
+                        </a>
+                    </h4>
+                      
+                       <button type="button" class="noGroup btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>
+                          <button type="button" class="yesGroup btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button>
+                       
+                     
+                  </div>
+                  <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="box-body">
+                      Mitglieder
+                        <br>
+                       
+                    </div>
+                  </div>
+                </div>
+                <div class="panel box box-danger">
+                  <div class="box-header with-border">
+                    <h4 class="box-title">
+                      <a class="groupInviteName" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+Party-Gruppe                    </a>
+                    </h4>
+                      <button type="button" class="noGroup btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>
+                          <button type="button" class="yesGroup btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button>
+                       
+                  </div>
+                  <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="box-body">
+                     Mitlgieder
+                        <br>
+                        
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+            </div>
+             
+                
+                
+                
+                
+                </div>
+              <!-- /.tab-pane -->
+            
+              <button id="addNewGroup" type="button" class="btn btn-primary">Neue Gruppe hinzufügen</button>
+            </div>
+            <!-- /.tab-content -->
+          </div>
+
+            </div>
+          
+          
+        <div id="userOverview" class="modal fade modal-primary">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Nutzer in dieser Gruppe:<b> 25</b></h4>
+              </div>
+              <div class="modal-body">
+               <ul>
+                  <li>Tobias Zirngibl (Ersteller)</li>
+                <li>Noch EinUser</li> 
+                <li>Und EinDritter</li> 
+                <li>Und EinLetzter</li>
+                  </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+          
+          
+           <div id="addGroupModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Neue Gruppe</h4>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label>Name:</label>
+                            <input type="text" class="form-control" placeholder="Enter..."></input>
+                            </div>
+                      
+                     
+                     
+                        <div class="form-group">
+                            <label>Benutzer auswählen:</label>
+                            <select id="userList" multiple class="form-control">
+                                <option>Tobias</option>
+                                <option>Mathias</option>
+                                <option>Igor</option>
+                                <option>Gabriel</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Anmerkungen</label>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                        </div>  
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                        <button id="saveEvent" type="button" class="btn btn-primary">Speichern</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        
+        
+        <div id="acceptGroup" class="modal fade modal-primary">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Gruppe beitreten</h4>
+              </div>
+              <div class="modal-body">
+                  <p>Möchten Sie der Gruppe wirklich beitreten?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success">Gruppe beitreten</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="declineGroup" class="modal fade modal-primary">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Gruppeneinladung ablehnen</h4>
+              </div>
+              <div class="modal-body">
+                <p>Möchten Sie die Gruppeneinladung wirklich ablehnen?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger pull-right">Gruppeneinladung ablehnen</button>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+         <div id="delGroupMod" class="modal fade modal-primary">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Gruppe löschen</h4>
+              </div>
+              <div class="modal-body">
+                <p>Möchten Sie die Gruppe wirklich löschen? Alle Teilnehmer dieser Gruppe werden dadurch ebensfalls entfernt!</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger pull-right">Gruppe löschen</button>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="leaveGroupMod" class="modal fade modal-primary">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Gruppe verlassen</h4>
+              </div>
+              <div class="modal-body">
+                <p>Möchten Sie die Gruppe wirklich verlassen? Die verbleibenen Teilnehmer dieser Gruppe werden dadurch nicht entfernt!</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger pull-right">Gruppe verlassen</button>
+                  
+              </div>
+            </div>
+          </div>
+        </div>
+      
+          
+          </div>
+
+   
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+ 
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<!-- FastClick -->
+<script src="../../plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<script>
+    
+   
+    
+    $('.delGroup').tooltip({
+    'show': true,
+        'placement': 'bottom',
+        'title': "Gruppe löschen"
+    });
+    
+     
+    $('.delGroup').click(function (e){
+            e.preventDefault();
+            $('#delGroupMod').modal('show');
+    });
+    
+    $('.leaveGroup').tooltip({
+    'show': true,
+        'placement': 'bottom',
+        'title': "Gruppe verlassen"
+    });
+    
+       $('.leaveGroup').click(function (e){
+            e.preventDefault();
+            $('#leaveGroupMod').modal('show');
+    });
+    
+    $('.yesGroup').tooltip({
+    'show': true,
+        'placement': 'bottom',
+        'title': "Einladung annehmen"
+    });
+    
+    $('.noGroup').tooltip({
+    'show': true,
+        'placement': 'bottom',
+        'title': "Einladung ablehnen"
+    });
+    
+     function OpenModal() {
+        $('#userOverview').modal('show');
+    };
+    
+      $("#addNewGroup").click(function (e){
+            e.preventDefault();
+            $('#addGroupModal').modal('show');
+    });
+    
+    $(".yesGroup").click(function (e){
+        
+         e.preventDefault();
+            $('#acceptGroup').modal('show');
+    });
+    
+    $(".noGroup").click(function (e){
+            e.preventDefault();
+            $('#declineGroup').modal('show');
+    });
+    
+    
+    
+    </script>
+</body>
+</html>
