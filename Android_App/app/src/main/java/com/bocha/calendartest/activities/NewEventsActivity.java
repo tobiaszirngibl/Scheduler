@@ -70,7 +70,7 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
     private void fetchEventData() {
         JSONAsyncTask jsonAsyncTask = new JSONAsyncTask();
         jsonAsyncTask.jsonAsyncInterface = this;
-        jsonAsyncTask.execute(newEventsUrl2);
+        jsonAsyncTask.execute(newEventsUrl);
     }
 
     /**Setup a swipeListener on the newEventsList */
