@@ -111,59 +111,6 @@ public class EventUtility {
         return formatter.format(calendar.getTime());
     }
 
-    /**Read all events from the device default calendar and return
-     * an arraylist containing all events
-     * @param context
-     * @return ArrayList An ArrayList containing the events of the device calendar app
-     *//*
-    public static ArrayList<ArrayList> readCalendarEvent_OLD(Context context) {
-        //Clear the eventList if it is not null
-        if (eventList != null) {
-            eventList.clear();
-        }
-
-        Cursor cursor = context.getContentResolver()
-                .query(
-                        Uri.parse("content://com.android.calendar/events"),
-                        new String[]{"calendar_id", "title", "description",
-                                "dtstart", "dtend", "eventLocation", "deleted", "_id"}, null,
-                        null, null);
-        cursor.moveToFirst();
-
-        //Get the number of events returned
-        String CNames[] = new String[cursor.getCount()];
-
-        //Save the current event in a single Arraylist
-         // format: title, startTime, endTime, description, location, calID
-         //
-        for (int i = 0; i < CNames.length; i++) {
-            /**Checks whether the given event is the requested kind of event id and
-             * if the event is already marked to be deleted(deleted == 0)
-             *
-             * 1: event
-             * 3: holiday
-            if (Integer.parseInt(cursor.getString(0)) == returnEventId && Integer.parseInt(cursor.getString(6)) == 0) {
-                ArrayList<String> tempEvenList = new ArrayList<String>();
-                tempEvenList.add(cursor.getString(1));
-                tempEvenList.add(cursor.getString(3));
-                tempEvenList.add(cursor.getString(4));
-                tempEvenList.add(cursor.getString(2));
-                tempEvenList.add(cursor.getString(5));
-                tempEvenList.add(cursor.getString(0));
-                tempEvenList.add(cursor.getString(6));
-                tempEvenList.add(cursor.getString(7));
-
-                //Add the current event to the Arraylist that contains all events
-                eventList.add(tempEvenList);
-                CNames[i] = cursor.getString(1);
-            }//KANN RAUS else if(Integer.parseInt(cursor.getString(6)) != 0){
-                Log.v(TAG, "EVENT WIRD GELÖSCHTTTTTTTTTTTTTTTTT: "+ cursor.getString(1)+" ---- "+cursor.getString(6));
-            }
-            cursor.moveToNext();
-        }
-        return eventList;
-    }*/
-
     /**Add an calendar event to the default calendar app
      * @param activity
      * @param event
@@ -185,6 +132,7 @@ public class EventUtility {
                 return (-1);
             }
             uri = cr.insert(CalendarContract.Events.CONTENT_URI, eventValues);
+            Log.v(TAG, "URI: "+uri);
         }
 
         /**Save the id of the created event*/
