@@ -13,16 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from website import views as website_views
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^get/', include('backend.urls')),
+    url(r'^api/', include('backend.urls')),
     url(r'^login/$', auth_views.login, {'template_name': 'website/auth/login.html'}, name='login'),
-    url(r'^login-redirect$', website_views.login_redirect, name='login-redirect'),
     url(r'^', include('website.urls')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
