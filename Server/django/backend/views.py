@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+
+from rest_framework import viewsets
 
 from .models import Appointment
+from .serializers import AppointmentSerializer
 
 # Create your views here.
 
@@ -24,3 +27,7 @@ def getTest(request):
 		response.append(toAppend)
 
 	return JsonResponse(response, safe=False)
+
+class AppointmentViewSet(viewsets.ModelViewSet):
+	queryset = Appointment.objects.all()
+	serializer_class = AppointmentSerializer

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -11,14 +12,18 @@ class Actor(models.Model):
 	def __str__(self):
 		return self.user.username
 
+	@property
+	def get_name(self):
+		return self.user.username
+
 
 class Appointment(models.Model):
 	# Name of the Appointment
 	name = models.CharField(max_length=150)
 	# Marks the start of the Appointment
-	date_begin = models.DateTimeField()
+	date_begin = models.DateTimeField(blank=True, default=now())
 	# Marks the end of the Appointment
-	date_end = models.DateTimeField()
+	date_end = models.DateTimeField(blank=True, default=now())
 	# All participants
 	participants = models.ManyToManyField(
 		Actor,

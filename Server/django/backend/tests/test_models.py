@@ -1,15 +1,15 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.utils import timezone
 
+from backend.models import Actor, Appointment, Participation
+
+
 # Create your tests here.
 
-from backend.models import Appointment, Actor, Participation
-
 class AppointmentModelTest(TestCase):
-
 	def test_saving_and_retieving_appointment(self):
 		part1 = Actor()
 		part1.user = User.objects.create_user('u1', 'u1@u1.com', 'pw1')
@@ -23,18 +23,16 @@ class AppointmentModelTest(TestCase):
 		part3.user = User.objects.create_user('u3', 'u1@u1.com', 'pw1')
 		part3.save()
 
-		app1 = Appointment(
-			name = "App1",
-			date_begin = timezone.now(),
-			date_end = timezone.now() + timedelta(hours=2),
-		)
+		self.appointment = Appointment(name="App1", date_begin=timezone.now(),
+		                               date_end=timezone.now() + timedelta(hours=2), )
+		app1 = self.appointment
 		app1.save()
 		Participation.objects.create(actor=part1, appointment=app1, is_necessary=False)
 
 		app2 = Appointment(
-			name = "App2",
-			date_begin = timezone.now(),
-			date_end = timezone.now() + timedelta(hours=5),
+			name="App2",
+			date_begin=timezone.now(),
+			date_end=timezone.now() + timedelta(hours=5),
 		)
 		app2.save()
 		Participation.objects.create(actor=part2, appointment=app2, is_necessary=False)
@@ -51,9 +49,7 @@ class AppointmentModelTest(TestCase):
 		self.assertEquals(saved_app.participants.first().user.username, 'u2')
 
 
-
 class UserModelTest(TestCase):
-
 	def test_creating_and_retrieving_users(self):
 		part1 = Actor()
 		part1.user = User.objects.create_user('u1', 'u1@u1.com', 'pw1')
