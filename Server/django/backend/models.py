@@ -21,9 +21,9 @@ class Appointment(models.Model):
 	# Name of the Appointment
 	name = models.CharField(max_length=150)
 	# Marks the start of the Appointment
-	date_begin = models.DateTimeField(blank=True, default=now())
+	date_begin = models.DateTimeField(blank=True, default=now)
 	# Marks the end of the Appointment
-	date_end = models.DateTimeField(blank=True, default=now())
+	date_end = models.DateTimeField(blank=True, default=now)
 	# All participants
 	participants = models.ManyToManyField(
 		Actor,

@@ -8,7 +8,6 @@ class ActorSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Actor
 		fields = ('id', 'user', 'bio',)
-		depth = 1
 
 class AppointmentSerializer(serializers.ModelSerializer):
 	participants = ActorSerializer(many=True, read_only=True)
