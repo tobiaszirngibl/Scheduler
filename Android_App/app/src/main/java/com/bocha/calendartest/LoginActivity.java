@@ -1,10 +1,7 @@
 package com.bocha.calendartest;
 
 /**
- * Created by bob on 03.01.17.
- *
  * source: http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
- *
  */
 
 import android.app.ProgressDialog;

@@ -3,6 +3,7 @@ package com.bocha.organized.network;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.bocha.organized.data.CalEvent;
 import com.bocha.organized.data.Event;
 import com.bocha.organized.utility.JSONUtility;
 
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
     private final static String TAG = "JSONAsyncTask";
 
-    private ArrayList<Event> eventList = new ArrayList<>();
+    private ArrayList<CalEvent> eventList = new ArrayList<>();
     public JSONAsyncInterface jsonAsyncInterface = null;
 
     @Override

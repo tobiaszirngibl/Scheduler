@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.bocha.organized.data.CalEvent;
 import com.bocha.organized.data.Event;
 import com.bocha.organized.utility.EventUtility;
 
@@ -26,12 +27,12 @@ import com.bocha.organized.utility.EventUtility;
 public class eventAdapter extends ArrayAdapter {
     private final String TAG = "EventAdapter";
 
-    private ArrayList<Event> events;
+    private ArrayList<CalEvent> events;
     private Context context;
 
     SimpleDateFormat formatter;
 
-    public eventAdapter(Context context, int eventId, ArrayList<Event> events){
+    public eventAdapter(Context context, int eventId, ArrayList<CalEvent> events){
         super(context, eventId, events);
         this.events = events;
         this.context = context;

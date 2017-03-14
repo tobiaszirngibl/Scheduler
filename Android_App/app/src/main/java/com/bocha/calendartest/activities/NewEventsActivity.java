@@ -45,12 +45,15 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
 
     private SharedPreferences userData;
 
-    private ArrayList<Event> newEventsList = new ArrayList<>();
+    private ArrayList<CalEvent> newEventsList = new ArrayList<>();
     private ArrayList<CalEvent> eventList = new ArrayList<>();
     //private ArrayList<ArrayList> eventList = new ArrayList<>();
 
-    private String newEventsUrl = "http://192.168.2.102:8000/get/";
-    private String newEventsUrl2 = "http://192.168.178.43:8000/get/";
+    private String BUnewEventsUrl = "http://192.168.2.102:8000/get/";
+    private String BUnewEventsUrl2 = "http://192.168.178.43:8000/get/";
+    private String newEventsUrl = "http://192.168.2.102:8000/api/appointment/";
+    private String newEventsUrl2 = "http://192.168.178.43:8000/api/appointment/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,9 +131,11 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
      */
     public void onEventAccepted(int position){
         final Context context = this;
-        Event event = (Event)myEventListView.getItemAtPosition(position);
+        //CalEvent event = (CalEvent)myEventListView.getItemAtPosition(position);
+        CalEvent event = (CalEvent)newEventsList.get(position);
 
         Intent detailIntent = new Intent(context, DetailEventActivity.class);
+        detailIntent.putExtra("eventId", event.getEventId());
         detailIntent.putExtra("eventTitle", event.getEventName());
         detailIntent.putExtra("eventStart", event.getEventStartDate().getTime());
         detailIntent.putExtra("eventEnd", event.getEventEndDate().getTime());
@@ -300,7 +305,7 @@ public class NewEventsActivity extends AppCompatActivity implements JSONAsyncInt
      * @param newEventsList
      */
     @Override
-    public void newEventsFetched(ArrayList<Event> newEventsList) {
+    public void newEventsFetched(ArrayList<CalEvent> newEventsList) {
         this.newEventsList = newEventsList;
         setupNewEventsList();
     }

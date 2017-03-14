@@ -56,7 +56,7 @@ public class EventUtility {
                 .query(
                         Uri.parse("content://com.android.calendar/events"),
                         new String[]{"calendar_id", "title", "description",
-                                "dtstart", "dtend", "eventLocation", "deleted", "_id"}, null,
+                                "dtstart", "dtend", "eventLocation", "deleted", "_id", "uid2445"}, null,
                         null, null);
         cursor.moveToFirst();
 
@@ -74,6 +74,8 @@ public class EventUtility {
              // 3: holiday
             if (Integer.parseInt(cursor.getString(0)) == returnEventId && Integer.parseInt(cursor.getString(6)) == 0) {
                 CalEvent tempCalEvent = cursorToCalEvent(cursor);
+
+                Log.v(TAG, "TESTTTTTTTTTTT: "+cursor.getString(8));
 
                 //Add the current calEvent to the Arraylist containing all calEvents
                 eventList.add(tempCalEvent);
@@ -224,6 +226,7 @@ public class EventUtility {
         values.put(CalendarContract.Events.DESCRIPTION, eventDescription);
         values.put(CalendarContract.Events.CALENDAR_ID, calID);
         values.put(CalendarContract.Events.EVENT_TIMEZONE, "Europe/Berlin");
+        values.put("uid2445", "1@organized");
 
         return values;
     }

@@ -2,6 +2,7 @@ package com.bocha.organized.utility;
 
 import android.util.Log;
 
+import com.bocha.organized.data.CalEvent;
 import com.bocha.organized.data.Event;
 
 import org.json.JSONArray;
@@ -25,6 +26,7 @@ public class JSONUtility {
     private final static String JSON_TAG_DESCRIPTION = "description";
     private final static String JSON_TAG_NOTES = "notes";
     private final static String JSON_TAG_TOWN = "town";
+    private static final String JSON_TAG_ID = "id";
 
 
     /**
@@ -32,8 +34,8 @@ public class JSONUtility {
      * @param jsonArray
      * @return
      */
-    public static ArrayList<Event> decodeEventData(JSONArray jsonArray) {
-        ArrayList<Event> eventList = new ArrayList<>();
+    public static ArrayList<CalEvent> decodeEventData(JSONArray jsonArray) {
+        ArrayList<CalEvent> eventList = new ArrayList<>();
         JSONObject jsonObject = null;
         for(int i = 0, j = jsonArray.length(); i < j; i++){
             try{
@@ -41,10 +43,41 @@ public class JSONUtility {
             }catch(JSONException e){
                 e.printStackTrace();
             }
-            eventList.add(convertJSONToEvent(jsonObject));
+            eventList.add(convertJSONToCalEvent(jsonObject));
         }
 
         return eventList;
+    }
+
+    /**
+     * Convert a JSONObject to an event and return it
+     * @param jsonObject
+     * @return
+     */
+    private static CalEvent convertJSONToCalEvent(JSONObject jsonObject) {
+        Date startDate = null, endDate = null, lastChanged = null;
+        String title = null, description = null, notes = null, town = null, location = null;
+        Integer id = null;
+
+        try{
+            id = jsonObject.getInt(JSON_TAG_ID);
+            startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            //lastChanged = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_CHANGE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            lastChanged = new Date();
+            title = jsonObject.getString(JSON_TAG_NAME);
+            notes = jsonObject.getString(JSON_TAG_NOTES);
+            town = jsonObject.getString(JSON_TAG_TOWN);
+            location = jsonObject.getString(JSON_TAG_LOCATION);
+            description = jsonObject.getString(JSON_TAG_DESCRIPTION);
+
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        CalEvent event = new CalEvent(title, lastChanged, startDate, endDate, location, description, id/*, notes, town*/);
+
+        return event;
     }
 
     /**

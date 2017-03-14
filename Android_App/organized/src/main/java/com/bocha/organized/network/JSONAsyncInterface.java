@@ -1,5 +1,6 @@
 package com.bocha.organized.network;
 
+import com.bocha.organized.data.CalEvent;
 import com.bocha.organized.data.Event;
 
 import java.util.ArrayList;
@@ -10,5 +11,5 @@ import java.util.ArrayList;
 
 public interface JSONAsyncInterface {
 
-    void newEventsFetched(ArrayList<Event> newEventsList);
+    void newEventsFetched(ArrayList<CalEvent> newEventsList);
 }
