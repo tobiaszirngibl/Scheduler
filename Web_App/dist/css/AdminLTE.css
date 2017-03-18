@@ -3234,14 +3234,7 @@ table.text-center th {
 .register-logo a {
   color: #444;
 }
-.login-page,
-.register-page {
-  background-image: url("../../pages/examples/mask.jpg");
-        background-size: 100% 100%;
-    background-position: 150px 0px; 
-    
 
-}
 .login-box,
 .register-box {
   width: 360px;
