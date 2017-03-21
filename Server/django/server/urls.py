@@ -24,5 +24,7 @@ urlpatterns = [
     url(r'^api/', include('backend.urls')),
     url(r'^login/$', auth_views.login, {'template_name': 'website/auth/login.html'}, name='login'),
     url(r'^register/$', auth_views.login, {'template_name': 'website/auth/register.html'}, name='register'),
+    url(r'^calendar/$', auth_views.login, {'template_name': 'website/calendar.html'}, name='calendar'),
+    url(r'^groups/$', auth_views.login, {'template_name': 'website/groups.html'}, name='groups'),
     url(r'^', include('website.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
