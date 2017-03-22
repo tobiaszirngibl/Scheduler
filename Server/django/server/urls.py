@@ -24,4 +24,9 @@ urlpatterns = [
     url(r'^api/', include('backend.urls')),
     url(r'^login/$', auth_views.login, {'template_name': 'website/auth/login.html'}, name='login'),
     url(r'^', include('website.urls')),
+	url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')), #stuff for oauth
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += [
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+]
