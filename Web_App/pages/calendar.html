@@ -678,6 +678,32 @@ Termin 3                      </a>
     
 <script>
   $(function () {
+      
+      
+      
+      $.ajax({
+    type: "GET",
+    url: "http://localhost:8000/api/appointment/1/",
+    success: function(data)
+      {
+        var events = [];
+      //  for (var key in data) {
+          var event1 = {
+              title: data.name,
+              start: data.date_begin 
+          }
+          
+           events.push(event1);
+     //   }
+                      console.log(events);
+  
+     $('#calendar').fullCalendar('removeEvents');
+      $('#calendar').fullCalendar('addEventSource', events);         
+     $('#calendar').fullCalendar('refetchEvents');
+      
+      }
+     });   
+
 
     /* initialize the external events
      -----------------------------------------------------------------*/
