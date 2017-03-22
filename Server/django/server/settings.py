@@ -123,6 +123,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Stuff for logins
-LOGIN_REDIRECT_URL = '/login-redirect'
+LOGIN_REDIRECT_URL = '../calendar'
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
