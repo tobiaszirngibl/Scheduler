@@ -21,11 +21,11 @@ import java.util.ArrayList;
  * Class extending the AsyncTask class to fetch event data from the organized web server
  */
 
-public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
-    private final static String TAG = "JSONAsyncTask";
+public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
+    private final static String TAG = "FetchEventsAsyncTask";
 
     private ArrayList<CalEvent> eventList = new ArrayList<>();
-    public JSONAsyncInterface jsonAsyncInterface = null;
+    public FetchEventsAsyncInterface fetchEventsAsyncInterface = null;
 
     @Override
     protected void onPreExecute() {
@@ -109,10 +109,10 @@ public class JSONAsyncTask extends AsyncTask<String, Void, Boolean> {
     }
 
     /**
-     * Call the given jsonAsyncInterface method when the async task has finished
+     * Call the given fetchEventsAsyncInterface method when the async task has finished
      * @param result
      */
     protected void onPostExecute(Boolean result) {
-        jsonAsyncInterface.newEventsFetched(eventList);
+        fetchEventsAsyncInterface.newEventsFetched(eventList);
     }
 }

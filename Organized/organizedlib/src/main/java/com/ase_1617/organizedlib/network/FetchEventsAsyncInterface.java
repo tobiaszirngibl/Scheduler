@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * when new information is fetched
  */
 
-public interface JSONAsyncInterface {
+public interface FetchEventsAsyncInterface {
 
     void newEventsFetched(ArrayList<CalEvent> newEventsList);
 }

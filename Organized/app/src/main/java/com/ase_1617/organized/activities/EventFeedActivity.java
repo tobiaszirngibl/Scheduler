@@ -2,7 +2,6 @@ package com.ase_1617.organized.activities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,8 +23,10 @@ import com.ase_1617.organized.R;
 import com.ase_1617.organized.adapter.EventFeedAdapter;
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.listener.SwipeListener;
-import com.ase_1617.organizedlib.network.JSONAsyncInterface;
-import com.ase_1617.organizedlib.network.JSONAsyncTask;
+import com.ase_1617.organizedlib.network.AcceptEventAsyncInterface;
+import com.ase_1617.organizedlib.network.AcceptEventAsyncTask;
+import com.ase_1617.organizedlib.network.FetchEventsAsyncInterface;
+import com.ase_1617.organizedlib.network.FetchEventsAsyncTask;
 import com.ase_1617.organizedlib.utility.EventUtility;
 import com.ase_1617.organizedlib.utility.MiscUtility;
 
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  * THe app shows new events fetched from the server and the user can accept or decline them.
  */
 
-public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInterface{
+public class EventFeedActivity extends AppCompatActivity implements FetchEventsAsyncInterface, AcceptEventAsyncInterface {
 
     private static final String TAG = "Event Feed";
     public static final String PREFS_NAME = "LoginPrefs";
@@ -55,6 +56,7 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
 
     private String newEventsUrl = "http://192.168.2.102:8000/api/appointment/";
     private String newEventsUrl2 = "http://192.168.178.43:8000/api/appointment/";
+    private String acceptEventsUrl = "http://192.168.178.43:8000/api/appointment/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,9 +225,9 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
 
     /**Try to fetch the new events data from the server and save the result*/
     private void fetchEventFeedData() {
-        JSONAsyncTask jsonAsyncTask = new JSONAsyncTask();
-        jsonAsyncTask.jsonAsyncInterface = this;
-        jsonAsyncTask.execute(newEventsUrl);
+        FetchEventsAsyncTask fetchEventsAsyncTask = new FetchEventsAsyncTask();
+        fetchEventsAsyncTask.fetchEventsAsyncInterface = this;
+        fetchEventsAsyncTask.execute(newEventsUrl);
     }
 
     /**
@@ -278,7 +280,10 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
 
         final Activity activity = this;
 
+        final AcceptEventAsyncInterface acceptEventAsyncInterface = this;
+
         String collEventsString = getCollEventsInfo(event);
+        final Integer eventId = event.getEventId();
 
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Accept event?")
@@ -286,13 +291,21 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
                 .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask();
+                        acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
+                        acceptEventAsyncTask.execute(acceptEventsUrl, eventId, position);
+
                         EventUtility.addOrganizedEvent(activity, event);
-                        removeEventFromFeed(position);
                     }
                 })
                 .setNegativeButton("Decline", null)
                 .create();
         eventActionDialog.show();
+    }
+
+    @Override
+    public void eventAccepted(Integer eventPosition) {
+        removeEventFromFeed(eventPosition);
     }
 
     /**
