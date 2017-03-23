@@ -41,7 +41,8 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 		return Appointment.objects.filter(participants__id__exact = user.id )
 
 class ActorViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoModelPermissions]
-	required_scopes = ['actor']
+	#permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoModelPermissions]
+	#required_scopes = ['actor']
+	permission_classes = [permissions.AllowAny]
 	queryset = Actor.objects.all()
 	serializer_class = ActorSerializer
