@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backend.models import Actor, Appointment, User
+from backend.models import Actor, Appointment
 
 class ActorSerializer(serializers.ModelSerializer):
 	user = serializers.ReadOnlyField(source='get_name')
