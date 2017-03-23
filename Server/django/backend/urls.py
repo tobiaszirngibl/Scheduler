@@ -25,6 +25,7 @@ from backend import views
 
 router = DefaultRouter()
 router.register(r'appointment', views.AppointmentViewSet)
+router.register(r'actor', views.ActorViewSet)
 
 urlpatterns = [
 	url(r'^', include(router.urls)),

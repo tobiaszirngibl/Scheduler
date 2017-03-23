@@ -3,11 +3,11 @@ from rest_framework import serializers
 from backend.models import Actor, Appointment
 
 class ActorSerializer(serializers.ModelSerializer):
-	user = serializers.ReadOnlyField(source='get_name')
+	email = serializers.ReadOnlyField(source='get_name')
 
 	class Meta:
 		model = Actor
-		fields = ('id', 'user', 'bio',)
+		fields = ('id', 'email', 'first_name', 'last_name', 'bio',)
 
 class AppointmentSerializer(serializers.ModelSerializer):
 	participants = ActorSerializer(many=True, read_only=True)

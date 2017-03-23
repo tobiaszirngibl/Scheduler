@@ -133,7 +133,8 @@ LOGOUT_REDIRECT_URL = '/'
 # OAuth provider
 OAUTH2_PROVIDER = {
 	# this is the list of available scopes
-	'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'appointment': 'Access to all appointments'}
+	'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'appointment': 'Access to all appointments',
+	           'actor':'Access to all actors'}
 }
 
 # REST-Framwork

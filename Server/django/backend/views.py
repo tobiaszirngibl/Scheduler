@@ -5,8 +5,8 @@ from oauth2_provider.ext.rest_framework import IsAuthenticatedOrTokenHasScope
 
 from rest_framework import permissions, viewsets
 
-from .models import Appointment
-from .serializers import AppointmentSerializer
+from .models import Appointment, Actor
+from .serializers import AppointmentSerializer, ActorSerializer
 
 # Create your views here.
 
@@ -38,4 +38,10 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 	def get_queryset(self):
 		user = self.request.user
-		return Appointment.objects.filter(participants__user= user.id )
+		return Appointment.objects.filter(participants__id__exact = user.id )
+
+class ActorViewSet(viewsets.ModelViewSet):
+	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoModelPermissions]
+	required_scopes = ['actor']
+	queryset = Actor.objects.all()
+	serializer_class = ActorSerializer
