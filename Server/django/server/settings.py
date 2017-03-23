@@ -25,7 +25,7 @@ SECRET_KEY = 'i%ty+k1ex0fg#)azd2i-ijc*@t8zpdq4g60vgv5jheyaso*#1l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.2.102', '192.168.178.43', 'localhost', '0.0.0.0']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -126,7 +126,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Stuff for logins
-LOGIN_REDIRECT_URL = '/login-redirect'
+LOGIN_REDIRECT_URL = '../calendar'
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
 
