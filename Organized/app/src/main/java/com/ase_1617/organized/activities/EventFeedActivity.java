@@ -229,7 +229,7 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
     }
 
     /**
-     * Overriden AsynTaskInterface method to
+     * Override AsynTaskInterface method to
      * save the new events list when the async task finished fetching it from the server
      * @param eventFeedList
      */
@@ -265,7 +265,7 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
     public void onEventAccepted(int position){
         CalEvent event = (CalEvent)eventFeedList.get(position);
 
-        showEventAcceptAlert(event);
+        showEventAcceptAlert(event, position);
     }
 
     /**
@@ -274,7 +274,7 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
      * calendar events if available.
      * @param event
      */
-    private void showEventAcceptAlert(final CalEvent event) {
+    private void showEventAcceptAlert(final CalEvent event, final int position) {
 
         final Activity activity = this;
 
@@ -287,6 +287,7 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         EventUtility.addOrganizedEvent(activity, event);
+                        removeEventFromFeed(position);
                     }
                 })
                 .setNegativeButton("Decline", null)
@@ -326,7 +327,7 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
     public void onEventDeclined(int position){
         CalEvent event = eventFeedList.get(position);
 
-        showEventDeclineAlert(event);
+        showEventDeclineAlert(event, position);
     }
 
     /**
@@ -335,7 +336,7 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
      * calendar events if available.
      * @param event
      */
-    private void showEventDeclineAlert(final CalEvent event) {
+    private void showEventDeclineAlert(final CalEvent event, final int position) {
 
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Decline event?")
@@ -344,11 +345,22 @@ public class EventFeedActivity extends AppCompatActivity implements JSONAsyncInt
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.v(TAG, "Event declined: " + event.getEventName());
+                        removeEventFromFeed(position);
                     }
                 })
                 .setNegativeButton("Back", null)
                 .create();
         eventActionDialog.show();
+    }
+
+    /**
+     * Remove the event at the given position from the new event feed list
+     * when the user has either accepted or declined it.
+     * Notify the eventFeed adapter the eventFeedList changed.
+     */
+    private void removeEventFromFeed(int position){
+        eventFeedList.remove(position);
+        eventFeedAdapter.notifyDataSetChanged();
     }
 
 }

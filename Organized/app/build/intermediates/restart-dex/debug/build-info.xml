@@ -5,50 +5,36 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="28643069772891"
+    timestamp="43086357615595"
     token="-2943477035699153150"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="752" />
+        duration="1089" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="104" />
+        duration="121" />
     <task
         name="verifier"
-        duration="2" />
+        duration="1" />
 
     <artifact
         location="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
         type="DEX" />
 
     <build
-        timestamp="23221470368778"
+        timestamp="42260056334648"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="23347077239611"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/instant-run-resources/resources-debug.ir.ap_"
-            type="RESOURCES" />
-    </build>
-    <build
-        timestamp="27570280378251"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_2/classes.dex"
-            type="DEX" />
-    </build>
-    <build
-        timestamp="28643069772891"
+        timestamp="43086357615595"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
