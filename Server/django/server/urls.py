@@ -18,8 +18,14 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
+
+
+
+
 
 urlpatterns = [
+
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('backend.urls')),
     url(r'^login/$', auth_views.login, {'template_name': 'website/auth/login.html'}, name='login'),
