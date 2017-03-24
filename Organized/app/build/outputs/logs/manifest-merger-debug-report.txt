@@ -40,6 +40,7 @@ MERGED from [com.android.support:support-core-utils:25.0.1] /home/bob/Android/Pr
 MERGED from [com.android.support:animated-vector-drawable:25.0.1] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-vector-drawable:25.0.1] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/AndroidManifest.xml:23:5-20
 MERGED from [com.android.support:support-compat:25.0.1] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/AndroidManifest.xml:25:5-20
+MERGED from [com.mcxiaoke.volley:library-aar:1.0.0] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.mcxiaoke.volley/library-aar/1.0.0/AndroidManifest.xml:5:5-19
 	android:label
 		ADDED from /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/src/main/AndroidManifest.xml:12:9-41
 	android:supportsRtl
@@ -96,6 +97,7 @@ MERGED from [com.android.support:support-core-utils:25.0.1] /home/bob/Android/Pr
 MERGED from [com.android.support:animated-vector-drawable:25.0.1] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.1/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-vector-drawable:25.0.1] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/AndroidManifest.xml:21:5-43
 MERGED from [com.android.support:support-compat:25.0.1] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/AndroidManifest.xml:21:5-23:58
+MERGED from [com.mcxiaoke.volley:library-aar:1.0.0] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.mcxiaoke.volley/library-aar/1.0.0/AndroidManifest.xml:3:5-72
 	tools:overrideLibrary
 		ADDED from [com.android.support:design:25.0.1] /home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/design/25.0.1/AndroidManifest.xml:23:9-59
 	android:targetSdkVersion

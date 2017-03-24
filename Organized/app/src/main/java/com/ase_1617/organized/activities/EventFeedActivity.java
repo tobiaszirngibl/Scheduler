@@ -54,7 +54,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     private ArrayList<CalEvent> eventFeedList = new ArrayList<>();
     private ArrayList<CalEvent> eventDeviceList = new ArrayList<>();
 
-    private String newEventsUrl = "http://192.168.2.102:8000/api/appointment/";
+    private String newEventsUrl = "localhost:8000/api/appointment/";
     private String newEventsUrl2 = "http://192.168.178.43:8000/api/appointment/";
     private String acceptEventsUrl = "http://192.168.178.43:8000/api/appointment/";
 

@@ -19,10 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ase_1617.organized.R;
+import com.ase_1617.organizedlib.network.SignupAsyncInterface;
+import com.ase_1617.organizedlib.network.SignupAsyncTask;
 
-public class SignupActivity extends AppCompatActivity {
+
+public class SignupActivity extends AppCompatActivity implements SignupAsyncInterface{
     private static final String TAG = "SignupActivity";
     public static final String PREFS_NAME = "LoginPrefs";
+    private static final String INVALID_LOGIN_INPUT = "Either email or password was invalid.";
+
+    private final String signupURL = "http://192.168.2.102:8000/api/actor/";
 
     private SharedPreferences userData;
 
@@ -63,24 +69,24 @@ public class SignupActivity extends AppCompatActivity {
         Log.d(TAG, "Signup");
 
         if (!validate()) {
-            onSignupFailed();
+            onSignUpError(INVALID_LOGIN_INPUT);
             return;
         }
 
         _signupButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
 
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
-        saveUserData(name, email, password);
+        //saveUserData(name, email, password);
 
+        SignupAsyncTask signupAsyncTask = new SignupAsyncTask(this);
+        signupAsyncTask.signupAsyncInterface = this;
+        signupAsyncTask.execute(signupURL, email, password, name, this);
+
+/*
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
@@ -90,7 +96,7 @@ public class SignupActivity extends AppCompatActivity {
                         // onSignupFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
+                }, 3000);*/
     }
 
     private void saveUserData(String name, String email, String password) {
@@ -107,19 +113,6 @@ public class SignupActivity extends AppCompatActivity {
         editor.commit();
 
         Log.v(TAG, "Login saved "+name+" --- usermail: "+email+" --- userpass: "+password);
-    }
-
-
-    public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
-    }
-
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        _signupButton.setEnabled(true);
     }
 
     public boolean validate() {
@@ -151,5 +144,19 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    @Override
+    public void onSignUpSuccess(String name, String email, String password) {
+        _signupButton.setEnabled(true);
+        setResult(RESULT_OK, null);
+        finish();
+    }
+
+    @Override
+    public void onSignUpError(String error) {
+        Toast.makeText(getBaseContext(), error, Toast.LENGTH_LONG).show();
+
+        _signupButton.setEnabled(true);
     }
 }

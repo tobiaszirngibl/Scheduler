@@ -31,6 +31,10 @@ public class LoginActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "LoginPrefs";
     private static final int REQUEST_SIGNUP = 0;
 
+    private final String tokenURL = "http://localhost:8000/o/token/";
+    private final String clientId = "tfbVGsAUgvsrTBIFyZe7RBrcImX2Cazywt3rVR3x";
+    private final String clientSecret = "2uFuKJjALs166co29sBzGRvUtXv2sCazjhp1ZhqtOXIWgeOafryp6Ysu51M7Vri1m42HvCfwYB5rNHPZWnu1fBwlptjRJqwVqBflzf8oJLJEdTCeStPdbDtRs8zrzxSm";
+
     private SharedPreferences userData;
 
     private EditText _emailText;
