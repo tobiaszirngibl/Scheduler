@@ -1,21 +1,39 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.timezone import now
 
+from .actorUserManager import ActorManager
 # Create your models here.
 
 
-class Actor(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Actor(AbstractBaseUser, PermissionsMixin):
+	email = models.EmailField(unique=True)
+	first_name = models.CharField(max_length=25, blank=True)
+	last_name = models.CharField(max_length=50, blank=True)
+	is_staff = models.BooleanField(default=False)
+	is_superuser = models.BooleanField(default=False)
+	is_active = models.BooleanField(default=True)
 	bio = models.TextField(max_length=500, blank=True, null=True)
 
+
+	USERNAME_FIELD = 'email'
+	REQUIRED_FIELDS = []
+
+	objects = ActorManager()
+
+	def get_short_name(self):
+		return self.email
+
+	def get_full_name(self):
+		return '%s %s' % (self.first_name, self.last_name)
+
 	def __str__(self):
-		return self.user.username
+		return self.email
 
 	@property
 	def get_name(self):
-		return self.user.username
-
+		return self.email
 
 class Appointment(models.Model):
 	# Name of the Appointment
@@ -52,7 +70,7 @@ class Participation(models.Model):
 		('p', 'Pending')
 	)
 
-	actor = models.ForeignKey(Actor, on_delete=models.CASCADE)
+	actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
 	answer = models.CharField(choices=answer_choices, max_length=1)
 	is_necessary = models.BooleanField()

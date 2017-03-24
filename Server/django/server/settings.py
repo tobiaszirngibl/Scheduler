@@ -25,7 +25,7 @@ SECRET_KEY = 'i%ty+k1ex0fg#)azd2i-ijc*@t8zpdq4g60vgv5jheyaso*#1l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.2.102', '192.168.178.43', 'localhost', '0.0.0.0']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'rest_framework',
+	'oauth2_provider',
     'backend',
     'website',
 ]
@@ -83,6 +84,8 @@ DATABASES = {
     }
 }
 
+# Custom user model
+AUTH_USER_MODEL = 'backend.Actor'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -126,3 +129,21 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '../calendar'
 LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/'
+
+# OAuth provider
+OAUTH2_PROVIDER = {
+	# this is the list of available scopes
+	'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'appointment': 'Access to all appointments',
+	           'actor':'Access to all actors'}
+}
+
+# REST-Framwork
+REST_FRAMEWORK = {
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+		'rest_framework.authentication.SessionAuthentication',
+	),
+	'DEFAULT_PERMISSION_CLASSES': (
+		'rest_framework.permissions.IsAuthenticated',
+	)
+}

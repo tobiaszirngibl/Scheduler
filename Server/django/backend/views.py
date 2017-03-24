@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 
-from rest_framework import viewsets
+from oauth2_provider.ext.rest_framework import IsAuthenticatedOrTokenHasScope
 
-from .models import Appointment
-from .serializers import AppointmentSerializer
+from rest_framework import permissions, viewsets
+
+from .models import Appointment, Actor
+from .serializers import AppointmentSerializer, ActorSerializer
 
 # Create your views here.
 
@@ -29,5 +31,18 @@ def getTest(request):
 	return JsonResponse(response, safe=False)
 
 class AppointmentViewSet(viewsets.ModelViewSet):
+	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoModelPermissions]
+	required_scopes = ['appointment']
 	queryset = Appointment.objects.all()
 	serializer_class = AppointmentSerializer
+
+	def get_queryset(self):
+		user = self.request.user
+		return Appointment.objects.filter(participants__id__exact = user.id )
+
+class ActorViewSet(viewsets.ModelViewSet):
+	#permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoModelPermissions]
+	#required_scopes = ['actor']
+	permission_classes = [permissions.AllowAny]
+	queryset = Actor.objects.all()
+	serializer_class = ActorSerializer

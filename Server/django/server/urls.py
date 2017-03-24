@@ -27,4 +27,9 @@ urlpatterns = [
     url(r'^calendar/$', auth_views.login, {'template_name': 'website/calendar.html'}, name='calendar'),
     url(r'^groups/$', auth_views.login, {'template_name': 'website/groups.html'}, name='groups'),
     url(r'^', include('website.urls')),
+	url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')), #stuff for oauth
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += [
+	url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+]
