@@ -1,6 +1,36 @@
 {% extends 'website/base.html' %}
 {% block test %}
 
+
+        <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
+            <li><a href="/groups"><i class="fa fa-users" aria-hidden="true"></i> Gruppenverwaltung</a></li>
+              <li><a href="/profile/1"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
+
+          </ul>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+
+            </div>
+          </form>
+        </div>
+
+
+
+        </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+
     <section class="content-header">
       <h1>
           eKulturPortal
@@ -649,6 +679,9 @@ $(function () {
     });
 
 
+
+
+
     $('#reservationtime').daterangepicker({
     "singleDatePicker": true,
     "showWeekNumbers": true,
@@ -755,6 +788,47 @@ $(function () {
           $('#appointment').modal('hide');
          });
 
+
+
+    $("#saveEvent").click(function (e){
+
+     var csrftoken = $.cookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+
+var actors = ["a@b.com"];
+var formData = {name:"ravi",date_begin:"",date_end:"",town:"",location:"",description:"",notes:"", participants: actors};
+$.ajax({
+
+    url : "http://localhost:8000/api/appointment/",
+    type: "POST",
+username: "a@b.com",
+        password: "rootTermin",
+
+
+    data : formData,
+    success: function(data, textStatus, jqXHR)
+    {
+console.log(data);
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+console.log(textStatus);
+    }
+});
+        });
 
 
 
