@@ -143,7 +143,6 @@
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_2">
-               < id="eventView">
               <!-- THE CALENDAR -->
               <div class="box box-solid">
 
@@ -156,8 +155,6 @@
                       <ul id="appointmentList">
                       </ul>
 
-                       <button id="noEvent" type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>
-                          <button id="yesEvent" type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button>
 
 
                   </div>
@@ -251,10 +248,6 @@
                         <div class="form-group">
                             <label>Benutzer auswählen:</label>
                             <select id="userList" multiple class="form-control" disabled>
-                                <option>Tobias</option>
-                                <option>Mathias</option>
-                                <option>Igor</option>
-                                <option>Gabriel</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -414,9 +407,9 @@
               <div class="modal-body">
                 <p>Möchten Sie den Termin annehmen und zu ihrem persönlichen Kalender hinzufügen?</p>
               </div>
-              <div class="modal-footer">
+              <div id="accAppDiv" class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Termin annehmen</button>
+                <button id="sendYes" type="button" class="btn btn-success">Termin annehmen</button>
               </div>
             </div>
           </div>
@@ -436,7 +429,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger">Termin ablehnen</button>
+                <button id="sendNo" type="button" class="btn btn-danger">Termin ablehnen</button>
                    <button type="button" class="btn btn-warning">Termin ablehnen und Ersatztermin wählen</button>
               </div>
             </div>
@@ -447,8 +440,8 @@
 
 {% block calFunc %}
 $(function () {
-                var events = [];
-
+var events = [];
+var eventSentData = "";
 
  $.ajax({
 
@@ -459,28 +452,49 @@ $(function () {
         for (var key in data) {
           var event = {
               title: data[key].name,
-              start: data[key].date_begin
+              start: data[key].date_begin,
+                id: data[key].id
+
           }
-          $("#appointmentList").append('<li>'+event.title+ " " + event.start+'</li>');
+          events.push(event);
 
-           events.push(event);
-      }
+          $("#appointmentList").append('<h4 id="eventList'+key+'">'+event.title+'<br>'+event.start+'</h4>');
+          $("#appointmentList").append('<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>');
+          $("#appointmentList").append('<button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br><br><hr>');
 
-          $("#appointmentCount").text(events.length);
+          $('#yesEvent'+key).prop("buttonId",key);
+          $('#noEvent'+key).prop("buttonId",key);
 
+          $('#yesEvent'+key).click(function (e){
+
+            $('#acceptAppointment').modal('show');
+            eventSentData =  events[e.currentTarget.buttonId];
+          });
+          $('#noEvent'+key).click(function (e){
+            $('#declineAppointment').modal('show');
+            eventSentData =  events[e.currentTarget.buttonId];
+          });
+        }
+        $('#sendYes').click(function (e) {
+            e.preventDefault();
+            console.log(eventSentData);
+            console.log("Hier dann api update/delete call mit " + eventSentData.id + " als appointment id");
+
+        });
+        $('#sendNo').click(function (e) {
+            e.preventDefault();
+            console.log(eventSentData);
+            console.log("Hier dann api update/delete call mit " + eventSentData.id + " als appointment id");
+        });
+
+        $("#appointmentCount").text(events.length);
 
      $('#calendar').fullCalendar('removeEvents');
      $('#calendar').fullCalendar('addEventSource', events);
      $('#calendar').fullCalendar('refetchEvents');
 
-
       }
-     });   
-
-
-
-
-
+     });
 
 
 
@@ -662,16 +676,6 @@ $(function () {
     });
 
 
-  $("#yesEvent").click(function (e){
-            e.preventDefault();
-            $('#acceptAppointment').modal('show');
-    });
-
-  $("#noEvent").click(function (e){
-            e.preventDefault();
-            $('#declineAppointment').modal('show');
-    });
-
 
 
     $(".timepicker").timepicker({
@@ -705,9 +709,27 @@ $(function () {
 
 
     $("#addNewEvent").click(function (e){
-              e.preventDefault();
-        $('#appointment').modal('show');
+        e.preventDefault();
 
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8000/api/actor/",
+            success: function(data)
+                {
+                    for (var key in data) {
+                        if(data[key].first_name ==  "" && data[key].last_name == "") {
+                            var actorName = "Kein Name angegeben";
+                        }
+                        else {
+                            var actorName = data[key].first_name + " " + data[key].last_name;
+                        }
+                    var actorEmail = data[key].email;
+                    $('#userList').append('<option>'+actorEmail+' - ' + actorName +'</option>');
+                    }
+                }
+        });
+
+        $('#appointment').modal('show');
     });
 
 

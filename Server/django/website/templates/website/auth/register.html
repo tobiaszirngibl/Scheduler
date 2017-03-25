@@ -36,10 +36,8 @@
         </div>
         <!-- /.col -->
       </div>
-    <form action="/login">
       <button id="submitRegister" type="submit" class="btn btn-primary btn-block btn-flat">Absenden</button>
 
-    </form>
 
 
     <br>
@@ -53,6 +51,8 @@
 <!-- jQuery 2.2.3 -->
 <script src="{% static 'website/plugins/jQuery/jquery-2.2.3.min.js' %}"></script>
 <script src="{% static 'website/plugins/jQuery/jquery.cookie.js' %}"></script>
+<script src="{% static 'website/plugins/jQuery/notify.min.js' %}"></script>
+
 
 <!-- Bootstrap 3.3.6 -->
 <!--<script src="{% static 'website/plugins/bootstrap/js/bootstrap.min.js' %}"></script>-->
@@ -85,16 +85,26 @@
 
 
           var formData = {email: email, password: password, first_name: first_name, last_name: last_name, bio: ""};
-          $.ajax({
+
+             $.ajax({
 
               url: "http://localhost:8000/api/actor/",
               type: "POST",
               data: formData,
               success: function (data, textStatus, jqXHR) {
-                  console.log(data);
+
+                     $.notify("Registrierung erfolgreich", "success",  { position:"middle" });
+                      window.setTimeout(function(){
+
+        window.location.href = "/login";
+
+    }, 3000);
+
+
               },
               error: function (jqXHR, textStatus, errorThrown) {
-                  console.log(jqXHR.responseText);
+
+                  $.notify("Registrierung fehlgeschlagen: "+jqXHR.responseText, "error",  { position:"middle" });
               }
           });
 
