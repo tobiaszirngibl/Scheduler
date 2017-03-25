@@ -20,5 +20,7 @@ from django.contrib.auth import views as auth_views
 from . import views 
 
 urlpatterns = [
-    url(r'^profile/(\d)/$', views.profile_view, name='profile_view')
+    url(r'^profile/$', views.profile_view, name='profile_view'),
+    url(r'^calendar/$', views.calendar_view, name='calendar'),
+    url(r'^groups/$', views.group_view, name='groups')
 ]

@@ -126,9 +126,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Stuff for logins
-LOGIN_REDIRECT_URL = '../calendar'
+LOGIN_REDIRECT_URL = '/calendar'
 LOGIN_URL = '/login/'
-LOGOUT_REDIRECT_URL = '/'
 
 # OAuth provider
 OAUTH2_PROVIDER = {
