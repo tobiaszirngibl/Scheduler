@@ -110,12 +110,7 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
         return true;
     }
 
-
-    /**
-     * Call the given fetchEventsAsyncInterface method when the async task has finished
-     * @param result
-     */
+    @Override
     protected void onPostExecute(Boolean result) {
-        //signupAsyncInterface.eventAccepted(eventPosition);
     }
 }

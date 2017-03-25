@@ -15,6 +15,23 @@ import android.widget.Toast;
 //import com.ase_1617.organized.activities.EventFeedActivity;
 import com.ase_1617.organized.activities.EventFeedActivity;
 import com.ase_1617.organized.activities.SignupActivity;
+import com.ase_1617.organizedlib.network.AuthenticateAsyncInterface;
+import com.ase_1617.organizedlib.network.AuthenticateAsyncTask;
+import com.ase_1617.organizedlib.scribejava.OrganizedOAuth20Api;
+import com.ase_1617.organizedlib.utility.Constants;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.OAuth10aService;
+import com.github.scribejava.core.oauth.OAuth20Service;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
 
 /**
  * The login activity of the app.
@@ -26,14 +43,16 @@ import com.ase_1617.organized.activities.SignupActivity;
  * source: http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements AuthenticateAsyncInterface{
     private static final String TAG = "LoginActivity";
     public static final String PREFS_NAME = "LoginPrefs";
     private static final int REQUEST_SIGNUP = 0;
 
-    private final String tokenURL = "http://localhost:8000/o/token/";
+    private final String tokenURL = Constants.serverUrlBase + ":8000/o/token/";
     private final String clientId = "tfbVGsAUgvsrTBIFyZe7RBrcImX2Cazywt3rVR3x";
     private final String clientSecret = "2uFuKJjALs166co29sBzGRvUtXv2sCazjhp1ZhqtOXIWgeOafryp6Ysu51M7Vri1m42HvCfwYB5rNHPZWnu1fBwlptjRJqwVqBflzf8oJLJEdTCeStPdbDtRs8zrzxSm";
+    final String secretState = "security_token" + new Random().nextInt(999_999);
+    private static final String PROTECTED_RESOURCE_URL = Constants.serverUrlBase + ":8000/api/appointment/";
 
     private SharedPreferences userData;
 
@@ -124,27 +143,8 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
-
         authenticateUser(email, password);
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        if(!authenticationError){
-                            Log.v(TAG, "Login success");
-                            onLoginSuccess();
-                        }else{
-                            Log.v(TAG, "Login fail");
-                            onLoginFailed();
-                        }
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
     private void authenticateUser(String email, String password) {
@@ -155,11 +155,20 @@ public class LoginActivity extends AppCompatActivity {
         userPass = userData.getString("userPass", "Default");
 
         Log.v(TAG, "alt: "+userMail+userPass);
-        Log.v(TAG, "neu: "+email+password);
+        //Log.v(TAG, "neu: "+email+password);
+        /*
         if(email.equals(userMail) && password.equals(userPass)){
             authenticationError = false;
-        }
+        }*/
+
+
+        AuthenticateAsyncTask authenticateAsyncTask = new AuthenticateAsyncTask(this);
+        authenticateAsyncTask.authenticateAsyncInterface = this;
+        authenticateAsyncTask.execute(tokenURL, email, password, clientId, clientSecret, secretState, PROTECTED_RESOURCE_URL);
+
+
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -220,5 +229,22 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    @Override
+    public void onAuthenticationSuccess(String response) {
+        Log.v(TAG, "Response: "+response);
+
+        SharedPreferences.Editor editor = userData.edit();
+        editor.putString("accessToken", response);
+        editor.commit();
+
+        onLoginSuccess();
+    }
+
+    @Override
+    public void onAuthenticationError(String error) {
+        Log.v(TAG, "error: "+error);
+        onLoginFailed();
     }
 }

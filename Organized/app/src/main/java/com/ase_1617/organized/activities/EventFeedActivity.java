@@ -27,6 +27,7 @@ import com.ase_1617.organizedlib.network.AcceptEventAsyncInterface;
 import com.ase_1617.organizedlib.network.AcceptEventAsyncTask;
 import com.ase_1617.organizedlib.network.FetchEventsAsyncInterface;
 import com.ase_1617.organizedlib.network.FetchEventsAsyncTask;
+import com.ase_1617.organizedlib.utility.Constants;
 import com.ase_1617.organizedlib.utility.EventUtility;
 import com.ase_1617.organizedlib.utility.MiscUtility;
 
@@ -54,15 +55,20 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     private ArrayList<CalEvent> eventFeedList = new ArrayList<>();
     private ArrayList<CalEvent> eventDeviceList = new ArrayList<>();
 
-    private String newEventsUrl = "localhost:8000/api/appointment/";
-    private String newEventsUrl2 = "http://192.168.178.43:8000/api/appointment/";
-    private String acceptEventsUrl = "http://192.168.178.43:8000/api/appointment/";
+    private String newEventsUrl = Constants.serverUrlBase + ":8000/api/appointment/";
+    private String acceptEventsUrl = Constants.serverUrlBase + ":8000/api/appointment/";
+    private String accessToken;
+
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_feed);
         eventFeedListView = (ListView) findViewById(R.id.list_event_feed);
+        userData = getSharedPreferences(PREFS_NAME, 0);
+        accessToken = userData.getString("accessToken", "accessToken");
+        editor = userData.edit();
 
         fetchEventFeedData();
         readEvents();
@@ -211,8 +217,6 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     /**Replace the saved login data with the default values
      * and start the login activity*/
     private void logout() {
-        userData = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = userData.edit();
         editor.putString("userMail", "Default");
         editor.putString("userPass", "Default");
 
@@ -227,7 +231,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     private void fetchEventFeedData() {
         FetchEventsAsyncTask fetchEventsAsyncTask = new FetchEventsAsyncTask();
         fetchEventsAsyncTask.fetchEventsAsyncInterface = this;
-        fetchEventsAsyncTask.execute(newEventsUrl);
+        fetchEventsAsyncTask.execute(newEventsUrl, accessToken);
     }
 
     /**

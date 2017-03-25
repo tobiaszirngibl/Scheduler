@@ -1,6 +1,7 @@
 package com.ase_1617.organizedlib.network;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.utility.JSONUtility;
@@ -43,6 +44,8 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
         String serverResponse = "Not fetched";
         HttpURLConnection urlConnection = null;
         JSONArray jsonArray = null;
+        String accessToken = urls[1];
+        Log.v(TAG, "accessToken: "+accessToken);
 
         try {
             //Create the URL
@@ -50,11 +53,14 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
 
             //Establish the HTTP connection
             urlConnection = (HttpURLConnection) eventURL.openConnection();
+            urlConnection.setRequestProperty("Authorization", "Bearer " + accessToken);
 
             //Check the http response code
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 serverResponse = readStream(urlConnection.getInputStream());
+            }else{
+                Log.v(TAG, "Error: "+urlConnection.getResponseCode() + " --- " + urlConnection.getResponseMessage());
             }
 
             //Create a JSON Object from the server response

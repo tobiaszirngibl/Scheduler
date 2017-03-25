@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.ase_1617.organized.R;
 import com.ase_1617.organizedlib.network.SignupAsyncInterface;
 import com.ase_1617.organizedlib.network.SignupAsyncTask;
+import com.ase_1617.organizedlib.utility.Constants;
 
 
 public class SignupActivity extends AppCompatActivity implements SignupAsyncInterface{
@@ -28,7 +29,7 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
     public static final String PREFS_NAME = "LoginPrefs";
     private static final String INVALID_LOGIN_INPUT = "Either email or password was invalid.";
 
-    private final String signupURL = "http://192.168.2.102:8000/api/actor/";
+    private final String signupURL = Constants.serverUrlBase + ":8000/api/actor/";
 
     private SharedPreferences userData;
 
@@ -75,33 +76,19 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
 
         _signupButton.setEnabled(false);
 
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        // TODO: Implement your own signup logic here.
-        //saveUserData(name, email, password);
+        String name = _nameText.getText().toString().trim();
+        String email = _emailText.getText().toString().trim();
+        String password = _passwordText.getText().toString().trim();
 
         SignupAsyncTask signupAsyncTask = new SignupAsyncTask(this);
         signupAsyncTask.signupAsyncInterface = this;
         signupAsyncTask.execute(signupURL, email, password, name, this);
 
-/*
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);*/
     }
 
     private void saveUserData(String name, String email, String password) {
 
-        //TODO:Send new account data to the server
+        //TODO:Save user data after correct login
 
         userData = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = userData.edit();

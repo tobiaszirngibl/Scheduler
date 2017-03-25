@@ -148,12 +148,12 @@
         "source": "/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/drawable/abc_ic_voice_search_api_material.xml"
     },
     {
-        "merged": "/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/res/merged/debug/drawable/notification_bg_low.xml",
-        "source": "/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/drawable/notification_bg_low.xml"
-    },
-    {
         "merged": "/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/res/merged/debug/drawable/decline_button.png",
         "source": "/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/src/main/res/drawable/decline_button.png"
+    },
+    {
+        "merged": "/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/res/merged/debug/drawable/notification_bg_low.xml",
+        "source": "/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/res/drawable/notification_bg_low.xml"
     },
     {
         "merged": "/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/res/merged/debug/drawable/cell_bg.xml",
