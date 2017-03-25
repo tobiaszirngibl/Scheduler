@@ -6,7 +6,7 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
             <li><a href="/groups"><i class="fa fa-users" aria-hidden="true"></i> Gruppenverwaltung</a></li>
-              <li><a href="/profile/1"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
+              <li><a href="/profile"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
 
           </ul>
           <form class="navbar-form navbar-left" role="search">
@@ -126,7 +126,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">Kalender</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Terminanfragen <span class="label label-success">3</span></a></li>
+              <li><a href="#tab_2" data-toggle="tab">Terminanfragen <span id="appointmentCount" class="label label-success"></span></a></li>
 
 
             </ul>
@@ -143,7 +143,7 @@
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_2">
-               <div id="eventView">
+               < id="eventView">
               <!-- THE CALENDAR -->
               <div class="box box-solid">
 
@@ -153,74 +153,14 @@
                 <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
                 <div class="panel box box-warning">
                   <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-Termin 1
-                        </a>
-                    </h4>
+                      <ul id="appointmentList">
+                      </ul>
 
                        <button id="noEvent" type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>
                           <button id="yesEvent" type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button>
 
 
                   </div>
-                  <div id="collapseOne" class="panel-collapse collapse">
-                    <div class="box-body">
-                      Treffen
-                        <br>
-                        11.02.2017 12:00
-                        <br>
-                        Cafe
-                    </div>
-                  </div>
-                </div>
-                <div class="panel box box-danger">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-Termin 2                      </a>
-                    </h4>
-                      <button id="noEvent" type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>
-                          <button id="yesEvent" type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button>
-
-                  </div>
-                  <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="box-body">
-                     Treffen
-                        <br>
-                        11.02.2017 12:00
-                        <br>
-                        Cafe
-                    </div>
-                  </div>
-                </div>
-                <div class="panel box box-success">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-Termin 3                      </a>
-                    </h4>
-                      <button id="noEvent" type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>
-                          <button id="yesEvent" type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button>
-
-                  </div>
-                  <div id="collapseThree" class="panel-collapse collapse">
-                    <div class="box-body">
-                    Treffen
-                        <br>
-                        11.02.2017 12:00
-                        <br>
-                        Cafe
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-            </div>
-
-
 
 
 
@@ -233,7 +173,8 @@ Termin 3                      </a>
           </div>
           <!-- nav-tabs-custom -->
         </div>
-        </div>
+              </div>
+
 
 
 
@@ -257,18 +198,18 @@ Termin 3                      </a>
                         </div>
                         <div class="form-group">
                             <label>Datum:</label>
-                                <div class="input-group">
+                                <div class="input-group" >
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
-                                    <input type="text" class="form-control" id="reservationtime">
+                                    <input type="text" class="form-control" id="reservationtime" disabled>
                                 </div>
                         </div>
                         <div class="bootstrap-timepicker">
                             <div class="form-group">
                                 <label>Beginn:</label>
                                 <div class="input-group">
-                                    <input id="startTime" type="text" class="form-control timepicker">
+                                    <input id="startTime" type="text" class="form-control timepicker" disabled>
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
@@ -279,7 +220,7 @@ Termin 3                      </a>
                             <div class="form-group">
                                 <label>Ende:</label>
                                 <div class="input-group">
-                                    <input id="endTime" type="text" class="form-control timepicker">
+                                    <input id="endTime" type="text" class="form-control timepicker" disabled>
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
@@ -288,13 +229,13 @@ Termin 3                      </a>
                         </div>
                         <div class="form-group">
                             <label>
-                                <input id="allDay" type="checkbox" class="minimal">
+                                <input id="allDay" type="checkbox" class="minimal" disabled>
                                 Ganztägig
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Gruppe auswählen:</label>
-                            <select class="form-control">
+                            <select class="form-control" disabled>
                                 <option>Theater Gruppe</option>
                                 <option>Abteilung 1</option>
                                 <option>Regensburg</option>
@@ -303,7 +244,7 @@ Termin 3                      </a>
                         </div>
                         <div class="form-group">
                             <label>
-                                <input id="user" type="checkbox" class="minimal">
+                                <input id="user" type="checkbox" class="minimal" disabled>
                                 Benutzer auswählen
                             </label>
                         </div>
@@ -506,29 +447,38 @@ Termin 3                      </a>
 
 {% block calFunc %}
 $(function () {
+                var events = [];
+
 
  $.ajax({
+
     type: "GET",
-    url: "http://localhost:8000/api/appointment/1/",
+    url: "http://localhost:8000/api/appointment/",
     success: function(data)
       {
-        var events = [];
-      //  for (var key in data) {
-          var event1 = {
-              title: data.name,
-              start: data.date_begin 
+        for (var key in data) {
+          var event = {
+              title: data[key].name,
+              start: data[key].date_begin
           }
-          
-           events.push(event1);
-     //   }
-                      console.log(events);
-  
+          $("#appointmentList").append('<li>'+event.title+ " " + event.start+'</li>');
+
+           events.push(event);
+      }
+
+          $("#appointmentCount").text(events.length);
+
+
      $('#calendar').fullCalendar('removeEvents');
-      $('#calendar').fullCalendar('addEventSource', events);         
+     $('#calendar').fullCalendar('addEventSource', events);
      $('#calendar').fullCalendar('refetchEvents');
-      
+
+
       }
      });   
+
+
+
 
 
 
@@ -760,35 +710,6 @@ $(function () {
 
     });
 
-      $("#saveEvent").click(function (e){
-
-        var eventTitle = $("#title").val();
-        var eventDate =  $("#reservationtime").val();
-        var eventDesc =  $("#remark").val();
-
-
-       var parts = eventDate.split('/');
-
-          // 0 = Tag
-          // 1 = Monat
-          // 2 = Jahr
-
-       var mydate = new Date(parts[2],parts[1]-1,parts[0]);
-
-          var myEvent = {
-            title:  eventTitle,
-            allDay: true,
-            start: mydate,
-            description: eventDesc
-
-
-        };
-
-           $('#calendar').fullCalendar( 'renderEvent', myEvent, true );
-          $('#appointment').modal('hide');
-         });
-
-
 
     $("#saveEvent").click(function (e){
 
@@ -806,10 +727,11 @@ $.ajaxSetup({
     }
 });
 
-
+var title = $("#title").val();
+var desc = $("#remark").val();
 
 var actors = ["a@b.com"];
-var formData = {name:"ravi",date_begin:"",date_end:"",town:"",location:"",description:"",notes:"", participants: actors};
+var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:"", participants: actors};
 $.ajax({
 
     url : "http://localhost:8000/api/appointment/",
