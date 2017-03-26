@@ -72,8 +72,8 @@ class Participation(models.Model):
 
 	actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
-	answer = models.CharField(choices=answer_choices, max_length=1)
-	is_necessary = models.BooleanField()
+	answer = models.CharField(choices=answer_choices, max_length=1, default='p')
+	is_necessary = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.appointment.__str__() + ' - ' + self.actor.__str__()

@@ -29,4 +29,5 @@ router.register(r'actor', views.ActorViewSet)
 
 urlpatterns = [
 	url(r'^', include(router.urls)),
+	url(r'appointment/(\d+)/response', views.appointment_response ,name='appointment_response')
 ]

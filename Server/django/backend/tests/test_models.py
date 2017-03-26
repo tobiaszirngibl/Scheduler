@@ -11,16 +11,13 @@ from backend.models import Actor, Appointment, Participation
 
 class AppointmentModelTest(TestCase):
 	def test_saving_and_retieving_appointment(self):
-		part1 = Actor()
-		part1.user = User.objects.create_user('u1', 'u1@u1.com', 'pw1')
+		part1 = Actor.objects.create_user('u1@u1.com', 'pw1')
 		part1.save()
 
-		part2 = Actor()
-		part2.user = User.objects.create_user('u2', 'u1@u1.com', 'pw1')
+		part2 = Actor.objects.create_user('u2@u1.com', 'pw1')
 		part2.save()
 
-		part3 = Actor()
-		part3.user = User.objects.create_user('u3', 'u1@u1.com', 'pw1')
+		part3 = Actor.objects.create_user('u3@u1.com', 'pw1')
 		part3.save()
 
 		self.appointment = Appointment(name="App1", date_begin=timezone.now(),
@@ -41,23 +38,21 @@ class AppointmentModelTest(TestCase):
 		saved_app = Appointment.objects.first()
 		self.assertEqual(saved_app, app1)
 		self.assertEquals(saved_app.participants.all().count(), 1)
-		self.assertEquals(saved_app.participants.first().user.username, 'u1')
+		self.assertEquals(saved_app.participants.first().email, 'u1@u1.com')
 
 		saved_app = Appointment.objects.get(pk=2)
 		self.assertEqual(saved_app, app2)
 		self.assertEquals(saved_app.participants.all().count(), 2)
-		self.assertEquals(saved_app.participants.first().user.username, 'u2')
+		self.assertEquals(saved_app.participants.first().email, 'u2@u1.com')
 
 
 class UserModelTest(TestCase):
 	def test_creating_and_retrieving_users(self):
-		part1 = Actor()
-		part1.user = User.objects.create_user('u1', 'u1@u1.com', 'pw1')
+		part1 = Actor.objects.create_user('u1@u1.com', 'pw1')
 		part1.bio = "Es war einmal ein grosses Schloss und Kunibert, so hiess der Boss"
 		part1.save()
 
-		part2 = Actor()
-		part2.user = User.objects.create_user('u2', 'u1@u1.com', 'pw1')
+		part2 = Actor.objects.create_user('u2@u1.com', 'pw2')
 		part2.save()
 
 		saved = Actor.objects.first()
