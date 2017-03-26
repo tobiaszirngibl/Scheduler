@@ -18,14 +18,18 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
+
+
+
+
 
 urlpatterns = [
+
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('backend.urls')),
     url(r'^login/$', auth_views.login, {'template_name': 'website/auth/login.html'}, name='login'),
     url(r'^register/$', auth_views.login, {'template_name': 'website/auth/register.html'}, name='register'),
-    url(r'^calendar/$', auth_views.login, {'template_name': 'website/calendar.html'}, name='calendar'),
-    url(r'^groups/$', auth_views.login, {'template_name': 'website/groups.html'}, name='groups'),
     url(r'^', include('website.urls')),
 	url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')), #stuff for oauth
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
