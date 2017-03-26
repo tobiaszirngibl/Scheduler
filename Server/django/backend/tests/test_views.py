@@ -39,3 +39,18 @@ class AppointmentResponseTest(TestCase):
 		self.client.post(self.base_url, {'answer': 'yes'},)
 		part = Participation.objects.first()
 		self.assertEquals(part.answer, 'y')
+
+class AddActorToAppointmentTest(TestCase):
+	base_url = '/api/appointment/1/addActors'
+
+	def setUp(self):
+		app = Appointment.objects.create(name='test')
+		actor = Actor.objects.create_user('a@b.com', 'pw1')
+
+		self.client.login(email='a@b.com', password='pw1')
+
+	def test_post_creates_participation(self):
+		Actor.objects.create_user('a@c.com', 'pw1')
+		Actor.objects.create_user('a@d.com', 'pw1')
+		self.client.post(self.base_url, {'actors': ['a@c.com', 'a@d.com']})
+		self.assertEquals(Participation.objects.all().count(), 2)

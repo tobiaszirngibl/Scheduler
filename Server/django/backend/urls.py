@@ -24,10 +24,12 @@ from backend import views
 # Router for rest_framework API
 
 router = DefaultRouter()
-router.register(r'appointment', views.AppointmentViewSet)
-router.register(r'actor', views.ActorViewSet)
+router.register(r'appointment', views.AppointmentViewSet, 'appointment')
+router.register(r'actor', views.ActorViewSet, 'actor')
+router.register(r'group', views.GroupViewSet, 'group')
 
 urlpatterns = [
 	url(r'^', include(router.urls)),
-	url(r'appointment/(\d+)/response', views.appointment_response ,name='appointment_response')
+	url(r'appointment/(\d+)/addActors', views.add_actor, name='add_actor'),
+	url(r'appointment/(\d+)/response', views.appointment_response ,name='appointment_response'),
 ]
