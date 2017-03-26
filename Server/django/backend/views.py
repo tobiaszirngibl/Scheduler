@@ -14,17 +14,17 @@ from .serializers import AppointmentSerializer, ActorSerializer
 @require_POST
 @login_required()
 def appointment_response(request, id):
-	if 'answer' in request.POST:
+	if 'answer' in request.POST: # POST contains correct key
 		answer = request.POST['answer']
-		try:
+		try: # fitting participation in database
 			entry = Participation.objects.get(appointment__id= id, actor=request.user)
-			if answer == 'yes':
+			if answer == 'yes': # checks value of answer
 				entry.answer = 'y'
 			elif answer == 'no':
 				entry.answer = 'n'
 			else:
 				return HttpResponseBadRequest('answer may only be "yes" or "no"')
-			entry.save()
+			entry.save() # updates participation-object
 			return HttpResponse(status=204)
 		except Participation.DoesNotExist:
 			return HttpResponseServerError('No participation found')

@@ -35,6 +35,13 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	def get_name(self):
 		return self.email
 
+class Group(models.Model):
+	name = models.CharField(max_length=150)
+	members = models.ManyToManyField(Actor)
+
+	def __str__(self):
+		return self.name
+
 class Appointment(models.Model):
 	# Name of the Appointment
 	name = models.CharField(max_length=150)

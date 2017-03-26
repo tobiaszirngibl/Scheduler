@@ -21,9 +21,19 @@ class AppointmentResponseTest(TestCase):
 		response = self.client.post(self.base_url, {})
 		self.assertEqual(response.status_code, 400)
 
-	def test_wrong_post_returns_500(self):
+	def test_wrong_post_returns_400(self):
+		# Tests for wrong key
 		response = self.client.post(self.base_url, {'wrong': 'wrong'},)
 		self.assertEqual(response.status_code, 400)
+
+		# Tests for wrong value
+		response = self.client.post(self.base_url, {'answer': 'wrong'}, )
+		self.assertEqual(response.status_code, 400)
+
+	def test_no_participation_returns_500(self):
+		Participation.objects.first().delete()
+		response = self.client.post(self.base_url, {'answer': 'y'}, )
+		self.assertEqual(response.status_code, 500)
 
 	def test_post_updates_participation(self):
 		self.client.post(self.base_url, {'answer': 'yes'},)
