@@ -150,6 +150,7 @@ REST_FRAMEWORK = {
 		'rest_framework.authentication.SessionAuthentication',
 	),
 	'DEFAULT_PERMISSION_CLASSES': (
-		'rest_framework.permissions.IsAuthenticated',
+		'oauth2_provider.ext.rest_framework.IsAuthenticatedOrTokenHasScope',
+		#'rest_framework.permissions.DjangoModelPermissions',
 	)
 }
