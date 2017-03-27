@@ -138,6 +138,7 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
                 e.printStackTrace();
             }
 
+            Log.v( TAG, "response: "+response);
             Log.v( "Login", accessToken);
         }
         else

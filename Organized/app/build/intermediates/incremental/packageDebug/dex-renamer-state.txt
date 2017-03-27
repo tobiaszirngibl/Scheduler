@@ -1,4 +1,4 @@
-#Sun Mar 26 12:54:53 CEST 2017
+#Mon Mar 27 19:34:26 CEST 2017
 base.0=/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_6c9eb9faabd6f4c85bae554bb87752734788bbbc
 renamed.1=classes.dex
 renamed.0=classes2.dex

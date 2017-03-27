@@ -6,13 +6,16 @@ package com.ase_1617.organizedlib.utility;
 
 public interface Constants {
 
-    String SERVER_URL_BASE = "http://192.168.178.20";
+    String SERVER_URL_BASE = "http://192.168.2.102";
+    //String SERVER_URL_BASE = "http://188.192.254.130";
     String TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
     String SIGNUP_URL = SERVER_URL_BASE + ":8000/api/actor/";
+    String FEEDBACK_URL_START = SERVER_URL_BASE + ":8000/api/appointment/";
+    String FEEDBACK_URL_END = "/response";
 
 
-    String CLIENT_ID= "tfbVGsAUgvsrTBIFyZe7RBrcImX2Cazywt3rVR3x";
-    String CLIENT_SECRET = "2uFuKJjALs166co29sBzGRvUtXv2sCazjhp1ZhqtOXIWgeOafryp6Ysu51M7Vri1m42HvCfwYB5rNHPZWnu1fBwlptjRJqwVqBflzf8oJLJEdTCeStPdbDtRs8zrzxSm";
+    String CLIENT_ID= "M7kgIr6rqeVeY2Q2vCrlKhQYKT9LDVYH2ycEbAbS";
+    String CLIENT_SECRET = "GB3oikXcvmQJ9UK2cD5eHpS1H57lN6av6DiGpgg5cbTMXUL7b2lC5XATOlFCdVmzGT4rTa8PHIG9DG9OTzzQxCq9ZTFR1bn9sArMJtS1x0jwcXxL8IDOLVIdR8OB5Lln";
 
     String PREFS_NAME = "LoginPrefs";
 

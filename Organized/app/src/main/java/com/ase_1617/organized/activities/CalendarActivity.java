@@ -170,7 +170,9 @@ public class CalendarActivity extends AppCompatActivity {
         fetchDeviceEvents();
         updateUI();
         setupListClickListener();
-        insertEvents();
+        if(deviceEventList != null) {
+            insertEvents();
+        }
     }
 
     /**Setup the hour and the minute picker to display the according numbers

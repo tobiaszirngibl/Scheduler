@@ -211,6 +211,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
     @Override
     public void onAuthenticationSuccess(String response) {
         Log.v(TAG, "Response: "+response);
+        userData = getSharedPreferences(Constants.PREFS_NAME, 0);
 
         SharedPreferences.Editor editor = userData.edit();
         editor.putString("accessToken", response);
