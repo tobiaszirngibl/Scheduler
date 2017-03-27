@@ -264,6 +264,92 @@
         </div>
 
 
+         <div id="appointmentEditPut" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Termin bearbeiten</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Titel</label>
+                            <input id="titleEditPut" type="text" class="form-control" placeholder="Enter ...">
+                        </div>
+                        <div class="form-group">
+                            <label>Datum:</label>
+                                <div class="input-group" >
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <input type="text" class="form-control" id="reservationtimeEditPut" disabled>
+                                </div>
+                        </div>
+                        <div class="bootstrap-timepicker">
+                            <div class="form-group">
+                                <label>Beginn:</label>
+                                <div class="input-group">
+                                    <input id="startTimeEditPut" type="text" class="form-control timepicker" disabled>
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bootstrap-timepicker">
+                            <div class="form-group">
+                                <label>Ende:</label>
+                                <div class="input-group">
+                                    <input id="endTimeEditPut" type="text" class="form-control timepicker" disabled>
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input id="allDayEditPut" type="checkbox" class="minimal" disabled>
+                                Ganztägig
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Gruppe auswählen:</label>
+                            <select class="form-control" disabled>
+                                <option>Theater Gruppe</option>
+                                <option>Abteilung 1</option>
+                                <option>Regensburg</option>
+                                <option>Abteilung 2</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input id="userEditPut" type="checkbox" class="minimal" disabled>
+                                Benutzer auswählen
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Benutzer auswählen:</label>
+                            <select id="userListEditPut" multiple class="form-control" disabled>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Anmerkungen</label>
+                            <textarea id="remarkEditPut" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                        <button id="saveEventEditPut" type="button" class="btn btn-primary">Bearbeitung abschicken</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
           <!-- Modal Appointment -->
 
 
@@ -440,8 +526,24 @@
 
 {% block calFunc %}
 $(function () {
+
+                var csrftoken = $.cookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
 var events = [];
 var eventSentData = "";
+                var calEventID="";
 
  $.ajax({
 
@@ -495,6 +597,7 @@ var eventSentData = "";
 
       }
      });
+
 
 
 
@@ -559,37 +662,44 @@ var eventSentData = "";
 
     eventClick: function(calEvent, jsEvent, view) {
 
-        //
-        // just for testing, could be solved better
-        //
 
-        var weekday = new Array(7);
-         weekday[0] = "Montag, ";
-         weekday[1] = "Dienstag, ";
-         weekday[2] = "Mittwoch, ";
-         weekday[3] = "Donnerstag, ";
-         weekday[4] = "Freitag, ";
-         weekday[5] = "Samstag, ";
-         weekday[6] = "Sonntag, ";
+                var titleEdit = "";
+                var startEdit = "";
 
-        $('#titleEvent').text(calEvent.title);
+                calEventID = calEvent.id;
+                 $.ajax({
 
-        if(!calEvent.allDay) {
-          $('#startEvent').text(weekday[calEvent.start._d.getDay()] + calEvent.start._d.toLocaleString());
-          $('#endLabel').show();
-          $('#endEvent').show();
-          $('#endEvent').text(weekday[calEvent.end._d.getDay()] + calEvent.end._d.toLocaleString());
-          $('#allDayEvent').text("Nein");
-        }
+    type: "GET",
+    url: "http://localhost:8000/api/appointment/"+calEvent.id+"/",
+    success: function(data)
+      {
+                $('#titleEvent').text(data.name);
+                titleEdit = $('#titleEvent').text();
+                $('#startEvent').text(data.date_begin);
+                startEdit = $('#startEvent').text();
 
-        else {
-          $('#startEvent').text(weekday[calEvent.start._d.getDay()] + calEvent.start._d.toLocaleString());
-          $('#endLabel').hide();
-          $('#endEvent').hide();
-          $('#allDayEvent').text("Ja");
-        }
+                $('#endEvent').text(data.date_end);
 
-        $('#editAppointment').modal('show');
+
+                // weitere hinzufügen
+
+                $('#editAppointment').modal('show');
+
+          }
+});
+
+  $("#editEvent").click(function (e){
+            e.preventDefault();
+            $('#editAppointment').modal('hide');
+
+                $('#titleEditPut').val(titleEdit);
+                $('#startTimeEditPut').val(startEdit);
+
+            setTimeout(function(){$('#appointmentEditPut').modal('show');}, 300);
+    });
+
+
+
 
     },
 
@@ -669,11 +779,10 @@ var eventSentData = "";
 });
 
 
-  $("#editEvent").click(function (e){
-            e.preventDefault();
-            $('#editAppointment').modal('hide');
-            setTimeout(function(){$('#appointment').modal('show');}, 300);
-    });
+
+
+
+
 
 
 
@@ -735,41 +844,91 @@ var eventSentData = "";
 
     $("#saveEvent").click(function (e){
 
-     var csrftoken = $.cookie('csrftoken');
 
-function csrfSafeMethod(method) {
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
 
 var title = $("#title").val();
 var desc = $("#remark").val();
 
 var actors = ["a@b.com"];
-var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:"", participants: actors};
+var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:"", participants: ["a@b.com"]};
 $.ajax({
 
     url : "http://localhost:8000/api/appointment/",
     type: "POST",
-username: "a@b.com",
-        password: "rootTermin",
 
 
     data : formData,
     success: function(data, textStatus, jqXHR)
     {
-console.log(data);
+
+                            var objectAppID = data.id;
+                console.log(objectAppID);
+                       //send actors
+
+
+
+        $('#appointment').modal('hide');
+
+
+                $.ajax({
+
+                        url : "http://localhost:8000/api/appointment/8/addActors",
+                        type: "POST",
+
+                        data : "{participants: [id: 1, email:'a@b.com']}",
+                        success: function(data, textStatus, jqXHR)
+                        {
+                           console.log(jqXHR);
+                console.log(textStatus);
+                console.log(data);
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                    console.log(jqXHR);
+                        }
+                    });
+
+
     },
     error: function (jqXHR, textStatus, errorThrown)
     {
-console.log(textStatus);
+console.log(jqXHR);
+    }
+});
+
+
+
+
+
+        });
+
+
+
+    $("#saveEventEditPut").click(function (e){
+
+
+var title = $("#titleEditPut").val();
+var desc = $("#remarkEditPut").val();
+
+var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:""};
+$.ajax({
+
+    url : "http://localhost:8000/api/appointment/"+calEventID+"/",
+    type: "PUT",
+
+
+
+    data : formData,
+    success: function(data, textStatus, jqXHR)
+    {
+                                        $('#appointmentEditPut').modal('hide');
+
+                location.reload();
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+console.log(jqXHR);
     }
 });
         });
@@ -812,3 +971,11 @@ console.log(textStatus);
   });
 
 {% endblock %}
+
+
+
+
+
+
+
+
