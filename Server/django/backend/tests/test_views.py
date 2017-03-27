@@ -19,6 +19,7 @@ class AppointmentResponseTest(TestCase):
 
 	def test_no_post_data_raises_400(self):
 		response = self.client.post(self.base_url, {})
+		print(response)
 		self.assertEqual(response.status_code, 400)
 
 	def test_wrong_post_returns_400(self):

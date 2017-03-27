@@ -154,3 +154,9 @@ REST_FRAMEWORK = {
 		#'rest_framework.permissions.DjangoModelPermissions',
 	)
 }
+
+# The default scopes assigned to every API endpoint
+REST_DEFAULT_SCOPES = [
+	'read',
+	'write',
+]
