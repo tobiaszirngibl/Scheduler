@@ -12,31 +12,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.ase_1617.organized.activities.EventFeedActivity;
 import com.ase_1617.organized.activities.EventFeedActivity;
 import com.ase_1617.organized.activities.SignupActivity;
 import com.ase_1617.organizedlib.network.AuthenticateAsyncInterface;
 import com.ase_1617.organizedlib.network.AuthenticateAsyncTask;
-import com.ase_1617.organizedlib.scribejava.OrganizedOAuth20Api;
 import com.ase_1617.organizedlib.utility.Constants;
-import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuth10aService;
-import com.github.scribejava.core.oauth.OAuth20Service;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
 
 /**
  * The login activity of the app.
  * The user can enter an email and a password and log in which starts the validation process.
- * If the entered data is valid the user is redirected to the EventFeedActivity.
+ * The user data is sent to and verified by the oauth server.
+ * If the entered data is valid the server sends an access token
+ * which allows the app to request protected data from the server.
+ * The user is redirected to the EventFeedActivity.
  * Otherwise an error alert is shown.
  * The user can click a hint which redirects to the Signup acitivity.
  *
@@ -45,14 +33,7 @@ import java.util.Scanner;
 
 public class LoginActivity extends AppCompatActivity implements AuthenticateAsyncInterface{
     private static final String TAG = "LoginActivity";
-    public static final String PREFS_NAME = "LoginPrefs";
     private static final int REQUEST_SIGNUP = 0;
-
-    private final String tokenURL = Constants.serverUrlBase + ":8000/o/token/";
-    private final String clientId = "tfbVGsAUgvsrTBIFyZe7RBrcImX2Cazywt3rVR3x";
-    private final String clientSecret = "2uFuKJjALs166co29sBzGRvUtXv2sCazjhp1ZhqtOXIWgeOafryp6Ysu51M7Vri1m42HvCfwYB5rNHPZWnu1fBwlptjRJqwVqBflzf8oJLJEdTCeStPdbDtRs8zrzxSm";
-    final String secretState = "security_token" + new Random().nextInt(999_999);
-    private static final String PROTECTED_RESOURCE_URL = Constants.serverUrlBase + ":8000/api/appointment/";
 
     private SharedPreferences userData;
 
@@ -65,8 +46,6 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
     private String userMail;
     private String userPass;
 
-    private boolean authenticationError = true;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +56,8 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         _loginButton = (Button) findViewById(R.id.btn_login);
         _signupLink = (TextView) findViewById(R.id.link_signup);
 
-        checkLoginStatus();
+        //TODO:Auomatischer Login einbinden oder löschen
+        //checkLoginStatus();
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -98,8 +78,9 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         });
     }
 
+    //TODO:Auomatischer Login einbinden oder löschen
     private void checkLoginStatus() {
-        userData = getSharedPreferences(PREFS_NAME, 0);
+        userData = getSharedPreferences(Constants.PREFS_NAME, 0);
         userName = userData.getString("userName", "Default");
         userMail = userData.getString("userMail", "Default");
         userPass = userData.getString("userPass", "Default");
@@ -110,6 +91,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         }
     }
 
+    //TODO:Auomatischer Login einbinden oder löschen
     private void showLoginInfo() {
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
@@ -130,9 +112,11 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
                 }, 2000);
     }
 
+    /**
+     * Validate the user data and cancel the login if validation failed
+     * or authenticate the user if data was valid.
+     */
     public void login() {
-        Log.d(TAG, "Login");
-
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
@@ -141,61 +125,54 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
             return;
         }
 
-        _loginButton.setEnabled(false);
-
         authenticateUser(email, password);
-
     }
 
+    /**
+     * Start a new authenticateasynctask to authenticate the user and
+     * grant access to protected server data.
+     * @param email User login email
+     * @param password User login password
+     */
     private void authenticateUser(String email, String password) {
 
-        //TODO:Authenticate user per server request
-
-        userMail = userData.getString("userMail", "Default");
-        userPass = userData.getString("userPass", "Default");
-
-        Log.v(TAG, "alt: "+userMail+userPass);
-        //Log.v(TAG, "neu: "+email+password);
-        /*
-        if(email.equals(userMail) && password.equals(userPass)){
-            authenticationError = false;
-        }*/
-
+        //TODO:Auomatischer Login einbinden oder löschen
+        //userMail = userData.getString("userMail", "Default");
+        //userPass = userData.getString("userPass", "Default");
 
         AuthenticateAsyncTask authenticateAsyncTask = new AuthenticateAsyncTask(this);
         authenticateAsyncTask.authenticateAsyncInterface = this;
-        authenticateAsyncTask.execute(tokenURL, email, password, clientId, clientSecret, secretState, PROTECTED_RESOURCE_URL);
-
-
+        authenticateAsyncTask.execute(Constants.TOKEN_URL, email, password, Constants.CLIENT_ID, Constants.CLIENT_SECRET);
     }
 
-
+    /**
+     * After successfully creating a new organized account
+     * Authenticate the new created account and login the user.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
+                userData = getSharedPreferences(Constants.PREFS_NAME, 0);
+                userMail = userData.getString("userMail", "Default");
+                userPass = userData.getString("userPass", "Default");
 
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-                onLoginSuccess();
-
+                authenticateUser(userMail, userPass);
             }
         }
     }
 
     @Override
     public void onBackPressed() {
-        // disable going back to the MainActivity
+        // disable going back
         moveTaskToBack(true);
     }
 
     public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
-
-        authenticationError = true;
-
-        //finish();
+        this.finish();
 
         loginToApp();
     }

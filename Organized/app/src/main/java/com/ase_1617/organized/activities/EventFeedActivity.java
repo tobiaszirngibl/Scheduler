@@ -55,8 +55,8 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     private ArrayList<CalEvent> eventFeedList = new ArrayList<>();
     private ArrayList<CalEvent> eventDeviceList = new ArrayList<>();
 
-    private String newEventsUrl = Constants.serverUrlBase + ":8000/api/appointment/";
-    private String acceptEventsUrl = Constants.serverUrlBase + ":8000/api/appointment/";
+    private String newEventsUrl = Constants.SERVER_URL_BASE + ":8000/api/appointment/";
+    private String acceptEventsUrl = Constants.SERVER_URL_BASE + ":8000/api/appointment/";
     private String accessToken;
 
     private SharedPreferences.Editor editor;

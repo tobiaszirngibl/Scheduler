@@ -3,11 +3,14 @@ package com.ase_1617.organized.activities;
 /**
  * Created by bob on 03.01.17.
  *
+ * The sign up activity of the app.
+ * The user can enter a name, email and password to create a new organized account.
+ * The entered data is tested and valid data is sent to the server.
+ *
  * source: http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
  *
  */
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,10 +29,6 @@ import com.ase_1617.organizedlib.utility.Constants;
 
 public class SignupActivity extends AppCompatActivity implements SignupAsyncInterface{
     private static final String TAG = "SignupActivity";
-    public static final String PREFS_NAME = "LoginPrefs";
-    private static final String INVALID_LOGIN_INPUT = "Either email or password was invalid.";
-
-    private final String signupURL = Constants.serverUrlBase + ":8000/api/actor/";
 
     private SharedPreferences userData;
 
@@ -66,23 +65,28 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
         });
     }
 
+    /**
+     * Check whether the entered user data is valid and start a new
+     * signupasynctask to send the user data to the server that creates a new
+     * organized account.
+     */
     public void signup() {
-        Log.d(TAG, "Signup");
-
-        if (!validate()) {
-            onSignUpError(INVALID_LOGIN_INPUT);
-            return;
-        }
-
-        _signupButton.setEnabled(false);
-
+        //Fetch the entered user data
         String name = _nameText.getText().toString().trim();
         String email = _emailText.getText().toString().trim();
         String password = _passwordText.getText().toString().trim();
 
+        //Check whether the user data is valid
+        //Show an error alert and cancel the signup process if the data is not valid
+        if (!validate(name, email, password)) {
+            onSignUpError(Constants.INVALID_LOGIN_INPUT);
+            return;
+        }
+
+        //Start a new signupasynctask to send the valid data to the server and create a new account
         SignupAsyncTask signupAsyncTask = new SignupAsyncTask(this);
         signupAsyncTask.signupAsyncInterface = this;
-        signupAsyncTask.execute(signupURL, email, password, name, this);
+        signupAsyncTask.execute(Constants.SIGNUP_URL, email, password, name, this);
 
     }
 
@@ -90,7 +94,7 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
 
         //TODO:Save user data after correct login
 
-        userData = getSharedPreferences(PREFS_NAME, 0);
+        userData = getSharedPreferences(Constants.PREFS_NAME, 0);
         SharedPreferences.Editor editor = userData.edit();
         editor.putString("userName", name);
         editor.putString("userMail", email);
@@ -102,12 +106,15 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
         Log.v(TAG, "Login saved "+name+" --- usermail: "+email+" --- userpass: "+password);
     }
 
-    public boolean validate() {
+    /**
+     * Check whether the user data is valid and return the according boolean value
+     * @param name The new user name
+     * @param email The new user email
+     * @param password The new user password
+     * @return
+     */
+    public boolean validate(String name, String email, String password) {
         boolean valid = true;
-
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("at least 3 characters");
@@ -133,17 +140,31 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
         return valid;
     }
 
+    /**
+     * If the account is created successfully
+     * save the user data locally and
+     * finish the activity with result = OK.
+     */
     @Override
-    public void onSignUpSuccess(String name, String email, String password) {
-        _signupButton.setEnabled(true);
+    public void onSignUpSuccess(String email, String password) {
+        userData = getSharedPreferences(Constants.PREFS_NAME, 0);
+        SharedPreferences.Editor editor = userData.edit();
+        editor.putString("userMail", email);
+        editor.putString("userPass", password);
+
+        editor.commit();
+
         setResult(RESULT_OK, null);
         finish();
     }
 
+    /**
+     * If the account creation failed
+     * show an error toast.
+     * @param error
+     */
     @Override
     public void onSignUpError(String error) {
         Toast.makeText(getBaseContext(), error, Toast.LENGTH_LONG).show();
-
-        _signupButton.setEnabled(true);
     }
 }
