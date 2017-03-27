@@ -46,6 +46,18 @@ def add_actor(request, id):
 			print("No user with email %s" % a)
 	return HttpResponse(status=204)
 
+@require_POST
+@login_required()
+def add_actor_to_group(request, id):
+	actors = request.POST.getlist('actors')
+	for a in actors:
+		try:
+			actor = Actor.objects.get(email=a)
+			Participation.objects.create(actor=actor, appointment=Appointment.objects.get(id=id))
+		except Actor.DoesNotExist:
+			print("No user with email %s" % a)
+	return HttpResponse(status=204)
+
 class AppointmentViewSet(viewsets.ModelViewSet):
 	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoObjectPermissions]
 	required_scopes = ['read', 'write']

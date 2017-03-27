@@ -46,7 +46,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-	members = ActorSerializer(many=True)
+	members = ActorNestedSerializer(many=True, read_only=True)
 
 	class Meta:
 		model = Group
