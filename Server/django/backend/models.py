@@ -38,6 +38,13 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	def get_name(self):
 		return self.email
 
+class Group(models.Model):
+	name = models.CharField(max_length=150)
+	members = models.ManyToManyField(Actor)
+
+	def __str__(self):
+		return self.name
+
 class Appointment(models.Model):
 	# Name of the Appointment
 	name = models.CharField(max_length=150)
@@ -75,8 +82,8 @@ class Participation(models.Model):
 
 	actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
-	answer = models.CharField(choices=answer_choices, max_length=1)
-	is_necessary = models.BooleanField()
+	answer = models.CharField(choices=answer_choices, max_length=1, default='p')
+	is_necessary = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.appointment.__str__() + ' - ' + self.actor.__str__()

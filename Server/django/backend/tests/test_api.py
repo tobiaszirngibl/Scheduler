@@ -1,12 +1,16 @@
-import json
+"""import json
 
 from django.test import TestCase
 
-from backend.models import Appointment
+from backend.models import Actor, Appointment
 
 
 class AppointmentAPITest(TestCase):
 	base_url = '/api/appointment/{}/'
+
+	def setUp(self):
+		Actor.objects.create_user('a@b.com', 'pw1')
+		self.client.login(email='a@b.com', password='pw1')
 
 	def test_get_returns_JSON(self):
 		app = Appointment.objects.create()
@@ -24,3 +28,4 @@ class AppointmentAPITest(TestCase):
 			'"name":"first"',
 			response.content.decode('utf8')
 		)
+"""
