@@ -53,7 +53,8 @@ def add_actor_to_group(request, id):
 	for a in actors:
 		try:
 			actor = Actor.objects.get(email=a)
-			Participation.objects.create(actor=actor, appointment=Appointment.objects.get(id=id))
+			group = Group.objects.get(id=id)
+			group.members.add(actor)
 		except Actor.DoesNotExist:
 			print("No user with email %s" % a)
 	return HttpResponse(status=204)
