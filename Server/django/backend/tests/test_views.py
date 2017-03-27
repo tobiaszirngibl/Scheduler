@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from backend.models import Actor, Appointment, Participation
+from backend.models import Actor, Appointment, Group, Participation
 
 
 class AppointmentResponseTest(TestCase):
@@ -54,3 +54,19 @@ class AddActorToAppointmentTest(TestCase):
 		Actor.objects.create_user('a@d.com', 'pw1')
 		self.client.post(self.base_url, {'actors': ['a@c.com', 'a@d.com']})
 		self.assertEquals(Participation.objects.all().count(), 2)
+
+class AddActorToGroupTest(TestCase):
+	base_url = '/api/group/1/addActors'
+
+	def setUp(self):
+		Group.objects.create(name='test')
+		actor = Actor.objects.create_user('a@b.com', 'pw1')
+
+		self.client.login(email='a@b.com', password='pw1')
+
+	def test_post_creates_membership(self):
+		Actor.objects.create_user('a@c.com', 'pw1')
+		Actor.objects.create_user('a@d.com', 'pw1')
+		self.client.post(self.base_url, {'actors': ['a@c.com', 'a@d.com']})
+		group = Group.objects.first()
+		self.assertEquals(group.members.all().count(), 2)

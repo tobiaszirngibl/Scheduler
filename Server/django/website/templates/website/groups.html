@@ -60,66 +60,18 @@
               <div class="box-group" id="accordion">
                 <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
                 <div class="panel box box-warning">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-Theatergruppe
-                        </a>
-                    </h4>
-                          <button type="button" class="leaveGroup btn btn-warning btn-sm pull-right" ><span class="ion-close-circled"> </span></button>
-                      
-                       <button type="button" class="delGroup btn btn-danger btn-sm pull-right"><span class="ion-trash-b"> </span></button>
-                        
-                       
-                     
-                  </div>
-                  <div id="collapseOne" class="panel-collapse collapse">
-                    <div class="box-body">
-                      <b>Mitglieder:</b>
-                        <br>
-                        <a class="withPointer" onclick="javascript:OpenModal();">25</a>
-                        <br>
-                        <b>Status:</b>
-                        <br>
-                        Ersteller
-                        <br>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel box box-danger">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-Uni-Gruppe                     </a>
-                    </h4>
-                      <button type="button" class="leaveGroup btn btn-warning btn-sm pull-right"><span class="ion-close-circled"> </span></button>
-                        
-                  </div>
-                  <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="box-body">
-                  <b>Mitglieder:</b>
-                        <br>
-                        <a class="withPointer" onclick="javascript:OpenModal();">12</a>
-                        <br>
-                        <b>Status:</b>
-                        <br>
-                        Mitglied
-                        <br>
-                    </div>
-                  </div>
-                </div>
-              </div>
-                
-            </div>
 
+                <ul id="groupList"></ul>
                   </div>
                   
                   
                   
                   
           </div>
+            </div>
+             </div>
              
-          
+              </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_2">
                <div id="eventView">
@@ -227,18 +179,14 @@ Party-Gruppe                    </a>
                     <div class="modal-body">
                             <div class="form-group">
                                 <label>Name:</label>
-                            <input type="text" class="form-control" placeholder="Enter..."></input>
+                            <input id="groupTitle" type="text" class="form-control" placeholder="Enter..."></input>
                             </div>
                       
                      
                      
                         <div class="form-group">
-                            <label>Benutzer auswählen:</label>
+                            <label>Benutzer auswählen (Mehrfachauswahl):</label>
                             <select id="userList" multiple class="form-control">
-                                <option>Tobias</option>
-                                <option>Mathias</option>
-                                <option>Igor</option>
-                                <option>Gabriel</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -248,7 +196,7 @@ Party-Gruppe                    </a>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                        <button id="saveEvent" type="button" class="btn btn-primary">Speichern</button>
+                        <button id="saveGroup" type="button" class="btn btn-primary">Speichern</button>
                     </div>
                 </div>
             </div>
@@ -346,6 +294,42 @@ Party-Gruppe                    </a>
 {% endblock %}
 {% block calFunc %}
 
+      $(function () {
+
+      var csrftoken = $.cookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+var groups = [];
+
+
+       $.ajax({
+
+    type: "GET",
+    url: "http://localhost:8000/api/group/",
+    success: function(data)
+      {
+      for (var key in data) {
+          var group = {
+              title: data[key].name
+          }
+          groups.push(group);
+       $("#groupList").append('<h4 id="groupList'+key+'">'+group.title+'</h4><br><br><hr>');
+
+          }
+      }
+      });
     
     $('.delGroup').tooltip({
     'show': true,
@@ -388,8 +372,84 @@ Party-Gruppe                    </a>
     
       $("#addNewGroup").click(function (e){
             e.preventDefault();
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8000/api/actor/",
+            success: function(data)
+                {
+                    for (var key in data) {
+                        if(data[key].first_name ==  "" && data[key].last_name == "") {
+                            var actorName = "Kein Name angegeben";
+                        }
+                        else {
+                            var actorName = data[key].first_name + " " + data[key].last_name;
+                        }
+                    var actorEmail = data[key].email;
+                    $('#userList').append('<option>'+actorEmail+' - ' + actorName +'</option>');
+                    }
+                }
+        });
+
             $('#addGroupModal').modal('show');
     });
+
+
+        $("#saveGroup").click(function (e){
+var title = $("#groupTitle").val();
+ var memberList = [
+                        {"id": 1, "email": "a@b.com"},
+                        {"id": 2, "email": "a@c.com"}
+                    ];
+
+      console.log(memberList);
+var formData = {name: title};
+
+$.ajax({
+
+    url : "http://localhost:8000/api/group/",
+    type: "POST",
+
+
+    data : formData,
+    success: function(data, textStatus, jqXHR)
+    {
+
+
+                $.ajax({
+                        url : "http://localhost:8000/api/appointment/4/addActors/",
+                        type: "POST",
+
+                        data : "{members: ['a@b.com']}",
+                        success: function(data, textStatus, jqXHR)
+                        {
+                           console.log(jqXHR);
+                console.log(textStatus);
+                console.log(data);
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                    console.log(jqXHR);
+                        }
+                    });
+
+
+
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+console.log(jqXHR);
+    }
+});
+        });
+
+
+
+
+
+
+
     
     $(".yesGroup").click(function (e){
         
@@ -401,4 +461,6 @@ Party-Gruppe                    </a>
             e.preventDefault();
             $('#declineGroup').modal('show');
     });
+
+      });
     {% endblock %}

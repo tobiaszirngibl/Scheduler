@@ -32,4 +32,5 @@ urlpatterns = [
 	url(r'^', include(router.urls)),
 	url(r'appointment/(\d+)/addActors', views.add_actor, name='add_actor'),
 	url(r'appointment/(\d+)/response', views.appointment_response ,name='appointment_response'),
+	url(r'group/(\d+)/addActors', views.add_actor_to_group, name='add_group_actor')
 ]
