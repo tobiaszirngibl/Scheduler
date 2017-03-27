@@ -43,12 +43,20 @@ INSTALLED_APPS = [
     'website',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # Temporarily commented out for ease of use
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -132,8 +140,7 @@ LOGIN_URL = '/login/'
 # OAuth provider
 OAUTH2_PROVIDER = {
 	# this is the list of available scopes
-	'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'appointment': 'Access to all appointments',
-	           'actor':'Access to all actors'}
+	'SCOPES': {'read': 'Read scope', 'write': 'Write scope',}
 }
 
 # REST-Framwork

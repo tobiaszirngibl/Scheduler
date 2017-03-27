@@ -20,9 +20,17 @@ class ActorSerializer(serializers.ModelSerializer):
 
 		return user
 
+class ActorNestedSerializer(serializers.ModelSerializer):
+	"""
+	Serializer for the Actor-model containing only necessary fields
+	"""
+	class Meta:
+		model = Actor
+		fields = ('id', 'email',)
+		read_only_fields = ('id', )
 
 class AppointmentSerializer(serializers.ModelSerializer):
-	participants = ActorSerializer(many=True)
+	participants = ActorNestedSerializer(many=True, read_only=True)
 
 	class Meta:
 		model = Appointment
@@ -32,8 +40,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
 		for key, value in validated_data.items():
 			if key != 'participants':
 				setattr(instance, key, value)
+
 		instance.save()
 		return instance
+
 
 class GroupSerializer(serializers.ModelSerializer):
 	members = ActorSerializer(many=True)

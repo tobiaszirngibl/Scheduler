@@ -14,16 +14,16 @@ from .serializers import AppointmentSerializer, ActorSerializer, GroupSerializer
 
 
 @require_POST  # only accessible by POST-requests AND
-#@protected_resource()  # OAuth-token OR
 @login_required()  # Django-login
 def appointment_response(request, id):
 	if 'answer' in request.POST:  # POST contains correct key
 		answer = request.POST['answer']
 		try:  # fitting participation in database
 			entry = Participation.objects.get(appointment__id= id, actor=request.user)
-			if answer == 'yes':  # checks value of answer
+
+			if answer.lower() == 'yes':  # checks value of answer
 				entry.answer = 'y'
-			elif answer == 'no':
+			elif answer.lower() == 'no':
 				entry.answer = 'n'
 			else:
 				return HttpResponseBadRequest('answer may only be "yes" or "no"')
@@ -35,7 +35,6 @@ def appointment_response(request, id):
 		return HttpResponseBadRequest('Post did not contain key "answer"')
 
 @require_POST  # only accessible by POST-requests AND
-#@protected_resource()  # OAuth-token OR
 @login_required()  # Django-login
 def add_actor(request, id):
 	actors = request.POST.getlist('actors')
@@ -44,13 +43,12 @@ def add_actor(request, id):
 			actor = Actor.objects.get(email=a)
 			Participation.objects.create(actor=actor, appointment=Appointment.objects.get(id=id))
 		except Actor.DoesNotExist:
-			pass
+			print("No user with email %s" % a)
 	return HttpResponse(status=204)
 
 class AppointmentViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoModelPermissions]
-	#required_scopes = ['appointment']
-	#queryset = Appointment.objects.all()
+	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoObjectPermissions]
+	required_scopes = ['read', 'write']
 	serializer_class = AppointmentSerializer
 
 	def get_queryset(self):
@@ -58,14 +56,16 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 		return Appointment.objects.filter(participants__id__exact = user.id )
 
 class ActorViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoModelPermissions]
-	#required_scopes = ['actor']
+	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoObjectPermissions]
+	required_scopes = ['read', 'write']
 	queryset = Actor.objects.all()
 	serializer_class = ActorSerializer
 
 class GroupViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoModelPermissions]
+	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoObjectPermissions]
+	required_scopes = ['read', 'write']
 	serializer_class = GroupSerializer
+
 
 	def get_queryset(self):
 		user = self.request.user
