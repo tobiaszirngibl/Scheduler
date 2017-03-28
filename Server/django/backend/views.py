@@ -15,19 +15,27 @@ from .serializers import AppointmentSerializer, ActorSerializer, GroupSerializer
 
 # Create your views here.
 
+<<<<<<< HEAD
+
+
+=======
 @csrf_exempt
+>>>>>>> origin/Beta-Release
 @require_POST  # only accessible by POST-requests AND
 @login_required()  # Django-login
 def appointment_response(request, id):
 	if 'answer' in request.POST:  # POST contains correct key
 		answer = request.POST['answer']
 		try:  # fitting participation in database
-			entry = Participation.objects.get(appointment__id= id, actor=request.user)
+			#entry = Participation.objects.get(appointment__id= id, actor=request.user)
+			entry = Participation.objects.create(actor=request.user, appointment=Appointment.objects.get(id=id))
 
 			if answer.lower() == 'yes':  # checks value of answer
 				entry.answer = 'y'
 			elif answer.lower() == 'no':
 				entry.answer = 'n'
+			elif answer.lower() == "pending":
+				entry.answer = "p"
 			else:
 				return HttpResponseBadRequest('answer may only be "yes" or "no"')
 			entry.save()  # updates participation-object
