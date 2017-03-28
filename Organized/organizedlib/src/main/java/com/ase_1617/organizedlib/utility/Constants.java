@@ -6,8 +6,8 @@ package com.ase_1617.organizedlib.utility;
 
 public interface Constants {
 
-    String SERVER_URL_BASE = "http://192.168.2.102";
-    //String SERVER_URL_BASE = "http://188.192.254.130";
+    //String SERVER_URL_BASE = "http://132.199.186.84";
+    String SERVER_URL_BASE = "http://132.199.204.7";
     String TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
     String SIGNUP_URL = SERVER_URL_BASE + ":8000/api/actor/";
     String FEEDBACK_URL_START = SERVER_URL_BASE + ":8000/api/appointment/";
