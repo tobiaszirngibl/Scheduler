@@ -59,6 +59,7 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
             int responseCode = urlConnection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 serverResponse = readStream(urlConnection.getInputStream());
+                Log.v(TAG, serverResponse);
             }else{
                 Log.v(TAG, "Error: "+urlConnection.getResponseCode() + " --- " + urlConnection.getResponseMessage());
             }
@@ -66,6 +67,7 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
             //Create a JSON Object from the server response
             try {
                 jsonArray = new JSONArray(serverResponse);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

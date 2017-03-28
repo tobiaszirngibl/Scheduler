@@ -2,8 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest, HttpResponseServerError, HttpResponse
 from django.views.decorators.http import require_POST
 
-from django.views.decorators.csrf import csrf_exempt
-
 from oauth2_provider.decorators import protected_resource
 from oauth2_provider.ext.rest_framework import IsAuthenticatedOrTokenHasScope
 from rest_framework.permissions import AllowAny
@@ -15,12 +13,6 @@ from .serializers import AppointmentSerializer, ActorSerializer, GroupSerializer
 
 # Create your views here.
 
-<<<<<<< HEAD
-
-
-=======
-@csrf_exempt
->>>>>>> origin/Beta-Release
 @require_POST  # only accessible by POST-requests AND
 @login_required()  # Django-login
 def appointment_response(request, id):
@@ -28,7 +20,7 @@ def appointment_response(request, id):
 		answer = request.POST['answer']
 		try:  # fitting participation in database
 			#entry = Participation.objects.get(appointment__id= id, actor=request.user)
-			entry = Participation.objects.create(actor=request.user, appointment=Appointment.objects.get(id=id))
+			entry = Participation.objects.get_or_create(actor=request.user, appointment=Appointment.objects.get(id=id))[0]
 
 			if answer.lower() == 'yes':  # checks value of answer
 				entry.answer = 'y'
@@ -81,7 +73,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 class ActorViewSet(viewsets.ModelViewSet):
 	permission_classes = [AllowAny]
-	required_scopes = ['read', 'write']
+	#required_scopes = ['read', 'write']
 	queryset = Actor.objects.all()
 	serializer_class = ActorSerializer
 

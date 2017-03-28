@@ -92,17 +92,9 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) server.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        connection.setDoOutput( true );
-        OutputStreamWriter osw = null;
-        try {
+            connection.setDoOutput( true );
+            OutputStreamWriter osw = null;
             osw = new OutputStreamWriter( connection.getOutputStream() );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             osw.write( data );
             osw.flush();
             responseCode = connection.getResponseCode();

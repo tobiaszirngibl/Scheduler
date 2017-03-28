@@ -5,6 +5,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.utility.Constants;
 import com.ase_1617.organizedlib.utility.JSONUtility;
@@ -23,6 +29,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class extending the AsyncTask class to fetch event data from the organized web server
@@ -70,13 +78,14 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
         String url = Constants.FEEDBACK_URL_START + eventId + Constants.FEEDBACK_URL_END;
 
         Log.v(TAG, "url: " + url);
-
+/*
         int responseCode = 0;
 
         String data = null;
         try {
             //data = URLEncoder.encode( "grant_type", "UTF-8" ) + "=" + URLEncoder.encode(GRANT_TYPE, "UTF-8" );
             data = URLEncoder.encode( "answer", "UTF-8" ) + "=" + URLEncoder.encode(answer, "UTF-8" );
+            //data = "{answer: yes}";
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -93,20 +102,14 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
         try {
             connection = (HttpURLConnection) server.openConnection();
             connection.setRequestProperty("Authorization", "Bearer " + accessToken);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        connection.setDoOutput( true );
-        OutputStreamWriter osw = null;
-        try {
+            connection.setDoOutput( true );
+            OutputStreamWriter osw = null;
             osw = new OutputStreamWriter( connection.getOutputStream() );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             osw.write( data );
             osw.flush();
             responseCode = connection.getResponseCode();
+            String response = connection.getResponseMessage();
+            Log.v(TAG, "Resüonse: "+response);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,11 +134,11 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.v(TAG, "response: "+response);
+            Log.v(TAG, "response 1: "+response);
         }
         else
         {
-            Log.v( "CatalogClient", "Response code:" + responseCode );
+            Log.v( "CatalogClient", "Response code innerhalb:" + responseCode );
             BufferedReader reader = null;
             try {
                 reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
@@ -153,11 +156,55 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.v( "CatalogClient", "Response code:" + response );
+            Log.v( "CatalogClient", "Response 2:" + response );
         }
-        Log.v( "CatalogClient", "Response code:" + responseCode );
+        Log.v( "CatalogClient", "Response code außerhalb:" + responseCode);
 
         progressDialog.dismiss();
+*/
+
+
+        //Create a new volley stringrequest, response and error listener
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.v(TAG, "Response: " + response);
+
+                        progressDialog.dismiss();
+                        //signupAsyncInterface.onSignUpSuccess(email, password);
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v(TAG, "Error: " + error);
+
+                        progressDialog.dismiss();
+                        //signupAsyncInterface.onSignUpError(error.toString());
+                    }
+                })
+        {
+            //Supply the necessary parameters
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("answer",answer);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Authorization","Bearer " + accessToken);
+                return params;
+            }
+        };
+
+        //Add the stringrequest to the volley requestqueue
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
 
         return true;
     }
