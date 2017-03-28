@@ -5,35 +5,29 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.3"
-    timestamp="1327336504088"
+    timestamp="2830541717854"
     token="-2943477035699153150"
-    verifier="COLD_SWAP_REQUESTED" >
+    verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="1066" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="648" />
     <task
         name="verifier"
-        duration="0" />
+        duration="48" />
+
+    <artifact
+        location="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/outputs/apk/app-debug.apk"
+        type="MAIN" />
 
     <build
-        timestamp="1199173879615"
-        verifier="FULL_BUILD_REQUESTED" >
-        <artifact
-            location="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/outputs/apk/app-debug.apk"
-            type="MAIN" />
-    </build>
-    <build
-        timestamp="1327336504088"
-        verifier="COLD_SWAP_REQUESTED" />
-    <build
-        timestamp="3438298570660"
+        timestamp="2830541717854"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/outputs/apk/app-debug.apk"

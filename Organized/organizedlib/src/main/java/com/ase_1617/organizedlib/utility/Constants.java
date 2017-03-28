@@ -6,9 +6,7 @@ package com.ase_1617.organizedlib.utility;
 
 public interface Constants {
 
-<<<<<<< HEAD
     String serverUrlBase = "http://132.199.203.75";
-=======
     //String SERVER_URL_BASE = "http://132.199.186.84";
     String SERVER_URL_BASE = "http://132.199.204.7";
     String TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
@@ -24,6 +22,4 @@ public interface Constants {
 
     String INVALID_LOGIN_INPUT = "Either email or password was invalid.";
 
-
->>>>>>> development
 }
