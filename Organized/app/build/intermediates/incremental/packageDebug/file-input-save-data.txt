@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Mar 28 10:31:42 CEST 2017
+#Tue Mar 28 10:38:49 CEST 2017
 210.set=DEX
 282.file=/home/bob/Android/Projects/Uni/ASE/ASE_WS1617_Terminabstimmung-1/Organized/app/build/intermediates/res/resources-debug.ap_/res/color-v23/abc_tint_btn_checkable.xml
 14.set=ANDROID_RESOURCE
