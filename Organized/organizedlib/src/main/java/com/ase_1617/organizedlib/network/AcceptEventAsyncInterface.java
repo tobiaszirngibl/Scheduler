@@ -12,4 +12,6 @@ import java.util.ArrayList;
 public interface AcceptEventAsyncInterface {
 
     void eventAccepted(Integer eventPosition);
+
+    void eventDeclined(Integer eventPosition);
 }

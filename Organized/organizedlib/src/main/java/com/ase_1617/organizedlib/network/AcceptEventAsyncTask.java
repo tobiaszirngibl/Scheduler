@@ -1,9 +1,12 @@
 package com.ase_1617.organizedlib.network;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.ase_1617.organizedlib.data.CalEvent;
+import com.ase_1617.organizedlib.utility.Constants;
 import com.ase_1617.organizedlib.utility.JSONUtility;
 
 import org.json.JSONArray;
@@ -14,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,14 +30,30 @@ import java.util.ArrayList;
 
 public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private final static String TAG = "AcceptEventAsyncTask";
+    private final static String GRANT_TYPE = "password";
+
     private Integer eventPosition = -1;
+    private String answer;
 
     public AcceptEventAsyncInterface acceptEventAsyncInterface = null;
+
+    Context context;
+
+    ProgressDialog progressDialog;
+
+    public AcceptEventAsyncTask(Context context){
+        this.context = context;
+    }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         Log.v(TAG, "PREEXECUTE");
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Submitting data...");
+        progressDialog.show();
     }
 
     /**
@@ -43,84 +63,103 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
      */
     @Override
     protected Boolean doInBackground(Object... urls) {
-        String serverResponse = "Not fetched";
-        String url = (String)urls[0];
-        Integer eventId = (Integer)urls[1];
-        eventPosition = (Integer)(urls[2]);
-        HttpURLConnection urlConnection = null;
+        final String accessToken = (String)urls[0];
+        final Integer eventId = (Integer)urls[1];
+        eventPosition = (Integer)urls[2];
+        answer = (String)urls[3];
+        String url = Constants.FEEDBACK_URL_START + eventId + Constants.FEEDBACK_URL_END;
 
-        Log.v(TAG, "DOIN");
+        Log.v(TAG, "url: " + url);
 
+        int responseCode = 0;
+
+        String data = null;
         try {
-            //Create the URL
-            URL eventURL = new URL(url);
+            //data = URLEncoder.encode( "grant_type", "UTF-8" ) + "=" + URLEncoder.encode(GRANT_TYPE, "UTF-8" );
+            data = URLEncoder.encode( "answer", "UTF-8" ) + "=" + URLEncoder.encode(answer, "UTF-8" );
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
-            //Establish the HTTP connection
-            urlConnection = (HttpURLConnection) eventURL.openConnection();
+        Log.v(TAG, "data: "+data);
 
-            //Set the request mode to post
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setRequestProperty("Key","Value");
-            urlConnection.setDoOutput(true);
-
-            //Gather the POST data
-            String data = URLEncoder.encode("eventId", "UTF-8")
-                    + "=" + URLEncoder.encode(Integer.toString(eventId), "UTF-8");
-
-            data += "&" + URLEncoder.encode("userName", "UTF-8") + "="
-                    + URLEncoder.encode("BeispielNutzer", "UTF-8");
-
-            //Send the POST data request
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(urlConnection.getOutputStream());
-            outputStreamWriter.write( data );
-            outputStreamWriter.flush();
-
-            //Check the http response code
-            int responseCode = urlConnection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                serverResponse = readStream(urlConnection.getInputStream());
-                Log.v(TAG, "Server response: "+serverResponse);
-            }
-
+        URL server = null;
+        try {
+            server = new URL( url );
         } catch (MalformedURLException e) {
             e.printStackTrace();
+        }
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) server.openConnection();
+            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            return true;
         }
-    }
-
-    /**
-     * Read the input stream and return the String result
-     * @param inputStream
-     * @return
-     */
-    private static String readStream(InputStream inputStream) {
-        BufferedReader bufferedReader = null;
-        StringBuffer response = new StringBuffer();
-
-        try{
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = "";
-            while((line = bufferedReader.readLine()) != null){
-                response.append(line);
-            }
-        }catch(IOException e){
+        connection.setDoOutput( true );
+        OutputStreamWriter osw = null;
+        try {
+            osw = new OutputStreamWriter( connection.getOutputStream() );
+        } catch (IOException e) {
             e.printStackTrace();
-        }finally{
-            if(bufferedReader != null){
-                try{
-                    bufferedReader.close();
-                }catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
         }
-        return response.toString();
+        try {
+            osw.write( data );
+            osw.flush();
+            responseCode = connection.getResponseCode();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if( responseCode == HttpURLConnection.HTTP_OK)
+        {
+
+            BufferedReader reader = null;
+            try {
+                reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            StringBuffer response = new StringBuffer();
+            String line = "";
+            try {
+                while( ( line = reader.readLine() ) != null )
+                {
+                    response.append( line );
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.v(TAG, "response: "+response);
+        }
+        else
+        {
+            Log.v( "CatalogClient", "Response code:" + responseCode );
+            BufferedReader reader = null;
+            try {
+                reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            StringBuffer response = new StringBuffer();
+            String line = "";
+            try {
+                while( ( line = reader.readLine() ) != null )
+                {
+                    response.append( line );
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.v( "CatalogClient", "Response code:" + response );
+        }
+        Log.v( "CatalogClient", "Response code:" + responseCode );
+
+        progressDialog.dismiss();
+
+        return true;
     }
 
     /**
@@ -128,6 +167,10 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
      * @param result
      */
     protected void onPostExecute(Boolean result) {
-        acceptEventAsyncInterface.eventAccepted(eventPosition);
+        if(answer.equals("yes")){
+            acceptEventAsyncInterface.eventAccepted(eventPosition);
+        }else{
+            acceptEventAsyncInterface.eventDeclined(eventPosition);
+        }
     }
 }

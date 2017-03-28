@@ -30,7 +30,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class extending the AsyncTask class to fetch event data from the organized web server
+ * Class extending the AsyncTask class to send user data to the web server
+ * and create a new oganized account.
  */
 
 public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
@@ -49,8 +50,8 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Log.v(TAG, "PREEXECUTE");
 
+        //Show a progressdialog before starting to send the user data
         progressDialog = new ProgressDialog(context);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
@@ -58,19 +59,22 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
     }
 
     /**
-     * Send the new user data to the server using HTTP POST.
+     * Send the new user data to the server using volley stringrequest.
      * @param urls
      * @return
      */
     @Override
     protected Boolean doInBackground(Object... urls) {
+
+        //Fetch the url and user data
         String url = (String)urls[0];
         final String email = (String)urls[1];
         final String password = (String)urls[2];
         final String name = (String)urls[3];
 
-        Log.v(TAG, "DOIN"+url+email+password+name);
+        Log.v(TAG, "Send signup: url+email+password+name --- "+url+email+password+name);
 
+        //Create a new volley stringrequest, response and error listener
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -78,7 +82,7 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
                         Log.v(TAG, "Response: " + response);
 
                         progressDialog.dismiss();
-                        signupAsyncInterface.onSignUpSuccess(name, email, password);
+                        signupAsyncInterface.onSignUpSuccess(email, password);
                     }
                 },
                 new Response.ErrorListener() {
@@ -92,6 +96,7 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
                     }
                 })
         {
+            //Supply the necessary parameters
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
@@ -104,6 +109,7 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
             }
         };
 
+        //Add the stringrequest to the volley requestqueue
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
 
