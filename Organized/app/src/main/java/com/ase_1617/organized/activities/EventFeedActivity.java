@@ -2,6 +2,7 @@ package com.ase_1617.organized.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,8 +56,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     private ArrayList<CalEvent> eventFeedList = new ArrayList<>();
     private ArrayList<CalEvent> eventDeviceList = new ArrayList<>();
 
-    private String newEventsUrl = Constants.serverUrlBase + ":8000/api/appointment/";
-    private String acceptEventsUrl = Constants.serverUrlBase + ":8000/api/appointment/";
+    private String newEventsUrl = Constants.SERVER_URL_BASE + ":8000/api/appointment/";
     private String accessToken;
 
     private SharedPreferences.Editor editor;
@@ -289,17 +289,17 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         String collEventsString = getCollEventsInfo(event);
         final Integer eventId = event.getEventId();
 
+        final Context context = this;
+
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Accept event?")
                 .setMessage(MiscUtility.calEventToInfo(event) + "\n" + collEventsString)
                 .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask();
+                        AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask(context);
                         acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
-                        acceptEventAsyncTask.execute(acceptEventsUrl, eventId, position);
-
-                        EventUtility.addOrganizedEvent(activity, event);
+                        acceptEventAsyncTask.execute(accessToken, eventId, position, "yes");
                     }
                 })
                 .setNegativeButton("Decline", null)
@@ -309,6 +309,17 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
 
     @Override
     public void eventAccepted(Integer eventPosition) {
+        CalEvent event = (CalEvent)eventFeedList.get(eventPosition);
+
+        EventUtility.addOrganizedEvent(this, event);
+
+        removeEventFromFeed(eventPosition);
+    }
+
+    @Override
+    public void eventDeclined(Integer eventPosition) {
+        CalEvent event = (CalEvent)eventFeedList.get(eventPosition);
+
         removeEventFromFeed(eventPosition);
     }
 
@@ -355,6 +366,10 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      */
     private void showEventDeclineAlert(final CalEvent event, final int position) {
 
+        final Context context = this;
+        final AcceptEventAsyncInterface acceptEventAsyncInterface = this;
+        final Integer eventId = event.getEventId();
+
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Decline event?")
                 .setMessage(MiscUtility.calEventToInfo(event))
@@ -362,7 +377,10 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.v(TAG, "Event declined: " + event.getEventName());
-                        removeEventFromFeed(position);
+
+                        AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask(context);
+                        acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
+                        acceptEventAsyncTask.execute(accessToken, eventId, position, "no");
                     }
                 })
                 .setNegativeButton("Back", null)

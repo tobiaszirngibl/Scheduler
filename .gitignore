@@ -1,1 +1,4 @@
 .idea
+Server/django/db.sqlite3
+Organized/build
+Organized/app/build
