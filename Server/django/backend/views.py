@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest, HttpResponseServerError, HttpResponse
 from django.views.decorators.http import require_POST
 
+from django.views.decorators.csrf import csrf_exempt
+
 from oauth2_provider.decorators import protected_resource
 from oauth2_provider.ext.rest_framework import IsAuthenticatedOrTokenHasScope
 from rest_framework.permissions import AllowAny
@@ -13,7 +15,7 @@ from .serializers import AppointmentSerializer, ActorSerializer, GroupSerializer
 
 # Create your views here.
 
-
+@csrf_exempt
 @require_POST  # only accessible by POST-requests AND
 @login_required()  # Django-login
 def appointment_response(request, id):

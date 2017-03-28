@@ -6,5 +6,5 @@ package com.ase_1617.organizedlib.utility;
 
 public interface Constants {
 
-    String serverUrlBase = "http://192.168.178.20";
+    String serverUrlBase = "http://132.199.203.75";
 }
