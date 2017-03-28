@@ -4,6 +4,7 @@ from django.views.decorators.http import require_POST
 
 from oauth2_provider.decorators import protected_resource
 from oauth2_provider.ext.rest_framework import IsAuthenticatedOrTokenHasScope
+from rest_framework.permissions import AllowAny
 
 from rest_framework import permissions, status,viewsets
 
@@ -69,7 +70,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 		return Appointment.objects.filter(participants__id__exact = user.id )
 
 class ActorViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoObjectPermissions]
+	permission_classes = [AllowAny]
 	required_scopes = ['read', 'write']
 	queryset = Actor.objects.all()
 	serializer_class = ActorSerializer

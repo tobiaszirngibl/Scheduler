@@ -86,7 +86,7 @@
                   <div class="box-header with-border">
                     <h4 class="box-title">
                       <a class="groupInviteName" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-Essensgruppe
+Theatergruppe
                         </a>
                     </h4>
                       
@@ -107,7 +107,7 @@ Essensgruppe
                   <div class="box-header with-border">
                     <h4 class="box-title">
                       <a class="groupInviteName" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-Party-Gruppe                    </a>
+Regensburg-Gruppe                    </a>
                     </h4>
                       <button type="button" class="noGroup btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>
                           <button type="button" class="yesGroup btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button>
@@ -186,12 +186,12 @@ Party-Gruppe                    </a>
                      
                         <div class="form-group">
                             <label>Benutzer auswählen (Mehrfachauswahl):</label>
-                            <select id="userList" multiple class="form-control">
+                            <select id="userList" multiple class="form-control" disabled>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Anmerkungen</label>
-                            <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                            <textarea class="form-control" rows="3" placeholder="Enter ..." disabled></textarea>
                         </div>  
                     </div>
                     <div class="modal-footer">
@@ -321,11 +321,17 @@ var groups = [];
     success: function(data)
       {
       for (var key in data) {
+            console.log(data);
+
+      var countMember = data[key].members.length;
+      console.log(countMember);
           var group = {
-              title: data[key].name
+              title: data[key].name,
+                count: countMember
+
           }
           groups.push(group);
-       $("#groupList").append('<h4 id="groupList'+key+'">'+group.title+'</h4><br><br><hr>');
+       $("#groupList").append('<h4 id="groupList'+key+'">'+group.title+'<br>Mitglieder: '+group.count+'</h4><hr>');
 
           }
       }
@@ -415,8 +421,9 @@ $.ajax({
     success: function(data, textStatus, jqXHR)
     {
 
+      // ID FEHLT NOCH!!
 
-                $.ajax({
+             /*   $.ajax({
                         url : "http://localhost:8000/api/appointment/4/addActors/",
                         type: "POST",
 
@@ -432,7 +439,7 @@ $.ajax({
                         {
                     console.log(jqXHR);
                         }
-                    });
+                    });*/
 
 
 
