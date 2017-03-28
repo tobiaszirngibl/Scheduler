@@ -872,10 +872,10 @@ $.ajax({
 
                 $.ajax({
 
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
+                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/response",
                         type: "POST",
 
-                        data : "{answer: yes}",
+                        data : {"answer": "pending"},
                         success: function(data, textStatus, jqXHR)
                         {
                            console.log(jqXHR);
