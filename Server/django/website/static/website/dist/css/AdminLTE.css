@@ -4958,3 +4958,6 @@ table.text-center th {
   cursor: pointer !important;
 }
 
+.chzn-select {
+  max-height: 100px;
+}

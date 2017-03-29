@@ -199,14 +199,14 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
-                                    <input type="text" class="form-control" id="reservationtime" disabled>
+                                    <input type="text" class="form-control" id="reservationtime" >
                                 </div>
                         </div>
                         <div class="bootstrap-timepicker">
                             <div class="form-group">
                                 <label>Beginn:</label>
                                 <div class="input-group">
-                                    <input id="startTime" type="text" class="form-control timepicker" disabled>
+                                    <input id="startTime" type="text" class="form-control timepicker" >
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
@@ -217,7 +217,7 @@
                             <div class="form-group">
                                 <label>Ende:</label>
                                 <div class="input-group">
-                                    <input id="endTime" type="text" class="form-control timepicker" disabled>
+                                    <input id="endTime" type="text" class="form-control timepicker" >
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
@@ -226,13 +226,13 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <input id="allDay" type="checkbox" class="minimal" disabled>
+                                <input id="allDay" type="checkbox" class="minimal" >
                                 Ganztägig
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Gruppe auswählen:</label>
-                            <select class="form-control" disabled>
+                            <select id="groupList" class="chzn-select">
                                 <option>Theater Gruppe</option>
                                 <option>Abteilung 1</option>
                                 <option>Regensburg</option>
@@ -241,13 +241,13 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <input id="user" type="checkbox" class="minimal" disabled>
+                                <input id="user" type="checkbox" class="minimal" >
                                 Benutzer auswählen
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Benutzer auswählen:</label>
-                            <select id="userList" multiple class="form-control" disabled>
+                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
                             </select>
                         </div>
                         <div class="form-group">
@@ -284,14 +284,14 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
-                                    <input type="text" class="form-control" id="reservationtimeEditPut" disabled>
+                                    <input type="text" class="form-control" id="reservationtimeEditPut" >
                                 </div>
                         </div>
                         <div class="bootstrap-timepicker">
                             <div class="form-group">
                                 <label>Beginn:</label>
                                 <div class="input-group">
-                                    <input id="startTimeEditPut" type="text" class="form-control timepicker" disabled>
+                                    <input id="startTimeEditPut" type="text" class="form-control timepicker" >
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
@@ -302,7 +302,7 @@
                             <div class="form-group">
                                 <label>Ende:</label>
                                 <div class="input-group">
-                                    <input id="endTimeEditPut" type="text" class="form-control timepicker" disabled>
+                                    <input id="endTimeEditPut" type="text" class="form-control timepicker" >
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
@@ -311,7 +311,7 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <input id="allDayEditPut" type="checkbox" class="minimal" disabled>
+                                <input id="allDayEditPut" type="checkbox" class="minimal" >
                                 Ganztägig
                             </label>
                         </div>
@@ -326,13 +326,13 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <input id="userEditPut" type="checkbox" class="minimal" disabled>
+                                <input id="userEditPut" type="checkbox" class="minimal" >
                                 Benutzer auswählen
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Benutzer auswählen:</label>
-                            <select id="userListEditPut" multiple class="form-control" disabled>
+                            <select id="userListEditPut" multiple class="form-control" >
                             </select>
                         </div>
                         <div class="form-group">
@@ -364,7 +364,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">Neuer Termin</h4>
+                        <h4 id="dropEventTitle" class="modal-title"></h4>
                     </div>
                     <div class="modal-body">
                         <div class="bootstrap-timepicker">
@@ -412,7 +412,7 @@
                         </div>
                         <div class="form-group">
                             <label>Benutzer auswählen:</label>
-                            <select id="userList" multiple class="form-control" disabled>
+                            <select id="userList" multiple class="form-control" >
                                 <option>Tobias</option>
                                 <option>Mathias</option>
                                 <option>Igor</option>
@@ -426,7 +426,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                        <button id="saveEvent" type="button" class="btn btn-primary">Speichern</button>
+                        <button id="dropSaveEvent" type="button" class="btn btn-primary">Speichern</button>
                     </div>
                 </div>
             </div>
@@ -525,7 +525,16 @@
 {% endblock %}
 
 {% block calFunc %}
+
 $(function () {
+
+
+  $(".chzn-select").chosen({
+
+    width:"100%"
+});
+
+
 
                 var csrftoken = $.cookie('csrftoken');
 
@@ -579,14 +588,52 @@ var eventSentData = "";
         }
         $('#sendYes').click(function (e) {
             e.preventDefault();
-            console.log(eventSentData);
-            console.log("Hier dann api update/delete call mit " + eventSentData.id + " als appointment id");
+
+
+     $.ajax({
+
+                        url : "http://localhost:8000/api/appointment/"+eventSentData.id+"/response",
+                        type: "POST",
+
+                        data : {"answer": "yes"},
+                        success: function(data, textStatus, jqXHR)
+                        {
+   $('#acceptAppointment').modal('hide');
+
+                location.reload();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                    console.log(jqXHR);
+                        }
+                    });
+
 
         });
         $('#sendNo').click(function (e) {
             e.preventDefault();
-            console.log(eventSentData);
-            console.log("Hier dann api update/delete call mit " + eventSentData.id + " als appointment id");
+
+     $.ajax({
+
+                        url : "http://localhost:8000/api/appointment/"+eventSentData.id+"/response",
+                        type: "POST",
+
+                        data : {"answer": "no"},
+                        success: function(data, textStatus, jqXHR)
+                        {
+   $('#declineAppointment').modal('hide');
+
+                location.reload();
+
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                    console.log(jqXHR);
+                        }
+                    });
+
+
         });
 
         $("#appointmentCount").text(events.length);
@@ -725,23 +772,17 @@ var eventSentData = "";
 
       editable: true,
       droppable: true, // this allows things to be dropped onto the calendar !!!
-      drop: function (date, allDay) { // this function is called when something is dropped
+      drop: function () { // this function is called when something is dropped
+
+    var favoriteData = $(this).data('eventObject');
+    $('#dropEventTitle').text(favoriteData.title);
+
       $('#dropAppointment').modal('show');
-        // retrieve the dropped element's stored Event Object
-        var originalEventObject = $(this).data('eventObject');
 
-        // we need to copy it, so that multiple events don't have a reference to the same object
-        var copiedEventObject = $.extend({}, originalEventObject);
+ $(this).backgroundColor = $(this).css("background-color");
+        $(this).borderColor = $(this).css("border-color");
 
-        // assign it the date that was reported
-        copiedEventObject.start = date;
-        copiedEventObject.allDay = allDay;
-        copiedEventObject.backgroundColor = $(this).css("background-color");
-        copiedEventObject.borderColor = $(this).css("border-color");
 
-        // render the event on the calendar
-        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
         // is the "remove after drop" checkbox checked?
         if ($('#drop-remove').is(':checked')) {
@@ -833,7 +874,8 @@ var eventSentData = "";
                             var actorName = data[key].first_name + " " + data[key].last_name;
                         }
                     var actorEmail = data[key].email;
-                    $('#userList').append('<option>'+actorEmail+' - ' + actorName +'</option>');
+                    $('#userList').append('<option value='+actorEmail+'>'+actorEmail+' - ' + actorName +'</option>');
+      $("#userList").trigger("chosen:updated");
                     }
                 }
         });
@@ -842,15 +884,16 @@ var eventSentData = "";
     });
 
 
-    $("#saveEvent").click(function (e){
+
+       $("#dropSaveEvent").click(function (e){
 
 
 
-var title = $("#title").val();
+var title = $("#dropEventTitle").text();
+    console.log(title);
 var desc = $("#remark").val();
 
-var actors = ["a@b.com"];
-var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:"", participants: ["a@b.com"]};
+var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:""};
 $.ajax({
 
     url : "http://localhost:8000/api/appointment/",
@@ -867,7 +910,6 @@ $.ajax({
 
 
 
-        $('#appointment').modal('hide');
 
 
                 $.ajax({
@@ -878,9 +920,74 @@ $.ajax({
                         data : {"answer": "pending"},
                         success: function(data, textStatus, jqXHR)
                         {
-                           console.log(jqXHR);
-                console.log(textStatus);
-                console.log(data);
+   $('#dropAppointment').modal('hide');
+
+                location.reload();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown)
+                        {
+                    console.log(jqXHR);
+                        }
+                    });
+
+
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+console.log(jqXHR);
+    }
+});
+
+
+
+
+
+        });
+
+
+
+
+
+    $("#saveEvent").click(function (e){
+
+
+
+var title = $("#title").val();
+var desc = $("#remark").val();
+var users = $("#userList").val();
+
+var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:""};
+$.ajax({
+
+    url : "http://localhost:8000/api/appointment/",
+    type: "POST",
+
+
+    data : formData,
+    success: function(data, textStatus, jqXHR)
+    {
+
+                            var objectAppID = data.id;
+                console.log(objectAppID);
+
+
+
+                       //send actors
+
+
+                $.ajax({
+
+                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/response",
+                        type: "POST",
+
+                        data : {"answer": "pending"},
+                        success: function(data, textStatus, jqXHR)
+                        {
+                              //$('#appointment').modal('hide');
+console.log(data);
+console.log(jqXHR);
+
+              //  location.reload();
 
                         },
                         error: function (jqXHR, textStatus, errorThrown)
