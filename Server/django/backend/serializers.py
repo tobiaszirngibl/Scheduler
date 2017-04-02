@@ -45,10 +45,16 @@ class ParticipationSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
 	participants = ParticipationSerializer(source='participation_set', many=True, read_only=True)
 	will_take_place = serializers.ReadOnlyField()
+	own_answer = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Appointment
 		fields = '__all__'
+
+	def get_own_answer(self, obj):
+		user = self.context['request'].user
+		participation = Participation.objects.get(actor=user, appointment=obj)
+		return participation.answer
 
 	def update(self, instance, validated_data):
 		for key, value in validated_data.items():
