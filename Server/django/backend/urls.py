@@ -27,6 +27,7 @@ router = DefaultRouter()
 router.register(r'appointment', views.AppointmentViewSet, 'appointment')
 router.register(r'actor', views.ActorViewSet, 'actor')
 router.register(r'group', views.GroupViewSet, 'group')
+router.register(r'favorites', views.FavoriteViewSet, 'favorite')
 
 urlpatterns = [
 	url(r'^', include(router.urls)),

@@ -31,10 +31,11 @@ class AppointmentResponseTest(TestCase):
 		response = self.client.post(self.base_url, {'answer': 'wrong'}, )
 		self.assertEqual(response.status_code, 400)
 
-	def test_no_participation_returns_500(self):
+	def test_no_participation_creates_new_and_returns_204(self):
 		Participation.objects.first().delete()
-		response = self.client.post(self.base_url, {'answer': 'y'}, )
-		self.assertEqual(response.status_code, 500)
+		response = self.client.post(self.base_url, {'answer': 'yes'}, )
+		self.assertEqual(response.status_code, 204)
+		self.assertEqual(Participation.objects.count(), 1)
 
 	def test_post_updates_participation(self):
 		self.client.post(self.base_url, {'answer': 'yes'},)

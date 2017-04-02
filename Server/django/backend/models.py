@@ -40,7 +40,7 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 
 class Group(models.Model):
 	name = models.CharField(max_length=150)
-	members = models.ManyToManyField(Actor)
+	members = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
 	def __str__(self):
 		return self.name
@@ -50,12 +50,12 @@ class Appointment(models.Model):
 	# Name of the Appointment
 	name = models.CharField(max_length=150)
 	# Marks the start of the Appointment
-	date_begin = models.DateTimeField(blank=True, default=now)
+	dtstart = models.DateTimeField(blank=True, default=now)
 	# Marks the end of the Appointment
-	date_end = models.DateTimeField(blank=True, default=now)
+	dtend = models.DateTimeField(blank=True, default=now)
 	# All participants
 	participants = models.ManyToManyField(
-		Actor,
+		settings.AUTH_USER_MODEL,
 		through="Participation"	
 	)
 	# The town in which the Appointment will take place
@@ -65,14 +65,22 @@ class Appointment(models.Model):
 	# May require own model
 	location = models.CharField(max_length=100, blank=True)
 	# Description
-	description = models.TextField(blank=True)
+	summary = models.TextField(blank=True)
 	# Important notes for the participants
 	notes = models.TextField(blank=True)
 	# Timestamp used for marking last modification date
 	last_changed = models.DateTimeField(auto_now=True)
 
+	@property
+	def will_take_place(self):
+		for p in self.participation_set.all():
+			if p.answer == 'n':
+				return False
+		return True
+
 	def __str__(self):
 		return self.name
+
 
 
 class Participation(models.Model):
@@ -89,3 +97,10 @@ class Participation(models.Model):
 
 	def __str__(self):
 		return self.appointment.__str__() + ' - ' + self.actor.__str__()
+
+class Favorite(Appointment):
+	owner = models.OneToOneField(Actor, default='')
+	color = models.CharField(max_length=6)
+
+	def __str__(self):
+		return self.owner.__str__() + ' - ' + self.name

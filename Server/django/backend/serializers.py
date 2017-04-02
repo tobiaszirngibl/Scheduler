@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backend.models import Actor, Appointment, Group
+from backend.models import Actor, Appointment, Group, Participation
 
 
 class ActorSerializer(serializers.ModelSerializer):
@@ -26,14 +26,25 @@ class ActorNestedSerializer(serializers.ModelSerializer):
 	"""
 	Serializer for the Actor-model containing only necessary fields
 	"""
+
 	class Meta:
 		model = Actor
 		fields = ('id', 'email',)
 		read_only_fields = ('id', )
 
 
+class ParticipationSerializer(serializers.ModelSerializer):
+	id = serializers.ReadOnlyField(source='actor.id')
+	email = serializers.ReadOnlyField(source='actor.email')
+
+	class Meta:
+		model = Participation
+		fields = ('id', 'email', 'answer', 'is_necessary',)
+
+
 class AppointmentSerializer(serializers.ModelSerializer):
-	participants = ActorNestedSerializer(many=True, read_only=True)
+	participants = ParticipationSerializer(source='participation_set', many=True, read_only=True)
+	will_take_place = serializers.ReadOnlyField()
 
 	class Meta:
 		model = Appointment
@@ -54,3 +65,7 @@ class GroupSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Group
 		fields = '__all__'
+
+
+class FavoriteSerializer(AppointmentSerializer):
+	color = serializers.CharField()

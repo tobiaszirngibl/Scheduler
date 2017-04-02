@@ -5,8 +5,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Appointment, Actor, Group, Participation
-from .serializers import AppointmentSerializer, ActorSerializer, GroupSerializer
+from .models import Appointment, Actor, Favorite, Group, Participation
+from .serializers import AppointmentSerializer, ActorSerializer, FavoriteSerializer, GroupSerializer
 
 # Create your views here.
 
@@ -22,12 +22,14 @@ class AppointmentResponse(APIView):
 		if 'answer' in request.POST:  # POST contains correct key
 			answer = request.POST['answer']
 			try:  # fitting participation in database
-				entry = Participation.objects.get(appointment__id=id, actor=request.user)
+				entry = Participation.objects.get_or_create(actor=request.user, appointment=Appointment.objects.get(id=id))[0]
 
 				if answer.lower() == 'yes':  # checks value of answer
 					entry.answer = 'y'
 				elif answer.lower() == 'no':
 					entry.answer = 'n'
+				elif answer.lower() == 'pending':
+					entry.answer = 'p'
 				else:
 					return Response(data='answer may only be "yes" or "no"', status=status.HTTP_400_BAD_REQUEST)
 				entry.save()  # updates participation-object
@@ -100,3 +102,11 @@ class GroupViewSet(viewsets.ModelViewSet):
 	def get_queryset(self):
 		user = self.request.user
 		return Group.objects.filter(members__id__exact=user.id)
+
+class FavoriteViewSet(viewsets.ModelViewSet):
+	required_scopes = settings.REST_DEFAULT_SCOPES
+	serializer_class = FavoriteSerializer
+
+	def get_queryset(self):
+		user = self.request.user
+		return Favorite.objects.filter(owner=user)
