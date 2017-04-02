@@ -88,10 +88,9 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 
 class ActorViewSet(viewsets.ModelViewSet):
-	required_scopes = settings.REST_DEFAULT_SCOPES
+	permission_classes = (AllowAny)
 	queryset = Actor.objects.all()
 	serializer_class = ActorSerializer
-	permission_classes = (AllowAny)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
