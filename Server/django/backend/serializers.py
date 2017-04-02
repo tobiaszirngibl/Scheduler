@@ -1,13 +1,14 @@
 from rest_framework import serializers
 
-from backend.models import Actor, Appointment, Group, Participation
+from backend.models import Actor, Appointment, Group
+
 
 class ActorSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Actor
-		fields = ('id', 'email', 'password','first_name', 'last_name', 'bio',)
-		write_only_fields = ('password')
+		fields = ('id', 'email', 'password', 'first_name', 'last_name', 'bio',)
+		write_only_fields = ('password',)
 		read_only_fields = ('id',)
 
 	def create(self, validated_data):
@@ -20,6 +21,7 @@ class ActorSerializer(serializers.ModelSerializer):
 
 		return user
 
+
 class ActorNestedSerializer(serializers.ModelSerializer):
 	"""
 	Serializer for the Actor-model containing only necessary fields
@@ -28,6 +30,7 @@ class ActorNestedSerializer(serializers.ModelSerializer):
 		model = Actor
 		fields = ('id', 'email',)
 		read_only_fields = ('id', )
+
 
 class AppointmentSerializer(serializers.ModelSerializer):
 	participants = ActorNestedSerializer(many=True, read_only=True)
@@ -51,4 +54,3 @@ class GroupSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Group
 		fields = '__all__'
-

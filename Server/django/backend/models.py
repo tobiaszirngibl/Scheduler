@@ -16,7 +16,6 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	is_active = models.BooleanField(default=True)
 	bio = models.TextField(max_length=500, blank=True, null=True)
 
-
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = []
 
@@ -38,12 +37,14 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	def get_name(self):
 		return self.email
 
+
 class Group(models.Model):
 	name = models.CharField(max_length=150)
 	members = models.ManyToManyField(Actor)
 
 	def __str__(self):
 		return self.name
+
 
 class Appointment(models.Model):
 	# Name of the Appointment
@@ -73,8 +74,9 @@ class Appointment(models.Model):
 	def __str__(self):
 		return self.name
 
+
 class Participation(models.Model):
-	answer_choices=(
+	answer_choices = (
 		('y', 'Yes'),
 		('n', 'No'),
 		('p', 'Pending')

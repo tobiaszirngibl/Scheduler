@@ -1,11 +1,9 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseBadRequest, HttpResponseServerError, HttpResponse
-from django.views.decorators.http import require_POST
+from django.conf import settings
 
-from oauth2_provider.decorators import protected_resource
-from oauth2_provider.ext.rest_framework import IsAuthenticatedOrTokenHasScope
-
-from rest_framework import permissions, status,viewsets
+from rest_framework import status, viewsets
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Appointment, Actor, Group, Participation
 from .serializers import AppointmentSerializer, ActorSerializer, GroupSerializer
@@ -13,74 +11,92 @@ from .serializers import AppointmentSerializer, ActorSerializer, GroupSerializer
 # Create your views here.
 
 
-@require_POST  # only accessible by POST-requests AND
-@login_required()  # Django-login
-def appointment_response(request, id):
-	if 'answer' in request.POST:  # POST contains correct key
-		answer = request.POST['answer']
-		try:  # fitting participation in database
-			entry = Participation.objects.get(appointment__id= id, actor=request.user)
+class AppointmentResponse(APIView):
+	"""
+	Saves the response of a user pertaining to his participation of an event
+	Has to be called with POST and an Appointment-id. User will be determined by the request
+	"""
+	required_scopes = settings.REST_DEFAULT_SCOPES
 
-			if answer.lower() == 'yes':  # checks value of answer
-				entry.answer = 'y'
-			elif answer.lower() == 'no':
-				entry.answer = 'n'
-			else:
-				return HttpResponseBadRequest('answer may only be "yes" or "no"')
-			entry.save()  # updates participation-object
-			return HttpResponse(status=204)
-		except Participation.DoesNotExist:
-			return HttpResponseServerError('No participation found')
-	else:
-		return HttpResponseBadRequest('Post did not contain key "answer"')
+	def post(self, request, id):
+		if 'answer' in request.POST:  # POST contains correct key
+			answer = request.POST['answer']
+			try:  # fitting participation in database
+				entry = Participation.objects.get(appointment__id=id, actor=request.user)
 
-@require_POST  # only accessible by POST-requests AND
-@login_required()  # Django-login
-def add_actor(request, id):
-	actors = request.POST.getlist('actors')
-	for a in actors:
-		try:
-			actor = Actor.objects.get(email=a)
-			Participation.objects.create(actor=actor, appointment=Appointment.objects.get(id=id))
-		except Actor.DoesNotExist:
-			print("No user with email %s" % a)
-	return HttpResponse(status=204)
+				if answer.lower() == 'yes':  # checks value of answer
+					entry.answer = 'y'
+				elif answer.lower() == 'no':
+					entry.answer = 'n'
+				else:
+					return Response(data='answer may only be "yes" or "no"', status=status.HTTP_400_BAD_REQUEST)
+				entry.save()  # updates participation-object
+				return Response(status=status.HTTP_204_NO_CONTENT)
+			except Participation.DoesNotExist:
+				return Response(data='No participation found', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+		else:
+			return Response(data='Post did not contain key "answer"', status=status.HTTP_400_BAD_REQUEST)
 
-@require_POST
-@login_required()
-def add_actor_to_group(request, id):
-	actors = request.POST.getlist('actors')
-	for a in actors:
-		try:
-			actor = Actor.objects.get(email=a)
-			group = Group.objects.get(id=id)
-			group.members.add(actor)
-		except Actor.DoesNotExist:
-			print("No user with email %s" % a)
-	return HttpResponse(status=204)
+
+class AddActorToEvent(APIView):
+	"""
+	Adds an actor to an event, has to be called with POST and one or more emails
+	"""
+	required_scopes = settings.REST_DEFAULT_SCOPES
+
+	def post(self, request, id):
+		actors = request.POST.getlist('actors')
+		for a in actors:
+			try:
+				actor = Actor.objects.get(email=a)
+				Participation.objects.create(actor=actor, appointment=Appointment.objects.get(id=id))
+			except Actor.DoesNotExist:
+				print("No user with email %s" % a)
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class AddActorToGroup(APIView):
+	"""
+	Adds an actor to a group, has to be called with POST and one or more emails
+	"""
+	required_scopes = settings.REST_DEFAULT_SCOPES
+
+	def post(self, request, id):
+		actors = request.POST.getlist('actors')
+		for a in actors:
+			try:
+				actor = Actor.objects.get(email=a)
+				group = Group.objects.get(id=id)
+				group.members.add(actor)
+			except Actor.DoesNotExist:
+				print("No user with email %s" % a)
+		return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+"""
+API Viewsets start here. These are for providing basic functionality like browsing or creating
+"""
+
 
 class AppointmentViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoObjectPermissions]
-	required_scopes = ['read', 'write']
+	required_scopes = settings.REST_DEFAULT_SCOPES
 	serializer_class = AppointmentSerializer
 
 	def get_queryset(self):
 		user = self.request.user
-		return Appointment.objects.filter(participants__id__exact = user.id )
+		return Appointment.objects.filter(participants__id__exact=user.id)
+
 
 class ActorViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoObjectPermissions]
-	required_scopes = ['read', 'write']
+	permission_classes = (AllowAny)
 	queryset = Actor.objects.all()
 	serializer_class = ActorSerializer
 
-class GroupViewSet(viewsets.ModelViewSet):
-	permission_classes = [IsAuthenticatedOrTokenHasScope, permissions.DjangoObjectPermissions]
-	required_scopes = ['read', 'write']
-	serializer_class = GroupSerializer
 
+class GroupViewSet(viewsets.ModelViewSet):
+	required_scopes = settings.REST_DEFAULT_SCOPES
+	serializer_class = GroupSerializer
 
 	def get_queryset(self):
 		user = self.request.user
 		return Group.objects.filter(members__id__exact=user.id)
-
