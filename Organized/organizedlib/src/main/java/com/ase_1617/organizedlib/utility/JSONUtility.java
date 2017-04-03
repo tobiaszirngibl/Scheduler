@@ -65,8 +65,20 @@ public class JSONUtility {
 
         try{
             id = jsonObject.getInt(JSON_TAG_ID);
-            startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
-            endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+
+            //TODO:TimeFormat variiert manchmal-> Server problem
+            if(jsonObject.getString((JSON_TAG_START_DATE)).length() > 20){
+                startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+            }else{
+                startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            }
+            if(jsonObject.getString((JSON_TAG_END_DATE)).
+                    length() > 20){
+                endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+            }else{
+                endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            }
+
             //lastChanged = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_CHANGE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
             lastChanged = new Date();
             title = jsonObject.getString(JSON_TAG_NAME);
