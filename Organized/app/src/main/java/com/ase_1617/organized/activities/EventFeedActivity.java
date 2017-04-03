@@ -169,7 +169,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
 
                 final Activity activity = this;
 
-                //Show the explanation dialog that explains why the app does need the permission.
+                //Show an explanation dialog that explains why the app does need the permission.
                 permRequestDialog = new AlertDialog.Builder(this)
                         .setTitle("Calendar read permission needed")
                         .setMessage("The app needs the calendar read permission to get the events from the default calendar app.")
