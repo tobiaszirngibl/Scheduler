@@ -21,5 +21,7 @@ public interface Constants {
 
     String INVALID_LOGIN_INPUT = "Either email or password was invalid.";
 
+    String EVENT_ANSWER_POSITIVE = "yes";
+    String EVENT_ANSWER_NEGATIVE = "no";
 
 }

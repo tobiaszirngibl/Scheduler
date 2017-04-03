@@ -34,6 +34,8 @@ import com.ase_1617.organizedlib.utility.MiscUtility;
 
 import java.util.ArrayList;
 
+import com.ase_1617.organizedlib.utility.Constants;
+
 /**
  * The main app activity.
  * THe app shows new events fetched from the server and the user can accept or decline them.
@@ -43,8 +45,6 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
 
     private static final String TAG = "Event Feed";
     public static final String PREFS_NAME = "LoginPrefs";
-
-    private SharedPreferences userData;
 
     private AlertDialog permRequestDialog;
     private AlertDialog eventActionDialog;
@@ -66,13 +66,22 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_feed);
         eventFeedListView = (ListView) findViewById(R.id.list_event_feed);
-        userData = getSharedPreferences(PREFS_NAME, 0);
-        accessToken = userData.getString("accessToken", "accessToken");
-        editor = userData.edit();
 
+        getAccessToken();
         fetchEventFeedData();
         readEvents();
         setupNewEventsSwipeListener();
+    }
+
+    /**
+     * Get the Oauth accessToken of this session.
+     * It is saved in the shared preferences when logging in successfully.
+     */
+    private void getAccessToken() {
+        SharedPreferences userData;
+        userData = getSharedPreferences(PREFS_NAME, 0);
+        accessToken = userData.getString("accessToken", "accessToken");
+        editor = userData.edit();
     }
 
     @Override
@@ -103,9 +112,12 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         readEvents();
     }
 
-    /**Setup a swipeListener on the newEventsList */
+    /**
+     * Setup a swipeListener on the newEventsList.
+     * Swipe right: accept event.
+     * Swipe left: decline event.
+     * */
     private void setupNewEventsSwipeListener() {
-
         final SwipeListener swipeListener = new SwipeListener();
         eventFeedListView.setOnTouchListener(swipeListener);
 
@@ -122,12 +134,11 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                 }
             }
         });
-
-
     }
 
     /**
-     * Fetch the device calendar events and save them in a list
+     * Check for the read calendar permission.
+     * Fetch the device calendar events and save them in a list.
      * */
     private void readEvents(){
         if(permissionGrantedReadCal()){
@@ -142,19 +153,23 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         }
     }
 
-    /**Check whether the app can read in the calendar device app
-     * Request the necessary permisison if not*/
+    /**
+     * Check the calendar read permission.
+     * Request the permission if necessary.
+     *
+     * */
     private boolean permissionGrantedReadCal(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
+            //Show an explanation if necessary.
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_CALENDAR)) {
 
                 final Activity activity = this;
 
+                //Show the explanation dialog that explains why the app does need the permission.
                 permRequestDialog = new AlertDialog.Builder(this)
                         .setTitle("Calendar read permission needed")
                         .setMessage("The app needs the calendar read permission to get the events from the default calendar app.")
@@ -174,8 +189,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
 
             } else {
 
-                // No explanation needed, we can request the permission.
-
+                //If no explanation is needed just request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_CALENDAR},
                         1);
@@ -186,10 +200,11 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         }
     }
 
+    //TODO:Any permission granted reaction needed??
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults.length > 0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             Log.v(TAG,"Permission: "+permissions[0]+ " was "+grantResults[0] + "PERM"+Manifest.permission.READ_CALENDAR);
             //resume tasks needing this permission
             if(permissions[0].equals(Manifest.permission.READ_CALENDAR)){
@@ -199,8 +214,10 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         }
     }
 
-    /**Destroy permission request dialogs if the used activity is destroyed
-     * e.g flipping device*/
+    /**
+     * Destroy dialogs if the current activity is destroyed
+     * e.g flipping device.
+     * */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -214,20 +231,23 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         }
     }
 
-    /**Replace the saved login data with the default values
-     * and start the login activity*/
+    //TODO:Delete saved login when logging out
+    /**
+     * Replace the saved login data with the default values and.
+     * Start the login activity.
+     * */
     private void logout() {
-        editor.putString("userMail", "Default");
-        editor.putString("userPass", "Default");
-
-        // Commit the edits
-        editor.commit();
+        //editor.putString("userMail", "Default");
+        //editor.putString("userPass", "Default");
+        //editor.commit();
 
         Intent logoutIntent = new Intent(this, LoginActivity.class);
         startActivity(logoutIntent);
     }
 
-    /**Try to fetch the new events data from the server and save the result*/
+    /**
+     * Try to fetch new events data from the server.
+     * */
     private void fetchEventFeedData() {
         FetchEventsAsyncTask fetchEventsAsyncTask = new FetchEventsAsyncTask();
         fetchEventsAsyncTask.fetchEventsAsyncInterface = this;
@@ -235,8 +255,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     }
 
     /**
-     * Override AsynTaskInterface method to
-     * save the new events list when the async task finished fetching it from the server
+     * Save the new events list when the async task finished fetching it from the server.
      * @param eventFeedList
      */
     @Override
@@ -246,7 +265,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     }
 
     /**
-     * Create or update the EventFeedAdapter whether its already created or not
+     * Create or update the EventFeedAdapter whether its already created or not.
      */
     private void setupEventFeedList() {
         if (eventFeedAdapter == null) {
@@ -254,42 +273,41 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                     R.layout.item_event_feed,
                     eventFeedList);
             eventFeedListView.setAdapter(eventFeedAdapter);
-            Log.v(TAG, "New adapter");
         } else {
             eventFeedAdapter.clear();
             eventFeedAdapter.addAll(eventFeedList);
             eventFeedAdapter.notifyDataSetChanged();
-            Log.v(TAG, "NotifyDataSetChanged");
         }
     }
 
     /**
-     * If the accept imageButton of a listElement is clicked
-     * start the detailEventActivity and provide the event data in the intent
+     * If the accept imageButton of an eventFeed element is clicked.
+     * Show an event accept alert containing event details and options to
+     * finally accept the event or cancel the process.
      * @param position
      */
     public void onEventAccepted(int position){
-        CalEvent event = (CalEvent)eventFeedList.get(position);
+        CalEvent event = eventFeedList.get(position);
 
         showEventAcceptAlert(event, position);
     }
 
     /**
      * Ask the user whether he wants to accept the according event and therefore
-     * create a new device event for it. Furthermore show info according colliding
-     * calendar events if available.
+     * start an asyncTask to send the positive answer to the server.
+     * Cancel the process otherwise.
+     * Furthermore show info according colliding events.
      * @param event
+     * @param position
      */
     private void showEventAcceptAlert(final CalEvent event, final int position) {
-
-        final Activity activity = this;
-
+        //Variables necessary for the acceptEventAsyncTask
         final AcceptEventAsyncInterface acceptEventAsyncInterface = this;
-
-        String collEventsString = getCollEventsInfo(event);
         final Integer eventId = event.getEventId();
-
         final Context context = this;
+
+        //String containing info according colliding events
+        String collEventsString = getCollEventsInfo(event);
 
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Accept event?")
@@ -299,34 +317,42 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                     public void onClick(DialogInterface dialog, int which) {
                         AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask(context);
                         acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
-                        acceptEventAsyncTask.execute(accessToken, eventId, position, "yes");
+                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_POSITIVE);
                     }
                 })
-                .setNegativeButton("Back", null)
+                .setNegativeButton("Cancel", null)
                 .create();
         eventActionDialog.show();
     }
 
+    /**
+     * When the positive answer according an event has been sent to the server
+     * add the event to the device calendar and remove it from the event feed.
+     * @param eventPosition
+     */
     @Override
     public void eventAccepted(Integer eventPosition) {
-        CalEvent event = (CalEvent)eventFeedList.get(eventPosition);
+        CalEvent event = eventFeedList.get(eventPosition);
 
         EventUtility.addOrganizedEvent(this, event);
 
         removeEventFromFeed(eventPosition);
     }
 
+    /**
+     * When the negative answer according an event has been sent to the server
+     * remove the event from the event feed.
+     * @param eventPosition
+     */
     @Override
     public void eventDeclined(Integer eventPosition) {
-        CalEvent event = (CalEvent)eventFeedList.get(eventPosition);
-
         removeEventFromFeed(eventPosition);
     }
 
     /**
-     * Check for time collision between the event to be created and the existing
-     * calendar events. Return a string containing the event titles to collide with
-     * the new event.
+     * Check for time collision between the given event and the existing
+     * calendar events. Return a string containing the event titles that collide with
+     * the given event.
      * @param event
      * @return
      */
@@ -335,9 +361,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         String collEventsString = "";
 
         if(collidingEvents.size() > 0) {
-
             collEventsString = "Collision with:" + "\n";
-
             for (int i = 0; i < collidingEvents.size(); i++) {
                 collEventsString += " - " + collidingEvents.get(i) + "\n";
             }
@@ -347,9 +371,9 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     }
 
     /**
-     * If the decline button of a listElement is clicked
-     * delete the event from the list and send a response to the server
-     * TODO:Event Löschen; Antwort an Server
+     * If the decline imageButton of an eventFeed element is clicked.
+     * Show an event decline alert containing event details and options to
+     * finally decline the event or cancel the process.
      * @param position
      */
     public void onEventDeclined(int position){
@@ -359,13 +383,13 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     }
 
     /**
-     * Ask the user whether he wants to accept the according event and therefore
-     * create a new device event for it. Furthermore show info according colliding
-     * calendar events if available.
+     * Ask the user whether he wants to decline the according event and therefore
+     * start an asyncTask to send the negative answer to the server.
+     * Cancel the process otherwise.
      * @param event
+     * @param position
      */
     private void showEventDeclineAlert(final CalEvent event, final int position) {
-
         final Context context = this;
         final AcceptEventAsyncInterface acceptEventAsyncInterface = this;
         final Integer eventId = event.getEventId();
@@ -376,11 +400,9 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                 .setPositiveButton("Decline", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.v(TAG, "Event declined: " + event.getEventName());
-
                         AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask(context);
                         acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
-                        acceptEventAsyncTask.execute(accessToken, eventId, position, "no");
+                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_NEGATIVE);
                     }
                 })
                 .setNegativeButton("Back", null)
@@ -391,7 +413,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     /**
      * Remove the event at the given position from the new event feed list
      * when the user has either accepted or declined it.
-     * Notify the eventFeed adapter the eventFeedList changed.
+     * Notify the eventFeed adapter that the eventFeedList changed.
      */
     private void removeEventFromFeed(int position){
         eventFeedList.remove(position);
