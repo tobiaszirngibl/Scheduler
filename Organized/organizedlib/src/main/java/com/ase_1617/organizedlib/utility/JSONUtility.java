@@ -65,8 +65,8 @@ public class JSONUtility {
 
         try{
             id = jsonObject.getInt(JSON_TAG_ID);
-            startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
-            endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+            endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
             //lastChanged = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_CHANGE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
             lastChanged = new Date();
             title = jsonObject.getString(JSON_TAG_NAME);
