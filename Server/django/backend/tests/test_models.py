@@ -20,16 +20,16 @@ class AppointmentModelTest(TestCase):
 		part3 = Actor.objects.create_user('u3@u1.com', 'pw1')
 		part3.save()
 
-		self.appointment = Appointment(name="App1", date_begin=timezone.now(),
-		                               date_end=timezone.now() + timedelta(hours=2), )
+		self.appointment = Appointment(name="App1", dtstart=timezone.now(),
+		                               dtend=timezone.now() + timedelta(hours=2), )
 		app1 = self.appointment
 		app1.save()
 		Participation.objects.create(actor=part1, appointment=app1, is_necessary=False)
 
 		app2 = Appointment(
 			name="App2",
-			date_begin=timezone.now(),
-			date_end=timezone.now() + timedelta(hours=5),
+			dtstart=timezone.now(),
+			dtend=timezone.now() + timedelta(hours=5),
 		)
 		app2.save()
 		Participation.objects.create(actor=part2, appointment=app2, is_necessary=False)
