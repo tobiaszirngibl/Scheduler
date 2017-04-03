@@ -1,5 +1,7 @@
 package com.ase_1617.organizedlib.utility;
 
+import android.util.Log;
+
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.data.Event;
 
@@ -18,14 +20,16 @@ import java.util.Date;
 public class JSONUtility {
     private final static String TAG = "JSONUtility";
     private final static String JSON_TAG_NAME = "name";
-    private final static String JSON_TAG_CHANGE = "last_change";
-    private final static String JSON_TAG_START_DATE = "date_begin";
-    private final static String JSON_TAG_END_DATE = "date_end";
+    private final static String JSON_TAG_CHANGE = "last_changed";
+    private final static String JSON_TAG_START_DATE = "dtstart";
+    private final static String JSON_TAG_END_DATE = "dtend";
     private final static String JSON_TAG_LOCATION = "location";
-    private final static String JSON_TAG_DESCRIPTION = "description";
+    private final static String JSON_TAG_DESCRIPTION = "summary";
     private final static String JSON_TAG_NOTES = "notes";
     private final static String JSON_TAG_TOWN = "town";
     private static final String JSON_TAG_ID = "id";
+    private static final String JSON_TAG_WILL_TAKE_PLACE = "will_take_place";
+    private static final String JSON_TAG_ANSWER = "own_answer";
 
 
     /**
@@ -57,6 +61,7 @@ public class JSONUtility {
         Date startDate = null, endDate = null, lastChanged = null;
         String title = null, description = null, notes = null, town = null, location = null;
         Integer id = null;
+        Log.v(TAG, jsonObject.toString());
 
         try{
             id = jsonObject.getInt(JSON_TAG_ID);

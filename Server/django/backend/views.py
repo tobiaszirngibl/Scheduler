@@ -90,7 +90,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 
 class ActorViewSet(viewsets.ModelViewSet):
-	permission_classes = (AllowAny)
+	permission_classes = [AllowAny]
 	queryset = Actor.objects.all()
 	serializer_class = ActorSerializer
 
