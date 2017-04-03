@@ -19,7 +19,6 @@ class AppointmentResponseTest(TestCase):
 
 	def test_no_post_data_raises_400(self):
 		response = self.client.post(self.base_url, {})
-		print(response)
 		self.assertEqual(response.status_code, 400)
 
 	def test_wrong_post_returns_400(self):
@@ -41,6 +40,22 @@ class AppointmentResponseTest(TestCase):
 		self.client.post(self.base_url, {'answer': 'yes'},)
 		part = Participation.objects.first()
 		self.assertEquals(part.answer, 'y')
+
+	def test_answer_is_no_after_necessary_person_declines(self):
+		part = Participation.objects.first()
+		part.is_necessary = True
+		part.save()
+
+		response = self.client.post(self.base_url, {'answer': 'no'})
+		app = Appointment.objects.first()
+		self.assertEqual(app.will_take_place, False)
+
+	def test_user_is_removed_from_event_after_decline(self):
+		user = Actor.objects.first()
+		user.understudy = Actor.objects.create_user('a@c.com', 'pw')
+		user.save()
+		response = self.client.post(self.base_url, {'answer': 'no'})
+		self.assertEqual(Participation.objects.filter(actor=Actor.objects.get(email='a@b.com')).count(), 0)
 
 class AddActorToAppointmentTest(TestCase):
 	base_url = '/api/appointment/1/addActors'

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Appointment, Actor, Favorite, Group, Participation
+from .response_reaction import handle_decline
 from .serializers import AppointmentSerializer, ActorSerializer, FavoriteSerializer, GroupSerializer
 
 # Create your views here.
@@ -27,13 +28,18 @@ class AppointmentResponse(APIView):
 				if answer.lower() == 'yes':  # checks value of answer
 					entry.answer = 'y'
 				elif answer.lower() == 'no':
-					entry.answer = 'n'
+					if handle_decline(request.user, entry, Appointment.objects.get(id=id)): # Other user was invited
+						return Response(status=status.HTTP_204_NO_CONTENT)
+					else:
+						entry.answer = 'n'
 				elif answer.lower() == 'pending':
 					entry.answer = 'p'
 				else:
 					return Response(data='answer may only be "yes" or "no"', status=status.HTTP_400_BAD_REQUEST)
+
 				entry.save()  # updates participation-object
 				return Response(status=status.HTTP_204_NO_CONTENT)
+
 			except Participation.DoesNotExist:
 				return Response(data='No participation found', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 		else:
