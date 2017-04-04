@@ -39,8 +39,6 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
 
     private EditText _emailText;
     private EditText _passwordText;
-    private Button _loginButton;
-    private TextView _signupLink;
 
     private String userName;
     private String userMail;
@@ -48,6 +46,9 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        TextView _signupLink;
+        Button _loginButton;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
 
             @Override
             public void onClick(View v) {
-                // Start the Signup activity
+                //Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
@@ -129,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
     }
 
     /**
-     * Start a new authenticateasynctask to authenticate the user and
+     * Start a new authenticate asynctask to authenticate the user and
      * grant access to protected server data.
      * @param email User login email
      * @param password User login password
@@ -171,23 +172,36 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         moveTaskToBack(true);
     }
 
+    /**
+     * Finish the activity and start the login process.
+     */
     public void onLoginSuccess() {
         this.finish();
 
         loginToApp();
     }
 
+    /**
+     * Start the eventfeed activity via intent.
+     */
     private void loginToApp() {
         Intent loginIntent = new Intent(this, EventFeedActivity.class);
         startActivity(loginIntent);
     }
 
+    /**
+     * Show an error toast.
+     */
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        _loginButton.setEnabled(true);
     }
 
+    /**
+     * Validate a given email and a password string.
+     * @param email
+     * @param password
+     * @return
+     */
     public boolean validate(String email, String password) {
         boolean valid = true;
 
@@ -208,9 +222,13 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         return valid;
     }
 
+    /**
+     * Save the granted access token and start the login process
+     * if the userdata was successfully authenticated.
+     * @param response
+     */
     @Override
     public void onAuthenticationSuccess(String response) {
-        Log.v(TAG, "Response: "+response);
         userData = getSharedPreferences(Constants.PREFS_NAME, 0);
 
         SharedPreferences.Editor editor = userData.edit();
@@ -222,7 +240,6 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
 
     @Override
     public void onAuthenticationError(String error) {
-        Log.v(TAG, "error: "+error);
         onLoginFailed();
     }
 }
