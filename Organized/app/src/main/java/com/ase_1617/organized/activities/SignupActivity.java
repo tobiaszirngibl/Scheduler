@@ -35,11 +35,12 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
     private EditText _nameText;
     private EditText _emailText;
     private EditText _passwordText;
-    private Button _signupButton;
-    private TextView _loginLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Button _signupButton;
+        TextView _loginLink;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
@@ -59,7 +60,7 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
+                //Finish the registration screen and return to the Login activity
                 finish();
             }
         });
@@ -67,7 +68,7 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
 
     /**
      * Check whether the entered user data is valid and start a new
-     * signupasynctask to send the user data to the server that creates a new
+     * signup asynctask to send the user data to the server that creates a new
      * organized account.
      */
     public void signup() {
