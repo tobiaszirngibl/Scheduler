@@ -13,7 +13,7 @@ public class SwipeListener implements View.OnTouchListener{
      * Enum declaring the available swipe actions
      * */
 
-    public static enum Action {
+    public enum Action {
         LR, // Left to Right
         RL, // Right to Left
         TB, // Top to bottom
@@ -40,9 +40,9 @@ public class SwipeListener implements View.OnTouchListener{
 
     /**
      *
-     * Check for a swipe action and set the mSwipeDetected variable accordingly
+     * Check for a swipe action and set the mSwipeDetected variable accordingly.
      *
-     * @param v view element the swipe is peformed at
+     * @param v view element the swipe is performed on
      * @param event event element to be checked for swipe actions
      * @return
      */
@@ -52,7 +52,7 @@ public class SwipeListener implements View.OnTouchListener{
                 downX = event.getX();
                 downY = event.getY();
                 mSwipeDetected = Action.None;
-                return false; // allow other events like Click to be processed
+                return false; //Allow other events like Click to be processed
             }
             case MotionEvent.ACTION_MOVE: {
                 upX = event.getX();
@@ -61,31 +61,27 @@ public class SwipeListener implements View.OnTouchListener{
                 float deltaX = downX - upX;
                 float deltaY = downY - upY;
 
-                // horizontal swipe detection
+                //Horizontal swipe detection
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
-                    // left or right
+                    //Left or right
                     if (deltaX < 0) {
-                        //Log.v(TAG, "Swipe Left to Right");
                         mSwipeDetected = Action.LR;
                         return true;
                     }
                     if (deltaX > 0) {
-                        //Log.v(TAG, "Swipe Right to Left");
                         mSwipeDetected = Action.RL;
                         return true;
                     }
                 } else
 
-                    // vertical swipe detection
+                    //Vertical swipe detection
                     if (Math.abs(deltaY) > MIN_DISTANCE) {
-                        // top or down
+                        //Top or down
                         if (deltaY < 0) {
-                            //Log.v(TAG, "Swipe Top to Bottom");
                             mSwipeDetected = Action.TB;
                             return false;
                         }
                         if (deltaY > 0) {
-                            //Log.v(TAG, "Swipe Bottom to Top");
                             mSwipeDetected = Action.BT;
                             return false;
                         }
