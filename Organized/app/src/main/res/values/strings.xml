@@ -28,4 +28,14 @@
     <string name="current_event_title">Current Events</string>
     <string name="new_event_location">Location</string>
     <string name="location_edit_hint">Enter location</string>
+    <string name="link_signup"><u>No account yet? Create one</u></string>
+    <string name="link_login"><u>Already a member? Login</u></string>
+    <string name="btn_login">Login</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_logo_desc">Organized logo</string>
+    <string name="btn_signup">Ceate Account</string>
+    <string name="signup_password_hint">Password</string>
+    <string name="signup_email_hint">Email</string>
+    <string name="signup_name_hint">Name</string>
 </resources>

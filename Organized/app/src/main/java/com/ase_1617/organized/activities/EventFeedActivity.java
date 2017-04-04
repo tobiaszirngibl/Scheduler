@@ -34,8 +34,6 @@ import com.ase_1617.organizedlib.utility.MiscUtility;
 
 import java.util.ArrayList;
 
-import com.ase_1617.organizedlib.utility.Constants;
-
 /**
  * The main app activity.
  * THe app shows new events fetched from the server and the user can accept or decline them.
@@ -44,7 +42,6 @@ import com.ase_1617.organizedlib.utility.Constants;
 public class EventFeedActivity extends AppCompatActivity implements FetchEventsAsyncInterface, AcceptEventAsyncInterface {
 
     private static final String TAG = "Event Feed";
-    public static final String PREFS_NAME = "LoginPrefs";
 
     private AlertDialog permRequestDialog;
     private AlertDialog eventActionDialog;
@@ -56,10 +53,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     private ArrayList<CalEvent> eventFeedList = new ArrayList<>();
     private ArrayList<CalEvent> eventDeviceList = new ArrayList<>();
 
-    private String newEventsUrl = Constants.SERVER_URL_BASE + ":8000/api/appointment/";
     private String accessToken;
-
-    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +73,8 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      */
     private void getAccessToken() {
         SharedPreferences userData;
-        userData = getSharedPreferences(PREFS_NAME, 0);
+        userData = getSharedPreferences(Constants.PREFS_NAME, 0);
         accessToken = userData.getString("accessToken", "accessToken");
-        editor = userData.edit();
     }
 
     @Override
@@ -172,7 +165,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                 //Show an explanation dialog that explains why the app does need the permission.
                 permRequestDialog = new AlertDialog.Builder(this)
                         .setTitle("Calendar read permission needed")
-                        .setMessage("The app needs the calendar read permission to get the events from the default calendar app.")
+                        .setMessage("Organized needs permission to read the device calendar.")
                         .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -251,7 +244,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     private void fetchEventFeedData() {
         FetchEventsAsyncTask fetchEventsAsyncTask = new FetchEventsAsyncTask();
         fetchEventsAsyncTask.fetchEventsAsyncInterface = this;
-        fetchEventsAsyncTask.execute(newEventsUrl, accessToken);
+        fetchEventsAsyncTask.execute(Constants.NEW_EVENTS_URL, accessToken);
     }
 
     /**

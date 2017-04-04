@@ -3,9 +3,9 @@ package com.ase_1617.organizedlib.data;
 import java.util.Date;
 
 /**
- * A data structure class for the organized Event object
+ * A data structure class for the organized Event object.
  * It contains the event name, last changed-, start- and end date, location
- * description
+ * description.
  */
 
 public class Event {

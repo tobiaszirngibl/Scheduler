@@ -9,6 +9,7 @@ public interface Constants {
     String SERVER_URL_BASE = "http://192.168.178.20";
     String TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
     String SIGNUP_URL = SERVER_URL_BASE + ":8000/api/actor/";
+    String NEW_EVENTS_URL = SERVER_URL_BASE + ":8000/api/appointment/";
     String FEEDBACK_URL_START = SERVER_URL_BASE + ":8000/api/appointment/";
     String FEEDBACK_URL_END = "/response";
 

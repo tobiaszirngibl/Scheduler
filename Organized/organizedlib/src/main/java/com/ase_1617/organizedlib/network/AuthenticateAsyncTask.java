@@ -99,10 +99,6 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
         OutputStreamWriter osw = null;
         try {
             osw = new OutputStreamWriter( connection.getOutputStream() );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             osw.write( data );
             osw.flush();
             responseCode = connection.getResponseCode();

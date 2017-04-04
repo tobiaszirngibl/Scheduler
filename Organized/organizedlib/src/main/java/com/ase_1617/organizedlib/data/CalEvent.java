@@ -3,8 +3,8 @@ package com.ase_1617.organizedlib.data;
 import java.util.Date;
 
 /**
- * A data structure class for the organized calEvent object
- * It expands the organized Event object by id
+ * A data structure class for the organized calEvent object.
+ * It expands the organized Event and adds an id.
  */
 
 public class CalEvent extends Event {

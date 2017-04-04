@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,14 +23,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.ase_1617.organized.LoginActivity;
 import com.ase_1617.organized.R;
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.data.Event;
-import com.ase_1617.organizedlib.utility.Constants;
 import com.ase_1617.organizedlib.utility.EventUtility;
 import com.ase_1617.organizedlib.utility.MiscUtility;
 import com.ase_1617.organizedlib.views.ExpandedListView;
@@ -48,8 +45,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     private static final String TAG = "CalendarActivity";
 
-    private SharedPreferences userData;
-
     private AlertDialog permRequestDialog;
     private AlertDialog infoDialog;
 
@@ -59,7 +54,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> myAdapter;
 
-    private boolean undo = false;
     private CaldroidFragment caldroidFragment;
 
     SimpleDateFormat formatter;

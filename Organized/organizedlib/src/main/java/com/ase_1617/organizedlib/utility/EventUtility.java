@@ -35,7 +35,6 @@ public class EventUtility {
     private final static String TAG = "EventUtility";
     private static Integer returnEventId = 1;
     public static ArrayList<CalEvent> eventList = new ArrayList<CalEvent>();
-    //public static ArrayList<ArrayList> eventList = new ArrayList<ArrayList>();
     private static Context context;
 
 
@@ -75,8 +74,6 @@ public class EventUtility {
             if (Integer.parseInt(cursor.getString(0)) == returnEventId && Integer.parseInt(cursor.getString(6)) == 0) {
                 CalEvent tempCalEvent = cursorToCalEvent(cursor);
 
-                Log.v(TAG, "TESTTTTTTTTTTT: "+cursor.getString(8));
-
                 //Add the current calEvent to the Arraylist containing all calEvents
                 eventList.add(tempCalEvent);
                 CNames[i] = cursor.getString(1);
@@ -99,7 +96,7 @@ public class EventUtility {
         Date startDate = new Date(Long.parseLong(cursor.getString(3)));
         Date endDate = new Date(Long.parseLong(cursor.getString(4)));
         //Date lastUpdated = cursor.getString(8);
-        //Log.v(TAG, "start: "+cursor.getString(2)+" --- end: "+cursor.getString(3)/*+" --- update: "+cursor.getString(8)*/);
+        Log.v(TAG, "Created CalEvent --- Name: "+cursor.getString(2)+" --- Id: "+cursor.getString(7)+" --- UID: "+cursor.getString(8));
 
         CalEvent calEvent = new CalEvent(title, new Date(), startDate, endDate, location, description/*, notes, town*/, id);
         return calEvent;
