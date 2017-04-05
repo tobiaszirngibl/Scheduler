@@ -19,13 +19,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Class extending the AsyncTask class to fetch event data from the organized web server
+ * Class extending the AsyncTask class to fetch event data
+ * from the organized web server.
  */
 
 public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
     private final static String TAG = "FetchEventsAsyncTask";
 
     private ArrayList<CalEvent> eventList = new ArrayList<>();
+
     public FetchEventsAsyncInterface fetchEventsAsyncInterface = null;
 
     @Override
@@ -35,33 +37,47 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
     }
 
     /**
-     * Fetch event data from a given url and decode the json result
+     * Fetch event data from the organized server, decode the json result
+     * and save the results in a list of calEvents.
      * @param urls
      * @return
      */
     @Override
     protected Boolean doInBackground(String... urls) {
-        String serverResponse = "Not fetched";
-        HttpURLConnection urlConnection = null;
-        JSONArray jsonArray = null;
+        String serverResponse;
+        String url = urls[0];
         String accessToken = urls[1];
-        Log.v(TAG, "accessToken: "+accessToken);
 
+        int responseCode = 0;
+
+        HttpURLConnection connection = null;
+
+        JSONArray jsonArray = null;
+
+        URL server = null;
+
+        //Create an URL object from the created url String
         try {
-            //Create the URL
-            URL eventURL = new URL(urls[0]);
+            server = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
-            //Establish the HTTP connection
-            urlConnection = (HttpURLConnection) eventURL.openConnection();
-            urlConnection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        //Open a connection to the created URL using the granted access token
+        //Write the encoded answer into the output stream
+        //Save the connection's response code
+        try{
+            connection = (HttpURLConnection) server.openConnection();
+            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-            //Check the http response code
-            int responseCode = urlConnection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                serverResponse = readStream(urlConnection.getInputStream());
-            }else{
-                Log.v(TAG, "Error: "+urlConnection.getResponseCode() + " --- " + urlConnection.getResponseMessage());
-            }
+            responseCode = connection.getResponseCode();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Interpret the server response
+        if(responseCode == HttpURLConnection.HTTP_OK) {
+            serverResponse = InputStreamInterpreter.interpretInputStream(connection);
 
             //Create a JSON Object from the server response
             try {
@@ -70,48 +86,18 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
                 e.printStackTrace();
             }
 
+            //Create calEvents from the json array and save it in a list
             if (jsonArray != null) {
                 eventList = JSONUtility.decodeEventData(jsonArray);
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            return true;
+        }else{
+            Log.v(TAG, "Error while fetching event data.");
         }
-    }
 
-    /**
-     * Read the input stream and return the String result
-     * @param inputStream
-     * @return
-     */
-    private static String readStream(InputStream inputStream) {
-        BufferedReader bufferedReader = null;
-        StringBuffer response = new StringBuffer();
-
-        try{
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = "";
-            while((line = bufferedReader.readLine()) != null){
-                response.append(line);
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }finally{
-            if(bufferedReader != null){
-                try{
-                    bufferedReader.close();
-                }catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
+        if (connection != null) {
+            connection.disconnect();
         }
-        return response.toString();
+        return true;
     }
 
     /**

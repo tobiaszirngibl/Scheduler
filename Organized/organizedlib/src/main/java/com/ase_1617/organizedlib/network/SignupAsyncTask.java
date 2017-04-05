@@ -37,11 +37,11 @@ import java.util.Map;
 public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private final static String TAG = "SignupAsyncTask";
 
+    private Context context;
+
+    private ProgressDialog progressDialog;
+
     public SignupAsyncInterface signupAsyncInterface = null;
-
-    Context context;
-
-    ProgressDialog progressDialog;
 
     public SignupAsyncTask(Context context){
         this.context = context;
@@ -51,7 +51,6 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        //Show a progressdialog before starting to send the user data
         progressDialog = new ProgressDialog(context);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
@@ -65,22 +64,17 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
      */
     @Override
     protected Boolean doInBackground(Object... urls) {
-
-        //Fetch the url and user data
-        String url = (String)urls[0];
         final String email = (String)urls[1];
         final String password = (String)urls[2];
         final String name = (String)urls[3];
 
-        Log.v(TAG, "Send signup: url+email+password+name --- "+url+email+password+name);
+        String url = (String)urls[0];
 
         //Create a new volley stringrequest, response and error listener
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.v(TAG, "Response: " + response);
-
                         progressDialog.dismiss();
                         signupAsyncInterface.onSignUpSuccess(email, password);
                     }
@@ -89,8 +83,6 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.v(TAG, "Error: " + error);
-
                         progressDialog.dismiss();
                         signupAsyncInterface.onSignUpError(error.toString());
                     }

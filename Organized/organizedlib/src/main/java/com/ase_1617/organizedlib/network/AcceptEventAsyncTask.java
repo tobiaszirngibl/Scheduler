@@ -25,21 +25,21 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
- * Class extending the AsyncTask class to fetch event data from the organized web server
+ * Class extending the AsyncTask class to send the user's answer
+ * according an event to the server.
  */
 
 public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private final static String TAG = "AcceptEventAsyncTask";
-    private final static String GRANT_TYPE = "password";
 
     private Integer eventPosition = -1;
     private String answer;
 
+    private Context context;
+
+    private ProgressDialog progressDialog;
+
     public AcceptEventAsyncInterface acceptEventAsyncInterface = null;
-
-    Context context;
-
-    ProgressDialog progressDialog;
 
     public AcceptEventAsyncTask(Context context){
         this.context = context;
@@ -48,7 +48,6 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Log.v(TAG, "PREEXECUTE");
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setIndeterminate(true);
@@ -57,7 +56,7 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
     }
 
     /**
-     * Send the event data to the server using HTTP POST.
+     * Send the user's answer to the server using HTTP POST.
      * @param urls
      * @return
      */
@@ -65,97 +64,62 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
     protected Boolean doInBackground(Object... urls) {
         final String accessToken = (String)urls[0];
         final Integer eventId = (Integer)urls[1];
+
         eventPosition = (Integer)urls[2];
         answer = (String)urls[3];
-        String url = Constants.FEEDBACK_URL_START + eventId + Constants.FEEDBACK_URL_END;
 
-        Log.v(TAG, "url: " + url);
+        String url = Constants.FEEDBACK_URL_START + eventId + Constants.FEEDBACK_URL_END;
+        String data = null;
+        String serverResponse;
 
         int responseCode = 0;
 
-        String data = null;
-        try {
-            //data = URLEncoder.encode( "grant_type", "UTF-8" ) + "=" + URLEncoder.encode(GRANT_TYPE, "UTF-8" );
-            data = URLEncoder.encode( "answer", "UTF-8" ) + "=" + URLEncoder.encode(answer, "UTF-8" );
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        Log.v(TAG, "data: "+data);
-
         URL server = null;
-        try {
-            server = new URL( url );
-        } catch (MalformedURLException e) {
+
+        HttpURLConnection connection = null;
+
+        OutputStreamWriter osw;
+
+        //Encode the user's answer
+        try{
+            data = URLEncoder.encode( "answer", "UTF-8" ) + "=" + URLEncoder.encode(answer, "UTF-8" );
+        }catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        HttpURLConnection connection = null;
-        try {
+
+        //Create an URL object from the created url String
+        try{
+            server = new URL(url);
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        //Open a connection to the created URL using the granted access token
+        //Write the encoded answer into the output stream
+        //Save the connection's response code
+        try{
             connection = (HttpURLConnection) server.openConnection();
             connection.setRequestProperty("Authorization", "Bearer " + accessToken);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        connection.setDoOutput( true );
-        OutputStreamWriter osw = null;
-        try {
-            osw = new OutputStreamWriter( connection.getOutputStream() );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            osw.write( data );
+            connection.setDoOutput( true );
+
+            osw = new OutputStreamWriter(connection.getOutputStream());
+            osw.write(data);
             osw.flush();
+
             responseCode = connection.getResponseCode();
-        } catch (IOException e) {
+        }catch (IOException e) {
             e.printStackTrace();
         }
 
-        if( responseCode == HttpURLConnection.HTTP_OK)
-        {
-
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            StringBuffer response = new StringBuffer();
-            String line = "";
-            try {
-                while( ( line = reader.readLine() ) != null )
-                {
-                    response.append( line );
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Log.v(TAG, "response: "+response);
+        //Interpret the server response and react to it
+        if(responseCode == HttpURLConnection.HTTP_OK){
+            serverResponse = InputStreamInterpreter.interpretInputStream(connection);
+            Log.v(TAG, "serverResponse: "+serverResponse);
         }
-        else
-        {
-            Log.v( "CatalogClient", "Response code:" + responseCode );
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            StringBuffer response = new StringBuffer();
-            String line = "";
-            try {
-                while( ( line = reader.readLine() ) != null )
-                {
-                    response.append( line );
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Log.v( "CatalogClient", "Response code:" + response );
+        else{
+            serverResponse = InputStreamInterpreter.interpretInputStream(connection);
+            Log.v(TAG, "serverResponse: "+serverResponse);
         }
-        Log.v( "CatalogClient", "Response code:" + responseCode );
 
         progressDialog.dismiss();
 

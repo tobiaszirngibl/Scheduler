@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
+import com.ase_1617.organizedlib.utility.Constants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,24 +22,21 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 /**
- * Class extending the AsyncTask class to fetch event data from the organized web server
+ * Class extending the AsyncTask class to authenticate user login data
+ * and get an access token from the oauth server.
  */
 
 public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private final static String TAG = "AuthenticateAsyncTask";
-    private final static String GRANT_TYPE = "password";
-    private final static String ACCESS_TOKEN_TAG = "access_token";
-    private static final String AUTH_ERROR = "Authentication failed. Please try again.";
 
-    String accessToken = "";
+    private String accessToken = "";
+    private int authenticationError = 0;
 
-    int authenticationError = 0;
+    private Context context;
+
+    private ProgressDialog progressDialog;
 
     public AuthenticateAsyncInterface authenticateAsyncInterface = null;
-
-    Context context;
-
-    ProgressDialog progressDialog;
 
     public AuthenticateAsyncTask(Context context){
         this.context = context;
@@ -46,7 +45,6 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Log.v(TAG, "PREEXECUTE");
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setIndeterminate(true);
@@ -55,92 +53,84 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
     }
 
     /**
-     * Send the new user data to the server using HTTP POST.
+     * Send the user login data to the server using HTTP POST.
      * @param urls
      * @return
      */
     @Override
     protected Boolean doInBackground(Object... urls) {
-        String url = (String)urls[0];
         final String email = (String)urls[1];
         final String password = (String)urls[2];
         final String clientId = (String)urls[3];
         final String clientSecret = (String)urls[4];
 
         int responseCode = 0;
-        authenticationError = 0;
 
+        String url = (String)urls[0];
         String data = null;
-        try {
-            data = URLEncoder.encode( "grant_type", "UTF-8" ) + "=" + URLEncoder.encode( GRANT_TYPE, "UTF-8" );
-            data += "&" + URLEncoder.encode( "username", "UTF-8" ) + "=" + URLEncoder.encode( email, "UTF-8" );
-            data += "&" + URLEncoder.encode( "password", "UTF-8" ) + "=" + URLEncoder.encode( password, "UTF-8" );
-            data += "&" + URLEncoder.encode( "client_id", "UTF-8" ) + "=" + URLEncoder.encode( clientId, "UTF-8" );
-            data += "&" + URLEncoder.encode( "client_secret", "UTF-8" ) + "=" + URLEncoder.encode( clientSecret, "UTF-8" );
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        String serverResponse;
 
-        Log.v(TAG, "data: "+data);
 
         URL server = null;
-        try {
-            server = new URL( url );
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+
         HttpURLConnection connection = null;
-        try {
+
+        OutputStreamWriter osw;
+
+        authenticationError = 0;
+
+        //Encode the user's data
+        try{
+            data = URLEncoder.encode("grant_type" , "UTF-8") + "=" + URLEncoder.encode("password" , "UTF-8");
+            data += "&" + URLEncoder.encode("username" , "UTF-8") + "=" + URLEncoder.encode(email , "UTF-8");
+            data += "&" + URLEncoder.encode("password" , "UTF-8") + "=" + URLEncoder.encode(password , "UTF-8");
+            data += "&" + URLEncoder.encode("client_id" , "UTF-8") + "=" + URLEncoder.encode(clientId , "UTF-8");
+            data += "&" + URLEncoder.encode("client_secret" , "UTF-8") + "=" + URLEncoder.encode(clientSecret , "UTF-8");
+        }catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        //Create an URL object from the created url String
+        try{
+            server = new URL( url );
+        }catch(MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        //Open a connection to the created URL
+        //Write the encoded answer into the output stream
+        //Save the connection's response code
+        try{
             connection = (HttpURLConnection) server.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        connection.setDoOutput( true );
-        OutputStreamWriter osw = null;
-        try {
-            osw = new OutputStreamWriter( connection.getOutputStream() );
-            osw.write( data );
+            connection.setDoOutput(true);
+
+            osw = new OutputStreamWriter(connection.getOutputStream() );
+            osw.write(data);
             osw.flush();
+
             responseCode = connection.getResponseCode();
-        } catch (IOException e) {
+        }catch(IOException e){
             e.printStackTrace();
         }
 
-        if( responseCode == HttpURLConnection.HTTP_OK)
-        {
+        //Interpret the server response and react to it
+        if(responseCode == HttpURLConnection.HTTP_OK){
+            serverResponse = InputStreamInterpreter.interpretInputStream(connection);
 
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-            } catch (IOException e) {
+            //Create a json object from the server response
+            //And save the access token
+            JSONObject jsonObject;
+            try{
+                jsonObject = new JSONObject(serverResponse);
+                accessToken = jsonObject.getString(Constants.PREFS_ACCESS_TOKEN_KEY);
+            }catch(JSONException e){
                 e.printStackTrace();
             }
-            StringBuffer response = new StringBuffer();
-            String line = "";
-            try {
-                while( ( line = reader.readLine() ) != null )
-                {
-                    response.append( line );
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(response.toString());
-                accessToken = jsonObject.getString(ACCESS_TOKEN_TAG);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.v( TAG, "response: "+response);
-            Log.v( "Login", accessToken);
+            Log.v(TAG, "Access token: " + accessToken + "granted");
         }
-        else
-        {
+        else{
             authenticationError = 1;
-            Log.v( "CatalogClient", "Response code:" + responseCode );
+            Log.v(TAG, "Response code:" + responseCode );
         }
 
         progressDialog.dismiss();
@@ -151,7 +141,7 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         if(authenticationError == 1){
-            authenticateAsyncInterface.onAuthenticationError(AUTH_ERROR);
+            authenticateAsyncInterface.onAuthenticationError(Constants.AUTH_ERROR_MESSAGE);
         }else{
             authenticateAsyncInterface.onAuthenticationSuccess(accessToken);
         }
