@@ -50,6 +50,8 @@ class Group(models.Model):
 class Appointment(models.Model):
 	# Name of the Appointment
 	name = models.CharField(max_length=150)
+	# Actor who created the appointment
+	organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owner')
 	# Marks the start of the Appointment
 	dtstart = models.DateTimeField(blank=True, default=now)
 	# Marks the end of the Appointment

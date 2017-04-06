@@ -80,6 +80,20 @@ class AddActorToGroup(APIView):
 				print("No user with email %s" % a)
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
+class LeaveGroup(APIView):
+	"""
+	The User calling the url gets deleted from the group
+	"""
+	required_scopes = settings.REST_DEFAULT_SCOPES
+
+	def get(self, request, group_id):
+		try:
+			group = Group.objects.get(id=group_id)
+			group.members.remove(request.user)
+			return Response(status=status.HTTP_204_NO_CONTENT)
+		except Group.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 """
 API Viewsets start here. These are for providing basic functionality like browsing or creating
@@ -93,6 +107,13 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 	def get_queryset(self):
 		user = self.request.user
 		return Appointment.objects.filter(participants__id__exact=user.id)
+
+	def destroy(self, request, *args, **kwargs):
+		instance = self.get_object()
+		if request.user is instance.organizer:
+			instance.delete()
+			return Response(status=status.HTTP_204_NO_CONTENT)
+		return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 class ActorViewSet(viewsets.ModelViewSet):
