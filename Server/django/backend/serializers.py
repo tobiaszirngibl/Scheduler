@@ -45,7 +45,7 @@ class ParticipationSerializer(serializers.ModelSerializer):
 class AppointmentSerializer(serializers.ModelSerializer):
 	participants = ParticipationSerializer(source='participation_set', many=True, read_only=True)
 	will_take_place = serializers.ReadOnlyField()
-	own_answer = serializers.SerializerMethodField()
+	own_answer = serializers.SerializerMethodField() # defaults to get_own_answer
 
 	class Meta:
 		model = Appointment
