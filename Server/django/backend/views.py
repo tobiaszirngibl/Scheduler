@@ -92,7 +92,7 @@ class LeaveGroup(APIView):
 			group.members.remove(request.user)
 			return Response(status=status.HTTP_204_NO_CONTENT)
 		except Group.DoesNotExist:
-			return Response(status=status.HTTP_404_NOT_FOUND)
+			return Response(data='No group with this id', status=status.HTTP_404_NOT_FOUND)
 
 
 """
@@ -113,7 +113,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 		if request.user is instance.organizer:
 			instance.delete()
 			return Response(status=status.HTTP_204_NO_CONTENT)
-		return Response(status=status.HTTP_403_FORBIDDEN)
+		return Response(data='Only the organizer may delete an Appointment', status=status.HTTP_403_FORBIDDEN)
 
 
 class ActorViewSet(viewsets.ModelViewSet):
