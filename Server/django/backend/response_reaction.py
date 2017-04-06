@@ -8,7 +8,7 @@ def handle_decline(user, participation, event):
 	:param event: The Appointment
 	:return: False, if user was necessary and nothing could be done, else True
 	"""
-	if participation.is_necessary == True or user.understudy is None: # Nothing to handle, continue logic from view
+	if participation.is_necessary is True or user.understudy is None: # Nothing to handle, continue logic from view
 		return False
 
 	# Adds understudy to Appointment
