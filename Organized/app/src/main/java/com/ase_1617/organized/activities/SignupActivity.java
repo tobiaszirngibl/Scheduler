@@ -153,7 +153,7 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
         editor.putString("userMail", email);
         editor.putString("userPass", password);
 
-        editor.commit();
+        editor.apply();
 
         setResult(RESULT_OK, null);
         finish();
@@ -166,6 +166,6 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
      */
     @Override
     public void onSignUpError(String error) {
-        Toast.makeText(getBaseContext(), error, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), Constants.SIGNUP_ERROR_MESSAGE, Toast.LENGTH_LONG).show();
     }
 }

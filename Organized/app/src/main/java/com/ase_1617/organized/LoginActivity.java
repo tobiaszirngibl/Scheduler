@@ -193,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
      * Show an error toast.
      */
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), Constants.LOGIN_ERROR_MESSAGE, Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -233,7 +233,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
 
         SharedPreferences.Editor editor = userData.edit();
         editor.putString("accessToken", response);
-        editor.commit();
+        editor.apply();
 
         onLoginSuccess();
     }
