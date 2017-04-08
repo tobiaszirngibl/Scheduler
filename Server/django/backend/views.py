@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Appointment, Actor, Favorite, Group, Participation
+from .response_reaction import handle_decline
 from .serializers import AppointmentSerializer, ActorSerializer, FavoriteSerializer, GroupSerializer
 
 # Create your views here.
@@ -27,13 +28,18 @@ class AppointmentResponse(APIView):
 				if answer.lower() == 'yes':  # checks value of answer
 					entry.answer = 'y'
 				elif answer.lower() == 'no':
-					entry.answer = 'n'
+					if handle_decline(request.user, entry, Appointment.objects.get(id=id)): # Other user was invited
+						return Response(status=status.HTTP_204_NO_CONTENT)
+					else:
+						entry.answer = 'n'
 				elif answer.lower() == 'pending':
 					entry.answer = 'p'
 				else:
 					return Response(data='answer may only be "yes" or "no"', status=status.HTTP_400_BAD_REQUEST)
+
 				entry.save()  # updates participation-object
 				return Response(status=status.HTTP_204_NO_CONTENT)
+
 			except Participation.DoesNotExist:
 				return Response(data='No participation found', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 		else:
@@ -74,6 +80,20 @@ class AddActorToGroup(APIView):
 				print("No user with email %s" % a)
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
+class LeaveGroup(APIView):
+	"""
+	The User calling the url gets deleted from the group
+	"""
+	required_scopes = settings.REST_DEFAULT_SCOPES
+
+	def get(self, request, group_id):
+		try:
+			group = Group.objects.get(id=group_id)
+			group.members.remove(request.user)
+			return Response(status=status.HTTP_204_NO_CONTENT)
+		except Group.DoesNotExist:
+			return Response(data='No group with this id', status=status.HTTP_404_NOT_FOUND)
+
 
 """
 API Viewsets start here. These are for providing basic functionality like browsing or creating
@@ -87,6 +107,13 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 	def get_queryset(self):
 		user = self.request.user
 		return Appointment.objects.filter(participants__id__exact=user.id)
+
+	def destroy(self, request, *args, **kwargs):
+		instance = self.get_object()
+		if request.user is instance.organizer:
+			instance.delete()
+			return Response(status=status.HTTP_204_NO_CONTENT)
+		return Response(data='Only the organizer may delete an Appointment', status=status.HTTP_403_FORBIDDEN)
 
 
 class ActorViewSet(viewsets.ModelViewSet):

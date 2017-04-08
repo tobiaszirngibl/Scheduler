@@ -33,5 +33,6 @@ urlpatterns = [
 	url(r'^', include(router.urls)),
 	url(r'appointment/(\d+)/addActors', views.AddActorToEvent.as_view(), name='add_actor'),
 	url(r'appointment/(\d+)/response', views.AppointmentResponse.as_view() ,name='appointment_response'),
-	url(r'group/(\d+)/addActors', views.AddActorToGroup.as_view(), name='add_group_actor')
+	url(r'group/(\d+)/addActors', views.AddActorToGroup.as_view(), name='add_group_actor'),
+	url(r'group/(\d+)/leave', views.LeaveGroup.as_view(), name='leave_group')
 ]

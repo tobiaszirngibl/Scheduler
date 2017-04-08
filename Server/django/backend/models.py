@@ -15,6 +15,7 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	is_superuser = models.BooleanField(default=False)
 	is_active = models.BooleanField(default=True)
 	bio = models.TextField(max_length=500, blank=True, null=True)
+	understudy = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
 
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = []
@@ -49,6 +50,8 @@ class Group(models.Model):
 class Appointment(models.Model):
 	# Name of the Appointment
 	name = models.CharField(max_length=150)
+	# Actor who created the appointment
+	organizer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owner')
 	# Marks the start of the Appointment
 	dtstart = models.DateTimeField(blank=True, default=now)
 	# Marks the end of the Appointment
@@ -94,6 +97,9 @@ class Participation(models.Model):
 	appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
 	answer = models.CharField(choices=answer_choices, max_length=1, default='p')
 	is_necessary = models.BooleanField(default=False)
+
+	class Meta:
+		unique_together = ('actor', 'appointment',)
 
 	def __str__(self):
 		return self.appointment.__str__() + ' - ' + self.actor.__str__()
