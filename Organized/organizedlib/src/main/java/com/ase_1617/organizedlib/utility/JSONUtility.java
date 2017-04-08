@@ -14,7 +14,7 @@ import java.util.Date;
 
 /**
  * Utility class to decode given json data and convert it to
- * organized calEvent/event objects
+ * organized calEvent/event objects.
  */
 
 public class JSONUtility {
@@ -33,7 +33,7 @@ public class JSONUtility {
 
 
     /**
-     * Create calEvent/event objects from the JSONArray data and return them in an arraylist
+     * Create calEvent/event objects from JSONArray data and return them in an arraylist
      * @param jsonArray
      * @return
      */
@@ -61,12 +61,11 @@ public class JSONUtility {
         Date startDate = null, endDate = null, lastChanged = null;
         String title = null, description = null, notes = null, town = null, location = null;
         Integer id = null;
-        Log.v(TAG, jsonObject.toString());
 
         try{
             id = jsonObject.getInt(JSON_TAG_ID);
 
-            //TODO:TimeFormat variiert manchmal-> Server problem
+            //CHeck the start/end time format and parse it accordingly
             if(jsonObject.getString((JSON_TAG_START_DATE)).length() > 20){
                 startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
             }else{
@@ -91,9 +90,7 @@ public class JSONUtility {
             e.printStackTrace();
         }
 
-        CalEvent event = new CalEvent(title, lastChanged, startDate, endDate, location, description, id/*, notes, town*/);
-
-        return event;
+        return new CalEvent(title, lastChanged, startDate, endDate, location, description, id/*, notes, town*/);
     }
 
     /**
@@ -106,8 +103,19 @@ public class JSONUtility {
         String title = null, description = null, notes = null, town = null, location = null;
 
         try{
-            startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
-            endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+            //CHeck the start/end time format and parse it accordingly
+            if(jsonObject.getString((JSON_TAG_START_DATE)).length() > 20){
+                startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+            }else{
+                startDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_START_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            }
+            if(jsonObject.getString((JSON_TAG_END_DATE)).
+                    length() > 20){
+                endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'");
+            }else{
+                endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+            }
             //lastChanged = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_CHANGE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
             lastChanged = new Date();
             title = jsonObject.getString(JSON_TAG_NAME);
@@ -120,8 +128,6 @@ public class JSONUtility {
             e.printStackTrace();
         }
 
-        Event event = new Event(title, lastChanged, startDate, endDate, location, description/*, notes, town*/);
-
-        return event;
+        return new Event(title, lastChanged, startDate, endDate, location, description/*, notes, town*/);
     }
 }

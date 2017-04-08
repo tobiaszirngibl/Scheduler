@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Utility class providing simple utility methods
+ * Utility class providing various utility methods
  */
 
 public class MiscUtility {
@@ -28,9 +28,8 @@ public class MiscUtility {
         calendar.clear();
         calendar.set(Calendar.HOUR, durationHour);
         calendar.set(Calendar.MINUTE, durationMinute);
-        Long startingDate = calendar.getTime().getTime();
 
-        return startingDate;
+        return calendar.getTime().getTime();
     }
 
     /** Combine a given date, hour and minute to get a combined date from these values
@@ -42,7 +41,7 @@ public class MiscUtility {
      */
     public static Date getStartingDate(Date date, int hour, int minute) {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN);
         String dateString = formatter.format(date);
         String yearString = dateString.substring(0, 4);
         String monthString = dateString.substring(5, 7);
@@ -55,9 +54,8 @@ public class MiscUtility {
         calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dayString));
         calendar.set(Calendar.HOUR, hour);
         calendar.set(Calendar.MINUTE, minute);
-        Date startingDate = calendar.getTime();
 
-        return startingDate;
+        return calendar.getTime();
     }
 
     /**Convert a string date to a date object
@@ -66,12 +64,10 @@ public class MiscUtility {
      * @param dateString date string
      * @return date object
      */
-    public static Date stringToDate(String dateString, String dateFormat) {
+    static Date stringToDate(String dateString, String dateFormat) {
         SimpleDateFormat formatter = new SimpleDateFormat(
                 dateFormat, Locale.GERMAN);
         Date date = null;
-
-        //dateString = dateString.substring(0, 10)+dateString.substring(13, 18);
 
         try{
             date = formatter.parse(dateString);

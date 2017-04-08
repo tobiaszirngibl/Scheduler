@@ -28,6 +28,8 @@ import java.util.Date;
 
 /**
  * Created by oCocha on 31.01.2017.
+ * Utitlity class containing all methods to interact with the device calendar.
+ * Read existing events, create new events, update existing events.
  */
 
 public class EventUtility {
@@ -39,9 +41,9 @@ public class EventUtility {
 
 
     /**Read all events from the device default calendar and return
-     * an arraylist containing all events
+     * an arraylist containing all events in calEvent format.
      * @param context
-     * @return ArrayList An ArrayList containing the events of the device calendar app
+     * @return ArrayList the events of the device calendar app
      */
     public static ArrayList<CalEvent> fetchDeviceEvents(Context context) {
         //Clear the eventList if it is not null
@@ -84,7 +86,7 @@ public class EventUtility {
     }
 
     /**
-     * Create a new event object from a given cursor object
+     * Create a new calEvent object from a given cursor object
      * @param cursor
      * @return
      */
@@ -96,11 +98,11 @@ public class EventUtility {
         Date startDate = new Date(Long.parseLong(cursor.getString(3)));
         Date endDate = new Date(Long.parseLong(cursor.getString(4)));
         //Date lastUpdated = cursor.getString(8);
-        Log.v(TAG, "Created CalEvent --- Name: "+cursor.getString(2)+" --- Id: "+cursor.getString(7)+" --- UID: "+cursor.getString(8));
 
         CalEvent calEvent = new CalEvent(title, new Date(), startDate, endDate, location, description/*, notes, town*/, id);
         return calEvent;
     }
+
     /**Add a custom calendar event to the default calendar app
      * @param activity
      * @param event
@@ -113,8 +115,6 @@ public class EventUtility {
         Uri uri = null;
         int eventId = -1;
 
-        Log.v(TAG, "eventValues: " + eventValues);
-
         final ContentResolver cr = activity.getContentResolver();
 
         if (permissionCheck.permissionGrantedWriteCal(activity)) {
@@ -122,26 +122,29 @@ public class EventUtility {
                 return (-1);
             }
             uri = cr.insert(CalendarContract.Events.CONTENT_URI, eventValues);
-            Log.v(TAG, "URI: "+uri);
         }
 
         /**Save the id of the created event*/
         String projection[] = {"_id"};
-        Cursor cursor = cr.query(uri, null, null, null,
-                null);
-        if (cursor.moveToFirst()) {
-            String calID;
-            int idCol = cursor.getColumnIndex(projection[0]);
-            do {
-                calID = cursor.getString(idCol);
-                eventId = Integer.parseInt(calID);
-            }while(cursor.moveToNext());
-            cursor.close();
+        if(uri != null) {
+            Cursor cursor = cr.query(uri, null, null, null,
+                    null);
+            if(cursor != null) {
+                if (cursor.moveToFirst()) {
+                    String calID;
+                    int idCol = cursor.getColumnIndex(projection[0]);
+                    do {
+                        calID = cursor.getString(idCol);
+                        eventId = Integer.parseInt(calID);
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }
+            }
         }
         return eventId;
     }
 
-    /**Add a custom calendar event to the default calendar app
+    /**Add an organized calendar event to the default calendar app
      * @param activity
      * @param event
      * */
@@ -167,16 +170,21 @@ public class EventUtility {
 
         /**Save the id of the created event*/
         String projection[] = {"_id"};
-        Cursor cursor = cr.query(uri, null, null, null,
-                null);
-        if (cursor.moveToFirst()) {
-            String calID;
-            int idCol = cursor.getColumnIndex(projection[0]);
-            do {
-                calID = cursor.getString(idCol);
-                eventId = Integer.parseInt(calID);
-            }while(cursor.moveToNext());
-            cursor.close();
+
+        if(uri != null) {
+            Cursor cursor = cr.query(uri, null, null, null,
+                    null);
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    String calID;
+                    int idCol = cursor.getColumnIndex(projection[0]);
+                    do {
+                        calID = cursor.getString(idCol);
+                        eventId = Integer.parseInt(calID);
+                    } while (cursor.moveToNext());
+                    cursor.close();
+                }
+            }
         }
         return eventId;
     }
@@ -191,7 +199,6 @@ public class EventUtility {
         long calID = 1;
         long startMillis = event.getEventStartDate().getTime();
         long endMillis = event.getEventEndDate().getTime();
-        long lastChanged = event.getEventLastChanged().getTime();
 
         String eventName = event.getEventName();
         if(eventName.equals("")){
@@ -328,26 +335,28 @@ public class EventUtility {
             eventUri = Uri.parse("content://com.android.calendar/events");
         }
 
-        Long result = 0l;
+        Long result = 0L;
         String projection[] = {"_id", "dtstart"};
         Cursor cursor = context.getContentResolver().query(eventUri, null, null, null,
                 null);
 
         /**Check all results whether they contain the given eventTitle
          * Return the according eventId if a match occurs*/
-        if (cursor.moveToFirst()) {
-            String calStart;
-            String calID;
-            int startCol = cursor.getColumnIndex(projection[1]);
-            int idCol = cursor.getColumnIndex(projection[0]);
-            do {
-                calStart = cursor.getString(startCol);
-                calID = cursor.getString(idCol);
-                if (calID != null && Integer.parseInt(calID) == eventId) {
-                    result = Long.parseLong(calStart);
-                }
-            } while (cursor.moveToNext());
-            cursor.close();
+        if(cursor != null) {
+            if (cursor.moveToFirst()) {
+                String calStart;
+                String calID;
+                int startCol = cursor.getColumnIndex(projection[1]);
+                int idCol = cursor.getColumnIndex(projection[0]);
+                do {
+                    calStart = cursor.getString(startCol);
+                    calID = cursor.getString(idCol);
+                    if (calID != null && Integer.parseInt(calID) == eventId) {
+                        result = Long.parseLong(calStart);
+                    }
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
         }
         Log.v(TAG, "Event: "+eventId+" got start time: "+result);
         return result;
@@ -360,12 +369,10 @@ public class EventUtility {
      */
     public static void deleteEventById(Context newContext, Integer eventId) {
         context = newContext;
-        Log.v(TAG, "Delete event: "+eventId);
         ContentResolver cr = context.getContentResolver();
-        Uri deleteUri = null;
+        Uri deleteUri;
         deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
         int rows = cr.delete(deleteUri, null, null);
-        Log.i(TAG, "Rows deleted: " + rows);
         Toast toast = Toast.makeText(context, "Event " + eventId + "deleted.", Toast.LENGTH_SHORT);
         toast.show();
     }
@@ -384,10 +391,9 @@ public class EventUtility {
         Uri updateUri = null;
         // The new title for the event
         values.put(CalendarContract.Events.TITLE, eventTitle);
-        Log.v(TAG, "New title: " + eventTitle + " ID: " +eventId);
         updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
         int rows = cr.update(updateUri, values, null, null);
-        Log.v(TAG, "Rows updated: " + rows);
+        Toast toast = Toast.makeText(context, "Eventitle of: " + eventId + " updated to: " + eventTitle, Toast.LENGTH_SHORT);
     }
 
     /**Set the type of events that should be returned in the readCalendarEvent function
