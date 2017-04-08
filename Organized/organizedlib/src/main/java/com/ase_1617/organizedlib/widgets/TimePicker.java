@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 
 /**
  * A custom timepicker class extending the timepicker class to avoid using
- * deprecated methods if the necessary sdk version is used
+ * deprecated methods if the necessary sdk version is used.
  */
 
 public class TimePicker extends android.widget.TimePicker{
