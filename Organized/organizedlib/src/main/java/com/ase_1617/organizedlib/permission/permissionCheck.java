@@ -17,22 +17,26 @@ public class permissionCheck {
     private static AlertDialog permRequestDialog;
 
 
-    /**Check whether the app can write in the calendar device app
-     * Request the necessary permisison if not*/
+    /**
+     * Check the calendar write permission.
+     * Request the permission if necessary.
+     *
+     * */
     public static boolean permissionGrantedWriteCal(Activity activity){
         if (ContextCompat.checkSelfPermission(activity,
                 Manifest.permission.WRITE_CALENDAR)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
+            //Show an explanation if necessary.
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.WRITE_CALENDAR)) {
 
                 final Activity finalActivity = activity;
 
+                //Show an explanation dialog that explains why the app does need the permission.
                 permRequestDialog = new AlertDialog.Builder(finalActivity)
-                        .setTitle("Calendar read permission needed")
-                        .setMessage("The app needs the calendar read permission to get the events from the default calendar app.")
+                        .setTitle("Missing permission")
+                        .setMessage("Organized needs permission to create calendar events.")
                         .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -49,15 +53,10 @@ public class permissionCheck {
 
             } else {
 
-                // No explanation needed, we can request the permission.
-
+                //If no explanation needed just request the permission.
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.WRITE_CALENDAR},
                         1);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
             return false;
         }else{

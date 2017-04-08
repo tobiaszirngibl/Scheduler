@@ -164,8 +164,8 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
 
                 //Show an explanation dialog that explains why the app does need the permission.
                 permRequestDialog = new AlertDialog.Builder(this)
-                        .setTitle("Calendar read permission needed")
-                        .setMessage("Organized needs permission to read the device calendar.")
+                        .setTitle("Missing permission")
+                        .setMessage("Organized needs permission to read calendar events.")
                         .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -182,7 +182,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
 
             } else {
 
-                //If no explanation is needed just request the permission.
+                //If no explanation needed just request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_CALENDAR},
                         1);

@@ -86,7 +86,7 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
                 e.printStackTrace();
             }
 
-            //Create calEvents from the json array and save it in a list
+            //Create calEvents from the json array and save them in a list
             if (jsonArray != null) {
                 eventList = JSONUtility.decodeEventData(jsonArray);
             }
