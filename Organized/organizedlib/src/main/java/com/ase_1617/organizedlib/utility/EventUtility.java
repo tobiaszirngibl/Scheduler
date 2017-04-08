@@ -394,6 +394,7 @@ public class EventUtility {
         updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
         int rows = cr.update(updateUri, values, null, null);
         Toast toast = Toast.makeText(context, "Eventitle of: " + eventId + " updated to: " + eventTitle, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     /**Set the type of events that should be returned in the readCalendarEvent function

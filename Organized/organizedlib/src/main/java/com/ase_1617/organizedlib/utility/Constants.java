@@ -22,8 +22,10 @@ public interface Constants {
 
     String INVALID_LOGIN_INPUT = "Either email or password was invalid.";
     String AUTH_ERROR_MESSAGE = "Authentication failed. Please try again.";
+    String FEEDBACK_ERROR_MESSAGE = "Data transfer failed. Please try again later.";
 
     String EVENT_ANSWER_POSITIVE = "yes";
     String EVENT_ANSWER_NEGATIVE = "no";
 
+    int FEEDBACK_SUCCESS_CODE = 204;
 }

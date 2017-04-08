@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.utility.Constants;
@@ -33,7 +34,10 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
     private final static String TAG = "AcceptEventAsyncTask";
 
     private Integer eventPosition = -1;
+    private int responseCode = 0;
+
     private String answer;
+    private String eventTitle;
 
     private Context context;
 
@@ -67,12 +71,11 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
 
         eventPosition = (Integer)urls[2];
         answer = (String)urls[3];
+        eventTitle = (String)urls[4];
 
         String url = Constants.FEEDBACK_URL_START + eventId + Constants.FEEDBACK_URL_END;
         String data = null;
         String serverResponse;
-
-        int responseCode = 0;
 
         URL server = null;
 
@@ -112,7 +115,7 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
         }
 
         //Interpret the server response and react to it
-        if(responseCode == HttpURLConnection.HTTP_OK){
+        if(responseCode == Constants.FEEDBACK_SUCCESS_CODE){
             serverResponse = InputStreamInterpreter.interpretInputStream(connection);
             Log.v(TAG, "serverResponse: "+serverResponse);
         }
@@ -127,14 +130,24 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
     }
 
     /**
-     * Call the given fetchEventsAsyncInterface method when the async task has finished
+     * Check whether the server sent an OK result.
+     * Call the given fetchEventsAsyncInterface method when the async task has finished.
      * @param result
      */
     protected void onPostExecute(Boolean result) {
-        if(answer.equals("yes")){
-            acceptEventAsyncInterface.eventAccepted(eventPosition);
+        if(responseCode == Constants.FEEDBACK_SUCCESS_CODE){
+            Toast toast = Toast.makeText(context, "Participation of event: " + eventTitle + " set to '" + answer + "'.", Toast.LENGTH_SHORT);
+            toast.show();
+
+            if(answer.equals("yes")){
+                acceptEventAsyncInterface.eventAccepted(eventPosition);
+            }else{
+                acceptEventAsyncInterface.eventDeclined(eventPosition);
+            }
         }else{
-            acceptEventAsyncInterface.eventDeclined(eventPosition);
+            Toast toast = Toast.makeText(context, Constants.FEEDBACK_ERROR_MESSAGE, Toast.LENGTH_SHORT);
+            toast.show();
         }
+
     }
 }

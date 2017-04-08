@@ -297,6 +297,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         //Variables necessary for the acceptEventAsyncTask
         final AcceptEventAsyncInterface acceptEventAsyncInterface = this;
         final Integer eventId = event.getEventId();
+        final String eventTitle = event.getEventName();
         final Context context = this;
 
         //String containing info according colliding events
@@ -310,7 +311,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                     public void onClick(DialogInterface dialog, int which) {
                         AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask(context);
                         acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
-                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_POSITIVE);
+                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_POSITIVE, eventTitle);
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -386,6 +387,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         final Context context = this;
         final AcceptEventAsyncInterface acceptEventAsyncInterface = this;
         final Integer eventId = event.getEventId();
+        final String eventTitle = event.getEventName();
 
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Decline event?")
@@ -395,7 +397,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                     public void onClick(DialogInterface dialog, int which) {
                         AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask(context);
                         acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
-                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_NEGATIVE);
+                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_NEGATIVE, eventTitle);
                     }
                 })
                 .setNegativeButton("Back", null)
