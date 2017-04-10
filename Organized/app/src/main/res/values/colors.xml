@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="link">#0645AD</color>
+    <color name="event_red">#FFCC55</color>
 </resources>

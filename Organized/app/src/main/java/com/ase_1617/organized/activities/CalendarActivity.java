@@ -14,6 +14,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,7 +125,7 @@ public class CalendarActivity extends AppCompatActivity {
             public void onSelectDate(Date date, View view) {
                 ArrayList<CalEvent> matchingEvents = getMatchingEvents(date);
                 if(matchingEvents.size() != 0){
-                    showEventsData(matchingEvents);
+                    showEventsDate(matchingEvents);
                 }
                 updateUI();
             }
@@ -304,29 +308,30 @@ public class CalendarActivity extends AppCompatActivity {
     private void showEventData(int position) {
         CalEvent clickedEvent = deviceEventList.get(position);
 
-        String eventInfo = MiscUtility.calEventToInfo(clickedEvent);
+        String[] eventTitle = {clickedEvent.getEventName()};
+        String[] eventInfo = {MiscUtility.calEventToInfo(clickedEvent)};
 
-        showInfoAlert("Event", eventInfo);
+        showInfoAlert(eventTitle, eventInfo);
     }
 
     /**Show events data in an info alert.
      *
      * @param eventList Arraylist containing the events to display
      */
-    private void showEventsData(ArrayList<CalEvent> eventList) {
+    private void showEventsDate(ArrayList<CalEvent> eventList) {
         CalEvent clickedEvent;
-        String eventsInfo = new String();
+        String[] eventTitles = new String[eventList.size()];
+        String[] eventData = new String[eventList.size()];
+
         for(int i = 0, j = eventList.size(); i < j; i++){
             clickedEvent = eventList.get(i);
-            eventsInfo += "" + clickedEvent.getEventName() + "\n";
+            eventTitles[i] = "" + clickedEvent.getEventName() + "\n";
 
             String[] dateData = MiscUtility.calculateDate(clickedEvent.getEventStartDate().getTime(), clickedEvent.getEventEndDate().getTime());
-            eventsInfo += dateData[0] + "\n";
-            eventsInfo += dateData[1] + "\n";
-
-            eventsInfo += "" + clickedEvent.getEventDescription() + "\n" + "\n";
+            eventData[i] = "" + dateData[0] + "\n" + dateData[1] + "\n" + clickedEvent.getEventDescription() + "\n" + "\n";
         }
-        showInfoAlert("Events", eventsInfo);
+
+        showInfoAlert(eventTitles, eventData);
     }
 
     /**
@@ -493,6 +498,30 @@ public class CalendarActivity extends AppCompatActivity {
         infoDialog = new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(infoText)
+                .create();
+        infoDialog.show();
+    }
+
+    /**
+     * Show an alert dialog containing the given info.
+     * @param titles Array containing the event titles
+     * @param infoTexts Array containing the event info
+     */
+    public void showInfoAlert(String[] titles, String[] infoTexts){
+        SpannableStringBuilder infoContent = new SpannableStringBuilder();
+        int start = 0;
+
+        //Format the info content
+        //->Event titles bold and red
+        for(int i = 0, j = titles.length; i < j; i++){
+            infoContent.append(titles[i]);
+            infoContent.setSpan(new ForegroundColorSpan(Color.RED), start, infoContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            infoContent.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, infoContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            infoContent.append(infoTexts[i]);
+            start = infoContent.length();
+        }
+        infoDialog = new AlertDialog.Builder(this)
+                .setMessage(infoContent)
                 .create();
         infoDialog.show();
     }

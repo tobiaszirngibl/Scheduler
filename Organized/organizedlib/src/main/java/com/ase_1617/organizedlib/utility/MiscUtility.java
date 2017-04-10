@@ -119,7 +119,7 @@ public class MiscUtility {
      */
     private static String millisToDate(long milliSeconds) {
         SimpleDateFormat formatter = new SimpleDateFormat(
-                "dd/MM/yyyy HH:mm a");
+                "dd/MM/yyyy HH:mm a", Locale.GERMAN);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
@@ -131,8 +131,7 @@ public class MiscUtility {
      * @return
      */
     public static String calEventToInfo(CalEvent event) {
-        String eventInfo = "" + event.getEventName() + "\n";
-        eventInfo = eventInfo + event.getEventLocation() + "\n";
+        String eventInfo = "\n" + event.getEventLocation() + "\n";
 
         String[] dateData = MiscUtility.calculateDate(event.getEventStartDate().getTime(), event.getEventEndDate().getTime());
         eventInfo += dateData[0] + "\n";
