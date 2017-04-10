@@ -508,18 +508,8 @@ public class CalendarActivity extends AppCompatActivity {
      * @param infoTexts Array containing the event info
      */
     public void showInfoAlert(String[] titles, String[] infoTexts){
-        SpannableStringBuilder infoContent = new SpannableStringBuilder();
-        int start = 0;
+        SpannableStringBuilder infoContent = MiscUtility.formatEventInfo(titles, infoTexts);
 
-        //Format the info content
-        //->Event titles bold and red
-        for(int i = 0, j = titles.length; i < j; i++){
-            infoContent.append(titles[i]);
-            infoContent.setSpan(new ForegroundColorSpan(Color.RED), start, infoContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            infoContent.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, infoContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            infoContent.append(infoTexts[i]);
-            start = infoContent.length();
-        }
         infoDialog = new AlertDialog.Builder(this)
                 .setMessage(infoContent)
                 .create();

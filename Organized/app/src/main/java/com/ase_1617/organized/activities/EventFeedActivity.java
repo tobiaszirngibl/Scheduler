@@ -318,21 +318,24 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         //Variables necessary for the acceptEventAsyncTask
         final AcceptEventAsyncInterface acceptEventAsyncInterface = this;
         final Integer eventId = event.getEventId();
-        final String eventTitle = event.getEventName();
+        final String[] eventTitle = {event.getEventName()};
         final Context context = this;
 
         //String containing info according colliding events
         String collEventsString = getCollEventsInfo(event);
 
+        //String array containing the event data and collide info
+        String[] eventInfo = {MiscUtility.calEventToInfo(event) + "\n" + collEventsString};
+
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Accept event?")
-                .setMessage(MiscUtility.calEventToInfo(event) + "\n" + collEventsString)
+                .setMessage(MiscUtility.formatEventInfo(eventTitle, eventInfo))
                 .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask(context);
                         acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
-                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_POSITIVE, eventTitle);
+                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_POSITIVE, eventTitle[0]);
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -408,17 +411,21 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         final Context context = this;
         final AcceptEventAsyncInterface acceptEventAsyncInterface = this;
         final Integer eventId = event.getEventId();
-        final String eventTitle = event.getEventName();
+        final String eventTitle[] = {event.getEventName()};
+
+        //String array containing the event data
+        String[] eventInfo = {MiscUtility.calEventToInfo(event)};
+
 
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Decline event?")
-                .setMessage(MiscUtility.calEventToInfo(event))
+                .setMessage(MiscUtility.formatEventInfo(eventTitle, eventInfo))
                 .setPositiveButton("Decline", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AcceptEventAsyncTask acceptEventAsyncTask = new AcceptEventAsyncTask(context);
                         acceptEventAsyncTask.acceptEventAsyncInterface = acceptEventAsyncInterface;
-                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_NEGATIVE, eventTitle);
+                        acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_NEGATIVE, eventTitle[0]);
                     }
                 })
                 .setNegativeButton("Back", null)

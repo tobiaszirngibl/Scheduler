@@ -1,7 +1,12 @@
 package com.ase_1617.organizedlib.utility;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 
 import com.ase_1617.organizedlib.data.CalEvent;
 
@@ -139,5 +144,28 @@ public class MiscUtility {
         eventInfo += "" + event.getEventDescription() + "\n";
 
         return eventInfo;
+    }
+
+    /**
+     * Format given event title and info for use in alertDialogs.
+     * @param titles
+     * @param infoTexts
+     * @return
+     */
+    public static SpannableStringBuilder formatEventInfo(String[] titles, String[] infoTexts) {
+        SpannableStringBuilder infoContent = new SpannableStringBuilder();
+        int start = 0;
+
+        //Format the info content
+        //->Event titles bold and red
+        for(int i = 0, j = titles.length; i < j; i++){
+            infoContent.append(titles[i]);
+            infoContent.setSpan(new ForegroundColorSpan(Color.RED), start, infoContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            infoContent.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, infoContent.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            infoContent.append(infoTexts[i]);
+            start = infoContent.length();
+        }
+
+        return infoContent;
     }
 }
