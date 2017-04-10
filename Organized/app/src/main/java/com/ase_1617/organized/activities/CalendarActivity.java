@@ -434,8 +434,8 @@ public class CalendarActivity extends AppCompatActivity {
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Delete event")
-                .setMessage("Delete the event '" + eventTitle + "' with event id: " + eventId + "?")
-                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                .setMessage("Do you really want to delete the event\n" + eventTitle + "?")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

@@ -428,7 +428,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
                         acceptEventAsyncTask.execute(accessToken, eventId, position, Constants.EVENT_ANSWER_NEGATIVE, eventTitle[0]);
                     }
                 })
-                .setNegativeButton("Back", null)
+                .setNegativeButton("Cancel", null)
                 .create();
         eventActionDialog.show();
     }
