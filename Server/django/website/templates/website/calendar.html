@@ -219,14 +219,14 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
-                                    <input type="text" class="form-control" id="reservationtime" disabled>
+                                    <input type="text" class="form-control" id="reservationtime" >
                                 </div>
                         </div>
                         <div class="bootstrap-timepicker">
                             <div class="form-group">
                                 <label>Beginn:</label>
                                 <div class="input-group">
-                                    <input id="startTime" type="text" class="form-control timepicker" disabled>
+                                    <input id="startTime" type="text" class="form-control timepicker" >
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
@@ -237,7 +237,7 @@
                             <div class="form-group">
                                 <label>Ende:</label>
                                 <div class="input-group">
-                                    <input id="endTime" type="text" class="form-control timepicker" disabled>
+                                    <input id="endTime" type="text" class="form-control timepicker" >
                                     <div class="input-group-addon">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
@@ -246,13 +246,13 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <input id="allDay" type="checkbox" class="minimal" disabled>
+                                <input id="allDay" type="checkbox" class="minimal" >
                                 Ganztägig
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Gruppe auswählen:</label>
-                            <select class="form-control" disabled>
+                            <select id="groupList" class="chzn-select">
                                 <option>Theater Gruppe</option>
                                 <option>Abteilung 1</option>
                                 <option>Regensburg</option>
@@ -261,13 +261,13 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <input id="user" type="checkbox" class="minimal" disabled>
+                                <input id="user" type="checkbox" class="minimal" >
                                 Benutzer auswählen
                             </label>
                         </div>
                         <div class="form-group">
                             <label>Benutzer auswählen:</label>
-                            <select id="userList" multiple class="form-control" disabled>
+                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
                             </select>
                         </div>
                         <div class="form-group">
@@ -643,7 +643,10 @@ var eventSentData = "";
 
      });
 
+  $(".chzn-select").chosen({
 
+    width:"100%"
+});
 
 
     /* initialize the external events
@@ -880,6 +883,7 @@ var eventSentData = "";
                     var actorEmail = data[key].email;
                     $('#userList').append('<option>'+actorEmail+' - ' + actorName +'</option>');
                     }
+                  $("#userList").trigger("chosen:updated");
                 }
         });
 
