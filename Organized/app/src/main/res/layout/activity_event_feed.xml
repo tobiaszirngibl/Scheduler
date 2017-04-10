@@ -14,8 +14,9 @@
     <TextView
         android:id="@+id/no_events_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/empty_feed_message"/>
+        android:layout_height="match_parent"
+        android:text="@string/empty_feed_message"
+        android:textSize="18sp"/>
 
     <ListView
         android:id="@+id/list_event_feed"

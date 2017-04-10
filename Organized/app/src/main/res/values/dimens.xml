@@ -13,4 +13,6 @@
     <dimen name="new_event_element_time_margin_left">0dp</dimen>
     <dimen name="new_event_element_accept_button_width">48dp</dimen>
     <dimen name="new_event_element_accept_button_margin">6dp</dimen>
+    <dimen name="event_delete_button_margin">3dp</dimen>
+    <dimen name="event_title_margin_top">12dp</dimen>
 </resources>

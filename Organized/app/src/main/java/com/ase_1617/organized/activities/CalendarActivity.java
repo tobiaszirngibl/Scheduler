@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class CalendarActivity extends AppCompatActivity {
@@ -66,7 +67,7 @@ public class CalendarActivity extends AppCompatActivity {
 
         setupCaldroid(savedInstanceState);
 
-        formatter = new SimpleDateFormat("dd MMM yyyy HH : mm");
+        formatter = new SimpleDateFormat("dd MMM yyyy HH : mm", Locale.GERMAN);
 
         fetchDeviceEvents();
         updateUI();
