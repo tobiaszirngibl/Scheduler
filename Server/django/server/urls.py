@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('backend.urls')),
     url(r'^login/$', auth_views.login, {'template_name': 'website/auth/login.html'}, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^register/$', auth_views.login, {'template_name': 'website/auth/register.html'}, name='register'),
     url(r'^', include('website.urls')),
 	url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')), #stuff for oauth

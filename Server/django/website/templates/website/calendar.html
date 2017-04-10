@@ -11,7 +11,7 @@
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search for user">
 
             </div>
           </form>
@@ -26,7 +26,11 @@
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
 
+        <div id="testingHide">
 
+<ul id="myUL">
+</ul>
+                </div>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -126,7 +130,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#tab_1" data-toggle="tab">Kalender</a></li>
-              <li><a href="#tab_2" data-toggle="tab">Terminanfragen <span id="appointmentCount" class="label label-success"></span></a></li>
+              <li><a href="#tab_2" data-toggle="tab">Terminübersicht <span id="appointmentCount" class="label label-success"></span></a></li>
 
 
             </ul>
@@ -135,7 +139,9 @@
                  <div id="calView" class="box box-primary">
             <div class="box-body no-padding">
               <!-- THE CALENDAR -->
+
               <div id="calendar"></div>
+
             </div>
             <!-- /.box-body -->
           </div>
@@ -150,18 +156,32 @@
             <div class="box-body">
               <div class="box-group" id="accordion">
                 <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+
                 <div class="panel box box-warning">
                   <div class="box-header with-border">
-                      <ul id="appointmentList">
+                      <h3 class="box-title">Termine ausstehend</h3>
+                      <ul id="appointmentListPending">
                       </ul>
-
-
-
                   </div>
-
-
-
                 </div>
+
+                  <div class="panel box box-success">
+                  <div class="box-header with-border">
+                      <h3 class="box-title">Termine angenommen</h3>
+                      <ul id="appointmentListYes">
+                      </ul>
+                  </div>
+                </div>
+
+                  <div class="panel box box-error">
+                  <div class="box-header with-border">
+                      <h3 class="box-title">Termine abgelehnt</h3>
+                      <ul id="appointmentListNo">
+                      </ul>
+                  </div>
+                </div>
+
+
               <!-- /.tab-pane -->
 
               <!-- /.tab-pane -->
@@ -545,6 +565,28 @@ var events = [];
 var eventSentData = "";
                 var calEventID="";
 
+
+
+
+                $.ajax({
+            type: "GET",
+            url: "http://localhost:8000/api/actor/",
+            success: function(data)
+                {
+                    for (var key in data) {
+                        if(data[key].first_name ==  "" && data[key].last_name == "") {
+                            var actorName = "Kein Name angegeben";
+                        }
+                        else {
+                            var actorName = data[key].first_name + " " + data[key].last_name;
+                        }
+                    var actorEmail = data[key].email;
+                    $('#myUL').append('<li><a href="/profile" class="header">'+actorEmail+' - ' + actorName +'</a></li>');
+                    }
+                }
+        });
+
+
  $.ajax({
 
     type: "GET",
@@ -554,15 +596,15 @@ var eventSentData = "";
         for (var key in data) {
           var event = {
               title: data[key].name,
-              start: data[key].date_begin,
+              start: data[key].dtstart,
                 id: data[key].id
 
           }
           events.push(event);
 
-          $("#appointmentList").append('<h4 id="eventList'+key+'">'+event.title+'<br>'+event.start+'</h4>');
-          $("#appointmentList").append('<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>');
-          $("#appointmentList").append('<button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br><br><hr>');
+          $("#appointmentListPending").append('<h4 id="eventList'+key+'">'+event.title+'<br>'+event.start+'</h4>');
+          $("#appointmentListPending").append('<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>');
+          $("#appointmentListPending").append('<button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br><br><hr>');
 
           $('#yesEvent'+key).prop("buttonId",key);
           $('#noEvent'+key).prop("buttonId",key);
@@ -596,6 +638,9 @@ var eventSentData = "";
      $('#calendar').fullCalendar('refetchEvents');
 
       }
+
+
+
      });
 
 
@@ -850,7 +895,7 @@ var title = $("#title").val();
 var desc = $("#remark").val();
 
 var actors = ["a@b.com"];
-var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:"", participants: ["a@b.com"]};
+var formData = {name: title, organizer: 1};
 $.ajax({
 
     url : "http://localhost:8000/api/appointment/",
@@ -903,7 +948,7 @@ console.log(jqXHR);
 
         });
 
-
+$("#testingHide").hide();
 
     $("#saveEventEditPut").click(function (e){
 
@@ -968,7 +1013,41 @@ console.log(jqXHR);
       //Remove event from text input
       $("#new-event").val("");
     });
+                $('#navbar-search-input').on('keyup', function() {
+
+
+
+                $("#testingHide").show();
+
+$(".content-wrapper").hide();
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('navbar-search-input');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+                if(input.value === "") {
+                   $("#testingHide").hide();
+
+$(".content-wrapper").show();
+                }
+
+});
+
+
   });
+
+
 
 {% endblock %}
 

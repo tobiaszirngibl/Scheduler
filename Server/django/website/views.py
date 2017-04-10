@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 
 # Create your views here.
 
+@login_required
 def profile_view(request):
 	user = {"email": request.user.email,
 			"firstname": request.user.first_name,
@@ -11,12 +12,14 @@ def profile_view(request):
 			"bio": request.user.get_bio}
 	return render(request, 'website/profile.html', {"user": user})
 
+@login_required
 def calendar_view(request):
 	user = {"email": request.user.email,
 			"firstname": request.user.first_name,
 			"lastname": request.user.last_name}
 	return render(request, 'website/calendar.html', {"user": user})
 
+@login_required
 def group_view(request):
 	user = {"email": request.user.email,
 			"firstname": request.user.first_name,

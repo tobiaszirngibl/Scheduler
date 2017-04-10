@@ -137,6 +137,9 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/calendar'
 LOGIN_URL = '/login/'
 
+LOGOUT_REDIRECT_URL = '/login'
+
+
 # OAuth provider
 OAUTH2_PROVIDER = {
 	# this is the list of available scopes
