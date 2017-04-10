@@ -130,7 +130,6 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
         }
         else{
             authenticationError = 1;
-            Log.v(TAG, "Response code:" + responseCode );
         }
 
         progressDialog.dismiss();

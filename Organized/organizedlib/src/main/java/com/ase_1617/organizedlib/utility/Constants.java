@@ -15,8 +15,8 @@ public interface Constants {
     String FEEDBACK_URL_END = "/response";
 
     //OAuth2
-    String CLIENT_ID= "M7kgIr6rqeVeY2Q2vCrlKhQYKT9LDVYH2ycEbAbS";
-    String CLIENT_SECRET = "GB3oikXcvmQJ9UK2cD5eHpS1H57lN6av6DiGpgg5cbTMXUL7b2lC5XATOlFCdVmzGT4rTa8PHIG9DG9OTzzQxCq9ZTFR1bn9sArMJtS1x0jwcXxL8IDOLVIdR8OB5Lln";
+    String CLIENT_ID= "xzawb3Fb11Khp17HGexcHmRn8AVrnsvd9LQHxyts";
+    String CLIENT_SECRET = "Y7spPAMwyJN6WaajI8kX8TendqUeltBTTO0mDBJ68qdMvK2VCJK5ta8ZJRoTojjyrXD58xOXyC0JPzj5eA1ef0UdXgitHdw5a0rnWGhmVENxzqsiS4RvlGw1Q3gizbuu";
 
     //Shared preferences
     String PREFS_NAME = "LoginPrefs";

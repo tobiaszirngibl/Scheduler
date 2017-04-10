@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ase_1617.organized.LoginActivity;
 import com.ase_1617.organized.R;
@@ -47,6 +48,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     private AlertDialog eventActionDialog;
 
     private ListView eventFeedListView;
+    private TextView noEventsMessage;
 
     private EventFeedAdapter eventFeedAdapter;
 
@@ -60,6 +62,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_feed);
         eventFeedListView = (ListView) findViewById(R.id.list_event_feed);
+        noEventsMessage = (TextView) findViewById(R.id.no_events_text);
 
         getAccessToken();
         fetchEventFeedData();
@@ -249,12 +252,30 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
 
     /**
      * Save the new events list when the async task finished fetching it from the server.
+     * Hide the no events message if new events are available.
      * @param eventFeedList
      */
     @Override
     public void newEventsFetched(ArrayList<CalEvent> eventFeedList) {
         this.eventFeedList = eventFeedList;
+        if(eventFeedList.size() > 0){
+            hideNoEventsMsg();
+        }
         setupEventFeedList();
+    }
+
+    /**
+     * Hide the "no events available" message.
+     */
+    private void hideNoEventsMsg() {
+        noEventsMessage.setVisibility(View.GONE);
+    }
+
+    /**
+     * Show the "no events available" message.
+     */
+    private void showNoEventsMsg() {
+        noEventsMessage.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -409,10 +430,15 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      * Remove the event at the given position from the new event feed list
      * when the user has either accepted or declined it.
      * Notify the eventFeed adapter that the eventFeedList changed.
+     * Show the "no events available" message if the removed event was the last list element.
      */
     private void removeEventFromFeed(int position){
         eventFeedList.remove(position);
         eventFeedAdapter.notifyDataSetChanged();
+
+        if(eventFeedList.size() == 0){
+            showNoEventsMsg();
+        }
     }
 
 }

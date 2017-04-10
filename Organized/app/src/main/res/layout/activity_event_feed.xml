@@ -11,6 +11,12 @@
     android:descendantFocusability="blocksDescendants"
     tools:context="com.ase_1617.organized.activities.EventFeedActivity">
 
+    <TextView
+        android:id="@+id/no_events_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_feed_message"/>
+
     <ListView
         android:id="@+id/list_event_feed"
         android:layout_width="wrap_content"
