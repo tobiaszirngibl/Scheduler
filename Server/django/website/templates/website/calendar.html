@@ -11,7 +11,7 @@
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search for user">
 
             </div>
           </form>
@@ -26,7 +26,11 @@
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
 
+        <div id="testingHide">
 
+<ul id="myUL">
+</ul>
+                </div>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -135,7 +139,9 @@
                  <div id="calView" class="box box-primary">
             <div class="box-body no-padding">
               <!-- THE CALENDAR -->
+
               <div id="calendar"></div>
+
             </div>
             <!-- /.box-body -->
           </div>
@@ -559,6 +565,28 @@ var events = [];
 var eventSentData = "";
                 var calEventID="";
 
+
+
+
+                $.ajax({
+            type: "GET",
+            url: "http://localhost:8000/api/actor/",
+            success: function(data)
+                {
+                    for (var key in data) {
+                        if(data[key].first_name ==  "" && data[key].last_name == "") {
+                            var actorName = "Kein Name angegeben";
+                        }
+                        else {
+                            var actorName = data[key].first_name + " " + data[key].last_name;
+                        }
+                    var actorEmail = data[key].email;
+                    $('#myUL').append('<li><a href="/profile" class="header">'+actorEmail+' - ' + actorName +'</a></li>');
+                    }
+                }
+        });
+
+
  $.ajax({
 
     type: "GET",
@@ -610,6 +638,9 @@ var eventSentData = "";
      $('#calendar').fullCalendar('refetchEvents');
 
       }
+
+
+
      });
 
 
@@ -917,7 +948,7 @@ console.log(jqXHR);
 
         });
 
-
+$("#testingHide").hide();
 
     $("#saveEventEditPut").click(function (e){
 
@@ -982,7 +1013,41 @@ console.log(jqXHR);
       //Remove event from text input
       $("#new-event").val("");
     });
+                $('#navbar-search-input').on('keyup', function() {
+
+
+
+                $("#testingHide").show();
+
+$(".content-wrapper").hide();
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('navbar-search-input');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+                if(input.value === "") {
+                   $("#testingHide").hide();
+
+$(".content-wrapper").show();
+                }
+
+});
+
+
   });
+
+
 
 {% endblock %}
 
