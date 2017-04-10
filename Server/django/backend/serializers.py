@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backend.models import Actor, Appointment, Group, Participation
+from .models import Actor, Appointment, Group, Participation
 
 
 class ActorSerializer(serializers.ModelSerializer):
@@ -52,9 +52,12 @@ class AppointmentSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 	def get_own_answer(self, obj):
+
 		user = self.context['request'].user
 		participation = Participation.objects.get(actor=user, appointment=obj)
 		return participation.answer
+
+
 
 	def update(self, instance, validated_data):
 		for key, value in validated_data.items():
