@@ -30,7 +30,82 @@
 
 <ul id="myUL">
 </ul>
+
+
                 </div>
+
+
+ <div id="userModal" class="modal fade modal-primary">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 id="modalUserName"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div>
+                                    <label>Email:</label>
+                                </div>
+                                  <div>
+                                   <p id="modalUserMail"></p>
+                                </div>
+                                <div>
+                                    <label>Telefon:</label>
+                                </div>
+                                <div>
+                                   <p id="modalUserTel"></p>
+                                </div>
+                                <div>
+                                    <label>Anmerkungen zu Kontaktdaten:</label>
+                                </div>
+                                 <div>
+                                   <p id="modalUserNote"></p>
+                                </div>
+                                <div>
+                                    <label>Standort:</label>
+                                </div>
+                                <div>
+                                    <p id="modalUserPlace"></p>
+                                </div>
+                                <div>
+                                    <label>Ausbildung:</label>
+                                </div>
+                                 <div>
+                                    <p id="modalUserAusbildung"></p>
+                                </div>
+                                <div>
+                                    <label>Skills:</label>
+                                </div>
+                                 <div>
+                                    <p id="modalUserSkills"></p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div>
+                                   <!-- <img src="../dist/img/user2-160x160.jpg" id="modalUserImg"></img> -->
+                                </div>
+                            <br>
+                             <div>
+                                    <p id="modalUserJob">Schauspieler</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -71,11 +146,7 @@
             <div class="box-body">
               <!-- the events -->
               <div id="external-events">
-                <div class="external-event bg-green">Lunch</div>
-                <div class="external-event bg-yellow">Go home</div>
-                <div class="external-event bg-aqua">Do homework</div>
-                <div class="external-event bg-light-blue">Work on UI design</div>
-                <div class="external-event bg-red">Sleep tight</div>
+
                 <div class="checkbox">
                   <label for="drop-remove">
                     <input type="checkbox" id="drop-remove">
@@ -222,6 +293,12 @@
                                     <input type="text" class="form-control" id="reservationtime" >
                                 </div>
                         </div>
+                         <div class="form-group">
+                            <label>
+                                <input id="allDay" type="checkbox" class="minimal" >
+                                Ganztägig
+                            </label>
+                        </div>
                         <div class="bootstrap-timepicker">
                             <div class="form-group">
                                 <label>Beginn:</label>
@@ -244,14 +321,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>
-                                <input id="allDay" type="checkbox" class="minimal" >
-                                Ganztägig
+
+
+                        <div   class="form-group">
+  <label>
+                                <input id="group" type="checkbox" class="minimal" checked>
+                                Gruppe auswählen
                             </label>
-                        </div>
-                        <div class="form-group">
-                            <label>Gruppe auswählen:</label>
                             <select id="groupList" class="chzn-select">
                                 <option>Theater Gruppe</option>
                                 <option>Abteilung 1</option>
@@ -262,12 +338,9 @@
                         <div class="form-group">
                             <label>
                                 <input id="user" type="checkbox" class="minimal" >
-                                Benutzer auswählen
+                                Benutzer auswählen:
                             </label>
-                        </div>
-                        <div class="form-group">
-                            <label>Benutzer auswählen:</label>
-                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
+                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
                             </select>
                         </div>
                         <div class="form-group">
@@ -542,6 +615,9 @@
           </div>
         </div>
 
+
+
+
 {% endblock %}
 
 {% block calFunc %}
@@ -561,9 +637,50 @@ $.ajaxSetup({
     }
 });
 
+
+             $("#myUL").on("click", ".userSearchResult", function(e){
+
+
+var userID = e.currentTarget.id;
+                $.ajax({
+            type: "GET",
+                url: "http://localhost:8000/api/actor/"+userID+"/",
+            success: function (data) {
+        $("#modalUserName").text(data.first_name +" "+ data.last_name);
+        $("#modalUserMail").text(data.email);
+        //$("#modalUserTel").text(data.tel);
+        //$("#modalUserNote").text(data.notes);
+        //$("#modalUserPlace").text(data.place);
+            }
+        });
+
+
+
+        $("#userModal").modal('show');
+
+      });
+
+
+
+
 var events = [];
 var eventSentData = "";
                 var calEventID="";
+
+
+
+
+                $.ajax({
+            type: "GET",
+            url: "http://localhost:8000/api/favorites/",
+            success: function(data)
+                {
+                    for (var key in data) {
+
+                 $('#external-events').prepend('<div class="external-event bg-yellow">'+data[key].name+'</div>');
+}
+                }
+        });
 
 
 
@@ -581,8 +698,12 @@ var eventSentData = "";
                             var actorName = data[key].first_name + " " + data[key].last_name;
                         }
                     var actorEmail = data[key].email;
-                    $('#myUL').append('<li><a href="/profile" class="header">'+actorEmail+' - ' + actorName +'</a></li>');
+                    $('#myUL').append('<li><a id='+data[key].id+' class="userSearchResult">'+actorEmail+' - ' + actorName +'</a></li>');
+
+
                     }
+
+
                 }
         });
 
@@ -696,10 +817,7 @@ var eventSentData = "";
       },
 
           eventRender: function(event, element) {
-            element.prepend( "<span class='closeon'>X</span>" );
-            element.find(".closeon").click(function() {
-               $('#calendar').fullCalendar('removeEvents',event._id);
-            });
+
 
               element.popover({
             title: event.name,
@@ -707,7 +825,6 @@ var eventSentData = "";
             content: + '<br />Start:',
         });
         },
-
     eventClick: function(calEvent, jsEvent, view) {
 
 
@@ -751,27 +868,21 @@ var eventSentData = "";
 
     },
 
-        eventMouseover: function(calEvent, jsEvent, view) {
-
-
-       /* $(jsEvent.target.parentElement).popover({
-            title: 'the title',
-            content: "esg"
-            }).popover('toggle');*/
-            },
-
-        eventMouseout: function(calEvent, jsEvent, view) {
-
-       /*
-         $(jsEvent.target.parentElement).popover({
-            title: 'the title',
-            content: "esg"
-            }).popover('toggle');*/
-        },
 
 
 
-      editable: true,
+
+      editable: false,
+               selectOverlap: function (event) {
+   console.log(event);
+},
+eventOverlap: function(stillEvent, movingEvent) {
+     console.log(stillEvent + " " + movingEvent);
+
+},
+
+
+
       droppable: true, // this allows things to be dropped onto the calendar !!!
       drop: function (date, allDay) { // this function is called when something is dropped
       $('#dropAppointment').modal('show');
@@ -834,7 +945,6 @@ var eventSentData = "";
 
 
 
-
     $(".timepicker").timepicker({
       showInputs: false,
         showMeridian: false
@@ -845,11 +955,21 @@ var eventSentData = "";
       checkboxClass: 'icheckbox_minimal-blue'
     })
 
-    $('input[type="checkbox"][id="user"]').on('ifChecked', function(event){
-    $("#userList").attr("disabled", false);
+    $('input[type="checkbox"][id="group"]').on('ifChecked', function(event){
+$('#groupList').prop('disabled', false).trigger("chosen:updated");
+
+});
+      $('input[type="checkbox"][id="group"]').on('ifUnchecked', function(event){
+$('#groupList').prop('disabled', true).trigger("chosen:updated");
+
+});
+
+
+ $('input[type="checkbox"][id="user"]').on('ifChecked', function(event){
+$('#userList').prop('disabled', false).trigger("chosen:updated");
 });
       $('input[type="checkbox"][id="user"]').on('ifUnchecked', function(event){
-   $("#userList").attr("disabled", true);
+$('#userList').prop('disabled', true).trigger("chosen:updated");
 });
 
 
@@ -889,6 +1009,11 @@ var eventSentData = "";
 
         $('#appointment').modal('show');
     });
+
+
+
+
+
 
 
     $("#saveEvent").click(function (e){
@@ -987,6 +1112,7 @@ console.log(jqXHR);
 
 
     /* ADDING EVENTS */
+
     var currColor = "#3c8dbc"; //Red by default
     //Color chooser button
     var colorChooser = $("#color-chooser-btn");
@@ -997,26 +1123,42 @@ console.log(jqXHR);
       //Add color effect to button
       $('#add-new-event').css({"background-color": currColor, "border-color": currColor});
     });
+
     $("#add-new-event").click(function (e) {
-      e.preventDefault();
-      //Get value and make sure it is not null
-      var val = $("#new-event").val();
-      if (val.length == 0) {
-        return;
-      }
+                      var val = $("#new-event").val();
 
-      //Create events
-      var event = $("<div />");
-      event.css({"background-color": currColor, "border-color": currColor, "color": "#fff"}).addClass("external-event");
-      event.html(val);
-      $('#external-events').prepend(event);
+       var formData = { name: val, color: currColor, organizer: 1}
+                $.ajax({
 
-      //Add draggable funtionality
-      ini_events(event);
+    url : "http://localhost:8000/api/favorites/",
+    type: "POST",
 
-      //Remove event from text input
-      $("#new-event").val("");
-    });
+
+    data : formData,
+    success: function(data, textStatus, jqXHR)
+    {
+
+                console.log(objectAppID);
+
+  $("#new-event").val("");
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+console.log(jqXHR);
+    }
+});
+
+                });
+
+
+
+
+
+
+
+
+
+
                 $('#navbar-search-input').on('keyup', function() {
 
 
