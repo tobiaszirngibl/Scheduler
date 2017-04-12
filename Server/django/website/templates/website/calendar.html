@@ -178,7 +178,6 @@
                   <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
                   <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
                   <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-muted" href="#"><i class="fa fa-square"></i></a></li>
                   <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
                 </ul>
               </div>
@@ -676,12 +675,10 @@ var eventSentData = "";
             success: function(data)
                 {
                     for (var key in data) {
-
-                 $('#external-events').prepend('<div class="external-event bg-yellow">'+data[key].name+'</div>');
+                 $('#external-events').prepend('<div class="external-event" style="background-color:#'+data[key].color+';color:#fff">'+data[key].name+'</div>');
 }
                 }
         });
-
 
 
 
@@ -1116,18 +1113,25 @@ console.log(jqXHR);
     var currColor = "#3c8dbc"; //Red by default
     //Color chooser button
     var colorChooser = $("#color-chooser-btn");
+                var currColorHex = "";
     $("#color-chooser > li > a").click(function (e) {
       e.preventDefault();
       //Save color
       currColor = $(this).css("color");
+
+
+        currColorHex = rgb2hex(currColor);
       //Add color effect to button
       $('#add-new-event').css({"background-color": currColor, "border-color": currColor});
+
+
+
     });
 
     $("#add-new-event").click(function (e) {
                       var val = $("#new-event").val();
 
-       var formData = { name: val, color: currColor, organizer: 1}
+       var formData = { name: val, color: currColorHex, organizer: 1}
                 $.ajax({
 
     url : "http://localhost:8000/api/favorites/",
@@ -1144,20 +1148,20 @@ console.log(jqXHR);
     },
     error: function (jqXHR, textStatus, errorThrown)
     {
-console.log(jqXHR);
+                console.log(jqXHR);
     }
 });
 
                 });
 
 
-
-
-
-
-
-
-
+function rgb2hex(rgb){
+ rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ return (rgb && rgb.length === 4) ? +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
 
                 $('#navbar-search-input').on('keyup', function() {
 
