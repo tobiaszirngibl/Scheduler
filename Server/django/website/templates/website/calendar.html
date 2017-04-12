@@ -146,6 +146,7 @@
             <div class="box-body">
               <!-- the events -->
               <div id="external-events">
+                <div class="external-event bg-yellow">Go home</div>
 
                 <div class="checkbox">
                   <label for="drop-remove">
@@ -518,7 +519,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                        <button id="saveEvent" type="button" class="btn btn-primary">Speichern</button>
+                        <button id="saveEventDrop" type="button" class="btn btn-primary">Speichern</button>
                     </div>
                 </div>
             </div>
@@ -676,7 +677,7 @@ var eventSentData = "";
                 {
                     for (var key in data) {
                  $('#external-events').prepend('<div class="external-event" style="background-color:#'+data[key].color+';color:#fff">'+data[key].name+'</div>');
-}
+}   ini_events($('#external-events div.external-event'));
                 }
         });
 
@@ -869,41 +870,16 @@ var eventSentData = "";
 
 
 
-      editable: false,
-               selectOverlap: function (event) {
-   console.log(event);
-},
-eventOverlap: function(stillEvent, movingEvent) {
-     console.log(stillEvent + " " + movingEvent);
+      editable: true,
 
-},
 
 
 
       droppable: true, // this allows things to be dropped onto the calendar !!!
       drop: function (date, allDay) { // this function is called when something is dropped
       $('#dropAppointment').modal('show');
-        // retrieve the dropped element's stored Event Object
-        var originalEventObject = $(this).data('eventObject');
 
-        // we need to copy it, so that multiple events don't have a reference to the same object
-        var copiedEventObject = $.extend({}, originalEventObject);
 
-        // assign it the date that was reported
-        copiedEventObject.start = date;
-        copiedEventObject.allDay = allDay;
-        copiedEventObject.backgroundColor = $(this).css("background-color");
-        copiedEventObject.borderColor = $(this).css("border-color");
-
-        // render the event on the calendar
-        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-        // is the "remove after drop" checkbox checked?
-        if ($('#drop-remove').is(':checked')) {
-          // if so, remove the element from the "Draggable Events" list
-          $(this).remove();
-        }
 
       }
     });
@@ -1072,7 +1048,14 @@ console.log(jqXHR);
 
 
 
+
+
         });
+
+                 $("#saveEventDrop").click(function (e){
+    console.log("sending");
+});
+
 
 $("#testingHide").hide();
 
