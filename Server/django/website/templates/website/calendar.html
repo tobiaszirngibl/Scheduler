@@ -457,7 +457,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">Neuer Termin</h4>
+                        <h4 id="dropTitleName" class="modal-title"></h4>
                     </div>
                     <div class="modal-body">
                         <div class="bootstrap-timepicker">
@@ -876,10 +876,11 @@ var eventSentData = "";
 
 
       droppable: true, // this allows things to be dropped onto the calendar !!!
-      drop: function (date, allDay) { // this function is called when something is dropped
+      drop: function (date, allDay, e) { // this function is called when something is dropped
+                $('#dropTitleName').text(allDay.target.innerHTML);
+
       $('#dropAppointment').modal('show');
-
-
+                
 
       }
     });

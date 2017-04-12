@@ -3,7 +3,7 @@
 
 {% block test %}
 
-       <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
+<div class="collapse navbar-collapse pull-right" id="navbar-collapse" xmlns="http://www.w3.org/1999/html">
           <ul class="nav navbar-nav">
             <li><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
             <li><a href="/groups"><i class="fa fa-users" aria-hidden="true"></i> Gruppenverwaltung</a></li>
@@ -33,13 +33,87 @@
 </ul>
                 </div>
 
+
+
+<div id="userModal" class="modal fade modal-primary">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 id="modalUserName"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div>
+                                    <label>Email:</label>
+                                </div>
+                                  <div>
+                                   <p id="modalUserMail"></p>
+                                </div>
+                                <div>
+                                    <label>Telefon:</label>
+                                </div>
+                                <div>
+                                   <p id="modalUserTel"></p>
+                                </div>
+                                <div>
+                                    <label>Anmerkungen zu Kontaktdaten:</label>
+                                </div>
+                                 <div>
+                                   <p id="modalUserNote"></p>
+                                </div>
+                                <div>
+                                    <label>Standort:</label>
+                                </div>
+                                <div>
+                                    <p id="modalUserPlace"></p>
+                                </div>
+                                <div>
+                                    <label>Ausbildung:</label>
+                                </div>
+                                 <div>
+                                    <p id="modalUserAusbildung"></p>
+                                </div>
+                                <div>
+                                    <label>Skills:</label>
+                                </div>
+                                 <div>
+                                    <p id="modalUserSkills"></p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div>
+                                   <!-- <img src="../dist/img/user2-160x160.jpg" id="modalUserImg"></img> -->
+                                </div>
+                            <br>
+                             <div>
+                                    <p id="modalUserJob">Schauspieler</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
 <section class="content-header">
       <h1>
         Benutzer
+
       </h1>
+
     </section>
 
     <!-- Main content -->
@@ -78,6 +152,7 @@
             </div>
             <!-- /.box-body -->
           </div>
+
           <!-- /.box -->
    </div>
           <!-- About Me Box -->
@@ -85,7 +160,6 @@
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Über mich</h3>
-                       <button type="button" class="editProfile btn btn-primary btn-sm pull-right"><span class="glyphicon glyphicon glyphicon-pencil"></span></button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -120,11 +194,8 @@
                 <span class="label label-primary">Node.js</span>
               </p>
 
-              <hr>
 
-              <strong><i class="fa fa-file-text-o margin-r-5"></i> Anmerkungen</strong>
 
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
             </div>
             <!-- /.box-body -->
           </div>
@@ -135,6 +206,69 @@
       <!-- /.row -->
 
     </section>
+
+      <div id="userEdit" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">{{user.firstname}} {{user.lastname}} - {{user.email}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Berufsbezeichnung</label>
+                            <input id="jobEdit" type="text" class="form-control" value={{user.lastname}}>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon:</label>
+                            <input id="telEdit" type="text" class="form-control" value={{user.firstname}}>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Anmerkungen zu Kontaktdaten:</label>
+                                 <input id="notesEdit" type="text" class="form-control" value={{user.bio}}>
+                            </div>
+                        </div>
+                       <div class="form-group">
+                            <div class="form-group">
+                                <label>Ausbildung:</label>
+                                 <input id="lifeEdit" type="text" class="form-control" value={{user.bio}}>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Standort:</label>
+                                 <input id="placeEdit" type="text" class="form-control" value={{user.bio}}>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Fähigkeiten:</label>
+                                 <input id="skillsEdit" type="text" class="form-control" value={{user.bio}}>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Freie Zeiten:</label>
+                                 <input id="freetimeEdit" type="text" class="form-control" value={{user.bio}}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                        <button id="saveUserEdit" type="button" class="btn btn-primary">Bearbeitung abschicken</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
 {% endblock %}
 {% block calFunc %}
 
@@ -160,8 +294,7 @@ $.ajaxSetup({
 
       $("#testingHide").hide();
 
-
-                $.ajax({
+    $.ajax({
             type: "GET",
             url: "http://localhost:8000/api/actor/",
             success: function(data)
@@ -174,24 +307,79 @@ $.ajaxSetup({
                             var actorName = data[key].first_name + " " + data[key].last_name;
                         }
                     var actorEmail = data[key].email;
-                    $('#myUL').append('<li><a href="/profile" class="header">'+actorEmail+' - ' + actorName +'</a></li>');
+                    $('#myUL').append('<li><a id='+data[key].id+' class="userSearchResult">'+actorEmail+' - ' + actorName +'</a></li>');
+
+
                     }
+
+
                 }
         });
 
+             $("#myUL").on("click", ".userSearchResult", function(e){
 
-   $('.editContact').tooltip({
-    'show': true,
-        'placement': 'bottom',
-        'title': "Kontaktdaten bearbeiten"
-    });
-    
-    $('.editProfile').tooltip({
+
+var userID = e.currentTarget.id;
+                $.ajax({
+            type: "GET",
+                url: "http://localhost:8000/api/actor/"+userID+"/",
+            success: function (data) {
+        $("#modalUserName").text(data.first_name +" "+ data.last_name);
+        $("#modalUserMail").text(data.email);
+        //$("#modalUserTel").text(data.tel);
+        //$("#modalUserNote").text(data.notes);
+        //$("#modalUserPlace").text(data.place);
+            }
+        });
+
+
+
+        $("#userModal").modal('show');
+
+      });
+
+
+
+
+
+
+
+    $('.editContact').tooltip({
     'show': true,
         'placement': 'bottom',
         'title': "Profil bearbeiten"
     });
 
+ $('.editContact').click(function() {
+    $("#userEdit").modal("show");
+      });
+
+      $('#saveUserEdit').click(function() {
+
+var bioEdit = $("#notesEdit").val();
+
+var formData = {bio: bioEdit};
+$.ajax({
+
+    url : "http://localhost:8000/api/actor/1/",
+    type: "PATCH",
+
+
+
+    data : formData,
+    success: function(data, textStatus, jqXHR)
+    {
+                                        $('#userEdit').modal('hide');
+
+      location.reload();
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+console.log(jqXHR);
+    }
+});
+
+      });
 
 
       $('#navbar-search-input').on('keyup', function() {
