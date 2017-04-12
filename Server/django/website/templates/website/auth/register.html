@@ -104,7 +104,14 @@
               },
               error: function (jqXHR, textStatus, errorThrown) {
 
-                  $.notify("Registrierung fehlgeschlagen: "+jqXHR.responseText, "error",  { position:"middle" });
+                  var errorMessage = jqXHR.responseText;
+                  errorMessage = errorMessage.substring(errorMessage.indexOf("[") + 2);
+                    errorMessage = errorMessage.substring(0, errorMessage.indexOf('"'));
+
+
+
+
+                  $.notify("Registrierung fehlgeschlagen: "+errorMessage, "error",  { position:"middle" });
               }
           });
 
