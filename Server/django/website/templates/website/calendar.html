@@ -111,9 +111,7 @@
                            <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
                            <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
                            <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
                            <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
                            <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
                            <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
                            <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
@@ -608,6 +606,7 @@ $(function () {
                     var event = {
                             title: data[key].name,
                             start: data[key].dtstart,
+                            end: data[key].dtend,
                             id: data[key].id,
                             answer: data[key].own_answer
                     }
@@ -616,19 +615,13 @@ $(function () {
                     switch (event.answer) {
 
                         case "y":
-                            $("#appointmentListYes").append('<h4 id="eventList'+key+'">'+event.title+'<br>'+event.start+'</h4>');
-                            $("#appointmentListYes").append('<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>');
-                            $("#appointmentListYes").append('<button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br><br><hr>');
+                            $("#appointmentListYes").append('<h4 id="eventList'+key+'">'+event.title+'<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
                            break;
                         case "n":
-                            $("#appointmentListNo").append('<h4 id="eventList'+key+'">'+event.title+'<br>'+event.start+'</h4>');
-                            $("#appointmentListNo").append('<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>');
-                            $("#appointmentListNo").append('<button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br><br><hr>');
+                            $("#appointmentListNo").append('<h4 id="eventList'+key+'">'+event.title+'<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
                             break;
                         default:
-                            $("#appointmentListPending").append('<h4 id="eventList'+key+'">'+event.title+'<br>'+event.start+'</h4>');
-                            $("#appointmentListPending").append('<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"> </span></button>');
-                            $("#appointmentListPending").append('<button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br><br><hr>');
+                            $("#appointmentListPending").append('<h4 id="eventList'+key+'">'+event.title+'<button id="noEvent'+key+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+key+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
                             break;
                     }
 
@@ -767,10 +760,38 @@ $(function () {
                    }
             var eventID = event.id;
             var eventStart = Date.parse(event.start._d);
+            var eventEnd = Date.parse(event.end._d);
 
-            console.log(events[0]);
             for (var key in events){
-            }
+                var eventsStart = Date.parse(events[key].start);
+                var eventsEnd = Date.parse(events[key].end);
+
+                    if(eventID !== events[key].id && (eventStart <= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)) {
+                       overlapping();
+                    }
+                    else if(eventID !== events[key].id && (eventStart <= eventsStart && eventEnd >= eventsEnd)){
+                        overlapping();
+                    }
+                    else if(eventID !== events[key].id && (eventStart >= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)){
+                        overlapping();
+                    }
+                    else if(eventID !== events[key].id && (eventStart >= eventsStart && eventsEnd >= eventStart)){
+                        overlapping();
+                    }
+                    else {
+                        console.log("no");
+                    }
+                }
+
+                function overlapping(){
+                        //var s = '<span class="glyphicon glyphicon-info-sign"> '+events[key].title+'</span><br>';
+                        //var span = document.createElement('span');
+                        //span.innerHTML = s;
+                        //element[0].children[0].prepend(span);
+                        element.css('background-color', '#fff600');
+                        element.css('border-color', '#000000');
+                        element.css('color', '#000000');
+                }
 
 
         },
