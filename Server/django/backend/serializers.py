@@ -7,7 +7,7 @@ class ActorSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Actor
-		fields = ('id', 'email', 'password', 'first_name', 'last_name', 'bio',)
+		fields = ('id', 'email', 'password', 'first_name', 'last_name', 'contact_notes', 'education', 'phone', 'location', 'skills', 'spare_time', 'job')
 		write_only_fields = ('password',)
 		read_only_fields = ('id',)
 

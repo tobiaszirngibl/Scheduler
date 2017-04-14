@@ -14,7 +14,13 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	is_staff = models.BooleanField(default=False)
 	is_superuser = models.BooleanField(default=False)
 	is_active = models.BooleanField(default=True)
-	bio = models.TextField(max_length=500, blank=True, null=True)
+	contact_notes = models.TextField(max_length=500, blank=True, null=True)
+	education = models.TextField(max_length=500, blank=True, null=True)
+	phone = models.TextField(max_length=50, blank=True, null=True)
+	skills = models.TextField(max_length=500, blank=True, null=True)
+	location = models.TextField(max_length=500, blank=True, null=True)
+	spare_time = models.TextField(max_length=500, blank=True, null=True)
+	job = models.TextField(max_length=500, blank=True, null=True)
 	understudy = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
 
 	USERNAME_FIELD = 'email'
@@ -25,8 +31,11 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	def get_short_name(self):
 		return self.email
 
-	def get_bio(self):
-		return self.bio
+	def get_contact_notes(self):
+		return self.contact_notes
+
+	def get_education(self):
+		return self.education
 
 	def get_full_name(self):
 		return '%s %s' % (self.first_name, self.last_name)

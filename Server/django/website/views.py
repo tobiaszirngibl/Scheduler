@@ -9,7 +9,14 @@ def profile_view(request):
 	user = {"email": request.user.email,
 			"firstname": request.user.first_name,
 			"lastname": request.user.last_name,
-			"bio": request.user.get_bio}
+			"contact_notes": request.user.get_contact_notes,
+			"education": request.user.get_education,
+			"phone": request.user.phone,
+			"skills": request.user.skills,
+			"spare_time": request.user.spare_time,
+			"location": request.user.location,
+			"job": request.user.job
+			}
 	return render(request, 'website/profile.html', {"user": user})
 
 @login_required
