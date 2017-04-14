@@ -103,7 +103,7 @@ class Participation(models.Model):
 		return self.appointment.__str__() + ' - ' + self.actor.__str__()
 
 class Favorite(Appointment):
-	owner = models.OneToOneField(Actor, default='')
+	owner = models.ForeignKey(Actor, on_delete=models.CASCADE)
 	color = models.CharField(max_length=6)
 
 	def __str__(self):
