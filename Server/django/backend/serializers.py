@@ -54,8 +54,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
 	def get_own_answer(self, obj):
 
 		user = self.context['request'].user
-		participation = Participation.objects.get(actor=user, appointment=obj)
-		return participation.answer
+		try:
+			participation = Participation.objects.get(actor=user, appointment=obj)
+			return participation.answer
+		except Participation.DoesNotExist:
+			return None
 
 
 

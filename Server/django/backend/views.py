@@ -94,6 +94,13 @@ class LeaveGroup(APIView):
 		except Group.DoesNotExist:
 			return Response(data='No group with this id', status=status.HTTP_404_NOT_FOUND)
 
+class GetAppointmentByStatus(APIView):
+	required_scopes = settings.REST_DEFAULT_SCOPES
+
+	def get(self, request, status):
+		result = Appointment.objects.get()
+		serializer = AppointmentSerializer()
+
 
 """
 API Viewsets start here. These are for providing basic functionality like browsing or creating
@@ -107,6 +114,19 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 	def get_queryset(self):
 		user = self.request.user
 		return Appointment.objects.filter(participants__id__exact=user.id)
+
+	def get_appointment_by_status(self, request, status):
+		print('in method')
+		filtered = []
+		for app in self.get_queryset():
+			try:
+				part = Participation.objects.get(actor=request.user, appointment=app)
+				if part.get_answer_display().lower() == status:
+					filtered.append(app)
+			except Participation.DoesNotExist:
+				pass
+		ser_data = self.get_serializer(filtered, many=True).data
+		return Response(data=ser_data)
 
 	def destroy(self, request, *args, **kwargs):
 		instance = self.get_object()

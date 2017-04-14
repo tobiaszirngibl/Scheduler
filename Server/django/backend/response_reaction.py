@@ -14,7 +14,8 @@ def handle_decline(user, participation, event):
 	# Adds understudy to Appointment
 	Participation.objects.create(actor=user.understudy, appointment=event)
 	# Removes declining user from Appointment
-	participation.delete()
+	# currently not used because we may want another behaviour
+	#participation.delete()
 
 	return True
 
