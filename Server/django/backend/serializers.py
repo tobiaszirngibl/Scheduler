@@ -60,7 +60,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
 		except Participation.DoesNotExist:
 			return None
 
-
+	def create(self, validated_data):
+		instance = super(AppointmentSerializer, self).create(validated_data)
+		instance.organizer = self.context['request'].user
+		instance.save()
+		return instance
 
 	def update(self, instance, validated_data):
 		for key, value in validated_data.items():

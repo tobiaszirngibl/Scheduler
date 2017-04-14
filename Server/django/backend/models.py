@@ -69,8 +69,6 @@ class Appointment(models.Model):
 	location = models.CharField(max_length=100, blank=True)
 	# Description
 	summary = models.TextField(blank=True)
-	# Important notes for the participants
-	notes = models.TextField(blank=True)
 	# Timestamp used for marking last modification date
 	last_changed = models.DateTimeField(auto_now=True)
 
