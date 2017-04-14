@@ -35,7 +35,7 @@ router.register(r'favorites', views.FavoriteViewSet, 'favorite')
 
 urlpatterns = [
 	url(r'^', include(router.urls)),
-	url(r'appointment/(yes|no|pending)', get_by_status_view, name='get_by_status'),
+	url(r'appointment/(yes|no|pending)/', get_by_status_view, name='get_by_status'),
 	url(r'appointment/(\d+)/addActors', views.AddActorToEvent.as_view(), name='add_actor'),
 	url(r'appointment/(\d+)/addCriticalActors', views.AddCriticalActorToEvent.as_view(), name='add_critical_actor'),
 	url(r'appointment/(\d+)/response', views.AppointmentResponse.as_view() ,name='appointment_response'),
