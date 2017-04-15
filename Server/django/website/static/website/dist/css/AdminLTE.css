@@ -5002,3 +5002,8 @@ display: block;
   background-color: white;
 }
 
+.pSearchModal {
+  text-align: center;
+  font-size: 20px;
+}
+

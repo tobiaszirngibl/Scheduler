@@ -31,31 +31,34 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
                         <div><label>Email:</label></div>
                         <div><p id="modalUserMail"></p></div>
                                 
                         <div><label>Telefon:</label></div>
+                        <div><p id="modalUserPlace"></p></div>
+
+                        <div><label>Standort:</label></div>
                         <div><p id="modalUserTel"></p></div>
                                 
-                        <div><label>Anmerkungen zu Kontaktdaten:</label></div>
-                        <div><p id="modalUserNote"></p></div>
-                                
-                        <div><label>Standort:</label></div>
-                        <div><p id="modalUserPlace"></p></div>
-                        
+                        <div><label>Freie Zeiten:</label></div>
+                        <div><p id="modalUserSpareTime"></p></div>
+
                         <div><label>Ausbildung:</label></div>
-                        <div><p id="modalUserAusbildung"></p></div>
+                        <div><p id="modalUserEducation"></p></div>
                                 
                         <div><label>Skills:</label></div>
                         <div><p id="modalUserSkills"></p></div>
+
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div>
-                            <!-- <img src="../dist/img/user2-160x160.jpg" id="modalUserImg"></img> -->
+                        <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
                         </div>
                         <br>
-                        <div><p id="modalUserJob">Schauspieler</p></div>
+                        <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
+                         <div><p class="pSearchModal" id="modalUserNote"></p></div>
+
                     </div>
                 </div>
             </div>
@@ -303,9 +306,13 @@ $(function () {
             success: function (data) {
                 $("#modalUserName").text(data.first_name +" "+ data.last_name);
                 $("#modalUserMail").text(data.email);
-                //$("#modalUserTel").text(data.tel);
-                //$("#modalUserNote").text(data.notes);
-                //$("#modalUserPlace").text(data.place);
+                $("#modalUserTel").text(data.phone);
+                $("#modalUserNote").text(data.contact_notes);
+                $("#modalUserPlace").text(data.location);
+                $("#modalUserSkills").text(data.skills);
+                $("#modalUserSpareTime").text(data.spare_time);
+                $("#modalUserEducation").text(data.education);
+
             }
         });
         
