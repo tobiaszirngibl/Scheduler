@@ -1,4 +1,5 @@
 {% extends 'website/base.html' %}
+{% load static %}
 {% block test %}
 
             <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
@@ -223,10 +224,6 @@
                                         <input id="group" type="checkbox" class="minimal" checked>Gruppe auswählen
                                     </label>
                                     <select id="groupList" class="chzn-select">
-                                        <option>Theater Gruppe</option>
-                                        <option>Abteilung 1</option>
-                                        <option>Regensburg</option>
-                                        <option>Abteilung 2</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -476,6 +473,8 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
                             <button id="sendNo" type="button" class="btn btn-danger">Termin ablehnen</button>
+                            <button id="sendNoReplace" type="button" class="btn btn-warning">Termin ablehnen und Ersatztermin wählen</button>
+
                         </div>
                     </div>
                 </div>
@@ -646,7 +645,6 @@ $(function () {
                 // TODO
                 $('#sendYes').click(function (e) {
                     e.preventDefault();
-                    console.log(eventSentData);
                             var formData =  {"answer": "yes"}
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
@@ -665,7 +663,6 @@ $(function () {
                 // TODO
                  $('#sendNo').click(function (e) {
                     e.preventDefault();
-                    console.log(eventSentData);
                             var formData =  {"answer": "no"}
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
@@ -679,6 +676,28 @@ $(function () {
                             console.log(jqXHR);
                         }
                     });
+                });
+
+                    $('#sendNoReplace').click(function (e) {
+                    e.preventDefault();
+                            var formData =  {"answer": "no"}
+                    $.ajax({
+                        url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
+                        type: "POST",
+                        data : formData,
+                        success: function(data, textStatus, jqXHR)
+
+                        {
+                            $("#declineAppointment").modal("hide");
+                                                setTimeout(function(){$('#appointment').modal('show');}, 300);
+
+
+                            },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR);
+                        }
+                    });
+
                 });
 
                 $("#appointmentCount").text(events.length);
@@ -921,7 +940,7 @@ $(function () {
         // TODO AJAX for Groups 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8000/api/groups/",
+            url: "http://localhost:8000/api/group/",
             success: function(data)
                 {
                     for (var key in data) {
@@ -940,10 +959,23 @@ $(function () {
     $("#saveEvent").click(function (e){
         var title = $("#title").val();
         var desc = $("#remark").val();
+        var dtDate = $("#reservationtime").val();
+        var dtStart = $("#startTime").val();
+        var dtEnd =  $("#endTime").val();
+
         var actors = ["a@b.com"];
-        var formData = {name: title, organizer: 1};
+
+        var dateFormat = dtDate.split("/");
+        var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
+        var newDateTimeStart = year + "-" + month + "-" + day + " " + dtStart;
+        var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
+
+        var formData = {name: title, organizer: 1, dtstart: newDateTimeStart, dtend: newDateTimeEnd};
+
+
+
         
-        $.ajax({
+       $.ajax({
             type: "POST",
             url : "http://localhost:8000/api/appointment/",
             data : formData,
@@ -951,17 +983,18 @@ $(function () {
                 {
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
-
+                    console.log(jqXHR);
                     // TODO Send Actors
                     $.ajax({
-                        url : "http://localhost:8000/api/appointment/10/addActors",
+                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addCriticalActors",
                         type: "POST",
-                        data : "{participants: [id: 1, email:'a@b.com']}",
+                        data : {actors: ["a@b.com","a@c.com"]},
                         success: function(data, textStatus, jqXHR)
                             {   
                                 console.log(jqXHR);
                                 console.log(textStatus);
                                 console.log(data);
+                               // location.reload();
                             },
                         error: function (jqXHR, textStatus, errorThrown)
                             {
@@ -975,7 +1008,8 @@ $(function () {
                 }
         });
     });
-    
+
+
     
     // TODO New Event After Drop Function Save
     $("#saveEventDrop").click(function (e){
