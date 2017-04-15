@@ -22,6 +22,7 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	spare_time = models.TextField(max_length=500, blank=True, null=True)
 	job = models.TextField(max_length=500, blank=True, null=True)
 	understudy = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+	avatar = models.ImageField(upload_to='avatars/', default='avatars/noAvatar.jpg')
 
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = []

@@ -133,6 +133,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Media Files for user uploaded content ie Avatars
+MEDIA_ROOT = '../media'
+MEDIA_URL = '/media/'
+
 # Stuff for logins
 LOGIN_REDIRECT_URL = '/calendar'
 LOGIN_URL = '/login/'

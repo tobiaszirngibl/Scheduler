@@ -22,5 +22,6 @@ from . import views
 urlpatterns = [
     url(r'^profile/$', views.profile_view, name='profile_view'),
     url(r'^calendar/$', views.calendar_view, name='calendar'),
-    url(r'^groups/$', views.group_view, name='groups')
+    url(r'^groups/$', views.group_view, name='groups'),
+	url(r'^uploadAvatar$', views.upload_avatar, name='upload_avatar'),
 ]
