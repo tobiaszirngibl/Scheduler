@@ -5,8 +5,8 @@
             <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
-                    <li class="active"><a href="/groups"><i class="fa fa-users" aria-hidden="true"></i> Gruppenverwaltung</a></li>
-                    <li><a href="/profile"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
+                    <li><a href="/groups"><i class="fa fa-users" aria-hidden="true"></i> Gruppenverwaltung</a></li>
+                    <li class="active"><a href="/profile/{{ user.id }}/"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
@@ -31,31 +31,34 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
                         <div><label>Email:</label></div>
                         <div><p id="modalUserMail"></p></div>
                                 
                         <div><label>Telefon:</label></div>
+                        <div><p id="modalUserPlace"></p></div>
+
+                        <div><label>Standort:</label></div>
                         <div><p id="modalUserTel"></p></div>
                                 
-                        <div><label>Anmerkungen zu Kontaktdaten:</label></div>
-                        <div><p id="modalUserNote"></p></div>
-                                
-                        <div><label>Standort:</label></div>
-                        <div><p id="modalUserPlace"></p></div>
-                        
+                        <div><label>Freie Zeiten:</label></div>
+                        <div><p id="modalUserSpareTime"></p></div>
+
                         <div><label>Ausbildung:</label></div>
-                        <div><p id="modalUserAusbildung"></p></div>
+                        <div><p id="modalUserEducation"></p></div>
                                 
                         <div><label>Skills:</label></div>
                         <div><p id="modalUserSkills"></p></div>
+
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div>
-                            <!-- <img src="../dist/img/user2-160x160.jpg" id="modalUserImg"></img> -->
+                        <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
                         </div>
                         <br>
-                        <div><p id="modalUserJob">Schauspieler</p></div>
+                        <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
+                         <div><p class="pSearchModal" id="modalUserNote"></p></div>
+
                     </div>
                 </div>
             </div>
@@ -79,17 +82,11 @@
                             <span class="glyphicon glyphicon glyphicon-pencil"></span>
                         </button>
                         <br><br>
-                        <img class="profile-user-img img-responsive img-circle" src="{{ user.avatar.url }}" alt="User profile picture">
-                        <!-- Upload Avatar -->
-                        <form action="{% url 'upload_avatar' %}" method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <p>
-                                <input id="avatra" type="file" class="" name="avatar">
-                            </p>
-                                <input type="submit" value="Submit" />
-                        </form>
-                        <!-- end Upload Avatar -->
+            <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
+                        <a  id="uploadAvatar" class="user-upload">Profilbild ändern</a><br>
+
                         <h3 class="profile-username text-center"> {{user.first_name}} {{user.last_name}}</h3>
+
                         <p class="text-muted text-center">{{ user.job }}</p>
 
                         <ul class="list-group list-group-unbordered">
@@ -104,7 +101,8 @@
                             <li class="list-group-item">
                                 <b>Anmerkungen zu Kontaktdaten</b>
                                 <p>{{user.contact_notes}}</p>
-                            </li> 
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -201,6 +199,35 @@
         </div>
     </div>
 
+ <div id="uploadAvatarModal" class="modal fade modal-primary">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Profilbild ändern</h4>
+                        </div>
+                        <div class="modal-body">
+                        <p> Bitte wählen sie ein Bild zu hochladen aus:</p><br>
+ <!-- Upload Avatar -->
+                        <form action="{% url 'upload_avatar' %}" method="post" enctype="multipart/form-data" class="user-upload">
+                            {% csrf_token %}
+                            <p>
+                                <input id="avatra" type="file" class="user-upload" name="avatar">
+                            </p><br>
+                                <input type="submit" value="Hochladen" class="user-uploadModal" />
+                        </form>
+                        <!-- end Upload Avatar -->
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
 
 {% endblock %}
 {% block calFunc %}
@@ -281,9 +308,13 @@ $(function () {
             success: function (data) {
                 $("#modalUserName").text(data.first_name +" "+ data.last_name);
                 $("#modalUserMail").text(data.email);
-                //$("#modalUserTel").text(data.tel);
-                //$("#modalUserNote").text(data.notes);
-                //$("#modalUserPlace").text(data.place);
+                $("#modalUserTel").text(data.phone);
+                $("#modalUserNote").text(data.contact_notes);
+                $("#modalUserPlace").text(data.location);
+                $("#modalUserSkills").text(data.skills);
+                $("#modalUserSpareTime").text(data.spare_time);
+                $("#modalUserEducation").text(data.education);
+
             }
         });
         
@@ -304,6 +335,11 @@ $(function () {
     // Edit User Function
     $('.editContact').click(function() {
         $("#userEdit").modal("show");
+    });
+
+        // Edit User Function
+    $("#uploadAvatar").click(function() {
+        $("#uploadAvatarModal").modal("show");
     });
 
     

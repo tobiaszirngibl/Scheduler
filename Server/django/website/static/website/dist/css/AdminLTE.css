@@ -1106,9 +1106,7 @@ a:focus {
   z-index: 5;
   height: 90px;
   width: 90px;
-  border: 3px solid;
-  border-color: transparent;
-  border-color: rgba(255, 255, 255, 0.2);
+  border: 2px white solid;
 }
 .navbar-nav > .user-menu > .dropdown-menu > li.user-header > p {
   z-index: 5;
@@ -1167,9 +1165,9 @@ a:focus {
   float: left;
   width: 25px;
   height: 25px;
-  border-radius: 50%;
   margin-right: 10px;
   margin-top: -2px;
+  border: 1px white solid;
 }
 @media (max-width: 767px) {
   .navbar-nav > .user-menu .user-image {
@@ -3344,7 +3342,7 @@ table.text-center th {
  */
 .profile-user-img {
   margin: 0 auto;
-  width: 100px;
+  width: 150px;
   padding: 3px;
   border: 3px solid #d2d6de;
 }
@@ -4989,5 +4987,23 @@ table.text-center th {
     background-color: #eee; /* Add a hover effect to all links, except for headers */
         cursor: pointer  !important; /* Change cursor style */
 
+}
+
+.user-upload {
+display: block;
+  text-align: center;
+  vertical-align: middle;
+          cursor: pointer  !important; /* Change cursor style */
+
+}
+
+.user-uploadModal {
+  color:black;
+  background-color: white;
+}
+
+.pSearchModal {
+  text-align: center;
+  font-size: 20px;
 }
 
