@@ -10,7 +10,7 @@
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Search for user">
+                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Suche nach Nutzer...">
                     </div>
                 </form>
             </div>
@@ -564,7 +564,8 @@
 {% block calFunc %}
 <script>
 $(function () {
-    
+
+
     //Global Variables
     var events = [];
     var eventSentData = "";
@@ -1095,13 +1096,12 @@ $(function () {
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+objectAppID+"/addCriticalActors",
                         type: "POST",
-                        data : {actors: "a@b.com"},
+                        data: {actors: "a@b.com"},
+                        //data : {actors: ["a@b.com", "f@email.com"]},
                         success: function(data, textStatus, jqXHR)
                             {   
-                                console.log(jqXHR);
-                                console.log(textStatus);
-                                console.log(data);
-                               // location.reload();
+
+                               location.reload();
                             },
                         error: function (jqXHR, textStatus, errorThrown)
                             {

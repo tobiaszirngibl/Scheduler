@@ -32,7 +32,8 @@ def profile_view(request, user_id):
 def calendar_view(request):
 	"""user = {"email": request.user.email,
 	        "first_name": request.user.first_name,
-	        "last_name": request.user.last_name}"""
+	        "last_name": request.user.last_name
+	        }"""
 	return render(request, 'website/calendar.html', {"user": request.user})
 
 
@@ -40,7 +41,8 @@ def calendar_view(request):
 def group_view(request):
 	"""user = {"email": request.user.email,
 	        "first_name": request.user.first_name,
-	        "last_name": request.user.last_name}"""
+	        "last_name": request.user.last_name
+	        }"""
 	return render(request, 'website/groups.html', {"user": request.user})
 
 
