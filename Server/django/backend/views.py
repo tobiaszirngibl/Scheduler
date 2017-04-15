@@ -57,7 +57,7 @@ class AddActorToEvent(APIView):
 		for a in actors:
 			try:
 				actor = Actor.objects.get(email=a)
-				Participation.objects.create(actor=actor, appointment=Appointment.objects.get(id=id))
+				Participation.objects.update_or_create(actor=actor, appointment=Appointment.objects.get(id=id))
 			except Actor.DoesNotExist:
 				print("No user with email %s" % a)
 		return Response(status=status.HTTP_204_NO_CONTENT)

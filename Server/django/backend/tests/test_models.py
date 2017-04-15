@@ -21,7 +21,7 @@ class AppointmentModelTest(TestCase):
 		part3.save()
 
 		self.appointment = Appointment(name="App1", dtstart=timezone.now(),
-		                               dtend=timezone.now() + timedelta(hours=2), )
+		                               dtend=timezone.now() + timedelta(hours=2), organizer=part1)
 		app1 = self.appointment
 		app1.save()
 		Participation.objects.create(actor=part1, appointment=app1, is_necessary=False)
@@ -30,6 +30,7 @@ class AppointmentModelTest(TestCase):
 			name="App2",
 			dtstart=timezone.now(),
 			dtend=timezone.now() + timedelta(hours=5),
+			organizer=part1
 		)
 		app2.save()
 		Participation.objects.create(actor=part2, appointment=app2, is_necessary=False)
@@ -44,20 +45,3 @@ class AppointmentModelTest(TestCase):
 		self.assertEqual(saved_app, app2)
 		self.assertEquals(saved_app.participants.all().count(), 2)
 		self.assertEquals(saved_app.participants.first().email, 'u2@u1.com')
-
-
-class UserModelTest(TestCase):
-	def test_creating_and_retrieving_users(self):
-		part1 = Actor.objects.create_user('u1@u1.com', 'pw1')
-		part1.bio = "Es war einmal ein grosses Schloss und Kunibert, so hiess der Boss"
-		part1.save()
-
-		part2 = Actor.objects.create_user('u2@u1.com', 'pw2')
-		part2.save()
-
-		saved = Actor.objects.first()
-		self.assertEqual(saved, part1)
-		self.assertIn('Kunibert', saved.bio)
-
-		saved2 = Actor.objects.get(pk=2)
-		self.assertEqual(saved2, part2)
