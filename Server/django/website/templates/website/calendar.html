@@ -10,7 +10,7 @@
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Search for user">
+                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Suche nach Nutzer...">
                     </div>
                 </form>
             </div>
@@ -197,45 +197,80 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>
-                                        <input id="allDay" type="checkbox" class="minimal">Ganztägig
-                                    </label>
+                                    <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
                                 </div>
-                                <div class="bootstrap-timepicker">
-                                    <div class="form-group">
-                                        <label>Beginn:</label>
-                                        <div class="input-group">
-                                            <input id="startTime" type="text" class="form-control timepicker" >
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="form-group">
+                                                <label>Beginn:</label>
+                                                <div class="input-group">
+                                                    <input id="startTime" type="text" class="form-control timepicker" >
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="form-group">
+                                                <label>Ende:</label>
+                                                <div class="input-group">
+                                                    <input id="endTime" type="text" class="form-control timepicker" >
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bootstrap-timepicker">
-                                    <div class="form-group">
-                                        <label>Ende:</label>
-                                        <div class="input-group">
-                                            <input id="endTime" type="text" class="form-control timepicker" >
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Stadt:</label>
+                                            <input id="town" type="text" class="form-control" placeholder="Enter ...">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Standort:</label>
+                                            <input id="location" type="text" class="form-control" placeholder="Enter ...">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>
-                                        <input id="group" type="checkbox" class="minimal" checked>Gruppe auswählen
-                                    </label>
-                                    <select id="groupList" class="chzn-select">
-                                    </select>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input id="group" type="checkbox" class="minimal" checked>  Gruppe auswählen
+                                            </label>
+                                            <select id="groupList" class="chzn-select">
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>
-                                        <input id="user" type="checkbox" class="minimal">Benutzer auswählen:
-                                    </label>
-                                    <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
-                                    </select>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input id="user" type="checkbox" class="minimal">  Benutzer auswählen:
+                                            </label>
+                                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input id="userCrit" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
+                                            </label>
+                                            <select id="userListCrit" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Anmerkungen</label>
@@ -274,57 +309,76 @@
                                     <input type="text" class="form-control" id="reservationtimeEditPut" disabled>
                                 </div>
                             </div>
-                            <div class="bootstrap-timepicker">
-                                <div class="form-group">
-                                    <label>Beginn:</label>
-                                    <div class="input-group">
-                                        <input id="startTimeEditPut" type="text" class="form-control timepicker" disabled>
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
+                             <div class="form-group">
+                                    <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="form-group">
+                                                <label>Beginn:</label>
+                                                <div class="input-group">
+                                                    <input id="startTimeEditPut" type="text" class="form-control timepicker" >
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="form-group">
+                                                <label>Ende:</label>
+                                                <div class="input-group">
+                                                    <input id="endTimeEditPut" type="text" class="form-control timepicker" >
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="bootstrap-timepicker">
-                                <div class="form-group">
-                                    <label>Ende:</label>
-                                    <div class="input-group">
-                                        <input id="endTimeEditPut" type="text" class="form-control timepicker" disabled>
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
+                            <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Stadt:</label>
+                                            <input id="townEditPut" type="text" class="form-control" placeholder="Enter ...">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Standort:</label>
+                                            <input id="locationEditPut" type="text" class="form-control" placeholder="Enter ...">
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input id="groupEditPut" type="checkbox" class="minimal" checked>  Gruppe auswählen
+                                            </label>
+                                            <select id="groupListEditPut" class="chzn-select">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input id="userEditPut" type="checkbox" class="minimal">  Benutzer auswählen:
+                                            </label>
+                                            <select id="userListEditPut" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Anmerkungen</label>
+                                    <textarea id="remarkEditPut" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>
-                                    <input id="allDayEditPut" type="checkbox" class="minimal" disabled>Ganztägig
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label>Gruppe auswählen:</label>
-                                <select class="form-control" disabled>
-                                    <option>Theater Gruppe</option>
-                                    <option>Abteilung 1</option>
-                                    <option>Regensburg</option>
-                                    <option>Abteilung 2</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    <input id="userEditPut" type="checkbox" class="minimal" disabled>Benutzer auswählen
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label>Benutzer auswählen:</label>
-                                <select id="userListEditPut" multiple class="form-control" disabled>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Anmerkungen</label>
-                                <textarea id="remarkEditPut" class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                            </div>
-                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
                             <button id="saveEventEditPut" type="button" class="btn btn-primary">Bearbeitung abschicken</button>
@@ -344,60 +398,75 @@
                             <h4 id="dropTitleName" class="modal-title"></h4>
                         </div>
                         <div class="modal-body">
-                            <div class="bootstrap-timepicker">
-                                <div class="form-group">
-                                    <label>Beginn:</label>
-                                    <div class="input-group">
-                                        <input id="startTime" type="text" class="form-control timepicker">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
+                            <div class="form-group">
+                                    <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="form-group">
+                                                <label>Beginn:</label>
+                                                <div class="input-group">
+                                                    <input id="startTime" type="text" class="form-control timepicker" >
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="bootstrap-timepicker">
+                                            <div class="form-group">
+                                                <label>Ende:</label>
+                                                <div class="input-group">
+                                                    <input id="endTime" type="text" class="form-control timepicker" >
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="bootstrap-timepicker">
-                                <div class="form-group">
-                                    <label>Ende:</label>
-                                    <div class="input-group">
-                                        <input id="endTime" type="text" class="form-control timepicker">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Stadt:</label>
+                                            <input id="town" type="text" class="form-control" placeholder="Enter ...">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>Standort:</label>
+                                            <input id="location" type="text" class="form-control" placeholder="Enter ...">
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    <input id="allDay" type="checkbox" class="minimal">Ganztägig
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label>Gruppe auswählen:</label>
-                                <select class="form-control">
-                                    <option>Theater Gruppe</option>
-                                    <option>Abteilung 1</option>
-                                    <option>Regensburg</option>
-                                    <option>Abteilung 2</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    <input id="user" type="checkbox" class="minimal">Benutzer auswählen
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label>Benutzer auswählen:</label>
-                                <select id="userList" multiple class="form-control" disabled>
-                                    <option>Tobias</option>
-                                    <option>Mathias</option>
-                                    <option>Igor</option>
-                                    <option>Gabriel</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Anmerkungen</label>
-                                <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                            </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input id="group" type="checkbox" class="minimal" checked>  Gruppe auswählen
+                                            </label>
+                                            <select id="groupList" class="chzn-select">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input id="user" type="checkbox" class="minimal">  Benutzer auswählen:
+                                            </label>
+                                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Anmerkungen</label>
+                                    <textarea id="remark" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
@@ -408,7 +477,7 @@
             </div>
 
             <!-- Modal Drop Appointment -->
-            <div id="editAppointment" class="modal fade modal-primary">
+            <div id="showAppointment" class="modal fade modal-primary">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -419,19 +488,26 @@
                         </div>
                         <div class="modal-body">
                             <div><label>Start:</label></div>
-                            <div><p id="startEvent">Start</p></div>
+                            <div><p id="showStartEvent">Start</p></div>
                         
                             <div><label id="endLabel">Ende:</label></div>
-                            <div><p id="endEvent">Ende</p></div>
+                            <div><p id="showEndEvent">Ende</p></div>
                         
                             <div><label>Ganztägig:</label></div>
-                            <div><p id="allDayEvent">true</p></div>
-                         
+                            <div><p id="showAllDayEvent">true</p></div>
+
+                            <div><label>Stadt:</label></div>
+                            <div><p id="showTown">true</p></div>
+
+                            <div><label>Standort:</label></div>
+                            <div><p id="showLocation">true</p></div>
+
                             <div><label>Gruppe:</label></div>
                             
-                            <div><label>Benutzer auswählen:</label></div>
+                            <div><label>Benutzer:</label></div>
                         
                             <div><label>Anmerkungen:</label></div>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -488,7 +564,8 @@
 {% block calFunc %}
 <script>
 $(function () {
-    
+
+
     //Global Variables
     var events = [];
     var eventSentData = "";
@@ -578,6 +655,7 @@ $(function () {
                 $("#modalUserSkills").text(data.skills);
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
+                $("#modalUserJob").text(data.job);
 
             }
         });
@@ -786,13 +864,13 @@ $(function () {
                         $('#endEvent').text(data.date_end);
 
                         // weitere hinzufügen
-                        $('#editAppointment').modal('show');
+                        $('#showAppointment').modal('show');
                     }
             });
 
             $("#editEvent").click(function (e){
                 e.preventDefault();
-                    $('#editAppointment').modal('hide');
+                    $('#showAppointment').modal('hide');
                     $('#titleEditPut').val(titleEdit);
                     $('#startTimeEditPut').val(startEdit);
                 setTimeout(function(){$('#appointmentEditPut').modal('show');}, 300);
@@ -910,6 +988,14 @@ $(function () {
         $('#userList').prop('disabled', true).trigger("chosen:updated");
     });
 
+    $('input[type="checkbox"][id="userCrit"]').on('ifChecked', function(event){
+        $('#userListCrit').prop('disabled', false).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="userCrit"]').on('ifUnchecked', function(event){
+        $('#userListCrit').prop('disabled', true).trigger("chosen:updated");
+    });
+
     $('input[type="checkbox"][id="allDay"]').on('ifChecked', function(event){
         $("#startTime").attr("disabled", true);
         $("#endTime").attr("disabled", true);
@@ -939,8 +1025,10 @@ $(function () {
                         }
                         var actorEmail = data[key].email;
                         $('#userList').append('<option>'+actorEmail+' - ' + actorName +'</option>');
+                        $('#userListCrit').append('<option>'+actorEmail+' - ' + actorName +'</option>');
                     }
                     $("#userList").trigger("chosen:updated");
+                    $("#userListCrit").trigger("chosen:updated");
                 }
         });
                 
@@ -970,15 +1058,27 @@ $(function () {
         var dtDate = $("#reservationtime").val();
         var dtStart = $("#startTime").val();
         var dtEnd =  $("#endTime").val();
+        var location = $("#location").val();
+        var town = $("#town").val();
+        var remark = $("#remark").val();
+
 
         var actors = ["a@b.com"];
 
         var dateFormat = dtDate.split("/");
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
-        var newDateTimeStart = year + "-" + month + "-" + day + " " + dtStart;
-        var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
 
-        var formData = {name: title, organizer: 1, dtstart: newDateTimeStart, dtend: newDateTimeEnd};
+        if($('#allDay').is(':checked')){
+            var newDateTimeStart = year + "-" + month + "-" + day + " 00:01";
+            var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
+        } else {
+            var newDateTimeStart = year + "-" + month + "-" + day + " " + dtStart;
+            var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
+        }
+
+
+
+        var formData = {name: title, organizer: 1, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
 
 
 
@@ -996,13 +1096,12 @@ $(function () {
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+objectAppID+"/addCriticalActors",
                         type: "POST",
-                        data : {actors: ["a@b.com","a@c.com"]},
+                        data: {actors: "a@b.com"},
+                        //data : {actors: ["a@b.com", "f@email.com"]},
                         success: function(data, textStatus, jqXHR)
                             {   
-                                console.log(jqXHR);
-                                console.log(textStatus);
-                                console.log(data);
-                               // location.reload();
+
+                               location.reload();
                             },
                         error: function (jqXHR, textStatus, errorThrown)
                             {
