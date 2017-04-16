@@ -2,6 +2,11 @@ from rest_framework import serializers
 
 from .models import Actor, Appointment, Group, Participation
 
+"""
+Serializers are part of the Django-REST-Framework(DRF).
+The are used to specify the way, data, in this case models are represented when calling the API
+"""
+
 
 class ActorSerializer(serializers.ModelSerializer):
 

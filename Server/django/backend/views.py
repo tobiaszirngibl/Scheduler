@@ -57,7 +57,7 @@ class AddActorToEvent(APIView):
 		for a in actors:
 			try:
 				actor = Actor.objects.get(email=a)
-				Participation.objects.update_or_create(actor=actor, appointment=Appointment.objects.get(id=id))
+				Participation.objects.update_or_create(actor=actor, appointment=Appointment.objects.get(id=id), is_necessary=False)
 			except Actor.DoesNotExist:
 				print("No user with email %s" % a)
 		return Response(status=status.HTTP_204_NO_CONTENT)
@@ -110,14 +110,6 @@ class LeaveGroup(APIView):
 		except Group.DoesNotExist:
 			return Response(data='No group with this id', status=status.HTTP_404_NOT_FOUND)
 
-class GetAppointmentByStatus(APIView):
-	required_scopes = settings.REST_DEFAULT_SCOPES
-
-	def get(self, request, status):
-		result = Appointment.objects.get()
-		serializer = AppointmentSerializer()
-
-
 """
 API Viewsets start here. These are for providing basic functionality like browsing or creating
 """
@@ -128,11 +120,19 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 	serializer_class = AppointmentSerializer
 
 	def get_queryset(self):
+		"""
+		Gets all Appointments which feature the current user
+		"""
 		user = self.request.user
 		return Appointment.objects.filter(participants__id__exact=user.id)
 
 	def get_appointment_by_status(self, request, status):
-		print('in method')
+		"""
+		Gets all Appointments where the requesting user answered with status
+		:param request: The request to the API
+		:param status: Answer of Participation, yes, no or pending
+		:return: JSON-Response containing all Appointments with the specified answer
+		"""
 		filtered = []
 		for app in self.get_queryset():
 			try:
@@ -145,6 +145,9 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 		return Response(data=ser_data)
 
 	def destroy(self, request, *args, **kwargs):
+		"""
+		Checks that only the creator of an Appointment may delete it
+		"""
 		instance = self.get_object()
 		if request.user is instance.organizer:
 			instance.delete()

@@ -1,4 +1,4 @@
-from .models import Actor, Appointment, Participation
+from .models import Participation
 
 def handle_decline(user, participation, event):
 	"""
@@ -16,6 +16,8 @@ def handle_decline(user, participation, event):
 	# Removes declining user from Appointment
 	# currently not used because we may want another behaviour
 	#participation.delete()
+	participation.answer_relevant = False
+	participation.save()
 
 	return True
 

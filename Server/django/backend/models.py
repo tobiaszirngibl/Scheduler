@@ -85,7 +85,7 @@ class Appointment(models.Model):
 	@property
 	def will_take_place(self):
 		for p in self.participation_set.all():
-			if p.answer == 'n':
+			if p.answer_relevant and p.answer == 'n':
 				return False
 		return True
 
@@ -104,7 +104,11 @@ class Participation(models.Model):
 	actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
 	answer = models.CharField(choices=answer_choices, max_length=1, default='p')
+	# Actor is critical for the Appointment to be able to take place
 	is_necessary = models.BooleanField(default=False)
+	# Answer is still relevant for Appointment to take place
+	# False, if answer is 'no', but understudy could be invited
+	answer_relevant = models.BooleanField(default=True)
 
 	class Meta:
 		unique_together = ('actor', 'appointment',)

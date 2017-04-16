@@ -38,9 +38,16 @@ class ResponseReactionTest(TestCase):
 
 		count = Participation.objects.filter(actor=self.user2).count()
 		self.assertEqual(count, 1)
-"""
+	"""
 	def test_declining_user_is_removed_from_event(self):
 		handle_decline(self.user1, self.part, self.app)
 		count = Participation.objects.filter(actor=self.user1).count()
-		self.assertEqual(count, 0)
-"""
+		self.assertEqual(count, 0)  
+	"""
+
+	def test_will_take_place_if_not_important_user_declines(self):
+		self.assertTrue(self.app.will_take_place)
+		self.assertTrue(self.part.answer_relevant)
+		handle_decline(self.user1, self.part, self.app)
+		self.assertFalse(self.part.answer_relevant)
+		self.assertTrue(self.app.will_take_place)
