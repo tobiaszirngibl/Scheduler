@@ -2,12 +2,16 @@ package com.ase_1617.organizedlib.utility;
 
 /**
  * Created by bob on 25.03.17.
+ *
+ * Class containing the global app constants.
+ *
+ * SERVER_URL_BASE, CLIENT_ID and CLIENT_SECRET are not final due to testing purposes.
  */
 
 public class Constants {
 
     //Network
-    public static String SERVER_URL_BASE = "http://192.168.178.20";
+    private static String SERVER_URL_BASE = "http://192.168.178.20";
     public static final String TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
     public static final String SIGNUP_URL = SERVER_URL_BASE + ":8000/api/actor/";
     public static final String NEW_EVENTS_URL = SERVER_URL_BASE + ":8000/api/appointment/";

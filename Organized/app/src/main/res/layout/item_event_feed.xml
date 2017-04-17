@@ -36,7 +36,6 @@
         android:id="@+id/new_event_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done"
         android:layout_below="@+id/new_event_time"
         android:layout_marginBottom="@dimen/new_event_element_desc_margin_bot"/>
 
@@ -47,6 +46,7 @@
         android:layout_toStartOf="@+id/new_event_decline_button"
         android:layout_alignBottom="@+id/new_event_decline_button"
         android:id="@+id/new_event_accept_button"
+        android:contentDescription="@string/event_feed_decline_btn_desc"
         android:src="@drawable/accept_button_icon"
         android:background="#0000"/>
 
@@ -59,6 +59,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginEnd="15dp"
         android:id="@+id/new_event_decline_button"
+        android:contentDescription="@string/event_feed_accept_btn_desc"
         android:src="@drawable/decline_button_icon"
         android:layout_margin="@dimen/new_event_element_accept_button_margin"
         android:background="#0000"/>

@@ -16,6 +16,7 @@ import com.ase_1617.organizedlib.utility.MiscUtility;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * An extended ArrayAdapter to show the new events as event feed
@@ -27,14 +28,14 @@ public class EventFeedAdapter extends ArrayAdapter {
     private ArrayList<CalEvent> events;
     private Context context;
 
-    SimpleDateFormat formatter;
+    private SimpleDateFormat formatter;
 
     public EventFeedAdapter(Context context, int eventId, ArrayList<CalEvent> events){
         super(context, eventId, events);
         this.events = events;
         this.context = context;
 
-        formatter = new SimpleDateFormat("dd MMM yyyy HH : mm");
+        formatter = new SimpleDateFormat("dd MMM yyyy HH : mm", Locale.GERMAN);
     }
 
     /**

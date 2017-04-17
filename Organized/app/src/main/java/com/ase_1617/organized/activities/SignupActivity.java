@@ -102,9 +102,7 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
         editor.putString("userPass", password);
 
         // Commit the edits
-        editor.commit();
-
-        Log.v(TAG, "Login saved "+name+" --- usermail: "+email+" --- userpass: "+password);
+        editor.apply();
     }
 
     /**

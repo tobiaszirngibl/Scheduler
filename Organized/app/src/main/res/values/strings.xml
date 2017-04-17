@@ -43,4 +43,11 @@
     <string name="config_client_id_hint">Client id</string>
     <string name="config_client_secret_hint">Client secret</string>
     <string name="btn_config">Submit config data</string>
+    <string name="delete_btn_desc">Delete button for a single event</string>
+    <string name="event_feed_decline_btn_desc">Decline button for an event ot the event feed</string>
+    <string name="event_feed_accept_btn_desc">Accept button for an event of the event feed</string>
+    <string name="new_event_btn_create">Create</string>
+    <string name="new_event_btn_cancel">Cancle</string>
+    <string name="calendar_menu_item_log_out">Log out</string>
+    <string name="menu_item_log_out">Log out</string>
 </resources>
