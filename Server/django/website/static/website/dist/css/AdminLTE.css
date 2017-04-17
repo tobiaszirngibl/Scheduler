@@ -2277,8 +2277,11 @@ a:focus {
   background-color: #00acd6;
 }
 .btn-danger {
-  background-color: #dd4b39;
-  border-color: #d73925;
+    background-color: #dd4b39;
+    border-color: #d73925;
+}
+.btn-danger-margin {
+    margin-right: 20px;
 }
 .btn-danger:hover,
 .btn-danger:active,
@@ -5008,3 +5011,7 @@ display: block;
   font-size: 20px;
 }
 
+.inactiveLink {
+   pointer-events: none;
+   cursor: default;
+}
