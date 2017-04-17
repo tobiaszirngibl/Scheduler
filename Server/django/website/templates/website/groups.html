@@ -78,7 +78,6 @@
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab_1" data-toggle="tab">Aktuelle Gruppen</a></li>
-                        <li><a href="#tab_2" data-toggle="tab">Gruppenanfragen <span class="label label-success">2</span></a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1">  
@@ -92,70 +91,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab_2">
-                            <div id="eventView">
-                                <div class="box box-solid">
-                                    <div class="box-body">
-                                        <div class="box-group" id="accordion">
-                                            <div class="panel box box-warning">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                        <a class="groupInviteName" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Esensgruppe</a>
-                                                    </h4>
-                                                    <button type="button" class="noGroup btn btn-danger btn-sm pull-right">
-                                                        <span class="ion-close-circled"></span>
-                                                    </button>
-                                                    <button type="button" class="yesGroup btn btn-success btn-sm pull-right">
-                                                        <span class="ion-checkmark-circled"></span>
-                                                    </button>
-                                                </div>
-                                                <div id="collapseOne" class="panel-collapse collapse">
-                                                    <div class="box-body">Mitglieder<br></div>
-                                                </div>
-                                            </div>
-                                            <div class="panel box box-danger">
-                                                <div class="box-header with-border">
-                                                    <h4 class="box-title">
-                                                        <a class="groupInviteName" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Party-Gruppe</a>
-                                                    </h4>
-                                                    <button type="button" class="noGroup btn btn-danger btn-sm pull-right">
-                                                        <span class="ion-close-circled"></span>
-                                                    </button>
-                                                    <button type="button" class="yesGroup btn btn-success btn-sm pull-right">
-                                                        <span class="ion-checkmark-circled"></span>
-                                                    </button>
-                                                </div>
-                                                <div id="collapseTwo" class="panel-collapse collapse">
-                                                    <div class="box-body">Mitlgieder<br></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <button id="addNewGroup" type="button" class="btn btn-primary">Neue Gruppe hinzufügen</button>
                     </div>
                 </div>
             </div>
             
             <!-- Modal User in Group -->
-            <div id="userOverview" class="modal fade modal-primary">
+            <div id="usersOverview" class="modal fade modal-primary">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 class="modal-title">Nutzer in dieser Gruppe:<b> 25</b></h4>
+                            <h4 class="modal-title">Nutzer in dieser Gruppe: <b id="memberCount"> </b></h4>
                         </div>
                         <div class="modal-body">
-                            <ul>
-                                <li>Tobias Zirngibl (Ersteller)</li>
-                                <li>Noch EinUser</li> 
-                                <li>Und EinDritter</li> 
-                                <li>Und EinLetzter</li>
-                            </ul>
+                            <ul id="groupMemberList"></ul>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
@@ -192,70 +144,8 @@
                     </div>
                 </div>
             </div>
-    
-            <!-- Modal Accept Group -->
-            <div id="acceptGroup" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Gruppe beitreten</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie der Gruppe wirklich beitreten?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success">Gruppe beitreten</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <!-- Modal Decline Group -->
-            <div id="declineGroup" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Gruppeneinladung ablehnen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie die Gruppeneinladung wirklich ablehnen?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger pull-right">Gruppeneinladung ablehnen</button>   
-                        </div>
-                    </div>
-                </div>
-            </div>
-                
-            <!-- Modal Delete Group -->
-            <div id="delGroupMod" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Gruppe löschen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie die Gruppe wirklich löschen? Alle Teilnehmer dieser Gruppe werden dadurch ebensfalls entfernt!</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger pull-right">Gruppe löschen</button>   
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
+
+
             <!-- Modal Leave Group -->
             <div id="leaveGroupMod" class="modal fade modal-primary">
                 <div class="modal-dialog">
@@ -270,8 +160,8 @@
                             <p>Möchten Sie die Gruppe wirklich verlassen? Die verbleibenen Teilnehmer dieser Gruppe werden dadurch nicht entfernt!</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger pull-right">Gruppe verlassen</button>   
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                            <button id="leaveGroupButton" type="button" class="btn btn-danger pull-right">Gruppe verlassen</button>
                         </div>
                     </div>
                 </div>
@@ -286,7 +176,7 @@
 $(function () {
 
     //Global Variables
-    var groups = [];
+    var groupSelected = "";
     
     
      // Initiate Lists
@@ -373,8 +263,7 @@ $(function () {
                 $("#modalUserSkills").text(data.skills);
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
-                                $("#modalUserJob").text(data.job);
-
+                $("#modalUserJob").text(data.job);
 
             }
         });
@@ -389,33 +278,31 @@ $(function () {
     $.ajax({
         type: "GET",
         url: "http://localhost:8000/api/group/",
-        success: function(data)
-            {
+        success: function(data) {
+            if (data.length == 0) {
+                console.log("re");
+                $("#groupList").append('<h4>Keine Gruppen vorhanden!<h4>');
+            }
+            else {
                 for (var key in data) {
                     var group = {
-                        title: data[key].name
+                        title: data[key].name,
+                        id: data[key].id,
+                        members: data[key].members
                     }
-                    groups.push(group);
-                    $("#groupList").append('<h4 id="groupList'+key+'">'+group.title+'</h4><br><br><hr>');
+
+                    $("#groupList").append('<h4 id="groupList' + key + '">' + group.title + '<br><button groupID=' + group.id + ' id="noGroup' + group.id + '"  type="button" class="btn btn-danger btn-sm pull-right btn-danger-margin"><span class="ion-close-circled" disabled></span></button><br><a class="groupMember" id=' + group.id + '> Mitglieder: ' + data[key].members.length+'</a><br></h4><hr>');
+
+                    $('#noGroup' + group.id).click(function (e) {
+                        $('#leaveGroupMod').modal('show');
+                        groupSelected = $(e.currentTarget).attr("groupID");
+                    });
                 }
             }
+        }
     });
     
-    
-            
-    // Del Group Tooltip Remove?
-    $('.delGroup').tooltip({
-        'show': true,
-        'placement': 'bottom',
-        'title': "Gruppe löschen"
-    });
-    
-    // Del Group Function
-    $('.delGroup').click(function (e){
-        e.preventDefault();
-        $('#delGroupMod').modal('show');
-    });
-    
+
             
     // Leave Group Tooltip Remove        
     $('.leaveGroup').tooltip({
@@ -425,45 +312,32 @@ $(function () {
     });
     
     // Leave Group Function        
-    $('.leaveGroup').click(function (e){
-        e.preventDefault();
-        $('#leaveGroupMod').modal('show');
+    $('#leaveGroupButton').click(function (e){
+            console.log(groupSelected);
+              $.ajax({
+            type: "GET",
+            url: "http://localhost:8000/api/group/"+groupSelected+"/leave/",
+            success: function(data)
+                {
+
+location.reload();
+
+                }
+        });
     });
-    
-            
-    // Yes Group Tooltip Remove?
-    $('.yesGroup').tooltip({
-        'show': true,
-        'placement': 'bottom',
-        'title': "Einladung annehmen"
-    });
-    
-    // Yes Group Function        
-    $(".yesGroup").click(function (e){
-        e.preventDefault();
-        $('#acceptGroup').modal('show');
-    }); 
-    
-            
-    // No Group Tooltip Remove? 
-    $('.noGroup').tooltip({
-        'show': true,
-        'placement': 'bottom',
-        'title': "Einladung ablehnen"
-    });
-    
-    // No Group Function
-    $(".noGroup").click(function (e){
-        e.preventDefault();
-        $('#declineGroup').modal('show');
-    });       
-    
-            
+
+
+
+
+
+    // No Group Tooltip Remove?
+
+
     // Function OpenModal
     function OpenModal() {
-        $('#userOverview').modal('show');
+        $('#usersOverview').modal('show');
     };
-    
+
             
     // Function Add New Group
     $("#addNewGroup").click(function (e){
@@ -482,7 +356,7 @@ $(function () {
                             var actorName = data[key].first_name + " " + data[key].last_name;
                         }
                     var actorEmail = data[key].email;
-                    $('#userList').append('<option>'+actorEmail+' - ' + actorName +'</option>');
+                    $('#userList').append('<option value='+actorEmail+'>'+actorEmail+' - ' + actorName +'</option>');
                     }
                 }
         });
@@ -494,28 +368,25 @@ $(function () {
     // Function Add New Group Save
     $("#saveGroup").click(function (e){
         var title = $("#groupTitle").val();
-        var memberList = [
-                            {"id": 1, "email": "a@b.com"},
-                            {"id": 2, "email": "a@c.com"}
-                        ];
-        console.log(memberList);
+       var memberList = $("#userList").val();
         var formData = {name: title};
-
+        //var formData2 = {actors: +memberList};
         $.ajax({
             url : "http://localhost:8000/api/group/",
             type: "POST",
             data : formData,
             success: function(data, textStatus, jqXHR)
                 {
+                   var groupID = data.id;
+                   var members = { actors: "a@b.com"};
                     $.ajax({
-                        url : "http://localhost:8000/api/appointment/4/addActors/",
+                        url : "http://localhost:8000/api/group/"+groupID+"/addActors/",
                         type: "POST",
-                        data : "{members: ['a@b.com']}",
+                        data : members,
                         success: function(data, textStatus, jqXHR)
                             {
                                 console.log(jqXHR);
-                                console.log(textStatus);
-                                console.log(data);
+                                location.reload();
                             },
                         error: function (jqXHR, textStatus, errorThrown)
                             {
@@ -529,6 +400,28 @@ $(function () {
                 }
         });
     });
+
+$(document).on("click", "a", function(){
+    $("#groupMemberList li").remove();
+     var groupID = $(this).attr("id");
+    $.ajax({
+            type: "GET",
+            url: "http://localhost:8000/api/group/"+groupID+"/",
+            success: function(data)
+                {
+                    var memberArray = data.members;
+                    $("#memberCount").text(memberArray.length);
+                    for (var i=0; i<memberArray.length; i++) {
+
+
+                        $("#groupMemberList").append('<li value='+memberArray[i].email+'>'+memberArray[i].email+'</option>');
+
+                        $("#usersOverview").modal("show");
+                    }
+                }
+        });
+});
+
 });
  </script>
 

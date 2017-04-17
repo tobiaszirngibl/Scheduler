@@ -891,8 +891,14 @@ $(function () {
                           break;
                    }
             var eventID = event.id;
+            var eventEnd = event.end;
             var eventStart = Date.parse(event.start._d);
-            var eventEnd = Date.parse(event.end._d);
+            if(eventEnd != null) {
+                var eventEnd = Date.parse(event.end._d);
+            }
+            else {
+                var eventEnd = "";
+            }
 
             for (var key in events){
                 var eventsStart = Date.parse(events[key].start);
