@@ -40,22 +40,31 @@ public class EventUtility {
      * @return ArrayList the events of the device calendar app
      */
     public static ArrayList<CalEvent> fetchDeviceEvents(Context context) {
+        Uri eventUri;
+
         //Clear the eventList if it is not null
         if (eventList != null) {
             eventList.clear();
         }
 
-        //TODO:Support für SDK < 7 einfügen -> Uri.parse("content://calendar/events")
+        //TODO:CHECK ob das funzt->
+        //Create the base for the eventUri according to the used device sdk
+        if(android.os.Build.VERSION.SDK_INT <= 7) {
+            eventUri = Uri.parse("content://calendar/events");
+        }else{
+            eventUri = Uri.parse("content://com.android.calendar/events");
+        }
 
         Cursor cursor = context.getContentResolver()
                 .query(
-                        Uri.parse("content://com.android.calendar/events"),
+                        eventUri,
                         new String[]{"calendar_id", "title", "description",
                                 "dtstart", "dtend", "eventLocation", "deleted", "_id", "uid2445"}, null,
                         null, null);
 
         if(cursor != null){
             cursor.moveToFirst();
+            //TODO:<-
 
             //Get the number of events returned
             int eventCount = cursor.getCount();
@@ -335,9 +344,9 @@ public class EventUtility {
         Uri eventUri;
 
         //Create the base for the eventUri according to the used device sdk
-        if (android.os.Build.VERSION.SDK_INT <= 7) {
+        if(android.os.Build.VERSION.SDK_INT <= 7) {
             eventUri = Uri.parse("content://calendar/events");
-        } else {
+        }else{
             eventUri = Uri.parse("content://com.android.calendar/events");
         }
 
@@ -381,7 +390,7 @@ public class EventUtility {
 
         //Delete the event with the given event id
         deleteUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
-        int rows = cr.delete(deleteUri, null, null);
+        cr.delete(deleteUri, null, null);
 
         //Show a toast when the event is deleted
         Toast toast = Toast.makeText(newContext, "Event " + eventId + "deleted.", Toast.LENGTH_SHORT);
@@ -405,7 +414,7 @@ public class EventUtility {
 
         //Update the event with the specified id
         updateUri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventId);
-        int rows = cr.update(updateUri, values, null, null);
+        cr.update(updateUri, values, null, null);
 
         //Show a toast when the title is updated
         Toast toast = Toast.makeText(newContext, "Eventitle of: " + eventId + " updated to: " + eventTitle, Toast.LENGTH_SHORT);

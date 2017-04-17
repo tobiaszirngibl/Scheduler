@@ -1,8 +1,6 @@
 package com.ase_1617.organizedlib.utility;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -22,10 +20,10 @@ import java.util.Locale;
 
 public class MiscUtility {
 
-    /**Get the combined duration of a given hour and minute count in milliseconds
-     *
-     * @param durationHour
-     * @param durationMinute
+    /**
+     * Get the combined duration of a given hour and minute count in milliseconds
+     * @param durationHour The amount of hours to be added to the time count
+     * @param durationMinute The amount of minutes to be added to the time count
      * @return duration in milliseconds
      */
     public static Long getDurationMillis(int durationHour, int durationMinute) {
@@ -37,21 +35,22 @@ public class MiscUtility {
         return calendar.getTime().getTime();
     }
 
-    /** Combine a given date, hour and minute to get a combined date from these values
-     *
-     * @param date
-     * @param hour
-     * @param minute
-     * @return
+    /**
+     * Combine a given date, hour and minute to get a combined date from these values
+     * @param date The given date object which is the base for the new combined date object
+     * @param hour The amount of hours to be added to the new combined date object
+     * @param minute The amount of mintues to be added to the new combined date object
+     * @return The new combined date object
      */
     public static Date getStartingDate(Date date, int hour, int minute) {
-
+        //Extract the year, month and day data from the given date obect
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN);
         String dateString = formatter.format(date);
         String yearString = dateString.substring(0, 4);
         String monthString = dateString.substring(5, 7);
         String dayString = dateString.substring(8);
 
+        //Create a new calendar object from the given date data
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.MONTH, Integer.parseInt(monthString)-1);
@@ -63,11 +62,11 @@ public class MiscUtility {
         return calendar.getTime();
     }
 
-    /**Convert a string date to a date object
-     * format: yyyy-MM-dd:HH:mm
-     *
-     * @param dateString date string
-     * @return date object
+    /**
+     * Convert a string date to a date object.
+     * @param dateString The date string
+     * @param dateFormat The string describing the format of the date string
+     * @return The new created date object
      */
     static Date stringToDate(String dateString, String dateFormat) {
         SimpleDateFormat formatter = new SimpleDateFormat(
@@ -93,8 +92,10 @@ public class MiscUtility {
      */
     public static String[] calculateDate(Long startMillis, Long endMillis) {
         String[] dateData = new String[2];
+        //Convert the given starting/ending dates in milliseconds to string dates
         String startString = millisToDate(startMillis);
         String endString = millisToDate(endMillis);
+        //Extract the starting/ending dates from the string dates
         String date1 = startString.split(" ")[0];
         String date2 = endString.split(" ")[0];
         String time1 = startString.split(" ")[1];
@@ -102,6 +103,7 @@ public class MiscUtility {
         String dateString;
         String timeString;
 
+        //Create the date and time string
         if(date1.equals(date2)){
             dateString = date1;
         }else{
@@ -110,17 +112,18 @@ public class MiscUtility {
 
         timeString = time1 + " - " +time2;
 
+        //Save the string in an array
         dateData[0] = dateString;
         dateData[1] = timeString;
 
         return dateData;
     }
 
-    /**Convert a milliseconds date to a String date
+    /**
+     * Convert a milliseconds date to a String date
      * format: dd/MM/yyyy hh:mm a
-     *
      * @param milliSeconds date in milliseconds
-     * @return date in String
+     * @return date as String
      */
     private static String millisToDate(long milliSeconds) {
         SimpleDateFormat formatter = new SimpleDateFormat(
@@ -132,12 +135,13 @@ public class MiscUtility {
 
     /**
      * Create an info text from a given calEvent object
-     * @param event
-     * @return
+     * @param event The given calEvent object
+     * @return The created info text string
      */
     public static String calEventToInfo(CalEvent event) {
         String eventInfo = "\n" + event.getEventLocation() + "\n";
 
+        //Convert the starting/ending date to string dates
         String[] dateData = MiscUtility.calculateDate(event.getEventStartDate().getTime(), event.getEventEndDate().getTime());
         eventInfo += dateData[0] + "\n";
         eventInfo += dateData[1] + "\n";
@@ -148,9 +152,9 @@ public class MiscUtility {
 
     /**
      * Format given event title and info for use in alertDialogs.
-     * @param titles
-     * @param infoTexts
-     * @return
+     * @param titles Array of event titles to be formatted
+     * @param infoTexts Array of event info texts to be formatted
+     * @return The created spannableStringBuilder containing the event titles and infos texts
      */
     public static SpannableStringBuilder formatEventInfo(String[] titles, String[] infoTexts) {
         SpannableStringBuilder infoContent = new SpannableStringBuilder();

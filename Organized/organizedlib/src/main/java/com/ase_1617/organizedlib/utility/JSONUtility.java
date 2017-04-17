@@ -1,7 +1,5 @@
 package com.ase_1617.organizedlib.utility;
 
-import android.util.Log;
-
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.data.Event;
 
@@ -33,13 +31,17 @@ public class JSONUtility {
 
 
     /**
-     * Create calEvent/event objects from JSONArray data and return them in an arraylist
-     * @param jsonArray
-     * @return
+     * Create calEvent objects from JSONArray data and return them in an arrayList
+     * @param jsonArray The json data to be converted to calEvents
+     * @return The created calEvents in an arrayList
      */
     public static ArrayList<CalEvent> decodeEventData(JSONArray jsonArray) {
         ArrayList<CalEvent> eventList = new ArrayList<>();
         JSONObject jsonObject = null;
+
+        //Try to extract the the jsonObjects from the jsonArray and
+        //convert them to calEvents
+        //Finally save them in an arrayList
         for(int i = 0, j = jsonArray.length(); i < j; i++){
             try{
                 jsonObject = (JSONObject)jsonArray.get(i);
@@ -54,8 +56,8 @@ public class JSONUtility {
 
     /**
      * Convert a JSONObject to an calEvent object and return it
-     * @param jsonObject
-     * @return
+     * @param jsonObject The jsonObject which is converted to a calEvent
+     * @return The converted calEvent
      */
     private static CalEvent convertJSONToCalEvent(JSONObject jsonObject) {
         Date startDate = null, endDate = null, lastChanged = null;
@@ -95,8 +97,8 @@ public class JSONUtility {
 
     /**
      * Convert a JSONObject to an event object and return it
-     * @param jsonObject
-     * @return
+     * @param jsonObject The jsonObject which is converted to a event
+     * @return The converted event
      */
     private static Event convertJSONToEvent(JSONObject jsonObject) {
         Date startDate = null, endDate = null, lastChanged = null;
