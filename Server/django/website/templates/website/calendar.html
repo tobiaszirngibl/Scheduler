@@ -1089,6 +1089,7 @@ $(function () {
             data : formData,
             success: function(data, textStatus, jqXHR)
                 {
+                    $.ajaxSettings.traditional = true;
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
                     console.log(jqXHR);
@@ -1096,8 +1097,8 @@ $(function () {
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+objectAppID+"/addCriticalActors",
                         type: "POST",
-                        data: {actors: "a@b.com"},
-                        //data : {actors: ["a@b.com", "f@email.com"]},
+                        //data: {actors: "a@b.com"},
+                        data : {actors: ["a@b.com", "f@email.com"]},
                         success: function(data, textStatus, jqXHR)
                             {   
 
