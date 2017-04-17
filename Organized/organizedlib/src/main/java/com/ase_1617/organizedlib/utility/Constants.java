@@ -31,6 +31,7 @@ public class Constants {
     public static final String FEEDBACK_ERROR_MESSAGE = "Data transfer failed. Please try again later.";
     public static final String LOGIN_ERROR_MESSAGE = "Login failed. Please try again later.";
     public static final String SIGNUP_ERROR_MESSAGE = "Sign up failed. Please try again later.";
+    public static final String FETCHING_ERROR_MESSAGE = "Fetching new events failed. Please try again later.";
 
     //Event answers for the server
     public static final String EVENT_ANSWER_POSITIVE = "yes";

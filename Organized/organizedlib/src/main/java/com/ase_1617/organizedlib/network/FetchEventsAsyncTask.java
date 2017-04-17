@@ -1,7 +1,6 @@
 package com.ase_1617.organizedlib.network;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.utility.JSONUtility;
@@ -9,17 +8,14 @@ import com.ase_1617.organizedlib.utility.JSONUtility;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Class extending the AsyncTask class to fetch event data
+ * Class extending the AsyncTask class to fetch event data related to the used account
  * from the organized web server.
  */
 
@@ -27,6 +23,9 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
     private final static String TAG = "FetchEventsAsyncTask";
 
     private ArrayList<CalEvent> eventList = new ArrayList<>();
+
+    private int fetchingEventsError = 0;
+
 
     public FetchEventsAsyncInterface fetchEventsAsyncInterface = null;
 
@@ -39,8 +38,10 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
     /**
      * Fetch event data from the organized server, decode the json result
      * and save the results in a list of calEvents.
-     * @param urls
-     * @return
+     * @param urls Parameters containing
+     *             the server url,
+     *             the access token
+     * @return Boolean value
      */
     @Override
     protected Boolean doInBackground(String... urls) {
@@ -91,7 +92,7 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
                 eventList = JSONUtility.decodeEventData(jsonArray);
             }
         }else{
-            Log.v(TAG, "Error while fetching event data.");
+            fetchingEventsError = 1;
         }
 
         if (connection != null) {
@@ -105,6 +106,10 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
      * @param result
      */
     protected void onPostExecute(Boolean result) {
-        fetchEventsAsyncInterface.newEventsFetched(eventList);
+        if(fetchingEventsError == 0){
+            fetchEventsAsyncInterface.newEventsFetchingSuccess(eventList);
+        }else{
+            fetchEventsAsyncInterface.newEventsFetchingError();
+        }
     }
 }

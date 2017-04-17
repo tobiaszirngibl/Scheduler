@@ -6,24 +6,15 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.utility.Constants;
-import com.ase_1617.organizedlib.utility.JSONUtility;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 /**
  * Class extending the AsyncTask class to send the user's answer
@@ -61,8 +52,13 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
 
     /**
      * Send the user's answer to the server using HTTP POST.
-     * @param urls
-     * @return
+     * @param urls Parameters containing
+     *             the oauth access token,
+     *             the event id,
+     *             the event position,
+     *             the event answer,
+     *             the event title
+     * @return Boolean value
      */
     @Override
     protected Boolean doInBackground(Object... urls) {
@@ -131,7 +127,7 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
 
     /**
      * Check whether the server sent an OK result.
-     * Call the given fetchEventsAsyncInterface method when the async task has finished.
+     * Call the according fetchEventsAsyncInterface method when the async task has finished.
      * @param result
      */
     protected void onPostExecute(Boolean result) {

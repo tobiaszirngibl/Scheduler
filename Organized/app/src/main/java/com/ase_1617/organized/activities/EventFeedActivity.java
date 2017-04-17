@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ase_1617.organized.LoginActivity;
 import com.ase_1617.organized.R;
@@ -256,12 +257,21 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      * @param eventFeedList
      */
     @Override
-    public void newEventsFetched(ArrayList<CalEvent> eventFeedList) {
+    public void newEventsFetchingSuccess(ArrayList<CalEvent> eventFeedList) {
         this.eventFeedList = eventFeedList;
         if(eventFeedList.size() > 0){
             hideNoEventsMsg();
         }
         setupEventFeedList();
+    }
+
+    /**
+     * Show an error alert when the event fetching process failed.
+     */
+    @Override
+    public void newEventsFetchingError() {
+        Toast toast = Toast.makeText(this, Constants.FETCHING_ERROR_MESSAGE, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     /**

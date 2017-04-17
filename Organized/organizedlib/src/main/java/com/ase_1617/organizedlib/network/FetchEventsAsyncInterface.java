@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 /**
  * Interface to provide information on fetched event data
- * when new information is fetched
+ * when new information is fetched.
  */
 
 public interface FetchEventsAsyncInterface {
 
-    void newEventsFetched(ArrayList<CalEvent> newEventsList);
+    void newEventsFetchingSuccess(ArrayList<CalEvent> newEventsList);
+
+    void newEventsFetchingError();
 }

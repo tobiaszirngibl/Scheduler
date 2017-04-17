@@ -1,8 +1,8 @@
 package com.ase_1617.organizedlib.network;
 
 /**
- * Interface to provide information on fetched event data
- * when new information is fetched
+ * Interface to provide information the response or error message when the
+ * authentication process succeeded or failed.
  */
 
 public interface AuthenticateAsyncInterface {

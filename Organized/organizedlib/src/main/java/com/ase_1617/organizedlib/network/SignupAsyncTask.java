@@ -3,8 +3,6 @@ package com.ase_1617.organizedlib.network;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,24 +11,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class extending the AsyncTask class to send user data to the web server
+ * Class extending the AsyncTask class to send user data(Name, Email, Password) to the web server
  * and create a new oganized account.
  */
 
@@ -59,8 +44,12 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
 
     /**
      * Send the new user data to the server using volley stringrequest.
-     * @param urls
-     * @return
+     * @param urls Parameters containing
+     *             the server url,
+     *             the user email,
+     *             the user password,
+     *             the user name
+     * @return Boolean value
      */
     @Override
     protected Boolean doInBackground(Object... urls) {

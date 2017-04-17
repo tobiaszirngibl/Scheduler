@@ -10,12 +10,12 @@ import android.support.v7.app.AlertDialog;
 
 /**
  * Created by bob on 09.03.17.
+ *
+ * Class to check whether the app is granted the permission to create new calendar events.
+ * If it is not granted. Request the permission from the user. Show an info alert if necessary.
  */
 
 public class permissionCheck {
-
-    private static AlertDialog permRequestDialog;
-
 
     /**
      * Check the calendar write permission.
@@ -34,7 +34,7 @@ public class permissionCheck {
                 final Activity finalActivity = activity;
 
                 //Show an explanation dialog that explains why the app does need the permission.
-                permRequestDialog = new AlertDialog.Builder(finalActivity)
+                AlertDialog permRequestDialog = new AlertDialog.Builder(finalActivity)
                         .setTitle("Missing permission")
                         .setMessage("Organized needs permission to create calendar events.")
                         .setPositiveButton("Accept", new DialogInterface.OnClickListener() {

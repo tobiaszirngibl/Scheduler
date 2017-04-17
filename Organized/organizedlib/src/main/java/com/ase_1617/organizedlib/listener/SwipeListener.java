@@ -44,7 +44,7 @@ public class SwipeListener implements View.OnTouchListener{
      *
      * @param v view element the swipe is performed on
      * @param event event element to be checked for swipe actions
-     * @return
+     * @return whether the event already was handled or should be allowed to be processed furthermore
      */
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {

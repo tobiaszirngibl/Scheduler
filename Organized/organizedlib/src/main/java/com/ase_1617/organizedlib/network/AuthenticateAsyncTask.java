@@ -3,7 +3,6 @@ package com.ase_1617.organizedlib.network;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Base64;
 import android.util.Log;
 
 import com.ase_1617.organizedlib.utility.Constants;
@@ -11,9 +10,7 @@ import com.ase_1617.organizedlib.utility.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -54,8 +51,13 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
 
     /**
      * Send the user login data to the server using HTTP POST.
-     * @param urls
-     * @return
+     * @param urls Parameters containing
+     *             the server url,
+     *             the user email,
+     *             the user password,
+     *             the client id,
+     *             the client secret
+     * @return Boolean value
      */
     @Override
     protected Boolean doInBackground(Object... urls) {
@@ -69,7 +71,6 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
         String url = (String)urls[0];
         String data = null;
         String serverResponse;
-
 
         URL server = null;
 
@@ -126,7 +127,6 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
             }catch(JSONException e){
                 e.printStackTrace();
             }
-            Log.v(TAG, "Access token: " + accessToken + "granted");
         }
         else{
             authenticationError = 1;
@@ -137,6 +137,11 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
         return true;
     }
 
+    /**
+     * On post execution of the async task use the according success or failure
+     * interface method to either show an error message or process the granted access token.
+     * @param result
+     */
     @Override
     protected void onPostExecute(Boolean result) {
         if(authenticationError == 1){
