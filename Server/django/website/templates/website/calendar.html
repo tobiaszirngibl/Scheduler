@@ -1096,6 +1096,7 @@ console.log(actors);
             data : formData,
             success: function(data, textStatus, jqXHR)
                 {
+                    $.ajaxSettings.traditional = true;
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
                     console.log(jqXHR);
