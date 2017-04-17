@@ -39,4 +39,8 @@
     <string name="signup_email_hint">Email</string>
     <string name="signup_name_hint">Name</string>
     <string name="empty_feed_message">No new events available.</string>
+    <string name="config_ip_hint">Ip address</string>
+    <string name="config_client_id_hint">Client id</string>
+    <string name="config_client_secret_hint">Client secret</string>
+    <string name="btn_config">Submit config data</string>
 </resources>
