@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
@@ -20,10 +21,11 @@ class AppointmentResponse(APIView):
 	required_scopes = settings.REST_DEFAULT_SCOPES
 
 	def post(self, request, id):
+		appointment = get_object_or_404(Appointment, id=id)
 		if 'answer' in request.POST:  # POST contains correct key
 			answer = request.POST['answer']
 			try:  # fitting participation in database
-				entry = Participation.objects.get_or_create(actor=request.user, appointment=Appointment.objects.get(id=id))[0]
+				entry = Participation.objects.get_or_create(actor=request.user, appointment=appointment)[0]
 
 				if answer.lower() == 'yes':  # checks value of answer
 					entry.answer = 'y'
@@ -42,6 +44,7 @@ class AppointmentResponse(APIView):
 
 			except Participation.DoesNotExist:
 				return Response(data='No participation found', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 		else:
 			return Response(data='Post did not contain key "answer"', status=status.HTTP_400_BAD_REQUEST)
 
@@ -53,11 +56,12 @@ class AddActorToEvent(APIView):
 	required_scopes = settings.REST_DEFAULT_SCOPES
 
 	def post(self, request, id):
+		appointment = get_object_or_404(Appointment, id=id)
 		actors = request.POST.getlist('actors')
 		for a in actors:
 			try:
 				actor = Actor.objects.get(email=a)
-				Participation.objects.update_or_create(actor=actor, appointment=Appointment.objects.get(id=id), is_necessary=False)
+				Participation.objects.update_or_create(actor=actor, appointment=appointment, is_necessary=False)
 			except Actor.DoesNotExist:
 				print("No user with email %s" % a)
 		return Response(status=status.HTTP_204_NO_CONTENT)
@@ -69,11 +73,12 @@ class AddCriticalActorToEvent(APIView):
 	required_scopes = settings.REST_DEFAULT_SCOPES
 
 	def post(self, request, id):
+		appointment = get_object_or_404(Appointment, id=id)
 		actors = request.POST.getlist('actors')
 		for a in actors:
 			try:
 				actor = Actor.objects.get(email=a)
-				Participation.objects.update_or_create(actor=actor, appointment=Appointment.objects.get(id=id), is_necessary=True)
+				Participation.objects.update_or_create(actor=actor, appointment=appointment, is_necessary=True)
 			except Actor.DoesNotExist:
 				print("No user with email %s" % a)
 		return Response(status=status.HTTP_204_NO_CONTENT)
@@ -86,11 +91,11 @@ class AddActorToGroup(APIView):
 	required_scopes = settings.REST_DEFAULT_SCOPES
 
 	def post(self, request, id):
+		group = get_object_or_404(Group, id=id)
 		actors = request.POST.getlist('actors')
 		for a in actors:
 			try:
 				actor = Actor.objects.get(email=a)
-				group = Group.objects.get(id=id)
 				group.members.add(actor)
 			except Actor.DoesNotExist:
 				print("No user with email %s" % a)
@@ -103,12 +108,9 @@ class LeaveGroup(APIView):
 	required_scopes = settings.REST_DEFAULT_SCOPES
 
 	def get(self, request, group_id):
-		try:
-			group = Group.objects.get(id=group_id)
-			group.members.remove(request.user)
-			return Response(status=status.HTTP_204_NO_CONTENT)
-		except Group.DoesNotExist:
-			return Response(data='No group with this id', status=status.HTTP_404_NOT_FOUND)
+		group = get_object_or_404(Group, id=group_id)
+		group.members.remove(request.user)
+		return Response(status=status.HTTP_204_NO_CONTENT)
 
 """
 API Viewsets start here. These are for providing basic functionality like browsing or creating
