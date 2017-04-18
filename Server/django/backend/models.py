@@ -22,7 +22,7 @@ class Actor(AbstractBaseUser, PermissionsMixin):
 	spare_time = models.TextField(max_length=500, blank=True, null=True)
 	job = models.TextField(max_length=500, blank=True, null=True)
 	understudy = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-	avatar = models.ImageField(upload_to='avatars/', default='avatars/noAvatar.jpg')
+	avatar = models.ImageField(upload_to='avatars/', default='/avatars/noAvatar.jpg')
 
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = []
@@ -81,6 +81,7 @@ class Appointment(models.Model):
 	summary = models.TextField(blank=True)
 	# Timestamp used for marking last modification date
 	last_changed = models.DateTimeField(auto_now=True)
+	color = models.CharField(max_length=6, default="3c8dbc")
 
 	@property
 	def will_take_place(self):
@@ -118,7 +119,6 @@ class Participation(models.Model):
 
 class Favorite(Appointment):
 	owner = models.ForeignKey(Actor, on_delete=models.CASCADE)
-	color = models.CharField(max_length=6)
 
 	def __str__(self):
 		return self.owner.__str__() + ' - ' + self.name

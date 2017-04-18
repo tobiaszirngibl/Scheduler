@@ -34,7 +34,7 @@ class ActorNestedSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Actor
-		fields = ('id', 'email',)
+		fields = ('id', 'email', "first_name", "last_name")
 		read_only_fields = ('id', )
 
 
