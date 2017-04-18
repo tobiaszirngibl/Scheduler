@@ -10,8 +10,8 @@ from .forms import AvatarForm
 # Create your views here.
 
 @login_required
-def profile_view(request, user_id):
-	user = get_object_or_404(Actor, id=user_id)
+def profile_view(request):
+	user = get_object_or_404(Actor, id=request.user.id)
 	"""user = {"email": request.user.email,
 	        "firstname": request.user.first_name,
 	        "lastname": request.user.last_name,

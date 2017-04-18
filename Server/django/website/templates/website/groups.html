@@ -5,7 +5,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
                     <li class="active"><a href="/groups"><i class="fa fa-users" aria-hidden="true"></i> Gruppenverwaltung</a></li>
-                    <li><a href="/profile/{{ user.id }}/"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
+                    <li><a href="/profile/"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
@@ -414,7 +414,7 @@ $(document).on("click", "a", function(){
                     for (var i=0; i<memberArray.length; i++) {
 
 
-                        $("#groupMemberList").append('<li value='+memberArray[i].email+'>'+memberArray[i].email+'</option>');
+                        $("#groupMemberList").append('<li value='+memberArray[i].email+'>'+memberArray[i].email+ ' '+memberArray[i].first_name+ ' '+memberArray[i].last_name+'</option>');
 
                         $("#usersOverview").modal("show");
                     }

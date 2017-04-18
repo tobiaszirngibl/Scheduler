@@ -6,7 +6,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
                     <li><a href="/groups"><i class="fa fa-users" aria-hidden="true"></i> Gruppenverwaltung</a></li>
-                    <li><a href="/profile/{{ user.id }}/"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
+                    <li><a href="/profile/"><i class="fa fa-user" aria-hidden="true"></i> Nutzerverwaltung</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
@@ -447,7 +447,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
-                                                <input id="group" type="checkbox" class="minimal" checked>  Gruppe auswählen
+                                                <input id="groupDrop" type="checkbox" class="minimal" checked>  Gruppe auswählen
                                             </label>
                                             <select id="groupListDrop" class="chzn-select">
                                             </select>
@@ -458,7 +458,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
-                                                <input id="user" type="checkbox" class="minimal">  Benutzer auswählen:
+                                                <input id="userDrop" type="checkbox" class="minimal">  Benutzer auswählen:
                                             </label>
                                             <select id="userListDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
                                             </select>
@@ -467,7 +467,7 @@
                                   <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
-                                                <input id="user" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
+                                                <input id="userCritDrop" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
                                             </label>
                                             <select id="userListCritDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
                                             </select>
@@ -476,7 +476,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Anmerkungen</label>
-                                    <textarea id="remark" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                    <textarea id="remarkDrop" class="form-control" rows="3" placeholder="Enter ..."></textarea>
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -581,6 +581,8 @@ jQuery.ajaxSettings.traditional = true;
     var events = [];
     var eventSentData = "";
     var calEventID="";
+    var colDropEvent="";
+    var favorID ="";
 
     
     // Initiate Lists
@@ -684,7 +686,7 @@ jQuery.ajaxSettings.traditional = true;
         success: function(data)
             {
                 for (var key in data) {
-                    $('#external-events').prepend('<div class="external-event" style="background-color:#'+data[key].color+';color:#fff">'+data[key].name+'</div>');
+                    $('#external-events').prepend('<div colCode='+data[key].color+' id='+data[key].id+' class="external-event" style="background-color:#'+data[key].color+';color:#fff">'+data[key].name+'</div>');
                 }   
                 ini_events($('#external-events div.external-event'));
             }
@@ -947,12 +949,16 @@ jQuery.ajaxSettings.traditional = true;
         },
 eventStartEditable: false,
 droppable: true,
-        drop: function (date, allDay, e) {
+drop: function (date, allDay, e) {
+            favorID = $(this)[0].id;
             $('#dropTitleName').text(allDay.target.innerHTML);
             $('#dropAppointment').modal('show');
                     var originalEventTitle= $(this).data('eventObject').title;
             var date = new Date(date._d);
             var dateNew = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
+           colDropEvent = $(this)[0].attributes[0].value;
+           console.log(colDropEvent);
+
             $.ajax({
                 type: "GET",
                 url: "http://localhost:8000/api/actor/",
@@ -1245,19 +1251,47 @@ droppable: true,
 
     
     // TODO New Event After Drop Function Save
-    $("#saveEventDrop").click(function (e){
+    $("#saveEventDrop").click(function (e) {
+
+        console.log(e);
+
+        if ($('#group').is(':checked')) {
+            var groupID = $("#groupListDrop").val();
+            var groupMember = [];
+            $.ajax({
+                url: "http://localhost:8000/api/group/" + groupID + "/",
+                type: "GET",
+                success: function (data, textStatus, jqXHR) {
+                    for (var i = 0; i < data.members.length; i++) {
+                        groupMember.push(data.members[i].email);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                }
+            });
+
+        } else var groupMember = null;
+
+
+        if ($('#userDrop').is(':checked')) {
+            var actors = $("#userListDrop").val();
+        } else var actors = null;
+
+        if ($('#userCritDrop').is(':checked')) {
+            var actorsCrit = $("#userListCritDrop").val();
+        } else var actorsCrit = null;
+
 
         var titleElement = $("#titleDrop").text();
 
         var title = titleElement.substring(0, titleElement.indexOf('-'));
         var dtStart = $("#startTimeDrop").val();
-        var dtEnd =  $("#endTimeDrop").val();
+        var dtEnd = $("#endTimeDrop").val();
         var location = $("#locationDrop").val();
         var town = $("#townDrop").val();
         var remark = $("#remarkDrop").val();
 
-        var actors = $("#userListDrop").val();
-        var actorsCrit = $("#userListCritDrop").val();
 
         var dateTest = titleElement.substring(titleElement.indexOf("-") + 2);
 
@@ -1268,7 +1302,7 @@ droppable: true,
 
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
-        if($('#allDay').is(':checked')){
+        if ($('#allDay').is(':checked')) {
             var newDateTimeStart = year + "-" + month + "-" + day + " 00:01";
             var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
         } else {
@@ -1277,61 +1311,78 @@ droppable: true,
         }
 
 
-
-        var formData = {name: title, organizer: 1, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
-
-
-
-
-       $.ajax({
-            type: "POST",
-            url : "http://localhost:8000/api/appointment/",
-            data : formData,
-            success: function(data, textStatus, jqXHR)
-                {
-                    $.ajaxSettings.traditional = true;
-                    var objectAppID = data.id;
-                    $('#appointment').modal('hide');
-
-                    $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
-                        type: "POST",
-                        data : {actors: actors},
-                        success: function(data, textStatus, jqXHR)
-                            {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-                            }
-                    });
-
-                      $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addCriticalActors",
-                        type: "POST",
-                        data : {actors: actorsCrit},
-                        success: function(data, textStatus, jqXHR)
-                            {
-                                parent.location.reload(true);
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-
-                            }
-
-                    });
-                },
-            error: function (jqXHR, textStatus, errorThrown)
-                {
-                    console.log(jqXHR);
-                }
-        });
+        var formData = {
+            name: title,
+            organizer: 1,
+            dtstart: newDateTimeStart,
+            dtend: newDateTimeEnd,
+            town: town,
+            location: location,
+            summary: remark
+        };
 
 
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8000/api/appointment/",
+                    data: formData,
+                    success: function (data, textStatus, jqXHR) {
+                        var objectAppID = data.id;
+                        $('#dropAppointment').modal('hide');
+
+
+                        if (groupMember !== null) {
+                            $.ajax({
+                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
+                                type: "POST",
+                                data: {actors: groupMember},
+                                success: function (data, textStatus, jqXHR) {
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR);
+                                }
+                            });
+                        }
+
+                        if (actors !== null) {
+                            $.ajax({
+                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
+                                type: "POST",
+                                data: {actors: actors},
+                                success: function (data, textStatus, jqXHR) {
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR);
+                                }
+                            });
+                        }
+
+                        if (actorsCrit !== null) {
+                            $.ajax({
+                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
+                                type: "POST",
+                                data: {actors: actorsCrit},
+                                success: function (data, textStatus, jqXHR) {
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR);
+                                }
+                            });
+
+                        }
+
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                    }
+                });
 
 
     });
+
+
 
 
     // Edit Event Save
@@ -1365,15 +1416,16 @@ droppable: true,
     $("#color-chooser > li > a").click(function (e) {
         e.preventDefault();
         currColor = $(this).css("color");
+        console.log(currColor);
         currColorHex = rgb2hex(currColor);
-     
+console.log(currColorHex);
         $('#add-new-event').css({"background-color": currColor, "border-color": currColor});
     });
 
     // Send new Favorit to Django
     $("#add-new-event").click(function (e) {
         var val = $("#new-event").val();
-        var formData = { name: val, color: currColorHex, organizer: 1}
+        var formData = { name: val, color: currColorHex, organizer: {{ user.id }}, owner: {{user.id}}}
         
         $.ajax({
             url : "http://localhost:8000/api/favorites/",
@@ -1382,6 +1434,7 @@ droppable: true,
             success: function(data, textStatus, jqXHR)
                 {
                     $("#new-event").val("");
+                    console.log(jqXHR);
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
