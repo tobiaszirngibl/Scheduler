@@ -48,7 +48,16 @@ public class JSONUtility {
             }catch(JSONException e){
                 e.printStackTrace();
             }
-            eventList.add(convertJSONToCalEvent(jsonObject));
+
+            //Check whether the event has not been answered by the user yet("own_answer = p")
+            //Add it to the arraylist if it has not
+            try {
+                if (jsonObject != null && jsonObject.getString(JSON_TAG_ANSWER).equals("p")) {
+                    eventList.add(convertJSONToCalEvent(jsonObject));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         return eventList;

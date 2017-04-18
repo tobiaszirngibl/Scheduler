@@ -1,6 +1,7 @@
 package com.ase_1617.organizedlib.network;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.utility.JSONUtility;
@@ -47,6 +48,7 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... urls) {
         String serverResponse;
         String url = urls[0];
+        Log.v(TAG, "url: "+url);
         String accessToken = urls[1];
 
         int responseCode = 0;
