@@ -395,7 +395,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 id="dropTitleName" class="modal-title"></h4>
+                            <h4 id="titleDrop" class="modal-title"></h4>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
@@ -407,7 +407,7 @@
                                             <div class="form-group">
                                                 <label>Beginn:</label>
                                                 <div class="input-group">
-                                                    <input id="startTime" type="text" class="form-control timepicker" >
+                                                    <input id="startTimeDrop" type="text" class="form-control timepicker" >
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -420,7 +420,7 @@
                                             <div class="form-group">
                                                 <label>Ende:</label>
                                                 <div class="input-group">
-                                                    <input id="endTime" type="text" class="form-control timepicker" >
+                                                    <input id="endTimeDrop" type="text" class="form-control timepicker" >
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -433,13 +433,13 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Stadt:</label>
-                                            <input id="town" type="text" class="form-control" placeholder="Enter ...">
+                                            <input id="townDrop" type="text" class="form-control" placeholder="Enter ...">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Standort:</label>
-                                            <input id="location" type="text" class="form-control" placeholder="Enter ...">
+                                            <input id="locationDrop" type="text" class="form-control" placeholder="Enter ...">
                                         </div>
                                     </div>
                                 </div>
@@ -449,16 +449,27 @@
                                             <label>
                                                 <input id="group" type="checkbox" class="minimal" checked>  Gruppe auswählen
                                             </label>
-                                            <select id="groupList" class="chzn-select">
+                                            <select id="groupListDrop" class="chzn-select">
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                            <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
                                                 <input id="user" type="checkbox" class="minimal">  Benutzer auswählen:
                                             </label>
-                                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                            <select id="userListDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
+                                            </select>
+                                        </div>
+                                    </div>
+                                  <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>
+                                                <input id="user" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
+                                            </label>
+                                            <select id="userListCritDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
                                             </select>
                                         </div>
                                     </div>
@@ -828,115 +839,153 @@ jQuery.ajaxSettings.traditional = true;
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
-        
+
         buttonText: {
             today: 'today',
             month: 'month',
             week: 'week',
             day: 'day'
         },
-        
-        eventRender: function(event, element) {
+
+        eventRender: function (event, element) {
             element.popover({
                 title: event.name,
                 placement: 'right',
-                content: + '<br />Start:',
+                content: +'<br />Start:',
             });
         },
-        
-        eventClick: function(calEvent, jsEvent, view) {
+
+        eventClick: function (calEvent, jsEvent, view) {
             var titleEdit = "";
             var startEdit = "";
-                
-            calEventID = calEvent.id;
-                
-            $.ajax({    
-                type: "GET",
-                url: "http://localhost:8000/api/appointment/"+calEvent.id+"/",
-                success: function(data)
-                    {
-                        $('#titleEvent').text(data.name);
-                        titleEdit = $('#titleEvent').text();
-                        
-                        $('#startEvent').text(data.date_begin);
-                        startEdit = $('#startEvent').text();
-                        
-                        $('#endEvent').text(data.date_end);
 
-                        // weitere hinzufügen
-                        $('#showAppointment').modal('show');
-                    }
+            calEventID = calEvent.id;
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8000/api/appointment/" + calEvent.id + "/",
+                success: function (data) {
+                    $('#titleEvent').text(data.name);
+                    titleEdit = $('#titleEvent').text();
+
+                    $('#startEvent').text(data.date_begin);
+                    startEdit = $('#startEvent').text();
+
+                    $('#endEvent').text(data.date_end);
+
+                    // weitere hinzufügen
+                    $('#showAppointment').modal('show');
+                }
             });
 
-            $("#editEvent").click(function (e){
+            $("#editEvent").click(function (e) {
                 e.preventDefault();
-                    $('#showAppointment').modal('hide');
-                    $('#titleEditPut').val(titleEdit);
-                    $('#startTimeEditPut').val(startEdit);
-                setTimeout(function(){$('#appointmentEditPut').modal('show');}, 300);
+                $('#showAppointment').modal('hide');
+                $('#titleEditPut').val(titleEdit);
+                $('#startTimeEditPut').val(startEdit);
+                setTimeout(function () {
+                    $('#appointmentEditPut').modal('show');
+                }, 300);
             });
         },
 
         editable: true,
         eventAfterRender: function (event, element, view) {
-                   switch (event.answer) {
-                       case "y":
-                          element.css('background-color', '#00a65a');
-                          break;
-                       case "n":
-                          element.css('background-color', '#dd4b39');
-                          break;
-                       default:
-                          element.css('background-color', '#3c8dbc');
-                          break;
-                   }
+            switch (event.answer) {
+                case "y":
+                    element.css('background-color', '#00a65a');
+                    break;
+                case "n":
+                    element.css('background-color', '#dd4b39');
+                    break;
+                default:
+                    element.css('background-color', '#3c8dbc');
+                    break;
+            }
             var eventID = event.id;
             var eventEnd = event.end;
             var eventStart = Date.parse(event.start._d);
-            if(eventEnd != null) {
+            if (eventEnd != null) {
                 var eventEnd = Date.parse(event.end._d);
             }
             else {
                 var eventEnd = "";
             }
 
-            for (var key in events){
+            for (var key in events) {
                 var eventsStart = Date.parse(events[key].start);
                 var eventsEnd = Date.parse(events[key].end);
                 var eventsAnswer = events[key].answer;
 
-                    if(eventID !== events[key].id && (eventStart <= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)) {
-                       overlapping();
-                    }
-                    else if(eventID !== events[key].id && (eventStart <= eventsStart && eventEnd >= eventsEnd)) {
-                        overlapping();
-                    }
-                    else if(eventID !== events[key].id && (eventStart >= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)) {
-                        overlapping();
-                    }
-                    else if(eventID !== events[key].id && (eventStart >= eventsStart && eventsEnd >= eventStart)){
-                        overlapping();
-                    }
-                    else {
-                    }
+                if (eventID !== events[key].id && (eventStart <= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)) {
+                    overlapping();
                 }
+                else if (eventID !== events[key].id && (eventStart <= eventsStart && eventEnd >= eventsEnd)) {
+                    overlapping();
+                }
+                else if (eventID !== events[key].id && (eventStart >= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)) {
+                    overlapping();
+                }
+                else if (eventID !== events[key].id && (eventStart >= eventsStart && eventsEnd >= eventStart)) {
+                    overlapping();
+                }
+                else {
+                }
+            }
 
-                function overlapping(){
-                        //var s = '<span class="glyphicon glyphicon-info-sign"> '+events[key].title+'</span><br>';
-                        //var span = document.createElement('span');
-                        //span.innerHTML = s;
-                        //element[0].children[0].prepend(span);
-                        element.css('background-color', '#fff600');
-                        element.css('border-color', '#000000');
-                        element.css('color', '#000000');
-                }
+            function overlapping() {
+                //var s = '<span class="glyphicon glyphicon-info-sign"> '+events[key].title+'</span><br>';
+                //var span = document.createElement('span');
+                //span.innerHTML = s;
+                //element[0].children[0].prepend(span);
+                element.css('background-color', '#fff600');
+                element.css('border-color', '#000000');
+                element.css('color', '#000000');
+            }
 
 
         },
-        droppable: true, 
-        drop: function (date, allDay, e) { 
-                $('#dropTitleName').text(allDay.target.innerHTML);
-                $('#dropAppointment').modal('show');      
+eventStartEditable: false,
+droppable: true,
+        drop: function (date, allDay, e) {
+            $('#dropTitleName').text(allDay.target.innerHTML);
+            $('#dropAppointment').modal('show');
+                    var originalEventTitle= $(this).data('eventObject').title;
+            var date = new Date(date._d);
+            var dateNew = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8000/api/actor/",
+                success: function (data) {
+                    for (var key in data) {
+                        if (data[key].first_name == "" && data[key].last_name == "") {
+                            var actorName = "Kein Name angegeben";
+                        }
+                        else {
+                            var actorName = data[key].first_name + " " + data[key].last_name;
+                        }
+                        var actorEmail = data[key].email;
+                        $('#userListDrop').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                        $('#userListCritDrop').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                    }
+                    $("#titleDrop").text(originalEventTitle +" - "+dateNew);
+                    $("#userListDrop").trigger("chosen:updated");
+                    $("#userListCritDrop").trigger("chosen:updated");
+                }
+
+            });
+               $.ajax({
+            type: "GET",
+                        url: "http://localhost:8000/api/group/",
+
+            success: function(data)
+                {
+                    for (var key in data) {
+                        $('#groupListDrop').append('<option value='+data[key].id+'>'+ data[key].name +'</option>');
+                    }
+                    $("#groupListDrop").trigger("chosen:updated");
+                }
+        });
         }
     });
     
@@ -1030,8 +1079,8 @@ jQuery.ajaxSettings.traditional = true;
                             var actorName = data[key].first_name + " " + data[key].last_name;
                         }
                         var actorEmail = data[key].email;
-                        $('#userList').append('<option>'+actorEmail+' - ' + actorName +'</option>');
-                        $('#userListCrit').append('<option>'+actorEmail+' - ' + actorName +'</option>');
+                        $('#userList').append('<option value='+actorEmail+'>'+actorEmail+' - ' + actorName +'</option>');
+                        $('#userListCrit').append('<option value='+actorEmail+'>'+actorEmail+' - ' + actorName +'</option>');
                     }
                     $("#userList").trigger("chosen:updated");
                     $("#userListCrit").trigger("chosen:updated");
@@ -1039,14 +1088,14 @@ jQuery.ajaxSettings.traditional = true;
         });
                 
    
-        // TODO AJAX for Groups 
         $.ajax({
             type: "GET",
-            url: "http://localhost:8000/api/group/",
+                        url: "http://localhost:8000/api/group/",
+
             success: function(data)
                 {
                     for (var key in data) {
-                        $('#groupList').append('<option>'+ data[key].name +'</option>');
+                        $('#groupList').append('<option value='+data[key].id+'>'+ data[key].name +'</option>');
                     }
                     $("#groupList").trigger("chosen:updated");
                 }
@@ -1059,8 +1108,46 @@ jQuery.ajaxSettings.traditional = true;
     
     // New Event Button Function Save
     $("#saveEvent").click(function (e){
+
+                if($('#group').is(':checked')){
+                    var groupID = $("#groupList").val();
+                    var groupMember = [];
+                             $.ajax({
+                        url : "http://localhost:8000/api/group/"+groupID+"/",
+                        type: "GET",
+                        success: function(data, textStatus, jqXHR)
+                            {
+
+
+                                    for (var i = 0; i<data.members.length; i++) {
+                    groupMember.push(data.members[i].email);
+                    }
+
+
+
+                            },
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
+                    });
+
+
+
+
+                } else var groupMember = null;
+
+
+                  if($('#user').is(':checked')){
+                    var actors = $("#userList").val();
+                } else var actors = null;
+
+                  if($('#userCrit').is(':checked')){
+                    var actorsCrit = $("#userListCrit").val();
+                } else var actorsCrit = null;
+
+
         var title = $("#title").val();
-        var desc = $("#remark").val();
         var dtDate = $("#reservationtime").val();
         var dtStart = $("#startTime").val();
         var dtEnd =  $("#endTime").val();
@@ -1068,11 +1155,117 @@ jQuery.ajaxSettings.traditional = true;
         var town = $("#town").val();
         var remark = $("#remark").val();
 
-
-        var actors = $("#userList").val();
-console.log(actors);
-
         var dateFormat = dtDate.split("/");
+        var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
+
+        if($('#allDay').is(':checked')){
+            var newDateTimeStart = year + "-" + month + "-" + day + " 00:01";
+            var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
+        } else {
+            var newDateTimeStart = year + "-" + month + "-" + day + " " + dtStart;
+            var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
+        }
+
+
+
+        var formData = {name: title, organizer: 1, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
+
+
+
+
+
+       $.ajax({
+            type: "POST",
+            url : "http://localhost:8000/api/appointment/",
+            data : formData,
+            success: function(data, textStatus, jqXHR)
+                {
+                    $.ajaxSettings.traditional = true;
+                    var objectAppID = data.id;
+                    $('#appointment').modal('hide');
+
+
+                    if(groupMember !== null) {
+                        $.ajax({
+                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
+                        type: "POST",
+                        data : {actors: groupMember},
+                        success: function(data, textStatus, jqXHR)
+                            {
+                            },
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
+                        });
+                    }
+
+                    if(actors !== null) {
+                         $.ajax({
+                            url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
+                            type: "POST",
+                            data : {actors: actors},
+                            success: function(data, textStatus, jqXHR)
+                                {
+                                },
+                            error: function (jqXHR, textStatus, errorThrown)
+                                {
+                                    console.log(jqXHR);
+                                }
+                        });
+                    }
+
+                    if(actorsCrit !== null) {
+                             $.ajax({
+                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addCriticalActors",
+                        type: "POST",
+                        data : {actors: actorsCrit},
+                        success: function(data, textStatus, jqXHR)
+                            {
+                            },
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
+                    });
+
+                    }
+
+
+
+
+                },
+            error: function (jqXHR, textStatus, errorThrown)
+                {
+                    console.log(jqXHR);
+                }
+        });
+    });
+
+
+    
+    // TODO New Event After Drop Function Save
+    $("#saveEventDrop").click(function (e){
+
+        var titleElement = $("#titleDrop").text();
+
+        var title = titleElement.substring(0, titleElement.indexOf('-'));
+        var dtStart = $("#startTimeDrop").val();
+        var dtEnd =  $("#endTimeDrop").val();
+        var location = $("#locationDrop").val();
+        var town = $("#townDrop").val();
+        var remark = $("#remarkDrop").val();
+
+        var actors = $("#userListDrop").val();
+        var actorsCrit = $("#userListCritDrop").val();
+
+        var dateTest = titleElement.substring(titleElement.indexOf("-") + 2);
+
+
+        // bei tag ist ein leerzeichen drin
+
+        var dateFormat = dateTest.split("/");
+
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
         if($('#allDay').is(':checked')){
@@ -1099,22 +1292,34 @@ console.log(actors);
                     $.ajaxSettings.traditional = true;
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
-                    console.log(jqXHR);
-                    // TODO Send Actors
+
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
                         type: "POST",
-                        //data: {actors: "a@b.com"},
-                        data : {actors: ["a@b.com", "a@c.com", "f@email.com"]},
+                        data : {actors: actors},
                         success: function(data, textStatus, jqXHR)
-                            {   
-
-                               location.reload();
+                            {
                             },
                         error: function (jqXHR, textStatus, errorThrown)
                             {
                                 console.log(jqXHR);
                             }
+                    });
+
+                      $.ajax({
+                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addCriticalActors",
+                        type: "POST",
+                        data : {actors: actorsCrit},
+                        success: function(data, textStatus, jqXHR)
+                            {
+                                parent.location.reload(true);
+                            },
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+
+                            }
+
                     });
                 },
             error: function (jqXHR, textStatus, errorThrown)
@@ -1122,13 +1327,10 @@ console.log(actors);
                     console.log(jqXHR);
                 }
         });
-    });
 
 
-    
-    // TODO New Event After Drop Function Save
-    $("#saveEventDrop").click(function (e){
-        console.log("sending");
+
+
     });
 
 
@@ -1179,7 +1381,6 @@ console.log(actors);
             data : formData,
             success: function(data, textStatus, jqXHR)
                 {
-                    console.log(objectAppID);
                     $("#new-event").val("");
                 },
             error: function (jqXHR, textStatus, errorThrown)

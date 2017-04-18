@@ -371,7 +371,6 @@ location.reload();
         var title = $("#groupTitle").val();
        var memberList = $("#userList").val();
         var formData = {name: title};
-        //var formData2 = {actors: +memberList};
         $.ajax({
             url : "http://localhost:8000/api/group/",
             type: "POST",
@@ -379,11 +378,11 @@ location.reload();
             success: function(data, textStatus, jqXHR)
                 {
                    var groupID = data.id;
-                   var members = { actors: "a@b.com"};
+
                     $.ajax({
                         url : "http://localhost:8000/api/group/"+groupID+"/addActors/",
                         type: "POST",
-                        data : members,
+                        data : {actors: memberList},
                         success: function(data, textStatus, jqXHR)
                             {
                                 console.log(jqXHR);
