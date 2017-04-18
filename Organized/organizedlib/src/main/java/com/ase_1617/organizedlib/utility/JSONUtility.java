@@ -61,7 +61,7 @@ public class JSONUtility {
      */
     private static CalEvent convertJSONToCalEvent(JSONObject jsonObject) {
         Date startDate = null, endDate = null, lastChanged = null;
-        String title = null, description = null, notes = null, town = null, location = null;
+        String title = null, description = null, notes = "", town = "", location = null;
         Integer id = null;
 
         try{
@@ -80,11 +80,8 @@ public class JSONUtility {
                 endDate = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_END_DATE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
             }
 
-            //lastChanged = MiscUtility.stringToDate(jsonObject.getString(JSON_TAG_CHANGE), "yyyy-MM-dd'T'HH:mm:ss'Z'");
             lastChanged = new Date();
             title = jsonObject.getString(JSON_TAG_NAME);
-            notes = jsonObject.getString(JSON_TAG_NOTES);
-            town = jsonObject.getString(JSON_TAG_TOWN);
             location = jsonObject.getString(JSON_TAG_LOCATION);
             description = jsonObject.getString(JSON_TAG_DESCRIPTION);
 

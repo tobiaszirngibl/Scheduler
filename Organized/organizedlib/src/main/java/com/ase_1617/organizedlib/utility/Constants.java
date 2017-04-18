@@ -49,7 +49,7 @@ public class Constants {
     //Setter methods for testing purposes
     //Needed because of changing server config
     public static void setServerUrlBase(String serverUrlBase){
-        SERVER_URL_BASE = serverUrlBase;
+        SERVER_URL_BASE = "http://" + serverUrlBase;
 
         updateURLs();
     }
