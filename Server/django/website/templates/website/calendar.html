@@ -118,7 +118,7 @@
                         <div class="external-event bg-yellow">Go home</div>
                         <div class="checkbox">
                             <label for="drop-remove">
-                                <input type="checkbox" id="drop-remove">remove after drop
+                                <input type="checkbox" id="drop-remove">Nach Drop entferen
                             </label>
                         </div>
                     </div>
@@ -144,9 +144,9 @@
                         </ul>
                     </div>
                     <div class="input-group">
-                        <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+                        <input id="new-event" type="text" class="form-control" placeholder="Titel">
                         <div class="input-group-btn">
-                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Add</button>
+                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Hinzufügen</button>
                         </div>
                     </div>
                 </div>
@@ -930,24 +930,16 @@ jQuery.ajaxSettings.traditional = true;
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
+        locale: 'de',
+        timeFormat: 'HH:mm',
+        timezone:'local',
+        displayEventEnd: true,
 
-        buttonText: {
-            today: 'today',
-            month: 'month',
-            week: 'week',
-            day: 'day'
-        },
-
-            timeFormat: 'HH:mm',
 
         eventRender: function (event, element) {
-            element.popover({
-                title: event.name,
-                placement: 'right',
-                content: +'<br />Start:',
-            });
+    element.find('.fc-time').append("<br/>");
+
         },
-timezone:'local',
 
 
         eventClick: function (calEvent, jsEvent, view) {
@@ -988,6 +980,7 @@ timezone:'local',
         eventAfterRender: function (event, element, view) {
             element.addClass('withPointer');
 
+
             switch (event.answer) {
                 case "y":
                     element.css('background-color', '#00a65a');
@@ -1008,6 +1001,7 @@ timezone:'local',
             else {
                 var eventEnd = "";
             }
+
 
             for (var key in events) {
                 var eventsStart = Date.parse(events[key].start);
@@ -1040,7 +1034,10 @@ timezone:'local',
                 element.css('color', '#000000');
             }
 
-
+$(".fc-today-button").text("Heute");
+$(".fc-month-button").text("Monat");
+$(".fc-agendaWeek-button").text("Woche");
+$(".fc-agendaDay-button").text("Tag");
         },
 eventStartEditable: false,
 droppable: true,
