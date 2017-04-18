@@ -41,10 +41,13 @@ class ActorNestedSerializer(serializers.ModelSerializer):
 class ParticipationSerializer(serializers.ModelSerializer):
 	id = serializers.ReadOnlyField(source='actor.id')
 	email = serializers.ReadOnlyField(source='actor.email')
+	first_name = serializers.ReadOnlyField(source='actor.first_name')
+	last_name = serializers.ReadOnlyField(source='actor.last_name')
+
 
 	class Meta:
 		model = Participation
-		fields = ('id', 'email', 'answer', 'is_necessary',)
+		fields = ('id', 'email', "first_name", "last_name", 'answer', 'is_necessary',)
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
