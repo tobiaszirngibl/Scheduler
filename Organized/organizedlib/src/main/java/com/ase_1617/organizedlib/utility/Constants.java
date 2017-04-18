@@ -16,6 +16,7 @@ public class Constants {
     public static String SERVER_URL_BASE = "http://192.168.178.20";
     public static String TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
     public static String SIGNUP_URL = SERVER_URL_BASE + ":8000/api/actor/";
+    public static String DELETE_URL = SERVER_URL_BASE + ":8000/api/actor/";  //+ID of the user -> HTTP DELETE
     public static String NEW_EVENTS_URL = SERVER_URL_BASE + ":8000/api/appointment/";
     public static String FEEDBACK_URL_START = SERVER_URL_BASE + ":8000/api/appointment/";
     public static String FEEDBACK_URL_END = "/response";
