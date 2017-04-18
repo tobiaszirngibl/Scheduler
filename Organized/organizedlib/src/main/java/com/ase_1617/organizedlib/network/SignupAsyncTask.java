@@ -80,7 +80,7 @@ public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
             //Supply the necessary parameters
             @Override
             protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
+                Map<String,String> params = new HashMap<>();
                 params.put("email",email);
                 params.put("password",password);
                 params.put("first_name",name);

@@ -1,5 +1,7 @@
 package com.ase_1617.organizedlib.utility;
 
+import android.util.Log;
+
 /**
  * Created by bob on 25.03.17.
  *
@@ -11,12 +13,12 @@ package com.ase_1617.organizedlib.utility;
 public class Constants {
 
     //Network
-    private static String SERVER_URL_BASE = "http://192.168.178.20";
-    public static final String TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
-    public static final String SIGNUP_URL = SERVER_URL_BASE + ":8000/api/actor/";
-    public static final String NEW_EVENTS_URL = SERVER_URL_BASE + ":8000/api/appointment/";
-    public static final String FEEDBACK_URL_START = SERVER_URL_BASE + ":8000/api/appointment/";
-    public static final String FEEDBACK_URL_END = "/response";
+    public static String SERVER_URL_BASE = "http://192.168.178.20";
+    public static String TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
+    public static String SIGNUP_URL = SERVER_URL_BASE + ":8000/api/actor/";
+    public static String NEW_EVENTS_URL = SERVER_URL_BASE + ":8000/api/appointment/";
+    public static String FEEDBACK_URL_START = SERVER_URL_BASE + ":8000/api/appointment/";
+    public static String FEEDBACK_URL_END = "/response";
 
     //OAuth2
     public static String CLIENT_ID = "xzawb3Fb11Khp17HGexcHmRn8AVrnsvd9LQHxyts";
@@ -48,6 +50,16 @@ public class Constants {
     //Needed because of changing server config
     public static void setServerUrlBase(String serverUrlBase){
         SERVER_URL_BASE = serverUrlBase;
+
+        updateURLs();
+    }
+
+    private static void updateURLs() {
+        TOKEN_URL = SERVER_URL_BASE+ ":8000/o/token/";
+        SIGNUP_URL = SERVER_URL_BASE + ":8000/api/actor/";
+        NEW_EVENTS_URL = SERVER_URL_BASE + ":8000/api/appointment/";
+        FEEDBACK_URL_START = SERVER_URL_BASE + ":8000/api/appointment/";
+        FEEDBACK_URL_END = "/response";
     }
 
     public static void setClientId(String clientId){

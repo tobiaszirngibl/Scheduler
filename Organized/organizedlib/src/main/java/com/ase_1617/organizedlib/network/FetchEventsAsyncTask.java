@@ -67,13 +67,15 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
         //Open a connection to the created URL using the granted access token
         //Write the encoded answer into the output stream
         //Save the connection's response code
-        try{
-            connection = (HttpURLConnection) server.openConnection();
-            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        if(server != null){
+            try{
+                connection = (HttpURLConnection) server.openConnection();
+                connection.setRequestProperty("Authorization", "Bearer " + accessToken);
 
-            responseCode = connection.getResponseCode();
-        }catch (IOException e) {
-            e.printStackTrace();
+                responseCode = connection.getResponseCode();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
         }
 
         //Interpret the server response

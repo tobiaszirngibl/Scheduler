@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         userMail = userData.getString("userMail", "Default");
         userPass = userData.getString("userPass", "Default");
 
-        if(userMail != "Default" && userPass != "Default" && validate(userMail, userPass)){
+        if(userMail.equals("Default") && userPass.equals("Default") && validate(userMail, userPass)){
             Log.v(TAG, "Automatic login restored usermail: "+userMail+" --- userpass: "+userPass);
             showLoginInfo();
         }
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        if(progressDialog != null && progressDialog.isShowing()){
+                        if(progressDialog.isShowing()){
                             progressDialog.dismiss();
                         }
 
@@ -140,6 +140,10 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         //TODO:Auomatischer Login einbinden oder löschen
         //userMail = userData.getString("userMail", "Default");
         //userPass = userData.getString("userPass", "Default");
+
+        Log.v(TAG, "URL: "+Constants.TOKEN_URL);
+        Log.v(TAG, "ID: "+Constants.CLIENT_ID);
+        Log.v(TAG, "Secret: "+Constants.CLIENT_SECRET);
 
         AuthenticateAsyncTask authenticateAsyncTask = new AuthenticateAsyncTask(this);
         authenticateAsyncTask.authenticateAsyncInterface = this;

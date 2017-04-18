@@ -16,6 +16,6 @@
         android:id="@+id/activity_calendar"
         android:icon="@android:drawable/ic_menu_my_calendar"
         android:title="@string/calendar_menu_item_title"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:checked="true"/>
 </menu>

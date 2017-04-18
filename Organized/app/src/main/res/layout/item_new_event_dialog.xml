@@ -90,6 +90,7 @@
                 android:layout_weight="1.0"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/new_event_hour_margin"
+                android:layout_marginStart="@dimen/new_event_hour_margin"
                 android:textStyle="bold"
                 android:text="@string/new_event_dialog_hour"/>
 
@@ -106,6 +107,7 @@
                 android:layout_weight="1.0"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/new_event_hour_margin"
+                android:layout_marginStart="@dimen/new_event_hour_margin"
                 android:textStyle="bold"
                 android:text="@string/new_event_dialog_minute"/>
 

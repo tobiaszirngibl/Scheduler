@@ -70,7 +70,7 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
         eventTitle = (String)urls[4];
 
         String url = Constants.FEEDBACK_URL_START + eventId + Constants.FEEDBACK_URL_END;
-        String data = null;
+        String data = "";
         String serverResponse;
 
         URL server = null;
@@ -96,18 +96,20 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
         //Open a connection to the created URL using the granted access token
         //Write the encoded answer into the output stream
         //Save the connection's response code
-        try{
-            connection = (HttpURLConnection) server.openConnection();
-            connection.setRequestProperty("Authorization", "Bearer " + accessToken);
-            connection.setDoOutput( true );
+        if(server != null){
+            try{
+                connection = (HttpURLConnection) server.openConnection();
+                connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+                connection.setDoOutput(true);
 
-            osw = new OutputStreamWriter(connection.getOutputStream());
-            osw.write(data);
-            osw.flush();
+                osw = new OutputStreamWriter(connection.getOutputStream());
+                osw.write(data);
+                osw.flush();
 
-            responseCode = connection.getResponseCode();
-        }catch (IOException e) {
-            e.printStackTrace();
+                responseCode = connection.getResponseCode();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
         }
 
         //Interpret the server response and react to it

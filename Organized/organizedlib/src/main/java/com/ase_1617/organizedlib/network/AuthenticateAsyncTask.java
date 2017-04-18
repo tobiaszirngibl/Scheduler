@@ -3,7 +3,6 @@ package com.ase_1617.organizedlib.network;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.ase_1617.organizedlib.utility.Constants;
 
@@ -69,7 +68,7 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
         int responseCode = 0;
 
         String url = (String)urls[0];
-        String data = null;
+        String data = "";
         String serverResponse;
 
         URL server = null;
@@ -101,17 +100,20 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
         //Open a connection to the created URL
         //Write the encoded answer into the output stream
         //Save the connection's response code
-        try{
-            connection = (HttpURLConnection) server.openConnection();
-            connection.setDoOutput(true);
+        if(server != null){
+            try{
 
-            osw = new OutputStreamWriter(connection.getOutputStream() );
-            osw.write(data);
-            osw.flush();
+                connection = (HttpURLConnection) server.openConnection();
+                connection.setDoOutput(true);
 
-            responseCode = connection.getResponseCode();
-        }catch(IOException e){
-            e.printStackTrace();
+                osw = new OutputStreamWriter(connection.getOutputStream());
+                osw.write(data);
+                osw.flush();
+
+                responseCode = connection.getResponseCode();
+            }catch(IOException e){
+                e.printStackTrace();
+            }
         }
 
         //Interpret the server response and react to it

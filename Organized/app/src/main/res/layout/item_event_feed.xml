@@ -23,14 +23,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/new_event_location"
-        android:layout_marginLeft="@dimen/new_event_element_date_margin_left"/>
+        android:layout_marginLeft="@dimen/new_event_element_date_margin_left"
+        android:layout_marginStart="@dimen/new_event_element_date_margin_left"/>
 
     <TextView
         android:id="@+id/new_event_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/new_event_date"
-        android:layout_marginLeft="@dimen/new_event_element_time_margin_left"/>
+        android:layout_marginLeft="@dimen/new_event_element_time_margin_left"
+        android:layout_marginStart="@dimen/new_event_element_date_margin_left"/>
 
     <TextView
         android:id="@+id/new_event_description"
