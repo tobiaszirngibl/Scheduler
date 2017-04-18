@@ -321,15 +321,6 @@
                                     <label>Titel</label>
                                     <input id="titleEditPut" type="text" class="form-control" placeholder="Enter ...">
                                 </div>
-                            <div class="form-group">
-                                <label>Datum:</label>
-                                <div class="input-group" >
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-clock-o"></i>
-                                    </div>
-                                    <input type="text" class="form-control" id="reservationtimeEditPut" disabled>
-                                </div>
-                            </div>
                              <div class="form-group">
                                     <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
                                 </div>
@@ -375,22 +366,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
-                                                <input id="groupEditPut" type="checkbox" class="minimal" checked>  Gruppe auswählen
+                                                <input id="user" type="checkbox" class="minimal">  Benutzer auswählen:
                                             </label>
-                                            <select id="groupListEditPut" class="chzn-select">
+                                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
-                                                <input id="userEditPut" type="checkbox" class="minimal">  Benutzer auswählen:
+                                                <input id="userCrit" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
                                             </label>
-                                            <select id="userListEditPut" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                            <select id="userListCrit" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
                                             </select>
                                         </div>
                                     </div>
@@ -534,15 +525,18 @@
                             <div><label>Standort:</label></div>
                             <div><p id="showLocation">true</p></div>
 
-                            <div><label>Gruppe:</label></div>
-                            
                             <div><label>Benutzer:</label></div>
-                        
+                            <div><p id="showUser">true</p></div>
+
                             <div><label>Anmerkungen:</label></div>
+                            <div><p id="showRemark">true</p></div>
+
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                            <button id="showDelAppointmentMod" type="button" class="btn btn-danger pull-right">Termin löschen</button>
+
                         </div>
                     </div>
                 </div>
@@ -590,7 +584,29 @@
                     </div>
                 </div>
             </div>
-        
+
+
+
+       <div id="deleteAppointmentMod" class="modal fade modal-primary">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Benutzer löschen</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Möchten Sie den aktuellen Termin wirklich löschen? Alle Daten des Termins gehen hierbei verloren!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                            <button id="deleteAppointmentButton" type="button" class="btn btn-danger pull-right">Termin endgültig löschen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 {% endblock %}
 {% block calFunc %}
 <script>
@@ -657,6 +673,34 @@ jQuery.ajaxSettings.traditional = true;
 
 
 
+    $("#showDelAppointmentMod").click(function(e) {
+        $("#showAppointment").modal("hide");
+        setTimeout(function(){$('#deleteAppointmentMod').modal('show');}, 400);
+
+    });
+
+
+    $("#deleteAppointmentButton").click(function(e) {
+
+       $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8000/api/appointment/"+calEventID+"/",
+        success: function(data)
+                {
+                    console.log(data);
+                    location.reload();
+                },
+                        error: function (data, jqXHR, textStatus, errorThrown) {
+                        console.log(data);
+                        console.log(jqXHR);
+                        }
+    });
+
+        });
+
+
+
+
     $("#showDeleteModal").click(function() {
         $("#deleteUserMod").modal("show");
     });
@@ -671,7 +715,7 @@ jQuery.ajaxSettings.traditional = true;
         url: "http://localhost:8000/api/actor/"+user_id+"/",
         success: function(data)
                 {
-    window.location.replace("/login");
+                        location.reload();
                 }
     });
 
@@ -894,6 +938,8 @@ jQuery.ajaxSettings.traditional = true;
             day: 'day'
         },
 
+            timeFormat: 'HH:mm',
+
         eventRender: function (event, element) {
             element.popover({
                 title: event.name,
@@ -901,6 +947,8 @@ jQuery.ajaxSettings.traditional = true;
                 content: +'<br />Start:',
             });
         },
+timezone:'local',
+
 
         eventClick: function (calEvent, jsEvent, view) {
             var titleEdit = "";
@@ -932,12 +980,14 @@ jQuery.ajaxSettings.traditional = true;
                 $('#startTimeEditPut').val(startEdit);
                 setTimeout(function () {
                     $('#appointmentEditPut').modal('show');
-                }, 300);
+                }, 400);
             });
         },
 
         editable: true,
         eventAfterRender: function (event, element, view) {
+            element.addClass('withPointer');
+
             switch (event.answer) {
                 case "y":
                     element.css('background-color', '#00a65a');
@@ -1210,7 +1260,7 @@ drop: function (date, allDay, e) {
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
         if($('#allDay').is(':checked')){
-            var newDateTimeStart = year + "-" + month + "-" + day + " 00:01";
+            var newDateTimeStart = year + "-" + month + "-" + day + " 00:00";
             var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
         } else {
             var newDateTimeStart = year + "-" + month + "-" + day + " " + dtStart;
