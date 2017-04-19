@@ -93,7 +93,7 @@
               data: formData,
               success: function (data, textStatus, jqXHR) {
 
-                     $.notify("Registrierung erfolgreich", "success",  { position:"middle" });
+                      $(".register-box").notify("Registrierung erfolgreich", "success",  { position:"top" });
                       window.setTimeout(function(){
 
         window.location.href = "/login";
@@ -111,7 +111,7 @@
 
 
 
-                  $.notify("Registrierung fehlgeschlagen: "+errorMessage, "error",  { position:"middle" });
+                  $(".register-box").notify("Registrierung fehlgeschlagen: "+errorMessage, "error",  { position:"top" });
               }
           });
 

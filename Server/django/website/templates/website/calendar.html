@@ -118,7 +118,7 @@
                         <div class="external-event bg-yellow">Go home</div>
                         <div class="checkbox">
                             <label for="drop-remove">
-                                <input type="checkbox" id="drop-remove">Nach Drop entferen
+                                <input type="checkbox" id="drop-remove">Nach Drop entfernen
                             </label>
                         </div>
                     </div>
@@ -197,6 +197,8 @@
                 <div id="appointment" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
+                            <form id="appointmentForm" method="post" class="form-vertical">
+
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -206,7 +208,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>Titel</label>
-                                    <input id="title" type="text" class="form-control" placeholder="Enter ...">
+                                    <input id="title" type="text" class="form-control" required="true" placeholder="Enter ...">
                                 </div>
                                 <div class="form-group">
                                     <label>Datum:</label>
@@ -214,7 +216,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-clock-o"></i>
                                         </div>
-                                        <input type="text" class="form-control" id="reservationtime" >
+                                        <input type="text" class="form-control" required="true" id="reservationtime" >
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -226,7 +228,7 @@
                                             <div class="form-group">
                                                 <label>Beginn:</label>
                                                 <div class="input-group">
-                                                    <input id="startTime" type="text" class="form-control timepicker" >
+                                                    <input required="true" id="startTime" type="text" class="form-control timepicker" >
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -300,8 +302,9 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                                <button id="saveEvent" type="button" class="btn btn-primary">Speichern</button>
+                                <button id="saveEvent" type="submit" class="btn btn-primary">Speichern</button>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -586,12 +589,12 @@
 
        <div id="deleteAppointmentMod" class="modal fade modal-primary">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div id="showAppModal" class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 class="modal-title">Benutzer löschen</h4>
+                            <h4 class="modal-title">Termin löschen</h4>
                         </div>
                         <div class="modal-body">
                             <p>Möchten Sie den aktuellen Termin wirklich löschen? Alle Daten des Termins gehen hierbei verloren!</p>
@@ -617,6 +620,7 @@ jQuery.ajaxSettings.traditional = true;
     var calEventID="";
     var colDropEvent="";
     var favorID ="";
+    var currentEditEvent="";
 
     
     // Initiate Lists
@@ -688,13 +692,21 @@ jQuery.ajaxSettings.traditional = true;
                     location.reload();
                 },
                         error: function (data, jqXHR, textStatus, errorThrown) {
-                        console.log(data);
-                        console.log(jqXHR);
-                        }
+                                var error = data.responseJSON;
+
+                                if(error === "Only the organizer may delete an Appointment") {
+                                    error = "Nur der Ersteller des Termins kann diesen löschen!"
+                                }
+
+                                 $('#showAppModal').notify("Löschen fehlgeschlagen: " + error, "error", {position: "top center"});
+
+                            }
+
+
+
     });
 
         });
-
 
 
 
@@ -966,6 +978,7 @@ jQuery.ajaxSettings.traditional = true;
 
                     var date = new Date(data.dtstart);
                     var dateEdit = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
+                    currentEditEvent = dateEdit;
 
                     $('#titleEvent').text(data.name + " - " + dateEdit);
                     titleEdit = data.name;
@@ -981,7 +994,11 @@ jQuery.ajaxSettings.traditional = true;
                     remarkEdit = $('#showRemark').text();
 
                     for (var key in data.participants) {
-                        userEdit.push(" "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email);
+                        var crit = "";
+                        if(data.participants[key].is_necessary === true) {
+                            crit = " (kritisch)";
+                        }
+                        userEdit.push(" "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email + crit);
                     }
 
                      $('#showUser').text(userEdit);
@@ -993,6 +1010,7 @@ jQuery.ajaxSettings.traditional = true;
             });
 
             $("#editEvent").click(function (e) {
+
                 e.preventDefault();
                 $('#showAppointment').modal('hide');
                 $('#titleEditPut').val(titleEdit);
@@ -1104,6 +1122,7 @@ $(".fc-agendaDay-button").text("Tag");
 eventStartEditable: false,
 droppable: true,
 drop: function (date, allDay, e) {
+
             favorID = $(this)[0].id;
             $('#dropTitleName').text(allDay.target.innerHTML);
             $('#dropAppointment').modal('show');
@@ -1111,7 +1130,28 @@ drop: function (date, allDay, e) {
             var date = new Date(date._d);
             var dateNew = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
            colDropEvent = $(this)[0].attributes[0].value;
-           console.log(colDropEvent);
+
+
+             $.ajax({
+        type: "GET",
+        url: "http://localhost:8000/api/favorites/"+favorID+"/",
+        success: function(data)
+            {
+
+                var start = new Date(Date.parse(data.dtstart));
+                    start = start.getHours() + ":" + (start.getMinutes()<10?'0':'') + start.getMinutes();
+                    $("#startTimeDrop").val(start);
+
+                var end = new Date(Date.parse(data.dtend));
+                    end = end.getHours() + ":" + (end.getMinutes()<10?'0':'') + end.getMinutes();
+                    $("#endTimeDrop").val(end);
+
+                $("#locationDrop").val(data.location);
+                $("#townDrop").val(data.town);
+                $("#remarkDrop").val(data.summary);
+
+            }
+    });
 
             $.ajax({
                 type: "GET",
@@ -1407,7 +1447,9 @@ drop: function (date, allDay, e) {
     // TODO New Event After Drop Function Save
     $("#saveEventDrop").click(function (e) {
 
-        console.log(e);
+
+
+
 
         if ($('#group').is(':checked')) {
             var groupID = $("#groupListDrop").val();
@@ -1464,10 +1506,10 @@ drop: function (date, allDay, e) {
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
         }
 
-
+        var user_id = {{user.id}};
         var formData = {
             name: title,
-            organizer: 1,
+            organizer: user_id,
             dtstart: newDateTimeStart,
             dtend: newDateTimeEnd,
             town: town,
@@ -1527,6 +1569,37 @@ drop: function (date, allDay, e) {
                         }
 
 
+                        $.ajax({
+                            url: "http://localhost:8000/api/favorites/" + favorID +"/",
+                            type: "PATCH",
+                            data: formData,
+                            success: function (data, textStatus, jqXHR)
+                                {
+                                    console.log(jqXHR);
+                                },
+                            error: function (jqXHR, textStatus, errorThrown)
+                                {
+                                    console.log(jqXHR);
+                                }
+                        });
+
+
+                        if($('#drop-remove').is(':checked')){
+
+                             $.ajax({
+                                    type: "DELETE",
+                                    url: "http://localhost:8000/api/favorites/"+favorID+"/",
+                                    success: function(data, textStatus, jqXHR)
+                             {
+                             console.log(jqXHR);
+                             },
+                             error: function (jqXHR, textStatus, errorThrown)
+                             {
+                             console.log(jqXHR);
+                             }
+                                });
+                            }
+
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR);
@@ -1539,27 +1612,86 @@ drop: function (date, allDay, e) {
 
 
 
-    // Edit Event Save
-    $("#saveEventEditPut").click(function (e){
-        var title = $("#titleEditPut").val();
-        var desc = $("#remarkEditPut").val();
-        var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:""};
+$("#saveEventEditPut").click(function (e){
 
-        $.ajax({
-            url : "http://localhost:8000/api/appointment/"+calEventID+"/",
-            type: "PUT",
-            data : formData,
-            success: function(data, textStatus, jqXHR)
-                {
-                    $('#appointmentEditPut').modal('hide');
-                    location.reload();
-                },
-            error: function (jqXHR, textStatus, errorThrown)
-                {
-                    console.log(jqXHR);
-                }
-        });
+    console.log(currentEditEvent);
+
+    var title = $("#titleEditPut").val();
+    var desc = $("#remarkEditPut").val();
+    var start = $("#startTimeEditPut").val();
+    var end = $("#endTimeEditPut").val();
+    var location = $("#locationEditPut").val();
+    var town = $("#townEditPut").val();
+
+
+      var dateFormat = currentEditEvent.split("/");
+        var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
+
+        if($('#allDay').is(':checked')){
+            var newDateTimeStart = year + "-" + month + "-" + day + " 00:00";
+            var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
+        } else {
+            var newDateTimeStart = year + "-" + month + "-" + day + " " + start;
+            var newDateTimeEnd = year + "-" + month + "-" + day + " " + end;
+        }
+
+        console.log(newDateTimeStart);
+        console.log(newDateTimeEnd);
+
+    var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
+
+    var actors = $("#userListEditPut").val();
+        var actorsCrit = $("#userListCritEditPut").val();
+
+    $.ajax({
+        url : "http://localhost:8000/api/appointment/"+calEventID+"/",
+        type: "PATCH",
+        data : formData,
+        success: function(data, textStatus, jqXHR)
+            {
+
+                 if (actors !== null) {
+                            $.ajax({
+                                url: "http://localhost:8000/api/appointment/" + calEventID + "/addActors",
+                                type: "POST",
+                                data: {actors: actors},
+                                success: function (data, textStatus, jqXHR) {
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR);
+                                }
+                            });
+                        }
+
+                        if (actorsCrit !== null) {
+                            $.ajax({
+                                url: "http://localhost:8000/api/appointment/" + calEventID + "/addCriticalActors",
+                                type: "POST",
+                                data: {actors: actorsCrit},
+                                success: function (data, textStatus, jqXHR) {
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR);
+                                }
+                            });
+
+                        }
+
+
+                $('#appointmentEditPut').modal('hide');
+            },
+        error: function (jqXHR, textStatus, errorThrown)
+            {
+                console.log(jqXHR);
+ $.notify("Bearbeiten fehlgeschlagen: "+errorThrown, "error",  { position:"middle" });
+            }
     });
+
+
+
+
+});
+
 
 
     // Config Favorites
