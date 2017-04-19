@@ -43,9 +43,15 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class CalendarActivity extends AppCompatActivity {
+/**
+ * The calendar activity of the organized example app.
+ * It contains a calendar fragment and a listview.
+ * Both show the device events and offer additional information according the events on click.
+ * The user can either delete existing events or create new ones by clicking the according
+ * buttons or long clicking a date in the calendar fragment.
+ */
 
-    private static final String TAG = "CalendarActivity";
+public class CalendarActivity extends AppCompatActivity {
 
     private AlertDialog permRequestDialog;
     private AlertDialog infoDialog;
@@ -79,8 +85,8 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     /**
-     * Setup the caldroid fragment.
-     * @param savedInstanceState
+     * Setup the caldroid calendar fragment.
+     * @param savedInstanceState Settings of a previous instance
      */
     private void setupCaldroid(Bundle savedInstanceState) {
         caldroidFragment = new CaldroidFragment();
@@ -115,8 +121,8 @@ public class CalendarActivity extends AppCompatActivity {
             /**
              * On selecting a date in the cladroid fragment check if events are available for
              * the chosen date and show an info alert containing the event data.
-             * @param date
-             * @param view
+             * @param date The clicked date
+             * @param view The clicked view
              */
             @Override
             public void onSelectDate(Date date, View view) {
@@ -128,10 +134,10 @@ public class CalendarActivity extends AppCompatActivity {
             }
 
             /**
-             * On LongClicking a date in the cladroid fragment open the new event dialog,
+             * On LongClicking a date in the caldroid fragment open the new event dialog,
              * fetch the necessary new event data and add the event to the device calendar.
-             * @param date
-             * @param view
+             * @param date The long clicked date
+             * @param view The long clicked view
              */
             @Override
             public void onLongClickDate(final Date date, View view) {
@@ -178,7 +184,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         };
 
-        //
+        //Set the created listener
         caldroidFragment.setCaldroidListener(listener);
 
     }
@@ -186,8 +192,8 @@ public class CalendarActivity extends AppCompatActivity {
     /**
      * Setup the hour and the minute picker to display the according numbers
      *
-     * @param hourPicker
-     * @param minutePicker
+     * @param hourPicker The hourPicker to configure
+     * @param minutePicker The minutePicker to configure
      */
     private void setupNumberPickers(NumberPicker hourPicker, NumberPicker minutePicker) {
         String[] hours = new String[24];
@@ -212,19 +218,19 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     /**
-     * Add the new event to the device calendar.
-     * @param lastUpdate
-     * @param date
-     * @param length
-     * @param eventTitle
-     * @param eventDescription
-     * @param location
+     * Create a new event object from the given parameters and add it to the device calendar.
+     * @param lastUpdate The date the event was updated the last time
+     * @param date The date of the event
+     * @param length The duration of the event
+     * @param eventTitle The title of the event
+     * @param eventDescription the description of the event
+     * @param location The location of the event
      */
     private void addEvent(Date lastUpdate, Date date, Long length, String eventTitle, String eventDescription, String location) {
 
         Event event = new Event(eventTitle, lastUpdate, date.getTime(), date.getTime() + length, location, eventDescription);
 
-        Log.v(TAG, "ID: "+EventUtility.addCustomEvent(CalendarActivity.this, event));
+        EventUtility.addCustomEvent(CalendarActivity.this, event);
 
         updateUI();
         insertEvents();
@@ -232,8 +238,8 @@ public class CalendarActivity extends AppCompatActivity {
 
     /**
      * Check whether the clicked date contains any events and return the according events as list.
-     * @param date
-     * @return
+     * @param date The clicked date
+     * @return Arraylist containing the matching calEvents
      */
     private ArrayList<CalEvent> getMatchingEvents(Date date) {
         Long dateStart = date.getTime();
@@ -250,8 +256,10 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     /**
-     * Setup two click listeners for the listview element
-     * */
+     * Setup two click listeners for the listview element.
+     * Click for information.
+     * Longclick for creating a new event.
+     */
     private void setupListClickListener() {
         //Setup a clickListener for the eventlist
         //Show event info on click
@@ -266,7 +274,6 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
-        //TODO:Update title only for non organized events
         //Setup a longClickListener for the eventlist
         //Edit the title of the event on longclick
         final Context context = this;
@@ -284,7 +291,6 @@ public class CalendarActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 String newTitle = String.valueOf(eventEditText.getText());
                                 Integer eventId = EventUtility.getEventIdByTitle(context, eventTitle);
-                                Log.v(TAG, "Change title to: "+newTitle);
                                 EventUtility.updateEventTitle(context, newTitle, eventId);
 
                                 updateUI();
@@ -298,8 +304,8 @@ public class CalendarActivity extends AppCompatActivity {
         });
     }
 
-    /**Show event data in an info alert.
-     *
+    /**
+     * Show event data in an info alert.
      * @param position Positon of the event to display in the eventlist
      */
     private void showEventData(int position) {
@@ -311,8 +317,8 @@ public class CalendarActivity extends AppCompatActivity {
         showInfoAlert(eventTitle, eventInfo);
     }
 
-    /**Show events data in an info alert.
-     *
+    /**
+     * Show events data in an info alert.
      * @param eventList Arraylist containing the events to display
      */
     private void showEventsDate(ArrayList<CalEvent> eventList) {
@@ -332,8 +338,8 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     /**
-     * Insert the extracted events to the calendar fragment
-     * */
+     * Insert the device events into the calendar fragment
+     */
     private void insertEvents() {
         Calendar cal;
         Date eventDate;
@@ -353,10 +359,9 @@ public class CalendarActivity extends AppCompatActivity {
         }
     }
 
-    //TODO:Check for remaining events before removing color
     /**
      * Remove the given event from the calendar fragment
-     * */
+     */
     private void removeCalEvent(Date removeEventStart) {
 
         if (caldroidFragment != null) {
@@ -368,7 +373,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     /**
      * Fetch the device events and update the list showing the events.
-     * */
+     */
     private void updateUI() {
         fetchDeviceEvents();
 
@@ -384,12 +389,10 @@ public class CalendarActivity extends AppCompatActivity {
                         R.id.event_title,
                         taskList);
                 myEventListView.setAdapter(myAdapter);
-                Log.v(TAG, "New adapter");
             } else {
                 myAdapter.clear();
                 myAdapter.addAll(taskList);
                 myAdapter.notifyDataSetChanged();
-                Log.v(TAG, "NotifyDataSetChanged");
             }
         }
         setupListClickListener();
@@ -407,15 +410,13 @@ public class CalendarActivity extends AppCompatActivity {
             }
             //Update the eventList
             deviceEventList = EventUtility.fetchDeviceEvents(this);
-        }else{
-            Log.v(TAG, "Read events permission not granted");
         }
     }
 
     /**
-     * Delete the according calendar event when the delete button is clicked
-     * To delete the event the EventUtility class is used
-     * */
+     * Delete the according calendar event when the delete button is clicked.
+     * @param view The clicked view
+     */
     public void deleteEvent(View view) {
         //Get the parent view and parent listview of the clicked button
         //and therefore the index of the button that is used to receive the event data
@@ -471,32 +472,13 @@ public class CalendarActivity extends AppCompatActivity {
         }
     }
 
-    //TODO:Remove saved login data when logging out
     /**
-     * Replace the saved login data with the default values
-     * and start the login activity
+     * Start the login activity
      * */
     private void logout() {
-        //userData = getSharedPreferences(Constants.PREFS_NAME, 0);
-        //SharedPreferences.Editor editor = userData.edit();
-        //editor.putString("userMail", "Default");
-        //editor.putString("userPass", "Default");
-        //editor.commit();
 
         Intent logoutIntent = new Intent(this, LoginActivity.class);
         startActivity(logoutIntent);
-    }
-
-    /**
-     * Show an alert dialog containing the given info.
-     * @param infoText
-     */
-    public void showInfoAlert(String title, String infoText){
-        infoDialog = new AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(infoText)
-                .create();
-        infoDialog.show();
     }
 
     /**
@@ -516,7 +498,8 @@ public class CalendarActivity extends AppCompatActivity {
     /**
      * Check whether the app can read in the calendar device app.
      * Request the necessary permisison if necessary.
-     * */
+     * @return Boolean value
+     */
     private boolean permissionGrantedReadCal(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CALENDAR)
@@ -560,7 +543,7 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     /**
-     * Save current states of the Calendar here
+     * Save current states of the Calendar
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
