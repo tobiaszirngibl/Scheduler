@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Actor, Appointment, Group, Participation
+from .models import Actor, Appointment, Group, Participation, Favorite
 
 """
 Serializers are part of the Django-REST-Framework(DRF).
@@ -12,8 +12,9 @@ class ActorSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Actor
-		fields = ('id', 'email', 'password', 'first_name', 'last_name', 'contact_notes', 'education', 'phone', 'location', 'skills', 'spare_time', 'job')
-		write_only_fields = ('password',)
+		fields = ('id', 'email', 'password', 'first_name', 'last_name',
+		          'contact_notes', 'education', 'phone', 'location', 'skills',
+		          'spare_time', 'job', 'understudy',)
 		read_only_fields = ('id',)
 
 	def create(self, validated_data):
@@ -41,10 +42,13 @@ class ActorNestedSerializer(serializers.ModelSerializer):
 class ParticipationSerializer(serializers.ModelSerializer):
 	id = serializers.ReadOnlyField(source='actor.id')
 	email = serializers.ReadOnlyField(source='actor.email')
+	first_name = serializers.ReadOnlyField(source='actor.first_name')
+	last_name = serializers.ReadOnlyField(source='actor.last_name')
+
 
 	class Meta:
 		model = Participation
-		fields = ('id', 'email', 'answer', 'is_necessary',)
+		fields = ('id', 'email', "first_name", "last_name", 'answer', 'is_necessary',)
 
 
 class AppointmentSerializer(serializers.ModelSerializer):
@@ -69,6 +73,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 		instance = super(AppointmentSerializer, self).create(validated_data)
 		instance.organizer = self.context['request'].user
 		instance.save()
+		Participation.objects.create(appointment=instance, actor=instance.organizer)
 		return instance
 
 	def update(self, instance, validated_data):
@@ -89,4 +94,14 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class FavoriteSerializer(AppointmentSerializer):
-	color = serializers.CharField()
+
+	class Meta:
+		model = Favorite
+		fields = '__all__'
+
+	def create(self, validated_data):
+		instance = super(FavoriteSerializer, self).create(validated_data)
+		instance.owner = self.context['request'].user
+		instance.save()
+		return instance
+

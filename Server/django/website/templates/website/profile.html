@@ -18,6 +18,29 @@
     </nav>
 </header>
 
+
+       <div id="deleteUserMod" class="modal fade modal-primary">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Benutzer löschen</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle ihre Daten gehen hierbei verloren!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                            <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 <div id="testingHide">
     <ul id="myUL"></ul>
 </div>
@@ -38,6 +61,9 @@
                         <div><label>Telefon:</label></div>
                         <div><p id="modalUserPlace"></p></div>
 
+                        <div><label>Einspringer:</label></div>
+                        <div><p id="modalUserUnderstudy"></p></div>
+
                         <div><label>Standort:</label></div>
                         <div><p id="modalUserTel"></p></div>
                                 
@@ -47,7 +73,7 @@
                         <div><label>Ausbildung:</label></div>
                         <div><p id="modalUserEducation"></p></div>
                                 
-                        <div><label>Skills:</label></div>
+                        <div><label>Fähigkeiten:</label></div>
                         <div><p id="modalUserSkills"></p></div>
 
                     </div>
@@ -99,6 +125,10 @@
                                 <a class="pull-right">{{ user.phone }}</a>
                             </li>
                             <li class="list-group-item">
+                                <b>Einspringer:</b>
+                                <a class="pull-right">{{ user.understudy }}</a>
+                            </li>
+                            <li class="list-group-item">
                                 <b>Anmerkungen zu Kontaktdaten</b>
                                 <p>{{user.contact_notes}}</p>
                             </li>
@@ -121,7 +151,7 @@
                         <strong><i class="fa fa-clock-o margin-r-5" ></i></i> Freie Zeiten</strong>
                         <p class="text-muted">{{ user.spare_time }}</p><hr>
 
-                        <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+                        <strong><i class="fa fa-pencil margin-r-5"></i> Fähigkeiten</strong>
                         <p class="text-muted">{{ user.skills }}</p><hr>
 
 
@@ -153,6 +183,11 @@
                     <div class="form-group">
                         <label>Telefon:</label>
                         <input id="telEdit" type="text" class="form-control" value="{{user.phone}}">
+                    </div>
+
+                      <div class="form-group">
+                        <label>Einspringer:</label>
+                        <input id="understudyEdit" type="text" class="form-control" value="{{user.understudy}}">
                     </div>
                     
                     <div class="form-group">
@@ -234,6 +269,7 @@
 <script>
 
 $(function () {
+
 jQuery.ajaxSettings.traditional = true;
 
 
@@ -279,6 +315,34 @@ jQuery.ajaxSettings.traditional = true;
             $(".content-wrapper").show();
         }
     });
+
+
+    $("#showDeleteModal").click(function() {
+        $("#deleteUserMod").modal("show");
+    });
+
+
+    $("#deleteUserButton").click(function() {
+
+        var user_id = {{ user.id }};
+
+       $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8000/api/actor/"+user_id+"/",
+        success: function(data)
+                {
+    window.location.replace("/login");
+                }
+    });
+
+        });
+
+
+
+
+
+
+
     
     //// Config Result List  
     $.ajax({
@@ -311,6 +375,7 @@ jQuery.ajaxSettings.traditional = true;
                 $("#modalUserName").text(data.first_name +" "+ data.last_name);
                 $("#modalUserMail").text(data.email);
                 $("#modalUserTel").text(data.phone);
+                $("#modalUserUnderstudy").text(data.understudy);
                 $("#modalUserNote").text(data.contact_notes);
                 $("#modalUserPlace").text(data.location);
                 $("#modalUserSkills").text(data.skills);
@@ -351,12 +416,13 @@ jQuery.ajaxSettings.traditional = true;
         var cnEdit = $("#notesEdit").val();
         var eduEdit = $("#eduEdit").val();
         var telEdit = $("#telEdit").val();
+        var understudyEdit = $("#understudyEdit").val();
         var jobEdit = $("#jobEdit").val();
         var placeEdit = $("#placeEdit").val();
         var timeEdit = $("#freetimeEdit").val();
         var skillsEdit = $("#skillsEdit").val();
 var user_id = {{ user.id }};
-        var formData = {skills: skillsEdit, phone: telEdit, job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit, contact_notes: cnEdit};
+        var formData = {skills: skillsEdit, phone: telEdit, job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit, contact_notes: cnEdit, understudy: understudyEdit};
         
         $.ajax({
             url : "http://localhost:8000/api/actor/"+user_id+"/",
@@ -365,7 +431,7 @@ var user_id = {{ user.id }};
             success: function(data, textStatus, jqXHR)
                 {
                     $('#userEdit').modal('hide');
-                    location.reload();
+                    //location.reload();
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {

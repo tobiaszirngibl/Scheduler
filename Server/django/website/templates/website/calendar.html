@@ -18,6 +18,27 @@
     </nav>
 </header>
 
+
+      <div id="deleteUserMod" class="modal fade modal-primary">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Benutzer löschen</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle Daten gehen hierbei verloren!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                            <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 <div id="testingHide">
     <ul id="myUL"></ul>
 </div>
@@ -97,7 +118,7 @@
                         <div class="external-event bg-yellow">Go home</div>
                         <div class="checkbox">
                             <label for="drop-remove">
-                                <input type="checkbox" id="drop-remove">remove after drop
+                                <input type="checkbox" id="drop-remove">Nach Drop entferen
                             </label>
                         </div>
                     </div>
@@ -123,9 +144,9 @@
                         </ul>
                     </div>
                     <div class="input-group">
-                        <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+                        <input id="new-event" type="text" class="form-control" placeholder="Titel">
                         <div class="input-group-btn">
-                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Add</button>
+                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Hinzufügen</button>
                         </div>
                     </div>
                 </div>
@@ -300,15 +321,6 @@
                                     <label>Titel</label>
                                     <input id="titleEditPut" type="text" class="form-control" placeholder="Enter ...">
                                 </div>
-                            <div class="form-group">
-                                <label>Datum:</label>
-                                <div class="input-group" >
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-clock-o"></i>
-                                    </div>
-                                    <input type="text" class="form-control" id="reservationtimeEditPut" disabled>
-                                </div>
-                            </div>
                              <div class="form-group">
                                     <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
                                 </div>
@@ -354,22 +366,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
-                                                <input id="groupEditPut" type="checkbox" class="minimal" checked>  Gruppe auswählen
+                                                <input id="userEditPut" type="checkbox" class="minimal">  Benutzer hinzufügen:
                                             </label>
-                                            <select id="groupListEditPut" class="chzn-select">
+                                            <select id="userListEditPut" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
-                                                <input id="userEditPut" type="checkbox" class="minimal">  Benutzer auswählen:
+                                                <input id="userCritEditPut" type="checkbox" class="minimal"> Kritische Benutzer hinzufügen:
                                             </label>
-                                            <select id="userListEditPut" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                            <select id="userListCritEditPut" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select">
                                             </select>
                                         </div>
                                     </div>
@@ -503,9 +515,6 @@
                         
                             <div><label id="endLabel">Ende:</label></div>
                             <div><p id="showEndEvent">Ende</p></div>
-                        
-                            <div><label>Ganztägig:</label></div>
-                            <div><p id="showAllDayEvent">true</p></div>
 
                             <div><label>Stadt:</label></div>
                             <div><p id="showTown">true</p></div>
@@ -513,15 +522,18 @@
                             <div><label>Standort:</label></div>
                             <div><p id="showLocation">true</p></div>
 
-                            <div><label>Gruppe:</label></div>
-                            
                             <div><label>Benutzer:</label></div>
-                        
+                            <div><p id="showUser">true</p></div>
+
                             <div><label>Anmerkungen:</label></div>
+                            <div><p id="showRemark">true</p></div>
+
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                            <button id="showDelAppointmentMod" type="button" class="btn btn-danger pull-right">Termin löschen</button>
+
                         </div>
                     </div>
                 </div>
@@ -569,7 +581,29 @@
                     </div>
                 </div>
             </div>
-        
+
+
+
+       <div id="deleteAppointmentMod" class="modal fade modal-primary">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title">Benutzer löschen</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Möchten Sie den aktuellen Termin wirklich löschen? Alle Daten des Termins gehen hierbei verloren!</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                            <button id="deleteAppointmentButton" type="button" class="btn btn-danger pull-right">Termin endgültig löschen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 {% endblock %}
 {% block calFunc %}
 <script>
@@ -633,7 +667,59 @@ jQuery.ajaxSettings.traditional = true;
             $(".content-wrapper").show();
         }
     });
-    
+
+
+
+    $("#showDelAppointmentMod").click(function(e) {
+        $("#showAppointment").modal("hide");
+        setTimeout(function(){$('#deleteAppointmentMod').modal('show');}, 400);
+
+    });
+
+
+    $("#deleteAppointmentButton").click(function(e) {
+
+       $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8000/api/appointment/"+calEventID+"/",
+        success: function(data)
+                {
+                    console.log(data);
+                    location.reload();
+                },
+                        error: function (data, jqXHR, textStatus, errorThrown) {
+                        console.log(data);
+                        console.log(jqXHR);
+                        }
+    });
+
+        });
+
+
+
+
+    $("#showDeleteModal").click(function() {
+        $("#deleteUserMod").modal("show");
+    });
+
+
+    $("#deleteUserButton").click(function() {
+
+        var user_id = {{ user.id }};
+
+       $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8000/api/actor/"+user_id+"/",
+        success: function(data)
+                {
+                        location.reload();
+                }
+    });
+
+        });
+
+
+
     //// Config Result List
     $.ajax({
         type: "GET",
@@ -651,8 +737,8 @@ jQuery.ajaxSettings.traditional = true;
                     $('#myUL').append('<li><a id='+data[key].id+' class="userSearchResult">'+actorEmail+' - ' + actorName +'</a></li>');
                 }
             }
-    });            
-                
+    });
+
      $("#myUL").on("click", ".userSearchResult", function(e){
         var userID = e.currentTarget.id;
 
@@ -672,13 +758,13 @@ jQuery.ajaxSettings.traditional = true;
 
             }
         });
-        
+
         $("#userModal").modal('show');
     });
-    
+
     $("#testingHide").hide();
-    
-        
+
+
     // Load Favorites
     $.ajax({
         type: "GET",
@@ -687,7 +773,7 @@ jQuery.ajaxSettings.traditional = true;
             {
                 for (var key in data) {
                     $('#external-events').prepend('<div colCode='+data[key].color+' id='+data[key].id+' class="external-event" style="background-color:#'+data[key].color+';color:#fff">'+data[key].name+'</div>');
-                }   
+                }
                 ini_events($('#external-events div.external-event'));
             }
     });
@@ -740,7 +826,7 @@ jQuery.ajaxSettings.traditional = true;
                     });
 
                 }
-           
+
                 // TODO
                 $('#sendYes').click(function (e) {
                     e.preventDefault();
@@ -758,7 +844,7 @@ jQuery.ajaxSettings.traditional = true;
                         }
                     });
                 });
-                
+
                 // TODO
                  $('#sendNo').click(function (e) {
                     e.preventDefault();
@@ -800,7 +886,7 @@ jQuery.ajaxSettings.traditional = true;
                 });
 
                 $("#appointmentCount").text(events.length);
-                
+
                 $('#calendar').fullCalendar('removeEvents');
                 $('#calendar').fullCalendar('addEventSource', events);
                 $('#calendar').fullCalendar('refetchEvents');
@@ -809,19 +895,19 @@ jQuery.ajaxSettings.traditional = true;
             }
     });
 
-   
+
     // initialize the favorites
     function ini_events(ele) {
         ele.each(function () {
-            
+
             var eventObject = {
-                    title: $.trim($(this).text()) 
+                    title: $.trim($(this).text())
             };
             $(this).data('eventObject', eventObject);
 
             $(this).draggable({
                 zIndex: 1070,
-                revert: true, 
+                revert: true,
                 revertDuration: 0
             });
         });
@@ -829,7 +915,7 @@ jQuery.ajaxSettings.traditional = true;
 
     ini_events($('#external-events div.external-event'));
 
-    
+
     // initialize the calendar
     var date = new Date();
     var d = date.getDate(),
@@ -841,25 +927,27 @@ jQuery.ajaxSettings.traditional = true;
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
+        locale: 'de',
+        timeFormat: 'HH:mm',
+        timezone:'local',
+        displayEventEnd: true,
 
-        buttonText: {
-            today: 'today',
-            month: 'month',
-            week: 'week',
-            day: 'day'
-        },
 
         eventRender: function (event, element) {
-            element.popover({
-                title: event.name,
-                placement: 'right',
-                content: +'<br />Start:',
-            });
+    element.find('.fc-time').append("<br/>");
+
         },
+
 
         eventClick: function (calEvent, jsEvent, view) {
             var titleEdit = "";
             var startEdit = "";
+            var dateEdit = "";
+            var endEdit = "";
+            var townEdit = "";
+            var locationEdit = "";
+            var userEdit = [];
+            var remarkEdit = "";
 
             calEventID = calEvent.id;
 
@@ -867,15 +955,39 @@ jQuery.ajaxSettings.traditional = true;
                 type: "GET",
                 url: "http://localhost:8000/api/appointment/" + calEvent.id + "/",
                 success: function (data) {
-                    $('#titleEvent').text(data.name);
-                    titleEdit = $('#titleEvent').text();
 
-                    $('#startEvent').text(data.date_begin);
-                    startEdit = $('#startEvent').text();
+                    startEdit = new Date(Date.parse(data.dtstart));
+                    startEdit = startEdit.getHours() + ":" + (startEdit.getMinutes()<10?'0':'') + startEdit.getMinutes();
+                    $('#showStartEvent').text(startEdit);
 
-                    $('#endEvent').text(data.date_end);
+                    endEdit = new Date(Date.parse(data.dtend));
+                    endEdit = endEdit.getHours() + ":" + (endEdit.getMinutes()<10?'0':'') + endEdit.getMinutes();
+                    $('#showEndEvent').text(endEdit);
 
-                    // weitere hinzufügen
+                    var date = new Date(data.dtstart);
+                    var dateEdit = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
+
+                    $('#titleEvent').text(data.name + " - " + dateEdit);
+                    titleEdit = data.name;
+
+
+                     $('#showTown').text(data.town);
+                    townEdit = $('#showTown').text();
+
+                     $('#showLocation').text(data.location);
+                    locationEdit = $('#showLocation').text();
+
+                     $('#showRemark').text(data.summary);
+                    remarkEdit = $('#showRemark').text();
+
+                    for (var key in data.participants) {
+                        userEdit.push(" "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email);
+                    }
+
+                     $('#showUser').text(userEdit);
+                    userEdit = $('#showUser').text();
+
+
                     $('#showAppointment').modal('show');
                 }
             });
@@ -885,14 +997,52 @@ jQuery.ajaxSettings.traditional = true;
                 $('#showAppointment').modal('hide');
                 $('#titleEditPut').val(titleEdit);
                 $('#startTimeEditPut').val(startEdit);
-                setTimeout(function () {
+                $('#endTimeEditPut').val(endEdit);
+                $('#townEditPut').val(townEdit);
+                $('#locationEditPut').val(locationEdit);
+                $('#remarkEditPut').val(remarkEdit);
+
+
+                 $.ajax({
+                type: "GET",
+                url: "http://localhost:8000/api/actor/",
+                success: function (data) {
+                    for (var key in data) {
+                        if (data[key].first_name == "" && data[key].last_name == "") {
+                            var actorName = "Kein Name angegeben";
+                        }
+                        else {
+                            var actorName = data[key].first_name + " " + data[key].last_name;
+                        }
+                        var actorEmail = data[key].email;
+                        $('#userListEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                        $('#userListCritEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                    }
+                    $("#userListEditPut").trigger("chosen:updated");
+                    $("#userListCritEditPut").trigger("chosen:updated");
+
+
+
+                    setTimeout(function () {
                     $('#appointmentEditPut').modal('show');
-                }, 300);
+                }, 400);
+                }
+
             });
+
+
+
+
+
+            });
+
         },
 
         editable: true,
         eventAfterRender: function (event, element, view) {
+            element.addClass('withPointer');
+
+
             switch (event.answer) {
                 case "y":
                     element.css('background-color', '#00a65a');
@@ -913,6 +1063,7 @@ jQuery.ajaxSettings.traditional = true;
             else {
                 var eventEnd = "";
             }
+
 
             for (var key in events) {
                 var eventsStart = Date.parse(events[key].start);
@@ -945,7 +1096,10 @@ jQuery.ajaxSettings.traditional = true;
                 element.css('color', '#000000');
             }
 
-
+$(".fc-today-button").text("Heute");
+$(".fc-month-button").text("Monat");
+$(".fc-agendaWeek-button").text("Woche");
+$(".fc-agendaDay-button").text("Tag");
         },
 eventStartEditable: false,
 droppable: true,
@@ -994,8 +1148,8 @@ drop: function (date, allDay, e) {
         });
         }
     });
-    
-    
+
+
     // Initiate DateRangePicker
     $('#reservationtime').daterangepicker({
         "singleDatePicker": true,
@@ -1019,7 +1173,7 @@ drop: function (date, allDay, e) {
         "opens": "center"
     });
 
-    
+
     // Initiate TimePicker
     $(".timepicker").timepicker({
         showInputs: false,
@@ -1027,7 +1181,7 @@ drop: function (date, allDay, e) {
     });
 
 
-    
+
     // Initiate Checkboxes
     $('input[type="checkbox"].minimal').iCheck({
         checkboxClass: 'icheckbox_minimal-blue'
@@ -1036,7 +1190,7 @@ drop: function (date, allDay, e) {
     $('input[type="checkbox"][id="group"]').on('ifChecked', function(event){
         $('#groupList').prop('disabled', false).trigger("chosen:updated");
     });
-    
+
     $('input[type="checkbox"][id="group"]').on('ifUnchecked', function(event){
         $('#groupList').prop('disabled', true).trigger("chosen:updated");
     });
@@ -1044,7 +1198,7 @@ drop: function (date, allDay, e) {
     $('input[type="checkbox"][id="user"]').on('ifChecked', function(event){
         $('#userList').prop('disabled', false).trigger("chosen:updated");
     });
-    
+
     $('input[type="checkbox"][id="user"]').on('ifUnchecked', function(event){
         $('#userList').prop('disabled', true).trigger("chosen:updated");
     });
@@ -1061,13 +1215,13 @@ drop: function (date, allDay, e) {
         $("#startTime").attr("disabled", true);
         $("#endTime").attr("disabled", true);
     });
-    
+
     $('input[type="checkbox"][id="allDay"]').on('ifUnchecked', function(event){
         $("#startTime").attr("disabled", false);
         $("#endTime").attr("disabled", false);
     });
 
-    
+
     // New Event Button Function
     $("#addNewEvent").click(function (e){
         e.preventDefault();
@@ -1092,8 +1246,8 @@ drop: function (date, allDay, e) {
                     $("#userListCrit").trigger("chosen:updated");
                 }
         });
-                
-   
+
+
         $.ajax({
             type: "GET",
                         url: "http://localhost:8000/api/group/",
@@ -1106,12 +1260,12 @@ drop: function (date, allDay, e) {
                     $("#groupList").trigger("chosen:updated");
                 }
         });
-                
-                
+
+
         $('#appointment').modal('show');
     });
 
-    
+
     // New Event Button Function Save
     $("#saveEvent").click(function (e){
 
@@ -1165,7 +1319,7 @@ drop: function (date, allDay, e) {
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
         if($('#allDay').is(':checked')){
-            var newDateTimeStart = year + "-" + month + "-" + day + " 00:01";
+            var newDateTimeStart = year + "-" + month + "-" + day + " 00:00";
             var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
         } else {
             var newDateTimeStart = year + "-" + month + "-" + day + " " + dtStart;
@@ -1249,7 +1403,7 @@ drop: function (date, allDay, e) {
     });
 
 
-    
+
     // TODO New Event After Drop Function Save
     $("#saveEventDrop").click(function (e) {
 
@@ -1396,7 +1550,7 @@ drop: function (date, allDay, e) {
             type: "PUT",
             data : formData,
             success: function(data, textStatus, jqXHR)
-                {   
+                {
                     $('#appointmentEditPut').modal('hide');
                     location.reload();
                 },
@@ -1407,17 +1561,19 @@ drop: function (date, allDay, e) {
         });
     });
 
-                
-    // Config Favorites 
-    var currColor = "#3c8dbc"; 
+
+    // Config Favorites
+    var currColor = "#3c8dbc";
     var colorChooser = $("#color-chooser-btn");
     var currColorHex = "";
-    
+
     $("#color-chooser > li > a").click(function (e) {
         e.preventDefault();
         currColor = $(this).css("color");
         console.log(currColor);
         currColorHex = rgb2hex(currColor);
+        currColorHex = currColorHex.substr(1);
+
 console.log(currColorHex);
         $('#add-new-event').css({"background-color": currColor, "border-color": currColor});
     });
@@ -1446,11 +1602,12 @@ console.log(currColorHex);
 
     // Convert RGB to HEX
     function rgb2hex(rgb){
-        rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-        return (rgb && rgb.length === 4) ? + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-                                             ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-                                             ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
-    }
+ rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+ return (rgb && rgb.length === 4) ? "#" +
+  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+}
 });
 </script>
 
