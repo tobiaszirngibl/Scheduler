@@ -113,7 +113,7 @@ class LeaveGroup(APIView):
 	def get(self, request, group_id):
 		group = get_object_or_404(Group, id=group_id)
 		group.members.remove(request.user)
-		if(group.members.count() == 0):
+		if(group.members.count() == 0): # Deletes group, if no more members
 			group.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -156,8 +156,6 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 		Checks that only the creator of an Appointment may delete it
 		"""
 		instance = self.get_object()
-		print(request.user)
-		print(instance.organizer)
 		if request.user == instance.organizer:
 			instance.delete()
 			return Response(status=status.HTTP_204_NO_CONTENT)
