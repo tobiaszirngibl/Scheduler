@@ -16,7 +16,7 @@ import java.util.Date;
  */
 
 public class JSONUtility {
-    private final static String TAG = "JSONUtility";
+    //Json tags used in the json objects fetched from the organized server
     private final static String JSON_TAG_NAME = "name";
     private final static String JSON_TAG_CHANGE = "last_changed";
     private final static String JSON_TAG_START_DATE = "dtstart";
@@ -39,7 +39,7 @@ public class JSONUtility {
         ArrayList<CalEvent> eventList = new ArrayList<>();
         JSONObject jsonObject = null;
 
-        //Try to extract the the jsonObjects from the jsonArray and
+        //Try to extract the jsonObjects from the jsonArray and
         //convert them to calEvents
         //Finally save them in an arrayList
         for(int i = 0, j = jsonArray.length(); i < j; i++){
@@ -64,7 +64,7 @@ public class JSONUtility {
     }
 
     /**
-     * Convert a JSONObject to an calEvent object and return it
+     * Convert a JSONObject to an calEvent object
      * @param jsonObject The jsonObject which is converted to a calEvent
      * @return The converted calEvent
      */
@@ -102,7 +102,7 @@ public class JSONUtility {
     }
 
     /**
-     * Convert a JSONObject to an event object and return it
+     * Convert a JSONObject to an event object
      * @param jsonObject The jsonObject which is converted to a event
      * @return The converted event
      */

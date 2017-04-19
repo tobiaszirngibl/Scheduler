@@ -21,23 +21,26 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by oCocha on 31.01.2017.
- * Utitlity class containing all methods to interact with the device calendar.
- * Read existing events, create new events, update existing events.
+ * Utitlity class containing methods to interact with the device calendar.
+ * - Read existing events from the device calendar
+ * - Save a new event in the device calendar
+ * - Update the title of an existing event
+ * - Get the titles of events that collide with an specific event
+ * - Get the id of an event with an specific title
+ * - Get the starting date of an event with a specific id in milliseconds
+ * - Delete an event with a specific id
  */
 
 public class EventUtility {
 
-    private final static String TAG = "EventUtility";
     private static Integer returnEventId = 1;
     private static ArrayList<CalEvent> eventList = new ArrayList<>();
-
 
     /**
      * Read all events from the device default calendar and return
      * an arraylist containing all events in calEvent format.
      * @param context Context from which the function is called
-     * @return ArrayList the events of the device calendar app
+     * @return ArrayList containing the events of the device calendar app
      */
     public static ArrayList<CalEvent> fetchDeviceEvents(Context context) {
         Uri eventUri;
@@ -47,7 +50,6 @@ public class EventUtility {
             eventList.clear();
         }
 
-        //TODO:CHECK ob das funzt->
         //Create the base for the eventUri according to the used device sdk
         if(android.os.Build.VERSION.SDK_INT <= 7) {
             eventUri = Uri.parse("content://calendar/events");
@@ -55,6 +57,7 @@ public class EventUtility {
             eventUri = Uri.parse("content://com.android.calendar/events");
         }
 
+        //Read the events from the device
         Cursor cursor = context.getContentResolver()
                 .query(
                         eventUri,
@@ -64,15 +67,14 @@ public class EventUtility {
 
         if(cursor != null){
             cursor.moveToFirst();
-            //TODO:<-
 
             //Get the number of events returned
             int eventCount = cursor.getCount();
 
-            //Save all cursors as calEvent in the eventList
+            //Save all cursors as calEvents in the eventList
             for (int i = 0; i < eventCount; i++) {
-                //Checks whether the given event is the requested kind of event id and
-                //if the event is already marked to be deleted(deleted == 0)
+                //Check whether the given event has the requested kind of event id and
+                //if the event is already marked to be deleted(deleted == 1)
                 if (Integer.parseInt(cursor.getString(0)) == returnEventId && Integer.parseInt(cursor.getString(6)) == 0) {
                     CalEvent tempCalEvent = cursorToCalEvent(cursor);
                     eventList.add(tempCalEvent);
@@ -148,7 +150,8 @@ public class EventUtility {
         return eventId;
     }
 
-    /**Add an organized calendar event to the default calendar app
+    /**
+     * Add an organized calendar event to the default calendar app
      * @param activity The activity from which the function is called
      * @param event The calEvent to be added to the device calendar
      * */

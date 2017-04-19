@@ -1,7 +1,7 @@
 package com.ase_1617.organizedlib.network;
 
 /**
- * Interface to provide information the response or error message when the
+ * Interface to provide the response or error message when the
  * authentication process succeeded or failed.
  */
 

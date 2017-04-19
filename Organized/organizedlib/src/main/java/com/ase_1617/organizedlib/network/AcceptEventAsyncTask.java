@@ -3,7 +3,6 @@ package com.ase_1617.organizedlib.network;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.ase_1617.organizedlib.utility.Constants;
@@ -22,8 +21,6 @@ import java.net.URLEncoder;
  */
 
 public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
-    private final static String TAG = "AcceptEventAsyncTask";
-
     private Integer eventPosition = -1;
     private int responseCode = 0;
 
@@ -71,11 +68,10 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
 
         String url = Constants.FEEDBACK_URL_START + eventId + Constants.FEEDBACK_URL_END;
         String data = "";
-        String serverResponse;
 
         URL server = null;
 
-        HttpURLConnection connection = null;
+        HttpURLConnection connection;
 
         OutputStreamWriter osw;
 
@@ -112,16 +108,6 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
             }
         }
 
-        //Interpret the server response and react to it
-        if(responseCode == Constants.FEEDBACK_SUCCESS_CODE){
-            serverResponse = InputStreamInterpreter.interpretInputStream(connection);
-            Log.v(TAG, "serverResponse: "+serverResponse);
-        }
-        else{
-            serverResponse = InputStreamInterpreter.interpretInputStream(connection);
-            Log.v(TAG, "serverResponse: "+serverResponse);
-        }
-
         progressDialog.dismiss();
 
         return true;
@@ -130,13 +116,14 @@ public class AcceptEventAsyncTask extends AsyncTask<Object, Void, Boolean> {
     /**
      * Check whether the server sent an OK result.
      * Call the according fetchEventsAsyncInterface method when the async task has finished.
-     * @param result
+     * @param result Boolean value
      */
     protected void onPostExecute(Boolean result) {
         if(responseCode == Constants.FEEDBACK_SUCCESS_CODE){
             Toast toast = Toast.makeText(context, "Participation of event: " + eventTitle + " set to '" + answer + "'.", Toast.LENGTH_SHORT);
             toast.show();
 
+            //Call the accept/decline interface method
             if(answer.equals("yes")){
                 acceptEventAsyncInterface.eventAccepted(eventPosition);
             }else{

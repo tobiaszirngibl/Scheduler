@@ -9,8 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
 /**
- * Created by bob on 09.03.17.
- *
  * Class to check whether the app is granted the permission to create new calendar events.
  * If it is not granted. Request the permission from the user. Show an info alert if necessary.
  */
@@ -20,8 +18,9 @@ public class permissionCheck {
     /**
      * Check the calendar write permission.
      * Request the permission if necessary.
-     *
-     * */
+     * @param activity The activity from which the permission was requested
+     * @return Boolean value showing whether the permission is granted or not
+     */
     public static boolean permissionGrantedWriteCal(Activity activity){
         if (ContextCompat.checkSelfPermission(activity,
                 Manifest.permission.WRITE_CALENDAR)

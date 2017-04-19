@@ -15,7 +15,14 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Utility class providing various utility methods
+ * Utility class providing various utility methods:
+ * - Get combined duration of hours and minutes in milliseconds
+ * - Get combined date from date, hours and minutes
+ * - Get string date from Date object
+ * - Get combined date and time strings from a starting and an ending date
+ * - Get string date from a milliseconds date
+ * - Get info string from a calEvent object
+ * - Format title and info texts for use in an alertdialog
  */
 
 public class MiscUtility {
@@ -81,7 +88,8 @@ public class MiscUtility {
         return date;
     }
 
-    /**Convert a start and an end date in milliseconds to
+    /**
+     * Convert a start and an end date in milliseconds to
      * a string array containing a date and a time string
      * format: dd/MM/yyyy
      * format: hh:mm
@@ -151,7 +159,7 @@ public class MiscUtility {
     }
 
     /**
-     * Format given event title and info for use in alertDialogs.
+     * Format given event titles and info texts for use in alertDialogs.
      * @param titles Array of event titles to be formatted
      * @param infoTexts Array of event info texts to be formatted
      * @return The created spannableStringBuilder containing the event titles and infos texts

@@ -1,7 +1,6 @@
 package com.ase_1617.organizedlib.network;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.ase_1617.organizedlib.data.CalEvent;
 import com.ase_1617.organizedlib.utility.JSONUtility;
@@ -21,12 +20,10 @@ import java.util.ArrayList;
  */
 
 public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
-    private final static String TAG = "FetchEventsAsyncTask";
 
     private ArrayList<CalEvent> eventList = new ArrayList<>();
 
     private int fetchingEventsError = 0;
-
 
     public FetchEventsAsyncInterface fetchEventsAsyncInterface = null;
 
@@ -48,7 +45,6 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... urls) {
         String serverResponse;
         String url = urls[0];
-        Log.v(TAG, "url: "+url);
         String accessToken = urls[1];
 
         int responseCode = 0;
@@ -106,8 +102,8 @@ public class FetchEventsAsyncTask extends AsyncTask<String, Void, Boolean> {
     }
 
     /**
-     * Call the given fetchEventsAsyncInterface method when the async task has finished
-     * @param result
+     * Call the success/error interfcae method when the async task has finished
+     * @param result Boolean value
      */
     protected void onPostExecute(Boolean result) {
         if(fetchingEventsError == 0){
