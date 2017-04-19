@@ -12,8 +12,9 @@ class ActorSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Actor
-		fields = ('id', 'email', 'password', 'first_name', 'last_name', 'contact_notes', 'education', 'phone', 'location', 'skills', 'spare_time', 'job')
-		write_only_fields = ('password',)
+		fields = ('id', 'email', 'password', 'first_name', 'last_name',
+		          'contact_notes', 'education', 'phone', 'location', 'skills',
+		          'spare_time', 'job', 'understudy',)
 		read_only_fields = ('id',)
 
 	def create(self, validated_data):
@@ -72,6 +73,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 		instance = super(AppointmentSerializer, self).create(validated_data)
 		instance.organizer = self.context['request'].user
 		instance.save()
+		Participation.objects.create(appointment=instance, actor=instance.organizer)
 		return instance
 
 	def update(self, instance, validated_data):

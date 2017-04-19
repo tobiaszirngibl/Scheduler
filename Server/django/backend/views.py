@@ -154,7 +154,9 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 		Checks that only the creator of an Appointment may delete it
 		"""
 		instance = self.get_object()
-		if request.user is instance.organizer:
+		print(request.user)
+		print(instance.organizer)
+		if request.user == instance.organizer:
 			instance.delete()
 			return Response(status=status.HTTP_204_NO_CONTENT)
 		return Response(data='Only the organizer may delete an Appointment', status=status.HTTP_403_FORBIDDEN)
