@@ -804,7 +804,8 @@ jQuery.ajaxSettings.traditional = true;
                             start: data[key].dtstart,
                             end: data[key].dtend,
                             id: data[key].id,
-                            answer: data[key].own_answer
+                            answer: data[key].own_answer,
+                            color: data[key].color
                     };
                     events.push(event);
 
@@ -1061,6 +1062,7 @@ jQuery.ajaxSettings.traditional = true;
             element.addClass('withPointer');
 
 
+
             switch (event.answer) {
                 case "y":
                     element.css('background-color', '#00a65a');
@@ -1069,7 +1071,7 @@ jQuery.ajaxSettings.traditional = true;
                     element.css('background-color', '#dd4b39');
                     break;
                 default:
-                    element.css('background-color', '#3c8dbc');
+                    element.css('background-color', '#'+event.color);
                     break;
             }
             var eventID = event.id;
@@ -1130,7 +1132,6 @@ drop: function (date, allDay, e) {
             var date = new Date(date._d);
             var dateNew = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
            colDropEvent = $(this)[0].attributes[0].value;
-
 
              $.ajax({
         type: "GET",
@@ -1447,8 +1448,7 @@ drop: function (date, allDay, e) {
     // TODO New Event After Drop Function Save
     $("#saveEventDrop").click(function (e) {
 
-
-
+        console.log(e);
 
 
         if ($('#group').is(':checked')) {
@@ -1514,7 +1514,8 @@ drop: function (date, allDay, e) {
             dtend: newDateTimeEnd,
             town: town,
             location: location,
-            summary: remark
+            summary: remark,
+            color: colDropEvent
         };
 
 
