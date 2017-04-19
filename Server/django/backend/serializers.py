@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Actor, Appointment, Group, Participation
+from .models import Actor, Appointment, Group, Participation, Favorite
 
 """
 Serializers are part of the Django-REST-Framework(DRF).
@@ -92,4 +92,14 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class FavoriteSerializer(AppointmentSerializer):
-	color = serializers.CharField()
+
+	class Meta:
+		model = Favorite
+		fields = '__all__'
+
+	def create(self, validated_data):
+		instance = super(FavoriteSerializer, self).create(validated_data)
+		instance.owner = self.context['request'].user
+		instance.save()
+		return instance
+

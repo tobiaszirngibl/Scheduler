@@ -1,5 +1,8 @@
+import datetime
+
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
@@ -123,10 +126,10 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 	def get_queryset(self):
 		"""
-		Gets all Appointments which feature the current user
+		Gets all Appointments which feature the current user and which ended less than a month from now 
 		"""
 		user = self.request.user
-		return Appointment.objects.filter(participants__id__exact=user.id)
+		return Appointment.objects.filter(participants__id__exact=user.id).filter(dtend__gt=timezone.now()-datetime.timedelta(days=30))
 
 	def get_appointment_by_status(self, request, status):
 		"""
