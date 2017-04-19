@@ -113,6 +113,8 @@ class LeaveGroup(APIView):
 	def get(self, request, group_id):
 		group = get_object_or_404(Group, id=group_id)
 		group.members.remove(request.user)
+		if(group.members.count() == 0):
+			group.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
 """
