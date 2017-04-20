@@ -126,7 +126,8 @@
                             </li>
                             <li class="list-group-item">
                                 <b>Einspringer:</b>
-                                <a class="pull-right">{{ user.understudy_name }}</a>
+                                <a class="pull-right">{{ user.understudy_name }}</a><br>
+                                  <a class="pull-right">{{ user.understudy.email }}<br></a><br>
                             </li>
                             <li class="list-group-item">
                                 <b>Anmerkungen zu Kontaktdaten</b>
@@ -166,7 +167,7 @@
     <!-- Modal Edit User -->
     <div id="userEdit" class="modal fade">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div id="userEditContent" class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -198,8 +199,8 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label>Einspringer:</label>
-                                <input id="understudyEdit" type="text" class="form-control" value="{{user.unserstudy_email}}">
+                                <label>Einspringer E-Mail:</label>
+                                <input id="understudyEdit" type="text" class="form-control"  value="{{user.understudy_email}}">
                             </div>
                         </div>
                     </div>
@@ -471,7 +472,17 @@ jQuery.ajaxSettings.traditional = true;
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
+                    var response = jqXHR.responseText.toString();
+console.log(response);
+                    if(response == '{"detail":"Nicht gefunden."}'){
+                        var errorString = "Einspringer wurde nicht gefunden!";
+                        console.log("fehler");
+                                            $('#userEditContent').notify("Bearbeiten fehlgeschlagen: " + errorString, "error", {position: "top center"});
+
+                    }
+
                     console.log(jqXHR);
+
                 }
         });
     });
