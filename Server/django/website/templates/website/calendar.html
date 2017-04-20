@@ -74,7 +74,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div>
-                        <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
+                        <img id="detailProfileAvatar" class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
                         </div>
                         <br>
                         <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
@@ -781,6 +781,7 @@ $(document).on('submit','.noValidateForm',function (e) {
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
                 $("#modalUserJob").text(data.job);
+                   $("#detailProfileAvatar").attr("src", data.avatar);
 
             }
         });
@@ -1133,6 +1134,7 @@ $(document).on('submit','.noValidateForm',function (e) {
                 else if (eventID !== events[key].id && (eventStart <= eventsStart && eventEnd >= eventsEnd)) {
                     overlapping();
                 }
+                
                 else if (eventID !== events[key].id && (eventStart >= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)) {
                     overlapping();
                 }
@@ -1144,10 +1146,6 @@ $(document).on('submit','.noValidateForm',function (e) {
             }
 
             function overlapping() {
-                //var s = '<span class="glyphicon glyphicon-info-sign"> '+events[key].title+'</span><br>';
-                //var span = document.createElement('span');
-                //span.innerHTML = s;
-                //element[0].children[0].prepend(span);
                 element.css('background-color', '#fff600');
                 element.css('border-color', '#000000');
                 element.css('color', '#000000');

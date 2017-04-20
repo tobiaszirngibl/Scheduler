@@ -74,7 +74,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div>
-                        <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
+                        <img id="detailProfileAvatar" class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
                         </div>
                         <br>
                         <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
@@ -311,6 +311,8 @@ jQuery.ajaxSettings.traditional = true;
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
                 $("#modalUserJob").text(data.job);
+                                   $("#detailProfileAvatar").attr("src", data.avatar);
+
 
             }
         });
