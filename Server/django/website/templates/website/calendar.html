@@ -18,7 +18,6 @@
     </nav>
 </header>
 
-
       <div id="deleteUserMod" class="modal fade modal-primary">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -47,7 +46,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>               </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 id="modalUserName"></h4>
             </div>
             <div class="modal-body">
@@ -688,7 +688,6 @@ $(function () {
         url: "http://localhost:8000/api/appointment/",
         success: function(data)
             {
-
                 for (var key in data) {
                     var event = {
                             title: data[key].name,
@@ -723,7 +722,6 @@ $(function () {
                         $('#acceptAppointment').modal('show');
                         eventSentData =  e.currentTarget.id;
                         eventSentData = eventSentData.substring(eventSentData.indexOf("t") + 1);
-
                     });
 
                     $('#noEvent'+event.id).click(function (e){
@@ -731,10 +729,8 @@ $(function () {
                           eventSentData =  e.currentTarget.id;
                         eventSentData = eventSentData.substring(eventSentData.indexOf("t") + 1);
                     });
-
                 }
 
-                // TODO
                 $('#sendYes').click(function (e) {
                     e.preventDefault();
                             var formData =  {"answer": "yes"}
@@ -746,16 +742,17 @@ $(function () {
                             {
                                 location.reload();
                             },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
                     });
                 });
 
-                // TODO
-                 $('#sendNo').click(function (e) {
+                $('#sendNo').click(function (e) {
                     e.preventDefault();
-                            var formData =  {"answer": "no"}
+                    var formData =  {"answer": "no"}
+
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
                         type: "POST",
@@ -770,24 +767,23 @@ $(function () {
                     });
                 });
 
-                    $('#sendNoReplace').click(function (e) {
+                $('#sendNoReplace').click(function (e) {
                     e.preventDefault();
-                            var formData =  {"answer": "no"}
+                    var formData =  {"answer": "no"}
+
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
                         type: "POST",
                         data : formData,
                         success: function(data, textStatus, jqXHR)
-
-                        {
-                            $("#declineAppointment").modal("hide");
-                                                setTimeout(function(){$('#appointment').modal('show');}, 300);
-
-
+                            {
+                                $("#declineAppointment").modal("hide");
+                                setTimeout(function(){$('#appointment').modal('show');}, 300);
                             },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
                     });
 
                 });
@@ -797,8 +793,6 @@ $(function () {
                 $('#calendar').fullCalendar('removeEvents');
                 $('#calendar').fullCalendar('addEventSource', events);
                 $('#calendar').fullCalendar('refetchEvents');
-
-
             }
     });
 
@@ -806,9 +800,8 @@ $(function () {
     // initialize the favorites
     function ini_events(ele) {
         ele.each(function () {
-
             var eventObject = {
-                    title: $.trim($(this).text())
+                title: $.trim($(this).text())
             };
             $(this).data('eventObject', eventObject);
 
@@ -828,6 +821,7 @@ $(function () {
     var d = date.getDate(),
         m = date.getMonth(),
         y = date.getFullYear();
+
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
@@ -839,12 +833,9 @@ $(function () {
         timezone:'local',
         displayEventEnd: true,
 
-
         eventRender: function (event, element) {
-    element.find('.fc-time').append("<br/>");
-
+            element.find('.fc-time').append("<br/>");
         },
-
 
         eventClick: function (calEvent, jsEvent, view) {
             var titleEdit = "";
@@ -878,14 +869,13 @@ $(function () {
                     $('#titleEvent').text(data.name + " - " + dateEdit);
                     titleEdit = data.name;
 
-
-                     $('#showTown').text(data.town);
+                    $('#showTown').text(data.town);
                     townEdit = $('#showTown').text();
 
-                     $('#showLocation').text(data.location);
+                    $('#showLocation').text(data.location);
                     locationEdit = $('#showLocation').text();
 
-                     $('#showRemark').text(data.summary);
+                    $('#showRemark').text(data.summary);
                     remarkEdit = $('#showRemark').text();
 
                     for (var key in data.participants) {
@@ -897,7 +887,6 @@ $(function () {
                     }
 
                      $('#showUser').text(userEdit.join("\n"));
-
 
                     $('#showAppointment').modal('show');
                 }
@@ -914,40 +903,28 @@ $(function () {
                 $('#locationEditPut').val(locationEdit);
                 $('#remarkEditPut').val(remarkEdit);
 
-
                  $.ajax({
-                type: "GET",
-                url: "http://localhost:8000/api/actor/",
-                success: function (data) {
-                    for (var key in data) {
-                        if (data[key].first_name == "" && data[key].last_name == "") {
-                            var actorName = "Kein Name angegeben";
+                    type: "GET",
+                    url: "http://localhost:8000/api/actor/",
+                    success: function (data) {
+                        for (var key in data) {
+                            if (data[key].first_name == "" && data[key].last_name == "") {
+                                var actorName = "Kein Name angegeben";
+                            }
+                            else {
+                                var actorName = data[key].first_name + " " + data[key].last_name;
+                            }
+                            var actorEmail = data[key].email;
+                            $('#userListEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                            $('#userListCritEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
                         }
-                        else {
-                            var actorName = data[key].first_name + " " + data[key].last_name;
-                        }
-                        var actorEmail = data[key].email;
-                        $('#userListEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
-                        $('#userListCritEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                        $("#userListEditPut").trigger("chosen:updated");
+                        $("#userListCritEditPut").trigger("chosen:updated");
+
+                        setTimeout(function () { $('#appointmentEditPut').modal('show'); }, 400);
                     }
-                    $("#userListEditPut").trigger("chosen:updated");
-                    $("#userListCritEditPut").trigger("chosen:updated");
-
-
-
-                    setTimeout(function () {
-                    $('#appointmentEditPut').modal('show');
-                }, 400);
-                }
-
+                });
             });
-
-
-
-
-
-            });
-
         },
 
         editable: true,
@@ -956,56 +933,53 @@ $(function () {
 
             if(user_id == event.organizer && event.color != "3c8dbc") {
 
-            switch (event.answer) {
-                case "y":
-                    element.css('background-color', '#'+event.color);
-                    element.css('border-color', '#'+event.color);
+                switch (event.answer) {
+                    case "y":
+                        element.css('background-color', '#' + event.color);
+                        element.css('border-color', '#' + event.color);
+                        break;
 
-                    break;
-                case "n":
-                    element.css('background-color', '#dd4b39');
-                    element.css('border-color', '#dd4b39');
+                    case "n":
+                        element.css('background-color', '#dd4b39');
+                        element.css('border-color', '#dd4b39');
+                        break;
 
-                    break;
-                default:
-                    element.css('background-color', '#'+event.color);
-                    element.css('border-color', '#'+event.color);
-
-                    break;
-            }
+                    default:
+                        element.css('background-color', '#' + event.color);
+                        element.css('border-color', '#' + event.color);
+                        break;
+                }
 
             } else {
 
                  switch (event.answer) {
-                case "y":
-                    element.css('background-color', '#00a65a');
-                    element.css('border-color', '#00a65a');
-
+                    case "y":
+                        element.css('background-color', '#00a65a');
+                        element.css('border-color', '#00a65a');
                     break;
-                case "n":
-                    element.css('background-color', '#dd4b39');
-                    element.css('border-color', '#dd4b39');
 
+                    case "n":
+                        element.css('background-color', '#dd4b39');
+                        element.css('border-color', '#dd4b39');
                     break;
-                default:
-                    element.css('background-color', '#3c8dbc');
-                    element.css('border-color', '#3c8dbc');
 
+                    default:
+                        element.css('background-color', '#3c8dbc');
+                        element.css('border-color', '#3c8dbc');
                     break;
+                }
             }
-            }
-
 
             var eventID = event.id;
             var eventEnd = event.end;
             var eventStart = Date.parse(event.start._d);
+
             if (eventEnd != null) {
                 var eventEnd = Date.parse(event.end._d);
             }
             else {
                 var eventEnd = "";
             }
-
 
             for (var key in events) {
                 var eventsStart = Date.parse(events[key].start);
@@ -1018,19 +992,16 @@ $(function () {
                 else if (eventID !== events[key].id && (eventStart <= eventsStart && eventEnd >= eventsEnd)) {
                     overlapping();
                 }
-                
                 else if (eventID !== events[key].id && (eventStart >= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)) {
                     overlapping();
                 }
                 else if (eventID !== events[key].id && (eventStart >= eventsStart && eventsEnd >= eventStart)) {
                     overlapping();
                 }
-                else {
-                }
             }
 
             if(event.will_take_place == false) {
-               element.css('background-color', '#aaaaaa');
+                element.css('background-color', '#aaaaaa');
                 element.css('border-color', '#000000');
                 element.css('color', '#000000');
             }
@@ -1041,43 +1012,44 @@ $(function () {
                 element.css('color', '#000000');
             }
 
-$(".fc-today-button").text("Heute");
-$(".fc-month-button").text("Monat");
-$(".fc-agendaWeek-button").text("Woche");
-$(".fc-agendaDay-button").text("Tag");
+            $(".fc-today-button").text("Heute");
+            $(".fc-month-button").text("Monat");
+            $(".fc-agendaWeek-button").text("Woche");
+            $(".fc-agendaDay-button").text("Tag");
         },
-eventStartEditable: false,
-droppable: true,
-drop: function (date, allDay, e) {
 
+        eventStartEditable: false,
+        droppable: true,
+
+        drop: function (date, allDay, e) {
             favorID = $(this)[0].id;
+            colDropEvent = $(this)[0].attributes[0].value;
+
             $('#dropTitleName').text(allDay.target.innerHTML);
             $('#dropAppointment').modal('show');
-                    var originalEventTitle= $(this).data('eventObject').title;
+
+            var originalEventTitle= $(this).data('eventObject').title;
             var date = new Date(date._d);
             var dateNew = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
-           colDropEvent = $(this)[0].attributes[0].value;
 
              $.ajax({
-        type: "GET",
-        url: "http://localhost:8000/api/favorites/"+favorID+"/",
-        success: function(data)
-            {
+                type: "GET",
+                url: "http://localhost:8000/api/favorites/"+favorID+"/",
+                success: function(data)
+                    {
+                        var start = new Date(Date.parse(data.dtstart));
+                        start = start.getHours() + ":" + (start.getMinutes()<10?'0':'') + start.getMinutes();
+                        $("#startTimeDrop").val(start);
 
-                var start = new Date(Date.parse(data.dtstart));
-                    start = start.getHours() + ":" + (start.getMinutes()<10?'0':'') + start.getMinutes();
-                    $("#startTimeDrop").val(start);
+                        var end = new Date(Date.parse(data.dtend));
+                        end = end.getHours() + ":" + (end.getMinutes()<10?'0':'') + end.getMinutes();
+                        $("#endTimeDrop").val(end);
 
-                var end = new Date(Date.parse(data.dtend));
-                    end = end.getHours() + ":" + (end.getMinutes()<10?'0':'') + end.getMinutes();
-                    $("#endTimeDrop").val(end);
-
-                $("#locationDrop").val(data.location);
-                $("#townDrop").val(data.town);
-                $("#remarkDrop").val(data.summary);
-
-            }
-    });
+                        $("#locationDrop").val(data.location);
+                        $("#townDrop").val(data.town);
+                        $("#remarkDrop").val(data.summary);
+                    }
+            });
 
             $.ajax({
                 type: "GET",
@@ -1098,20 +1070,19 @@ drop: function (date, allDay, e) {
                     $("#userListDrop").trigger("chosen:updated");
                     $("#userListCritDrop").trigger("chosen:updated");
                 }
-
             });
-               $.ajax({
-            type: "GET",
-                        url: "http://localhost:8000/api/group/",
 
-            success: function(data)
-                {
-                    for (var key in data) {
-                        $('#groupListDrop').append('<option value='+data[key].id+'>'+ data[key].name +'</option>');
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8000/api/group/",
+                success: function(data)
+                    {
+                        for (var key in data) {
+                            $('#groupListDrop').append('<option value='+data[key].id+'>'+ data[key].name +'</option>');
+                        }
+                        $("#groupListDrop").trigger("chosen:updated");
                     }
-                    $("#groupListDrop").trigger("chosen:updated");
-                }
-        });
+            });
         }
     });
 
@@ -1145,7 +1116,6 @@ drop: function (date, allDay, e) {
         showInputs: false,
         showMeridian: false
     });
-
 
 
     // Initiate Checkboxes
@@ -1213,11 +1183,9 @@ drop: function (date, allDay, e) {
                 }
         });
 
-
         $.ajax({
             type: "GET",
-                        url: "http://localhost:8000/api/group/",
-
+            url: "http://localhost:8000/api/group/",
             success: function(data)
                 {
                     for (var key in data) {
@@ -1227,51 +1195,39 @@ drop: function (date, allDay, e) {
                 }
         });
 
-
         $('#appointment').modal('show');
     });
 
 
     // New Event Button Function Save
     $("#saveEvent").click(function (e){
+        if($('#group').is(':checked')){
+            var groupID = $("#groupList").val();
+            var groupMember = [];
 
-                if($('#group').is(':checked')){
-                    var groupID = $("#groupList").val();
-                    var groupMember = [];
-                             $.ajax({
-                        url : "http://localhost:8000/api/group/"+groupID+"/",
-                        type: "GET",
-                        success: function(data, textStatus, jqXHR)
-                            {
-
-
-                                    for (var i = 0; i<data.members.length; i++) {
-                    groupMember.push(data.members[i].email);
+            $.ajax({
+                url : "http://localhost:8000/api/group/"+groupID+"/",
+                type: "GET",
+                success: function(data, textStatus, jqXHR)
+                    {
+                        for (var i = 0; i<data.members.length; i++) {
+                            groupMember.push(data.members[i].email);
+                        }
+                    },
+                error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        console.log(jqXHR);
                     }
+            });
+        } else var groupMember = null;
 
+        if($('#user').is(':checked')){
+            var actors = $("#userList").val();
+        } else var actors = null;
 
-
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-                            }
-                    });
-
-
-
-
-                } else var groupMember = null;
-
-
-                  if($('#user').is(':checked')){
-                    var actors = $("#userList").val();
-                } else var actors = null;
-
-                  if($('#userCrit').is(':checked')){
-                    var actorsCrit = $("#userListCrit").val();
-                } else var actorsCrit = null;
-
+        if($('#userCrit').is(':checked')){
+            var actorsCrit = $("#userListCrit").val();
+        } else var actorsCrit = null;
 
         var title = $("#title").val();
         var dtDate = $("#reservationtime").val();
@@ -1292,15 +1248,9 @@ drop: function (date, allDay, e) {
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
         }
 
-
-
         var formData = {name: title, organizer: {{ user.id }}, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
 
-
-
-
-
-       $.ajax({
+        $.ajax({
             type: "POST",
             url : "http://localhost:8000/api/appointment/",
             data : formData,
@@ -1310,19 +1260,18 @@ drop: function (date, allDay, e) {
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
 
-
                     if(groupMember !== null) {
                         $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
-                        type: "POST",
-                        data : {actors: groupMember},
-                        success: function(data, textStatus, jqXHR)
-                            {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-                            }
+                            url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
+                            type: "POST",
+                            data : {actors: groupMember},
+                            success: function(data, textStatus, jqXHR)
+                                {
+                                },
+                            error: function (jqXHR, textStatus, errorThrown)
+                                {
+                                    console.log(jqXHR);
+                                }
                         });
                     }
 
@@ -1353,11 +1302,11 @@ drop: function (date, allDay, e) {
                             }
                         });
                     }
-                        var formData =  {"answer": "yes"}
+
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
                         type: "POST",
-                        data : formData,
+                        data : {"answer": "yes"},
                         success: function(data, textStatus, jqXHR)
                             {
                             },
@@ -1365,10 +1314,6 @@ drop: function (date, allDay, e) {
                             console.log(jqXHR);
                         }
                     });
-
-
-
-
 
                 parent.location.reload();
                 },
@@ -1380,14 +1325,12 @@ drop: function (date, allDay, e) {
     });
 
 
-
-    // TODO New Event After Drop Function Save
+    // New Event After Drop Function Save
     $("#saveEventDrop").click(function (e) {
-
-
         if ($('#group').is(':checked')) {
             var groupID = $("#groupListDrop").val();
             var groupMember = [];
+
             $.ajax({
                 url: "http://localhost:8000/api/group/" + groupID + "/",
                 type: "GET",
@@ -1400,9 +1343,7 @@ drop: function (date, allDay, e) {
                     console.log(jqXHR);
                 }
             });
-
         } else var groupMember = null;
-
 
         if ($('#userDrop').is(':checked')) {
             var actors = $("#userListDrop").val();
@@ -1412,9 +1353,7 @@ drop: function (date, allDay, e) {
             var actorsCrit = $("#userListCritDrop").val();
         } else var actorsCrit = null;
 
-
         var titleElement = $("#titleDrop").text();
-
         var title = titleElement.substring(0, titleElement.indexOf('-'));
         var dtStart = $("#startTimeDrop").val();
         var dtEnd = $("#endTimeDrop").val();
@@ -1422,14 +1361,8 @@ drop: function (date, allDay, e) {
         var town = $("#townDrop").val();
         var remark = $("#remarkDrop").val();
 
-
         var dateTest = titleElement.substring(titleElement.indexOf("-") + 2);
-
-
-        // bei tag ist ein leerzeichen drin
-
         var dateFormat = dateTest.split("/");
-
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
         if ($('#allDay').is(':checked')) {
@@ -1440,7 +1373,6 @@ drop: function (date, allDay, e) {
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
         }
 
-        var user_id = {{user.id}};
         var formData = {
             name: title,
             organizer: user_id,
@@ -1452,125 +1384,109 @@ drop: function (date, allDay, e) {
             color: colDropEvent
         };
 
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/api/appointment/",
+            data: formData,
+            success: function (data, textStatus, jqXHR) {
+                var objectAppID = data.id;
+                $('#dropAppointment').modal('hide');
+                if (groupMember !== null) {
 
-
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8000/api/appointment/",
-                    data: formData,
-                    success: function (data, textStatus, jqXHR) {
-                        var objectAppID = data.id;
-                        $('#dropAppointment').modal('hide');
-
-
-                        if (groupMember !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
-                                type: "POST",
-                                data: {actors: groupMember},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-                        }
-
-                        if (actors !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
-                                type: "POST",
-                                data: {actors: actors},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-                        }
-
-                        if (actorsCrit !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
-                                type: "POST",
-                                data: {actors: actorsCrit},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-
-                        }
-
-
-                        $.ajax({
-                            url: "http://localhost:8000/api/favorites/" + favorID +"/",
-                            type: "PATCH",
-                            data: formData,
-                            success: function (data, textStatus, jqXHR)
-                                {
-                                    console.log(jqXHR);
-                                },
-                            error: function (jqXHR, textStatus, errorThrown)
-                                {
-                                    console.log(jqXHR);
-                                }
-                        });
-
-                        var formData =  {"answer": "yes"}
                     $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
+                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
                         type: "POST",
-                        data : formData,
-                        success: function(data, textStatus, jqXHR)
-                            {
+                        data: {actors: groupMember},
+                        success: function (data, textStatus, jqXHR) {
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR);
+                        }
+                    });
+                }
+
+                if (actors !== null) {
+                    $.ajax({
+                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
+                        type: "POST",
+                        data: {actors: actors},
+                        success: function (data, textStatus, jqXHR) {
                             },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log(jqXHR);
                         }
                     });
+                }
 
+                if (actorsCrit !== null) {
+                    $.ajax({
+                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
+                        type: "POST",
+                        data: {actors: actorsCrit},
+                        success: function (data, textStatus, jqXHR) {
+                            },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR);
+                        }
+                    });
+                }
 
-                        if($('#drop-remove').is(':checked')){
+                $.ajax({
+                    url: "http://localhost:8000/api/favorites/" + favorID +"/",
+                    type: "PATCH",
+                    data: formData,
+                    success: function (data, textStatus, jqXHR)
+                        {
+                        },
+                    error: function (jqXHR, textStatus, errorThrown)
+                        {
+                            console.log(jqXHR);
+                        }
+                });
 
-                             $.ajax({
-                                    type: "DELETE",
-                                    url: "http://localhost:8000/api/favorites/"+favorID+"/",
-                                    success: function(data, textStatus, jqXHR)
-                             {
-                             },
-                             error: function (jqXHR, textStatus, errorThrown)
-                             {
-                             console.log(jqXHR);
-                             }
-                                });
-                            }
-                parent.location.reload();
-
-                    },
+                $.ajax({
+                    url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
+                    type: "POST",
+                    data : {"answer": "yes"},
+                    success: function(data, textStatus, jqXHR)
+                        {
+                        },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log(jqXHR);
                     }
                 });
 
-
+                if($('#drop-remove').is(':checked')){
+                    $.ajax({
+                        type: "DELETE",
+                        url: "http://localhost:8000/api/favorites/"+favorID+"/",
+                        success: function(data, textStatus, jqXHR)
+                             {
+                             },
+                        error: function (jqXHR, textStatus, errorThrown)
+                             {
+                             console.log(jqXHR);
+                             }
+                    });
+                }
+                parent.location.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+            }
+        });
     });
 
 
+    $("#saveEventEditPut").click(function (e){
+        var title = $("#titleEditPut").val();
+        var desc = $("#remarkEditPut").val();
+        var start = $("#startTimeEditPut").val();
+        var end = $("#endTimeEditPut").val();
+        var location = $("#locationEditPut").val();
+        var town = $("#townEditPut").val();
 
-
-$("#saveEventEditPut").click(function (e){
-
-    var title = $("#titleEditPut").val();
-    var desc = $("#remarkEditPut").val();
-    var start = $("#startTimeEditPut").val();
-    var end = $("#endTimeEditPut").val();
-    var location = $("#locationEditPut").val();
-    var town = $("#townEditPut").val();
-
-
-      var dateFormat = currentEditEvent.split("/");
+        var dateFormat = currentEditEvent.split("/");
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
         if($('#allDay').is(':checked')){
@@ -1581,60 +1497,48 @@ $("#saveEventEditPut").click(function (e){
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + end;
         }
 
+        var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
 
-    var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
-
-    var actors = $("#userListEditPut").val();
+        var actors = $("#userListEditPut").val();
         var actorsCrit = $("#userListCritEditPut").val();
 
-    $.ajax({
-        url : "http://localhost:8000/api/appointment/"+calEventID+"/",
-        type: "PATCH",
-        data : formData,
-        success: function(data, textStatus, jqXHR)
-            {
+        $.ajax({
+            url : "http://localhost:8000/api/appointment/"+calEventID+"/",
+            type: "PATCH",
+            data : formData,
+            success: function(data, textStatus, jqXHR)
+                {
+                    if (actors !== null) {
+                        $.ajax({
+                            url: "http://localhost:8000/api/appointment/" + calEventID + "/addActors",
+                            type: "POST",
+                            data: {actors: actors},
+                            success: function (data, textStatus, jqXHR) {
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(jqXHR);
+                            }
+                        });
+                    }
 
-                 if (actors !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + calEventID + "/addActors",
-                                type: "POST",
-                                data: {actors: actors},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-                        }
-
-                        if (actorsCrit !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + calEventID + "/addCriticalActors",
-                                type: "POST",
-                                data: {actors: actorsCrit},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-
-                        }
-
-
+                    if (actorsCrit !== null) {
+                        $.ajax({
+                            url: "http://localhost:8000/api/appointment/" + calEventID + "/addCriticalActors",
+                            type: "POST",
+                            data: {actors: actorsCrit},
+                            success: function (data, textStatus, jqXHR) {
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(jqXHR);
+                            }
+                        });
+                    }
                  parent.location.reload();
-            },
-        error: function (jqXHR, textStatus, errorThrown){
-
-
-            }
+                },
+                error: function (jqXHR, textStatus, errorThrown){
+                }
+        });
     });
-
-
-
-
-});
-
 
 
     // Config Favorites
@@ -1675,13 +1579,10 @@ $("#saveEventEditPut").click(function (e){
 
     // Convert RGB to HEX
     function rgb2hex(rgb){
- rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
- return (rgb && rgb.length === 4) ? "#" +
-  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
-}
+        rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+        return (rgb && rgb.length === 4) ? "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+               ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+     }
 });
 </script>
-
 {% endblock %}

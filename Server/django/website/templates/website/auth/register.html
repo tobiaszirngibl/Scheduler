@@ -57,13 +57,9 @@
 <!-- Bootstrap 3.3.6 -->
 <!--<script src="{% static 'website/plugins/bootstrap/js/bootstrap.min.js' %}"></script>-->
 <script>
-
-  $(function () {
-
+    $(function () {
 
       $('#submitRegister').click(function (e) {
-
-
           var csrftoken = $.cookie('csrftoken');
 
           function csrfSafeMethod(method) {
@@ -78,47 +74,31 @@
               }
           });
 
-            var email = $("#emailIn").val();
-              var password = $("#passwordIn").val();
-                  var first_name = $("#firstnameIn").val();
-                  var last_name = $("#lastnameIn").val();
-
+          var email = $("#emailIn").val();
+          var password = $("#passwordIn").val();
+          var first_name = $("#firstnameIn").val();
+          var last_name = $("#lastnameIn").val();
 
           var formData = {email: email, password: password, first_name: first_name, last_name: last_name, bio: ""};
 
              $.ajax({
-
-              url: "http://localhost:8000/api/actor/",
-              type: "POST",
-              data: formData,
-              success: function (data, textStatus, jqXHR) {
-
-                      $(".register-box").notify("Registrierung erfolgreich", "success",  { position:"top" });
-                      window.setTimeout(function(){
-
-        window.location.href = "/login";
-
-    }, 2000);
-
-
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-
-                  var errorMessage = jqXHR.responseText;
-                  errorMessage = errorMessage.substring(errorMessage.indexOf("[") + 2);
+                url: "http://localhost:8000/api/actor/",
+                type: "POST",
+                data: formData,
+                success: function (data, textStatus, jqXHR) {
+                    $(".register-box").notify("Registrierung erfolgreich", "success",  { position:"top" });
+                    window.setTimeout(function(){ window.location.href = "/login"; }, 2000);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    var errorMessage = jqXHR.responseText;
+                    errorMessage = errorMessage.substring(errorMessage.indexOf("[") + 2);
                     errorMessage = errorMessage.substring(0, errorMessage.indexOf('"'));
 
-
-
-
-                  $(".register-box").notify("Registrierung fehlgeschlagen: "+errorMessage, "error",  { position:"top" });
-              }
-          });
-
+                    $(".register-box").notify("Registrierung fehlgeschlagen: "+errorMessage, "error",  { position:"top" });
+                }
+             });
       });
-
-
-  });
+    });
 </script>
 </body>
 {% endblock %}
