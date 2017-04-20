@@ -164,8 +164,20 @@ class AppointmentViewSet(viewsets.ModelViewSet):
 
 class ActorViewSet(viewsets.ModelViewSet):
 	permission_classes = [AllowAny]
-	queryset = Actor.objects.all()
 	serializer_class = ActorSerializer
+
+	def get_queryset(self):
+		#return Actor.objects.exclude(id=self.request.user.id)
+		return Actor.objects.all()
+
+	"""def update(self, request, *args, **kwargs):
+		if 'understudy' in kwargs:
+			mail = kwargs.pop('understudy')
+			if mail.isdigit() is False: # Already set understudy
+				request.user.understudy = Actor.objects.get(email=mail)
+		super(ActorViewSet, self).update(request, args, kwargs)"""
+
+
 
 
 class GroupViewSet(viewsets.ModelViewSet):

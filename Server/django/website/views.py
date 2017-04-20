@@ -25,6 +25,7 @@ def profile_view(request):
 	        "avatar": request.user.avatar,
 	        }
 	"""
+	user.understudy_name = user.understudy.email
 	return render(request, 'website/profile.html', {"user": user})
 
 
