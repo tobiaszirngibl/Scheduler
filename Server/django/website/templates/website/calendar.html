@@ -828,14 +828,14 @@ $(document).on('submit','.noValidateForm',function (e) {
                     switch (event.answer) {
 
                         case "y":
-                            $("#appointmentListYes").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
+                            $("#appointmentListYes").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><br>'+event.start+'</h4><hr>');
                            break;
                         case "n":
-                            $("#appointmentListNo").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
+                            $("#appointmentListNo").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
 
                             break;
                         default:
-                            $("#appointmentListPending").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
+                            $("#appointmentListPending").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button> <button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
                             break;
                     }
 
