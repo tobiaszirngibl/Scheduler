@@ -14,7 +14,7 @@ class ActorSerializer(serializers.ModelSerializer):
 		model = Actor
 		fields = ('id', 'email', 'password', 'first_name', 'last_name',
 		          'contact_notes', 'education', 'phone', 'location', 'skills',
-		          'spare_time', 'job', 'understudy',)
+		          'spare_time', 'job', 'understudy', 'avatar')
 		read_only_fields = ('id',)
 
 	def create(self, validated_data):

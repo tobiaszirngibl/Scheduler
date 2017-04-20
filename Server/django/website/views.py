@@ -12,38 +12,17 @@ from .forms import AvatarForm
 @login_required
 def profile_view(request):
 	user = get_object_or_404(Actor, id=request.user.id)
-	"""user = {"email": request.user.email,
-	        "firstname": request.user.first_name,
-	        "lastname": request.user.last_name,
-	        "contact_notes": request.user.get_contact_notes,
-	        "education": request.user.get_education,
-	        "phone": request.user.phone,
-	        "skills": request.user.skills,
-	        "spare_time": request.user.spare_time,
-	        "location": request.user.location,
-	        "job": request.user.job,
-	        "avatar": request.user.avatar,
-	        }
-	"""
 	user.understudy_name = user.understudy.email
 	return render(request, 'website/profile.html', {"user": user})
 
 
 @login_required
 def calendar_view(request):
-	"""user = {"email": request.user.email,
-	        "first_name": request.user.first_name,
-	        "last_name": request.user.last_name
-	        }"""
 	return render(request, 'website/calendar.html', {"user": request.user})
 
 
 @login_required
 def group_view(request):
-	"""user = {"email": request.user.email,
-	        "first_name": request.user.first_name,
-	        "last_name": request.user.last_name
-	        }"""
 	return render(request, 'website/groups.html', {"user": request.user})
 
 
