@@ -100,7 +100,7 @@ class FavoriteSerializer(AppointmentSerializer):
 		fields = '__all__'
 
 	def create(self, validated_data):
-		instance = super(FavoriteSerializer, self).create(validated_data)
+		instance = serializers.ModelSerializer.create(self, validated_data=validated_data)
 		instance.owner = self.context['request'].user
 		instance.save()
 		return instance

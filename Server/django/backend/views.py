@@ -64,7 +64,7 @@ class AddActorToEvent(APIView):
 		for a in actors:
 			try:
 				actor = Actor.objects.get(email=a)
-				Participation.objects.update_or_create(actor=actor, appointment=appointment, is_necessary=False)
+				Participation.objects.update_or_create(actor=actor, appointment=appointment, defaults={'is_necessary':False})
 			except Actor.DoesNotExist:
 				print("No user with email %s" % a)
 		return Response(status=status.HTTP_204_NO_CONTENT)
@@ -81,7 +81,7 @@ class AddCriticalActorToEvent(APIView):
 		for a in actors:
 			try:
 				actor = Actor.objects.get(email=a)
-				Participation.objects.update_or_create(actor=actor, appointment=appointment, is_necessary=True)
+				Participation.objects.update_or_create(actor=actor, appointment=appointment, defaults={'is_necessary':True})
 			except Actor.DoesNotExist:
 				print("No user with email %s" % a)
 		return Response(status=status.HTTP_204_NO_CONTENT)

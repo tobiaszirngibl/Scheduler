@@ -1547,7 +1547,7 @@ drop: function (date, allDay, e) {
 
         $.ajax({
             url : "http://localhost:8000/api/appointment/"+calEventID+"/",
-            type: "PUT",
+            type: "PATCH",
             data : formData,
             success: function(data, textStatus, jqXHR)
                 {
