@@ -1,11 +1,10 @@
 package com.ase_1617.organized.activities;
 
 /**
- * Created by bob on 03.01.17.
- *
  * The sign up activity of the app.
  * The user can enter a name, email and password to create a new organized account.
  * The entered data is tested and valid data is sent to the server.
+ * The user can click a hint which redirects to the Signup acitivity.
  *
  * source: http://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
  *
@@ -14,7 +13,6 @@ package com.ase_1617.organized.activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +26,6 @@ import com.ase_1617.organizedlib.utility.Constants;
 
 
 public class SignupActivity extends AppCompatActivity implements SignupAsyncInterface{
-    private static final String TAG = "SignupActivity";
 
     private SharedPreferences userData;
 
@@ -60,7 +57,7 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Finish the registration screen and return to the Login activity
+                //Finish the signup screen and return to the Login activity
                 finish();
             }
         });
@@ -91,26 +88,12 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
 
     }
 
-    private void saveUserData(String name, String email, String password) {
-
-        //TODO:Save user data after correct login
-
-        userData = getSharedPreferences(Constants.PREFS_NAME, 0);
-        SharedPreferences.Editor editor = userData.edit();
-        editor.putString("userName", name);
-        editor.putString("userMail", email);
-        editor.putString("userPass", password);
-
-        // Commit the edits
-        editor.apply();
-    }
-
     /**
      * Check whether the user data is valid and return the according boolean value
      * @param name The new user name
      * @param email The new user email
      * @param password The new user password
-     * @return
+     * @return Boolean value showing whether the data is valid user data or not
      */
     public boolean validate(String name, String email, String password) {
         boolean valid = true;
@@ -160,7 +143,7 @@ public class SignupActivity extends AppCompatActivity implements SignupAsyncInte
     /**
      * If the account creation failed
      * show an error toast.
-     * @param error
+     * @param error The error message
      */
     @Override
     public void onSignUpError(String error) {

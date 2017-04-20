@@ -18,7 +18,6 @@ import com.ase_1617.organizedlib.utility.Constants;
  */
 
 public class ServerConfigActivity extends AppCompatActivity{
-    private static final String TAG = "ServerConfigActivity";
 
     private SharedPreferences userData;
 

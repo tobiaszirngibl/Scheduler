@@ -20,7 +20,6 @@ import java.util.Map;
  */
 
 public class SignupAsyncTask extends AsyncTask<Object, Void, Boolean> {
-    private final static String TAG = "SignupAsyncTask";
 
     private Context context;
 

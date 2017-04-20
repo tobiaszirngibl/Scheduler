@@ -32,17 +32,12 @@ import com.ase_1617.organizedlib.utility.Constants;
  */
 
 public class LoginActivity extends AppCompatActivity implements AuthenticateAsyncInterface{
-    private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
     private SharedPreferences userData;
 
     private EditText _emailText;
     private EditText _passwordText;
-
-    private String userName;
-    private String userMail;
-    private String userPass;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,9 +51,6 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         _passwordText = (EditText) findViewById(R.id.input_password);
         _loginButton = (Button) findViewById(R.id.btn_login);
         _signupLink = (TextView) findViewById(R.id.link_signup);
-
-        //TODO:Auomatischer Login einbinden oder löschen
-        //checkLoginStatus();
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -77,40 +69,6 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
-    }
-
-    //TODO:Auomatischer Login einbinden oder löschen
-    private void checkLoginStatus() {
-        userData = getSharedPreferences(Constants.PREFS_NAME, 0);
-        userName = userData.getString("userName", "Default");
-        userMail = userData.getString("userMail", "Default");
-        userPass = userData.getString("userPass", "Default");
-
-        if(userMail.equals("Default") && userPass.equals("Default") && validate(userMail, userPass)){
-            Log.v(TAG, "Automatic login restored usermail: "+userMail+" --- userpass: "+userPass);
-            showLoginInfo();
-        }
-    }
-
-    //TODO:Auomatischer Login einbinden oder löschen
-    private void showLoginInfo() {
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Automatic log in as " + userMail);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        if(progressDialog.isShowing()){
-                            progressDialog.dismiss();
-                        }
-
-                        loginToApp();
-
-                    }
-                }, 2000);
     }
 
     /**
@@ -136,15 +94,6 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
      * @param password User login password
      */
     private void authenticateUser(String email, String password) {
-
-        //TODO:Auomatischer Login einbinden oder löschen
-        //userMail = userData.getString("userMail", "Default");
-        //userPass = userData.getString("userPass", "Default");
-
-        Log.v(TAG, "URL: "+Constants.TOKEN_URL);
-        Log.v(TAG, "ID: "+Constants.CLIENT_ID);
-        Log.v(TAG, "Secret: "+Constants.CLIENT_SECRET);
-
         AuthenticateAsyncTask authenticateAsyncTask = new AuthenticateAsyncTask(this);
         authenticateAsyncTask.authenticateAsyncInterface = this;
         authenticateAsyncTask.execute(Constants.TOKEN_URL, email, password, Constants.CLIENT_ID, Constants.CLIENT_SECRET);
@@ -162,8 +111,8 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
                 userData = getSharedPreferences(Constants.PREFS_NAME, 0);
-                userMail = userData.getString("userMail", "Default");
-                userPass = userData.getString("userPass", "Default");
+                String userMail = userData.getString("userMail", "Default");
+                String userPass = userData.getString("userPass", "Default");
 
                 authenticateUser(userMail, userPass);
             }
@@ -202,9 +151,9 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
 
     /**
      * Validate a given email and a password string.
-     * @param email
-     * @param password
-     * @return
+     * @param email The user mail to be validated
+     * @param password The user password to be validated
+     * @return Boolean value showing whether the data is valid or not
      */
     public boolean validate(String email, String password) {
         boolean valid = true;
@@ -229,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements AuthenticateAsyn
     /**
      * Save the granted access token and start the login process
      * if the userdata was successfully authenticated.
-     * @param response
+     * @param response The granted access token from the server
      */
     @Override
     public void onAuthenticationSuccess(String response) {

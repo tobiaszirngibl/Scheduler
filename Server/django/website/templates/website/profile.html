@@ -174,20 +174,34 @@
                     <h4 class="modal-title">{{user.first_name}} {{user.last_name}} - {{user.email}}</h4>
                 </div>
                 <div class="modal-body">
-                    
-                    <div class="form-group">
-                        <label>Berufsbezeichnung</label>
-                        <input id="jobEdit" type="text" class="form-control" value="{{user.job}}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Telefon:</label>
-                        <input id="telEdit" type="text" class="form-control" value="{{user.phone}}">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                 <label>Vorname:</label>
+                                 <input id="firstnameEdit" type="text" class="form-control" value="{{user.first_name}}">
+                            </div>
+                        </div>
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                 <label>Nachname:</label>
+                                 <input id="lastnameEdit" type="text" class="form-control" value="{{user.last_name}}">
+                            </div>
+                        </div>
                     </div>
 
-                      <div class="form-group">
-                        <label>Einspringer:</label>
-                        <input id="understudyEdit" type="text" class="form-control" value="{{user.understudy}}">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Telefon:</label>
+                                <input id="telEdit" type="text" class="form-control" value="{{user.phone}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Einspringer:</label>
+                                <input id="understudyEdit" type="text" class="form-control" value="{{user.understudy}}">
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -196,28 +210,44 @@
                             <input id="notesEdit" type="text" class="form-control" value="{{user.contact_notes}}">
                         </div>
                     </div>
-                    
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>Berufsbezeichnung</label>
+                        <input id="jobEdit" type="text" class="form-control" value="{{user.job}}">
+                    </div>
+                        </div>
+                                                <div class="col-lg-6">
+
                     <div class="form-group">
                         <div class="form-group">
                             <label>Ausbildung:</label>
                             <input id="eduEdit" type="text" class="form-control" value="{{user.education}}">
                         </div>
                     </div>
-                    
+                                                </div>
+                    </div>
+
+                      <div class="row">
+                        <div class="col-lg-6">
                     <div class="form-group">
                         <div class="form-group">
                             <label>Standort:</label>
                             <input id="placeEdit" type="text" class="form-control" value="{{user.location}}">
                         </div>
                     </div>
-                    
+                        </div>
+                                            <div class="col-lg-6">
+
                     <div class="form-group">
                         <div class="form-group">
                             <label>Fähigkeiten:</label>
                             <input id="skillsEdit" type="text" class="form-control" value="{{user.skills}}">
                         </div>
                     </div>
-                    
+                                            </div>
+                      </div>
                     <div class="form-group">
                         <div class="form-group">
                             <label>Freie Zeiten:</label>
@@ -421,8 +451,11 @@ jQuery.ajaxSettings.traditional = true;
         var placeEdit = $("#placeEdit").val();
         var timeEdit = $("#freetimeEdit").val();
         var skillsEdit = $("#skillsEdit").val();
+        var firstnameEdit = $("#firstnameEdit").val();
+        var lastnameEdit = $("#lastnameEdit").val();
+
 var user_id = {{ user.id }};
-        var formData = {skills: skillsEdit, phone: telEdit, job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit, contact_notes: cnEdit, understudy: understudyEdit};
+        var formData = {first_name: firstnameEdit, last_name: lastnameEdit, skills: skillsEdit, phone: telEdit, job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit, contact_notes: cnEdit};
         
         $.ajax({
             url : "http://localhost:8000/api/actor/"+user_id+"/",

@@ -11,9 +11,9 @@ public class SwipeListener implements View.OnTouchListener{
 
     /**
      * Enum declaring the available swipe actions
-     * */
+     */
 
-    public enum Action {
+    public enum Action{
         LR, // Left to Right
         RL, // Right to Left
         TB, // Top to bottom
@@ -21,7 +21,6 @@ public class SwipeListener implements View.OnTouchListener{
         None // when no action was detected
     }
 
-    private final static String TAG = "SwipeListener";
     private static final int MIN_DISTANCE = 100;
     private float downX, downY, upX, upY;
     private Action mSwipeDetected = Action.None;
@@ -44,7 +43,7 @@ public class SwipeListener implements View.OnTouchListener{
      *
      * @param v view element the swipe is performed on
      * @param event event element to be checked for swipe actions
-     * @return whether the event already was handled or should be allowed to be processed furthermore
+     * @return whether the event was handled already or can be processed furthermore
      */
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {

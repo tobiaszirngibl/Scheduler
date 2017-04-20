@@ -37,13 +37,14 @@ import com.ase_1617.organizedlib.utility.MiscUtility;
 import java.util.ArrayList;
 
 /**
- * The main app activity.
- * THe app shows new events fetched from the server and the user can accept or decline them.
+ * The event feed activity.
+ * It contains a listview which shows new events fetched from the server.
+ * The user can accept or decline each event by clicking the according button or swiping.
+ * On click detailed information according the event and colliding events is shown.
+ * If no new events are available an info message is shown instead.
  */
 
 public class EventFeedActivity extends AppCompatActivity implements FetchEventsAsyncInterface, AcceptEventAsyncInterface {
-
-    private static final String TAG = "Event Feed";
 
     private AlertDialog permRequestDialog;
     private AlertDialog eventActionDialog;
@@ -145,16 +146,13 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
             }
             //Update the eventList
             eventDeviceList = EventUtility.fetchDeviceEvents(this);
-        }else{
-            Log.v(TAG, "Read events permission not granted");
         }
     }
 
     /**
      * Check the calendar read permission.
      * Request the permission if necessary.
-     *
-     * */
+     */
     private boolean permissionGrantedReadCal(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CALENDAR)
@@ -197,24 +195,10 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         }
     }
 
-    //TODO:Any permission granted reaction needed??
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            Log.v(TAG,"Permission: "+permissions[0]+ " was "+grantResults[0] + "PERM"+Manifest.permission.READ_CALENDAR);
-            //resume tasks needing this permission
-            if(permissions[0].equals(Manifest.permission.READ_CALENDAR)){
-                Log.v(TAG, "Permission result read calendar success.");
-                //setupNewEventsList();
-            }
-        }
-    }
-
     /**
      * Destroy dialogs if the current activity is destroyed
      * e.g flipping device.
-     * */
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -228,23 +212,18 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
         }
     }
 
-    //TODO:Delete saved login when logging out
     /**
-     * Replace the saved login data with the default values and.
      * Start the login activity.
-     * */
+     */
     private void logout() {
-        //editor.putString("userMail", "Default");
-        //editor.putString("userPass", "Default");
-        //editor.commit();
 
         Intent logoutIntent = new Intent(this, LoginActivity.class);
         startActivity(logoutIntent);
     }
 
     /**
-     * Try to fetch new events data from the server.
-     * */
+     * Start an asynctask to fetch new events data from the server.
+     */
     private void fetchEventFeedData() {
         FetchEventsAsyncTask fetchEventsAsyncTask = new FetchEventsAsyncTask();
         fetchEventsAsyncTask.fetchEventsAsyncInterface = this;
@@ -254,7 +233,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     /**
      * Save the new events list when the async task finished fetching it from the server.
      * Hide the no events message if new events are available.
-     * @param eventFeedList
+     * @param eventFeedList Arraylist containing the fetched calEvents
      */
     @Override
     public void newEventsFetchingSuccess(ArrayList<CalEvent> eventFeedList) {
@@ -308,7 +287,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      * If the accept imageButton of an eventFeed element is clicked.
      * Show an event accept alert containing event details and options to
      * finally accept the event or cancel the process.
-     * @param position
+     * @param position Position of the clicked event
      */
     public void onEventAccepted(int position){
         CalEvent event = eventFeedList.get(position);
@@ -321,8 +300,8 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      * start an asyncTask to send the positive answer to the server.
      * Cancel the process otherwise.
      * Furthermore show info according colliding events.
-     * @param event
-     * @param position
+     * @param event The calEvent to be accepted
+     * @param position The position of the calEvent in the feed
      */
     private void showEventAcceptAlert(final CalEvent event, final int position) {
         //Variables necessary for the acceptEventAsyncTask
@@ -356,7 +335,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     /**
      * When the positive answer according an event has been sent to the server
      * add the event to the device calendar and remove it from the event feed.
-     * @param eventPosition
+     * @param eventPosition Position of the clicked event
      */
     @Override
     public void eventAccepted(Integer eventPosition) {
@@ -370,7 +349,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
     /**
      * When the negative answer according an event has been sent to the server
      * remove the event from the event feed.
-     * @param eventPosition
+     * @param eventPosition Position of the event in the feed
      */
     @Override
     public void eventDeclined(Integer eventPosition) {
@@ -381,8 +360,8 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      * Check for time collision between the given event and the existing
      * calendar events. Return a string containing the event titles that collide with
      * the given event.
-     * @param event
-     * @return
+     * @param event The calEvent object to be checked for collisions
+     * @return String containing the titles of the colliding events
      */
     private String getCollEventsInfo(CalEvent event) {
         ArrayList<String> collidingEvents = EventUtility.checkEventCollision(event.getEventStartDate().getTime(), event.getEventEndDate().getTime());
@@ -402,7 +381,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      * If the decline imageButton of an eventFeed element is clicked.
      * Show an event decline alert containing event details and options to
      * finally decline the event or cancel the process.
-     * @param position
+     * @param position Position of the clicked event in the feed
      */
     public void onEventDeclined(int position){
         CalEvent event = eventFeedList.get(position);
@@ -414,8 +393,8 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      * Ask the user whether he wants to decline the according event and therefore
      * start an asyncTask to send the negative answer to the server.
      * Cancel the process otherwise.
-     * @param event
-     * @param position
+     * @param event CalEvent to be declined
+     * @param position Position of the clicked calEvent in the feed
      */
     private void showEventDeclineAlert(final CalEvent event, final int position) {
         final Context context = this;
@@ -425,7 +404,6 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
 
         //String array containing the event data
         String[] eventInfo = {MiscUtility.calEventToInfo(event)};
-
 
         eventActionDialog = new AlertDialog.Builder(this)
                 .setTitle("Decline event?")
@@ -448,6 +426,7 @@ public class EventFeedActivity extends AppCompatActivity implements FetchEventsA
      * when the user has either accepted or declined it.
      * Notify the eventFeed adapter that the eventFeedList changed.
      * Show the "no events available" message if the removed event was the last list element.
+     * @param position Position of the event to be removed from the feed
      */
     private void removeEventFromFeed(int position){
         eventFeedList.remove(position);

@@ -23,7 +23,6 @@ import java.net.URLEncoder;
  */
 
 public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
-    private final static String TAG = "AuthenticateAsyncTask";
 
     private String accessToken = "";
     private int authenticationError = 0;
@@ -121,7 +120,7 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
             serverResponse = InputStreamInterpreter.interpretInputStream(connection);
 
             //Create a json object from the server response
-            //And save the access token
+            //Extract and save the access token
             JSONObject jsonObject;
             try{
                 jsonObject = new JSONObject(serverResponse);
@@ -142,7 +141,7 @@ public class AuthenticateAsyncTask extends AsyncTask<Object, Void, Boolean> {
     /**
      * On post execution of the async task use the according success or failure
      * interface method to either show an error message or process the granted access token.
-     * @param result
+     * @param result Boolean value
      */
     @Override
     protected void onPostExecute(Boolean result) {
