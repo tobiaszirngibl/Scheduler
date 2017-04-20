@@ -709,7 +709,6 @@ $(document).on('submit','.noValidateForm',function (e) {
         url: "http://localhost:8000/api/appointment/"+calEventID+"/",
         success: function(data)
                 {
-                    console.log(data);
                     location.reload();
                 },
                         error: function (data, jqXHR, textStatus, errorThrown) {
@@ -788,7 +787,11 @@ $(document).on('submit','.noValidateForm',function (e) {
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
                 $("#modalUserJob").text(data.job);
-                $("#modalUserUnderstudy").text(data.understudy.email);
+                if(data.understudy != null ){
+                    $("#modalUserUnderstudy").text(data.understudy.first_name + " " + data.understudy.last_name + " - " + data.understudy.email);
+                }  else {
+                    $("#modalUserUnderstudy").text("");
+                }
                 $("#detailProfileAvatar").attr("src", data.avatar);
 
             }
@@ -822,7 +825,6 @@ $(document).on('submit','.noValidateForm',function (e) {
             {
 
                 for (var key in data) {
-                    console.log(data);
                     var event = {
                             title: data[key].name,
                             start: data[key].dtstart,
@@ -1442,7 +1444,6 @@ drop: function (date, allDay, e) {
                     $.ajaxSettings.traditional = true;
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
-                    console.log(actorsCrit);
 
 
                     if(groupMember !== null) {
@@ -1517,8 +1518,6 @@ drop: function (date, allDay, e) {
 
     // TODO New Event After Drop Function Save
     $("#saveEventDrop").click(function (e) {
-
-        console.log(e);
 
 
         if ($('#group').is(':checked')) {
@@ -1675,7 +1674,6 @@ drop: function (date, allDay, e) {
                                     url: "http://localhost:8000/api/favorites/"+favorID+"/",
                                     success: function(data, textStatus, jqXHR)
                              {
-                             console.log(jqXHR);
                              },
                              error: function (jqXHR, textStatus, errorThrown)
                              {
@@ -1699,8 +1697,6 @@ drop: function (date, allDay, e) {
 
 $("#saveEventEditPut").click(function (e){
 
-    console.log(currentEditEvent);
-
     var title = $("#titleEditPut").val();
     var desc = $("#remarkEditPut").val();
     var start = $("#startTimeEditPut").val();
@@ -1720,8 +1716,6 @@ $("#saveEventEditPut").click(function (e){
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + end;
         }
 
-        console.log(newDateTimeStart);
-        console.log(newDateTimeEnd);
 
     var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
 
@@ -1786,11 +1780,9 @@ $("#saveEventEditPut").click(function (e){
     $("#color-chooser > li > a").click(function (e) {
         e.preventDefault();
         currColor = $(this).css("color");
-        console.log(currColor);
         currColorHex = rgb2hex(currColor);
         currColorHex = currColorHex.substr(1);
 
-console.log(currColorHex);
         $('#add-new-event').css({"background-color": currColor, "border-color": currColor});
     });
 
@@ -1807,7 +1799,6 @@ console.log(currColorHex);
                 {
                     $("#new-event").val("");
                     location.reload();
-                    console.log(jqXHR);
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {

@@ -305,7 +305,6 @@ jQuery.ajaxSettings.traditional = true;
             type: "GET",
             url: "http://localhost:8000/api/actor/"+userID+"/",
             success: function (data) {
-
                 $("#modalUserName").text(data.first_name +" "+ data.last_name);
                 $("#modalUserMail").text(data.email);
                 $("#modalUserTel").text(data.phone);
@@ -317,6 +316,8 @@ jQuery.ajaxSettings.traditional = true;
                 $("#modalUserJob").text(data.job);
                 if(data.understudy != null ){
                     $("#modalUserUnderstudy").text(data.understudy.first_name + " " + data.understudy.last_name + " - " + data.understudy.email);
+                } else {
+                    $("#modalUserUnderstudy").text("");
                 }
                 $("#detailProfileAvatar").attr("src", data.avatar);
 
@@ -368,7 +369,6 @@ jQuery.ajaxSettings.traditional = true;
     
     // Leave Group Function        
     $('#leaveGroupButton').click(function (e){
-            console.log(groupSelected);
               $.ajax({
             type: "GET",
             url: "http://localhost:8000/api/group/"+groupSelected+"/leave/",
@@ -439,7 +439,6 @@ location.reload();
                         data : {actors: memberList},
                         success: function(data, textStatus, jqXHR)
                             {
-                                console.log(jqXHR);
                                 location.reload();
                             },
                         error: function (jqXHR, textStatus, errorThrown)

@@ -406,18 +406,21 @@ jQuery.ajaxSettings.traditional = true;
             type: "GET",
             url: "http://localhost:8000/api/actor/"+userID+"/",
             success: function (data) {
-                console.log(data);
                 $("#modalUserName").text(data.first_name +" "+ data.last_name);
                 $("#modalUserMail").text(data.email);
                 $("#modalUserTel").text(data.phone);
-                $("#modalUserUnderstudy").text(data.understudy.email);
                 $("#modalUserNote").text(data.contact_notes);
                 $("#modalUserPlace").text(data.location);
                 $("#modalUserSkills").text(data.skills);
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
                 $("#modalUserJob").text(data.job);
-                                   $("#detailProfileAvatar").attr("src", data.avatar);
+                if(data.understudy != null ){
+                    $("#modalUserUnderstudy").text(data.understudy.first_name + " " + data.understudy.last_name + " - " + data.understudy.email);
+                } else {
+                    $("#modalUserUnderstudy").text("");
+                }
+                $("#detailProfileAvatar").attr("src", data.avatar);
 
 
             }
@@ -465,7 +468,6 @@ jQuery.ajaxSettings.traditional = true;
         var formData = {first_name: firstnameEdit, last_name: lastnameEdit, skills: skillsEdit, phone: telEdit,
                         job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit,
                         contact_notes: cnEdit, understudy: understudyEdit};
-        console.log("Sending edit")
         $.ajax({
             url : "http://localhost:8000/api/actor/"+user_id+"/",
             type: "PATCH",
@@ -477,10 +479,8 @@ jQuery.ajaxSettings.traditional = true;
             error: function (jqXHR, textStatus, errorThrown)
                 {
                     var response = jqXHR.responseText.toString();
-console.log(response);
                     if(response == '{"detail":"Nicht gefunden."}'){
                         var errorString = "Einspringer wurde nicht gefunden!";
-                        console.log("fehler");
                                             $('#userEditContent').notify("Bearbeiten fehlgeschlagen: " + errorString, "error", {position: "top center"});
 
                     }
