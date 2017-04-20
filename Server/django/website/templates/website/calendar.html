@@ -115,7 +115,6 @@
             </div>
                 <div class="box-body">
                     <div id="external-events">
-                        <div class="external-event bg-yellow">Go home</div>
                         <div class="checkbox">
                             <label for="drop-remove">
                                 <input type="checkbox" id="drop-remove">Nach Drop entfernen
@@ -1484,7 +1483,7 @@ drop: function (date, allDay, e) {
 
 
 
-
+                parent.location.reload();
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -1663,6 +1662,7 @@ drop: function (date, allDay, e) {
                              }
                                 });
                             }
+                parent.location.reload();
 
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -1742,12 +1742,11 @@ $("#saveEventEditPut").click(function (e){
                         }
 
 
-                $('#appointmentEditPut').modal('hide');
+                 parent.location.reload();
             },
-        error: function (jqXHR, textStatus, errorThrown)
-            {
-                console.log(jqXHR);
- $.notify("Bearbeiten fehlgeschlagen: "+errorThrown, "error",  { position:"middle" });
+        error: function (jqXHR, textStatus, errorThrown){
+
+
             }
     });
 
@@ -1786,6 +1785,7 @@ console.log(currColorHex);
             success: function(data, textStatus, jqXHR)
                 {
                     $("#new-event").val("");
+                    location.reload();
                     console.log(jqXHR);
                 },
             error: function (jqXHR, textStatus, errorThrown)
