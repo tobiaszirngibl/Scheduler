@@ -329,7 +329,7 @@
                                     <input required="true" id="titleEditPut" type="text" class="form-control" placeholder="Enter ...">
                                 </div>
                              <div class="form-group">
-                                    <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
+                                    <label><input id="allDayEditPut" type="checkbox" class="minimal">  Ganztägig</label>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -379,7 +379,7 @@
                                             <label>
                                                 <input id="userEditPut" type="checkbox" class="minimal">  Benutzer hinzufügen:
                                             </label>
-                                            <select id="userListEditPut" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
+                                            <select id="userListEditPut" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
                                             </select>
                                         </div>
                                     </div>
@@ -388,7 +388,7 @@
                                             <label>
                                                 <input id="userCritEditPut" type="checkbox" class="minimal"> Kritische Benutzer hinzufügen:
                                             </label>
-                                            <select id="userListCritEditPut" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select">
+                                            <select id="userListCritEditPut" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
                                             </select>
                                         </div>
                                     </div>
@@ -421,7 +421,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                    <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
+                                    <label><input id="allDayDrop" type="checkbox" class="minimal">  Ganztägig</label>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -482,7 +482,7 @@
                                             <label>
                                                 <input id="userDrop" type="checkbox" class="minimal">  Benutzer auswählen:
                                             </label>
-                                            <select id="userListDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
+                                            <select id="userListDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
                                             </select>
                                         </div>
                                     </div>
@@ -491,7 +491,7 @@
                                             <label>
                                                 <input id="userCritDrop" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
                                             </label>
-                                            <select id="userListCritDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select">
+                                            <select id="userListCritDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
                                             </select>
                                         </div>
                                     </div>
@@ -1282,8 +1282,7 @@ drop: function (date, allDay, e) {
     });
 
 
-
-    // Initiate Checkboxes
+    // Initiate Checkboxes Normal Appointment
     $('input[type="checkbox"].minimal').iCheck({
         checkboxClass: 'icheckbox_minimal-blue'
     })
@@ -1320,6 +1319,70 @@ drop: function (date, allDay, e) {
     $('input[type="checkbox"][id="allDay"]').on('ifUnchecked', function(event){
         $("#startTime").attr("disabled", false);
         $("#endTime").attr("disabled", false);
+    });
+
+
+    // Initiate Checkboxes Drop Appointment
+    $('input[type="checkbox"][id="groupDrop"]').on('ifChecked', function(event){
+        $('#groupListDrop').prop('disabled', false).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="groupDrop"]').on('ifUnchecked', function(event){
+        $('#groupListDrop').prop('disabled', true).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="userDrop"]').on('ifChecked', function(event){
+        $('#userListDrop').prop('disabled', false).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="userDrop"]').on('ifUnchecked', function(event){
+        $('#userListDrop').prop('disabled', true).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="userCritDrop"]').on('ifChecked', function(event){
+        $('#userListCritDrop').prop('disabled', false).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="userCritDrop"]').on('ifUnchecked', function(event){
+        $('#userListCritDrop').prop('disabled', true).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="allDayDrop"]').on('ifChecked', function(event){
+        $("#startTimeDrop").attr("disabled", true);
+        $("#endTimeDrop").attr("disabled", true);
+    });
+
+    $('input[type="checkbox"][id="allDayDrop"]').on('ifUnchecked', function(event){
+        $("#startTimeDrop").attr("disabled", false);
+        $("#endTimeDrop").attr("disabled", false);
+    });
+
+
+    // Initiate Checkboxes Edit Appointment
+    $('input[type="checkbox"][id="userEditPut"]').on('ifChecked', function(event){
+        $('#userListEditPut').prop('disabled', false).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="userEditPut"]').on('ifUnchecked', function(event){
+        $('#userListEditPut').prop('disabled', true).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="userCritEditPut"]').on('ifChecked', function(event){
+        $('#userListCritEditPut').prop('disabled', false).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="userCritEditPut"]').on('ifUnchecked', function(event){
+        $('#userListCritEditPut').prop('disabled', true).trigger("chosen:updated");
+    });
+
+    $('input[type="checkbox"][id="allDayEditPut"]').on('ifChecked', function(event){
+        $("#startTimeEditPut").attr("disabled", true);
+        $("#endTimeEditPut").attr("disabled", true);
+    });
+
+    $('input[type="checkbox"][id="allDayEditPut"]').on('ifUnchecked', function(event){
+        $("#startTimeEditPut").attr("disabled", false);
+        $("#endTimeEditPut").attr("disabled", false);
     });
 
 
@@ -1567,7 +1630,7 @@ drop: function (date, allDay, e) {
 
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
-        if ($('#allDay').is(':checked')) {
+        if ($('#allDayDrop').is(':checked')) {
             var newDateTimeStart = year + "-" + month + "-" + day + " 00:01";
             var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
         } else {
@@ -1708,7 +1771,7 @@ $("#saveEventEditPut").click(function (e){
       var dateFormat = currentEditEvent.split("/");
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
-        if($('#allDay').is(':checked')){
+        if($('#allDayEditPut').is(':checked')){
             var newDateTimeStart = year + "-" + month + "-" + day + " 00:00";
             var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
         } else {
@@ -1719,8 +1782,14 @@ $("#saveEventEditPut").click(function (e){
 
     var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
 
-    var actors = $("#userListEditPut").val();
-        var actorsCrit = $("#userListCritEditPut").val();
+           if ($('#userEditPut').is(':checked')) {
+            var actors = $("#userListEditPut").val();
+        } else var actors = null;
+
+        if ($('#userCritEditPut').is(':checked')) {
+            var actorsCrit = $("#userListCritEditPut").val();
+        } else var actorsCrit = null;
+
 
     $.ajax({
         url : "http://localhost:8000/api/appointment/"+calEventID+"/",
