@@ -71,8 +71,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
 	def create(self, validated_data):
 		instance = super(AppointmentSerializer, self).create(validated_data)
-		instance.organizer = self.context['request'].user
-		instance.save()
 		Participation.objects.create(appointment=instance, actor=instance.organizer)
 		return instance
 

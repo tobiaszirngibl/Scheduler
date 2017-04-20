@@ -1397,7 +1397,7 @@ drop: function (date, allDay, e) {
 
 
 
-        var formData = {name: title, organizer: 1, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
+        var formData = {name: title, organizer: {{ user.id }}, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
 
 
 
