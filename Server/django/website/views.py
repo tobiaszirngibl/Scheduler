@@ -12,8 +12,16 @@ from .forms import AvatarForm
 @login_required
 def profile_view(request):
 	user = get_object_or_404(Actor, id=request.user.id)
-	user.understudy_name = user.understudy.first_name + " " + user.understudy.last_name
-	user.understudy_email = user.understudy.email
+	try:
+		user.understudy_name = user.understudy.first_name + " " + user.understudy.last_name
+	except AttributeError:
+		user.understudy_name = "None" + " None"
+
+	try:
+		user.understudy_email = user.understudy.email
+	except AttributeError:
+		user.understudy_email = "None"
+
 	return render(request, 'website/profile.html', {"user": user})
 
 
