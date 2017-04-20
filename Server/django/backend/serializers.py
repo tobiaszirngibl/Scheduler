@@ -6,9 +6,18 @@ from .models import Actor, Appointment, Group, Participation, Favorite
 Serializers are part of the Django-REST-Framework(DRF).
 The are used to specify the way, data, in this case models are represented when calling the API
 """
+class ActorNestedSerializer(serializers.ModelSerializer):
+	"""
+	Serializer for the Actor-model containing only necessary fields
+	"""
 
+	class Meta:
+		model = Actor
+		fields = ('id', 'email', "first_name", "last_name")
+		read_only_fields = ('id', )
 
 class ActorSerializer(serializers.ModelSerializer):
+	understudy = ActorNestedSerializer(read_only=True)
 
 	class Meta:
 		model = Actor
@@ -27,16 +36,6 @@ class ActorSerializer(serializers.ModelSerializer):
 
 		return user
 
-
-class ActorNestedSerializer(serializers.ModelSerializer):
-	"""
-	Serializer for the Actor-model containing only necessary fields
-	"""
-
-	class Meta:
-		model = Actor
-		fields = ('id', 'email', "first_name", "last_name")
-		read_only_fields = ('id', )
 
 
 class ParticipationSerializer(serializers.ModelSerializer):
