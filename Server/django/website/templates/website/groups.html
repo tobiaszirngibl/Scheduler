@@ -305,7 +305,6 @@ jQuery.ajaxSettings.traditional = true;
             type: "GET",
             url: "http://localhost:8000/api/actor/"+userID+"/",
             success: function (data) {
-                console.log(data);
 
                 $("#modalUserName").text(data.first_name +" "+ data.last_name);
                 $("#modalUserMail").text(data.email);
@@ -316,8 +315,9 @@ jQuery.ajaxSettings.traditional = true;
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
                 $("#modalUserJob").text(data.job);
-                                $("#modalUserUnderstudy").text(data.understudy.first_name + " " + data.understudy.last_name + " - " + data.understudy.email);
-
+                if(data.understudy != null ){
+                    $("#modalUserUnderstudy").text(data.understudy.first_name + " " + data.understudy.last_name + " - " + data.understudy.email);
+                }
                 $("#detailProfileAvatar").attr("src", data.avatar);
 
 
@@ -455,8 +455,7 @@ location.reload();
         });
     });
 
-$( document ).ready(function() {
-$( document ).on("click", "a", function(){
+$( document ).on("click", "a.groupMember", function(){
     $("#groupMemberList li").remove();
      var groupID = $(this).attr("id");
         $.ajax({
@@ -468,7 +467,7 @@ $( document ).on("click", "a", function(){
                 for (var i = 0; i < memberArray.length; i++) {
 
 
-                    $("#groupMemberList").append('<li value=' + memberArray[i].email + '>' + memberArray[i].email + ' ' + memberArray[i].first_name + ' ' + memberArray[i].last_name + '</option>');
+                    $("#groupMemberList").append('<li value='+memberArray[i].email + '>'+ memberArray[i].first_name + ' ' + memberArray[i].last_name + ' - ' + memberArray[i].email + '</option>');
 
                     $("#usersOverview").modal("show");
                 }
@@ -476,7 +475,6 @@ $( document ).on("click", "a", function(){
         });
 
     });
-});
 });
  </script>
 
