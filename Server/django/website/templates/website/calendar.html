@@ -623,6 +623,8 @@
 {% block calFunc %}
 <script>
 $(function () {
+            jQuery.ajaxSettings.traditional = true;
+
 
     //prevent the form from doing a submit
     $(document).on('submit','.noValidateForm',function (e) {

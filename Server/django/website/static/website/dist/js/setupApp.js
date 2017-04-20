@@ -1,7 +1,6 @@
 $(function () {
 
-    jQuery.ajaxSettings.traditional = true;
-
+        jQuery.ajaxSettings.traditional = true;
 
     // Initiate Lists
     $(".chzn-select").chosen({
