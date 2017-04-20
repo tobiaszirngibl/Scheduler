@@ -170,14 +170,19 @@ class ActorViewSet(viewsets.ModelViewSet):
 		#return Actor.objects.exclude(id=self.request.user.id)
 		return Actor.objects.all()
 
-	"""def update(self, request, *args, **kwargs):
-		if 'understudy' in kwargs:
-			mail = kwargs.pop('understudy')
-			if mail.isdigit() is False: # Already set understudy
-				request.user.understudy = Actor.objects.get(email=mail)
-		super(ActorViewSet, self).update(request, args, kwargs)"""
+	def update(self, request, *args, **kwargs):
+		custom_data = {}
+		if request.data['understudy'].isdigit() is False:  # Subsitute mail with id
+			custom_data = request.data.copy()
+			custom_data['understudy'] = get_object_or_404(Actor, email=custom_data['understudy']).id
+		else:
+			custom_data = request.data
+		instance = self.get_object()
+		serializer = self.get_serializer(instance, data=custom_data, partial=True)
+		serializer.is_valid(raise_exception=True)
+		serializer.save()
 
-
+		return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -187,6 +192,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 	def get_queryset(self):
 		user = self.request.user
 		return Group.objects.filter(members__id__exact=user.id)
+
 
 class FavoriteViewSet(viewsets.ModelViewSet):
 	required_scopes = settings.REST_DEFAULT_SCOPES

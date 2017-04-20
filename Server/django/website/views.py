@@ -12,7 +12,8 @@ from .forms import AvatarForm
 @login_required
 def profile_view(request):
 	user = get_object_or_404(Actor, id=request.user.id)
-	user.understudy_name = user.understudy.email
+	user.understudy_name = user.understudy.first_name + user.understudy.last_name
+	user.understudy_email = user.understudy.email
 	return render(request, 'website/profile.html', {"user": user})
 
 

@@ -199,7 +199,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>Einspringer:</label>
-                                <input id="understudyEdit" type="text" class="form-control" value="{{user.understudy_name}}">
+                                <input id="understudyEdit" type="text" class="form-control" value="{{user.unserstudy_email}}">
                             </div>
                         </div>
                     </div>
@@ -456,9 +456,11 @@ jQuery.ajaxSettings.traditional = true;
         var firstnameEdit = $("#firstnameEdit").val();
         var lastnameEdit = $("#lastnameEdit").val();
 
-var user_id = {{ user.id }};
-        var formData = {first_name: firstnameEdit, last_name: lastnameEdit, skills: skillsEdit, phone: telEdit, job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit, contact_notes: cnEdit};
-        
+        var user_id = {{ user.id }};
+        var formData = {first_name: firstnameEdit, last_name: lastnameEdit, skills: skillsEdit, phone: telEdit,
+                        job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit,
+                        contact_notes: cnEdit, understudy: understudyEdit};
+        console.log("Sending edit")
         $.ajax({
             url : "http://localhost:8000/api/actor/"+user_id+"/",
             type: "PATCH",
