@@ -1016,11 +1016,10 @@ $(document).on('submit','.noValidateForm',function (e) {
                         if(data.participants[key].is_necessary === true) {
                             crit = " (kritisch)";
                         }
-                        userEdit.push(" "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email + crit);
+                        userEdit.push("\u2022 "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email + crit);
                     }
 
-                     $('#showUser').text(userEdit);
-                    userEdit = $('#showUser').text();
+                     $('#showUser').text(userEdit.join("\n"));
 
 
                     $('#showAppointment').modal('show');

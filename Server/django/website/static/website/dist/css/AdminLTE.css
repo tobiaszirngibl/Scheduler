@@ -5015,3 +5015,6 @@ display: block;
    pointer-events: none;
    cursor: default;
 }
+#showUser {
+    white-space: pre;
+}
