@@ -105,7 +105,9 @@
                 <div class="box box-primary">
                     <div class="box-body box-profile">
                         <button type="button" class="editContact btn btn-primary btn-sm pull-right">
-                            <span class="glyphicon glyphicon glyphicon-pencil"></span>
+                            <span class="glyphicon glyphicon glyphicon-pencil">
+                                <span title="Profil bearbeiten" class="glyphicon glyphicon glyphicon-pencil tooltip"></span>
+                            </span>
                         </button>
                         <br><br>
             <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
@@ -300,6 +302,8 @@
 <script>
 
 $(function () {
+                $('.tooltip').tooltipster();
+
 
 jQuery.ajaxSettings.traditional = true;
 
