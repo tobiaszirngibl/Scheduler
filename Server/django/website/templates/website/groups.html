@@ -59,6 +59,9 @@
                         <div><label>Telefon:</label></div>
                         <div><p id="modalUserPlace"></p></div>
 
+                           <div><label>Einspringer:</label></div>
+                        <div><p id="modalUserUnderstudy"></p></div>
+
                         <div><label>Standort:</label></div>
                         <div><p id="modalUserTel"></p></div>
 
@@ -302,6 +305,8 @@ jQuery.ajaxSettings.traditional = true;
             type: "GET",
             url: "http://localhost:8000/api/actor/"+userID+"/",
             success: function (data) {
+                console.log(data);
+
                 $("#modalUserName").text(data.first_name +" "+ data.last_name);
                 $("#modalUserMail").text(data.email);
                 $("#modalUserTel").text(data.phone);
@@ -311,7 +316,9 @@ jQuery.ajaxSettings.traditional = true;
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
                 $("#modalUserJob").text(data.job);
-                                   $("#detailProfileAvatar").attr("src", data.avatar);
+                                $("#modalUserUnderstudy").text(data.understudy.first_name + " " + data.understudy.last_name + " - " + data.understudy.email);
+
+                $("#detailProfileAvatar").attr("src", data.avatar);
 
 
             }
@@ -329,7 +336,6 @@ jQuery.ajaxSettings.traditional = true;
         url: "http://localhost:8000/api/group/",
         success: function(data) {
             if (data.length == 0) {
-                console.log("re");
                 $("#groupList").append('<h4>Keine Gruppen vorhanden!<h4>');
             }
             else {
@@ -449,27 +455,28 @@ location.reload();
         });
     });
 
-$(document).on("click", "a", function(){
+$( document ).ready(function() {
+$( document ).on("click", "a", function(){
     $("#groupMemberList li").remove();
      var groupID = $(this).attr("id");
-    $.ajax({
+        $.ajax({
             type: "GET",
-            url: "http://localhost:8000/api/group/"+groupID+"/",
-            success: function(data)
-                {
-                    var memberArray = data.members;
-                    $("#memberCount").text(memberArray.length);
-                    for (var i=0; i<memberArray.length; i++) {
+            url: "http://localhost:8000/api/group/" + groupID + "/",
+            success: function (data) {
+                var memberArray = data.members;
+                $("#memberCount").text(memberArray.length);
+                for (var i = 0; i < memberArray.length; i++) {
 
 
-                        $("#groupMemberList").append('<li value='+memberArray[i].email+'>'+memberArray[i].email+ ' '+memberArray[i].first_name+ ' '+memberArray[i].last_name+'</option>');
+                    $("#groupMemberList").append('<li value=' + memberArray[i].email + '>' + memberArray[i].email + ' ' + memberArray[i].first_name + ' ' + memberArray[i].last_name + '</option>');
 
-                        $("#usersOverview").modal("show");
-                    }
+                    $("#usersOverview").modal("show");
                 }
+            }
         });
-});
 
+    });
+});
 });
  </script>
 

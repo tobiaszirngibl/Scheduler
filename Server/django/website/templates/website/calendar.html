@@ -59,6 +59,9 @@
                         <div><label>Telefon:</label></div>
                         <div><p id="modalUserPlace"></p></div>
 
+                           <div><label>Einspringer:</label></div>
+                        <div><p id="modalUserUnderstudy"></p></div>
+
                         <div><label>Standort:</label></div>
                         <div><p id="modalUserTel"></p></div>
 
@@ -785,7 +788,8 @@ $(document).on('submit','.noValidateForm',function (e) {
                 $("#modalUserSpareTime").text(data.spare_time);
                 $("#modalUserEducation").text(data.education);
                 $("#modalUserJob").text(data.job);
-                   $("#detailProfileAvatar").attr("src", data.avatar);
+                $("#modalUserUnderstudy").text(data.understudy.email);
+                $("#detailProfileAvatar").attr("src", data.avatar);
 
             }
         });
@@ -818,6 +822,7 @@ $(document).on('submit','.noValidateForm',function (e) {
             {
 
                 for (var key in data) {
+                    console.log(data);
                     var event = {
                             title: data[key].name,
                             start: data[key].dtstart,
@@ -825,7 +830,8 @@ $(document).on('submit','.noValidateForm',function (e) {
                             id: data[key].id,
                             answer: data[key].own_answer,
                             color: data[key].color,
-                            organizer: data[key].organizer
+                            organizer: data[key].organizer,
+                            will_take_place: data[key].will_take_place
                     };
                     events.push(event);
 
@@ -1091,10 +1097,12 @@ $(document).on('submit','.noValidateForm',function (e) {
                     break;
                 case "n":
                     element.css('background-color', '#dd4b39');
+                    element.css('border-color', '#dd4b39');
+
                     break;
                 default:
                     element.css('background-color', '#'+event.color);
-                                        element.css('border-color', '#'+event.color);
+                    element.css('border-color', '#'+event.color);
 
                     break;
             }
@@ -1104,12 +1112,18 @@ $(document).on('submit','.noValidateForm',function (e) {
                  switch (event.answer) {
                 case "y":
                     element.css('background-color', '#00a65a');
+                    element.css('border-color', '#00a65a');
+
                     break;
                 case "n":
                     element.css('background-color', '#dd4b39');
+                    element.css('border-color', '#dd4b39');
+
                     break;
                 default:
                     element.css('background-color', '#3c8dbc');
+                    element.css('border-color', '#3c8dbc');
+
                     break;
             }
             }
@@ -1146,6 +1160,12 @@ $(document).on('submit','.noValidateForm',function (e) {
                 }
                 else {
                 }
+            }
+
+            if(event.will_take_place == false) {
+               element.css('background-color', '#aaaaaa');
+                element.css('border-color', '#000000');
+                element.css('color', '#000000');
             }
 
             function overlapping() {
