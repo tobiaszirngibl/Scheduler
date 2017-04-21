@@ -1262,62 +1262,56 @@ $(function () {
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
 
-                    if(groupMember !== null) {
                         $.ajax({
                             url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
                             type: "POST",
                             data : {actors: groupMember},
                             success: function(data, textStatus, jqXHR)
                                 {
+
+                                $.ajax({
+                                    url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
+                                    type: "POST",
+                                    data : {actors: actors},
+                                    success: function(data, textStatus, jqXHR)
+                                        {
+
+                                        $.ajax({
+                                            url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
+                                            type: "POST",
+                                            data: {actors: actorsCrit},
+                                            success: function (data, textStatus, jqXHR)
+                                                {
+
+                                                $.ajax({
+                                                    url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
+                                                    type: "POST",
+                                                    data : {"answer": "yes"},
+                                                    success: function(data, textStatus, jqXHR)
+                                                        {
+                                                            window.location.reload();
+                                                        },
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        console.log(jqXHR);
+                                                    }
+                                                });
+                                                },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                console.log(jqXHR);
+                                            }
+                                        });
+                                        },
+                                    error: function (jqXHR, textStatus, errorThrown)
+                                        {
+                                            console.log(jqXHR);
+                                        }
+                                });
                                 },
                             error: function (jqXHR, textStatus, errorThrown)
                                 {
                                     console.log(jqXHR);
                                 }
                         });
-                    }
-
-                    if(actors !== null) {
-                         $.ajax({
-                            url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
-                            type: "POST",
-                            data : {actors: actors},
-                            success: function(data, textStatus, jqXHR)
-                                {
-                                },
-                            error: function (jqXHR, textStatus, errorThrown)
-                                {
-                                    console.log(jqXHR);
-                                }
-                        });
-                    }
-
-                    if(actorsCrit !== null) {
-                        $.ajax({
-                            url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
-                            type: "POST",
-                            data: {actors: actorsCrit},
-                            success: function (data, textStatus, jqXHR) {
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log(jqXHR);
-                            }
-                        });
-                    }
-
-                    $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
-                        type: "POST",
-                        data : {"answer": "yes"},
-                        success: function(data, textStatus, jqXHR)
-                            {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
-                    });
-
-                parent.location.reload();
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -1393,85 +1387,82 @@ $(function () {
             success: function (data, textStatus, jqXHR) {
                 var objectAppID = data.id;
                 $('#dropAppointment').modal('hide');
-                if (groupMember !== null) {
 
                     $.ajax({
                         url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
                         type: "POST",
                         data: {actors: groupMember},
                         success: function (data, textStatus, jqXHR) {
+
+                            $.ajax({
+                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
+                                type: "POST",
+                                data: {actors: actors},
+                                success: function (data, textStatus, jqXHR) {
+
+                                    $.ajax({
+                                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
+                                        type: "POST",
+                                        data: {actors: actorsCrit},
+                                        success: function (data, textStatus, jqXHR) {
+
+                                            $.ajax({
+                                                url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
+                                                type: "POST",
+                                                data : {"answer": "yes"},
+                                                success: function(data, textStatus, jqXHR)
+                                                    {
+
+                                                    $.ajax({
+                                                        url: "http://localhost:8000/api/favorites/" + favorID +"/",
+                                                        type: "PATCH",
+                                                        data: formData,
+                                                        success: function (data, textStatus, jqXHR)
+                                                            {
+
+                                                               if($('#drop-remove').is(':checked')){
+                                                                    $.ajax({
+                                                                        type: "DELETE",
+                                                                        url: "http://localhost:8000/api/favorites/"+favorID+"/",
+                                                                        success: function(data, textStatus, jqXHR)
+                                                                             {
+                                                                                 window.location.reload();
+                                                                             },
+                                                                        error: function (jqXHR, textStatus, errorThrown)
+                                                                             {
+                                                                             console.log(jqXHR);
+                                                                             }
+                                                                    });
+                                                               }
+                                                               else {
+                                                                     window.location.reload();
+                                                               }
+                                                            },
+                                                        error: function (jqXHR, textStatus, errorThrown)
+                                                            {
+                                                                console.log(jqXHR);
+                                                            }
+                                                    });
+                                                    },
+                                                error: function (jqXHR, textStatus, errorThrown) {
+                                                    console.log(jqXHR);
+                                                }
+                                            });
+                                            },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            console.log(jqXHR);
+                                        }
+                                    });
+                                    },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR);
+                                }
+                            });
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             console.log(jqXHR);
                         }
                     });
-                }
-
-                if (actors !== null) {
-                    $.ajax({
-                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
-                        type: "POST",
-                        data: {actors: actors},
-                        success: function (data, textStatus, jqXHR) {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
-                    });
-                }
-
-                if (actorsCrit !== null) {
-                    $.ajax({
-                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
-                        type: "POST",
-                        data: {actors: actorsCrit},
-                        success: function (data, textStatus, jqXHR) {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
-                    });
-                }
-
-                $.ajax({
-                    url: "http://localhost:8000/api/favorites/" + favorID +"/",
-                    type: "PATCH",
-                    data: formData,
-                    success: function (data, textStatus, jqXHR)
-                        {
-                        },
-                    error: function (jqXHR, textStatus, errorThrown)
-                        {
-                            console.log(jqXHR);
-                        }
-                });
-
-                $.ajax({
-                    url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
-                    type: "POST",
-                    data : {"answer": "yes"},
-                    success: function(data, textStatus, jqXHR)
-                        {
-                        },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    }
-                });
-
-                if($('#drop-remove').is(':checked')){
-                    $.ajax({
-                        type: "DELETE",
-                        url: "http://localhost:8000/api/favorites/"+favorID+"/",
-                        success: function(data, textStatus, jqXHR)
-                             {
-                             },
-                        error: function (jqXHR, textStatus, errorThrown)
-                             {
-                             console.log(jqXHR);
-                             }
-                    });
-                }
-                parent.location.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
@@ -1510,32 +1501,27 @@ $(function () {
             data : formData,
             success: function(data, textStatus, jqXHR)
                 {
-                    if (actors !== null) {
                         $.ajax({
                             url: "http://localhost:8000/api/appointment/" + calEventID + "/addActors",
                             type: "POST",
                             data: {actors: actors},
                             success: function (data, textStatus, jqXHR) {
+                                $.ajax({
+                                    url: "http://localhost:8000/api/appointment/" + calEventID + "/addCriticalActors",
+                                    type: "POST",
+                                    data: {actors: actorsCrit},
+                                    success: function (data, textStatus, jqXHR) {
+                                        window.location.reload();
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        console.log(jqXHR);
+                                    }
+                                });
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 console.log(jqXHR);
                             }
                         });
-                    }
-
-                    if (actorsCrit !== null) {
-                        $.ajax({
-                            url: "http://localhost:8000/api/appointment/" + calEventID + "/addCriticalActors",
-                            type: "POST",
-                            data: {actors: actorsCrit},
-                            success: function (data, textStatus, jqXHR) {
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log(jqXHR);
-                            }
-                        });
-                    }
-                 parent.location.reload();
                 },
                 error: function (jqXHR, textStatus, errorThrown){
                 }
