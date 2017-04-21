@@ -1,7 +1,5 @@
 package com.ase_1617.organizedlib.utility;
 
-import android.util.Log;
-
 /**
  * Created by bob on 25.03.17.
  *

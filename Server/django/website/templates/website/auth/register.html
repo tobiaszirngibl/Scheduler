@@ -1,124 +1,92 @@
 {% extends 'website/auth/base_login.html' %}
 {% load static %}
 {% block content %}
+
 <body class="hold-transition register-page">
-<div class="register-box">
-  
-  <div class="register-box-body">
-        <img src="{% static 'website/dist/img/Organized.png' %}" class="user-image" alt="Logo Image" width="50%" height="50%">
-          <p href="http://ekulturportal.de/" class="whiteFont"><b class="orangeBold">e</b><b class="whiteFont">KulturPortal</b></p>    
+    <div class="register-box">
+        <div class="register-box-body">
+            <img src="{% static 'website/dist/img/Organized.png' %}" class="user-image" alt="Logo Image" width="50%" height="50%">
+            <p href="http://ekulturportal.de/" class="whiteFont"><b class="orangeBold">e</b><b class="whiteFont">KulturPortal</b></p>     
+            <p class="login-box-msg">Einen neuen Benutzer registrieren:</p>
       
+            <div class="form-group has-feedback">
+                <input id="firstnameIn" type="text" class="form-control" placeholder="Vorname">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
       
-    <p class="login-box-msg">Einen neuen Benutzer registrieren:</p>
-
-      
-            <!-- has to be changed to right auth/ method = post -->
-
-      <div class="form-group has-feedback">
-        <input id="firstnameIn" type="text" class="form-control" placeholder="Vorname">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-     <div class="form-group has-feedback">
-        <input id="lastnameIn" type="text" class="form-control" placeholder="Nachname">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input id="emailIn" type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input id="passwordIn" type="password" class="form-control" placeholder="Passwort">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="row">
-        <!-- /.col -->
-        <div class="col-xs-4">
+            <div class="form-group has-feedback">
+                <input id="lastnameIn" type="text" class="form-control" placeholder="Nachname">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            
+            <div class="form-group has-feedback">
+                <input id="emailIn" type="email" class="form-control" placeholder="Email">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            
+            <div class="form-group has-feedback">
+                <input id="passwordIn" type="password" class="form-control" placeholder="Passwort">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            
+            <div class="row">
+                <div class="col-xs-4">
+                </div>
+             </div>
+            <button id="submitRegister" type="submit" class="btn btn-primary btn-block btn-flat">Absenden</button><br>
+            <a href="{% url 'login' %}" class="text-center">Ich habe bereits ein Konto</a>
         </div>
-        <!-- /.col -->
-      </div>
-      <button id="submitRegister" type="submit" class="btn btn-primary btn-block btn-flat">Absenden</button>
-
-
-
-    <br>
-    <a href="{% url 'login' %}" class="text-center">Ich habe bereits ein Konto</a>
-  </div>
-  <!-- /.form-box -->
-</div>
-<!-- /.register-box -->
+    </div>
+    
 {% endblock %}
+    
 {% block func %}
-<!-- jQuery 2.2.3 -->
 <script src="{% static 'website/plugins/jQuery/jquery-2.2.3.min.js' %}"></script>
 <script src="{% static 'website/plugins/jQuery/jquery.cookie.js' %}"></script>
 <script src="{% static 'website/plugins/jQuery/notify.min.js' %}"></script>
 
-
-<!-- Bootstrap 3.3.6 -->
-<!--<script src="{% static 'website/plugins/bootstrap/js/bootstrap.min.js' %}"></script>-->
 <script>
+$(function () {
+        
+    $('#submitRegister').click(function (e) {
+        var csrftoken = $.cookie('csrftoken');
 
-  $(function () {
+        function csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
 
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
 
-      $('#submitRegister').click(function (e) {
+        var email = $("#emailIn").val();
+        var password = $("#passwordIn").val();
+        var first_name = $("#firstnameIn").val();
+        var last_name = $("#lastnameIn").val();
 
+        var formData = {email: email, password: password, first_name: first_name, last_name: last_name, bio: ""};
 
-          var csrftoken = $.cookie('csrftoken');
-
-          function csrfSafeMethod(method) {
-              return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-          }
-
-          $.ajaxSetup({
-              beforeSend: function (xhr, settings) {
-                  if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                      xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                  }
-              }
-          });
-
-            var email = $("#emailIn").val();
-              var password = $("#passwordIn").val();
-                  var first_name = $("#firstnameIn").val();
-                  var last_name = $("#lastnameIn").val();
-
-
-          var formData = {email: email, password: password, first_name: first_name, last_name: last_name, bio: ""};
-
-             $.ajax({
-
-              url: "http://localhost:8000/api/actor/",
-              type: "POST",
-              data: formData,
-              success: function (data, textStatus, jqXHR) {
-
-                      $(".register-box").notify("Registrierung erfolgreich", "success",  { position:"top" });
-                      window.setTimeout(function(){
-
-        window.location.href = "/login";
-
-    }, 2000);
-
-
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-
-                  var errorMessage = jqXHR.responseText;
-                  errorMessage = errorMessage.substring(errorMessage.indexOf("[") + 2);
-                    errorMessage = errorMessage.substring(0, errorMessage.indexOf('"'));
-
-
-
-
-                  $(".register-box").notify("Registrierung fehlgeschlagen: "+errorMessage, "error",  { position:"top" });
-              }
-          });
-
-      });
-
-
-  });
+        $.ajax({
+            url: "http://localhost:8000/api/actor/",
+            type: "POST",
+            data: formData,
+            success: function (data, textStatus, jqXHR) {
+                $(".register-box").notify("Registrierung erfolgreich", "success",  { position:"top" });
+                window.setTimeout(function(){ window.location.href = "/login"; }, 2000);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var errorMessage = jqXHR.responseText;
+                errorMessage = errorMessage.substring(errorMessage.indexOf("[") + 2);
+                errorMessage = errorMessage.substring(0, errorMessage.indexOf('"'));
+                $(".register-box").notify("Registrierung fehlgeschlagen: "+errorMessage, "error",  { position:"top" });
+            }
+        });
+    });
+});
 </script>
 </body>
 {% endblock %}

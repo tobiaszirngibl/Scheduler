@@ -1,7 +1,8 @@
 {% extends 'website/base.html' %}
 {% load static %}
-{% block test %}
+{% block htmlBody %}
 
+            <!-- Navigation Bar -->
             <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
@@ -18,36 +19,40 @@
     </nav>
 </header>
 
-
-      <div id="deleteUserMod" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Benutzer löschen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle Daten gehen hierbei verloren!</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal User Delete -->
+<div id="deleteUserMod" class="modal fade modal-primary">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Benutzer löschen</h4>
             </div>
-
-<div id="testingHide">
-    <ul id="myUL"></ul>
+            <div class="modal-body">
+                <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle Daten gehen hierbei verloren!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- User Search List -->
+<div id="userSearch">
+    <ul id="userSearchList"></ul>
+</div>
+
+<!-- Modal Detail User -->
 <div id="userModal" class="modal fade modal-primary">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>               </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 id="modalUserName"></h4>
             </div>
             <div class="modal-body">
@@ -59,7 +64,7 @@
                         <div><label>Telefon:</label></div>
                         <div><p id="modalUserPlace"></p></div>
 
-                           <div><label>Einspringer:</label></div>
+                        <div><label>Einspringer:</label></div>
                         <div><p id="modalUserUnderstudy"></p></div>
 
                         <div><label>Standort:</label></div>
@@ -73,16 +78,18 @@
 
                         <div><label>Skills:</label></div>
                         <div><p id="modalUserSkills"></p></div>
-
                     </div>
                     <div class="col-sm-6">
                         <div>
-                        <img id="detailProfileAvatar" class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
+                            <img id="detailProfileAvatar" class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
                         </div>
                         <br>
-                        <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
-                         <div><p class="pSearchModal" id="modalUserNote"></p></div>
-
+                        <div>
+                            <p class="pSearchModal" id="modalUserJob">Schauspieler</p>
+                        </div><br>
+                        <div>
+                            <p class="pSearchModal" id="modalUserNote"></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,219 +100,215 @@
     </div>
 </div>
 
-
-<!-- Content Wrapper. Contains page content -->
+<!-- Page Content -->
 <div class="content-wrapper">
     <section class="content-header">
-      <h1>eKulturPortal</h1>
+        <h1>eKulturPortal</h1>
     </section>
-
-    <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-md-3">
-            <div class="box box-solid">
-                <div class="box-header with-border">
-                    <h4 class="box-title">Neuer Termin</h4>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">Neuer Termin</h4>
+                    </div>
+                    <div class="box-body">
+                        <button id="addNewEvent" type="button" class="btn btn-primary">Termin Hinzufügen</button>
+                    </div>
                 </div>
-                <div class="box-body">
-                    <button id="addNewEvent" type="button" class="btn btn-primary">Termin Hinzufügen</button>
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h4 class="box-title">Favoriten</h4>
+                    </div>
+                    <div class="box-body">
+                        <div id="external-events">
+                            <div class="checkbox">
+                                <label for="drop-remove">
+                                    <input type="checkbox" id="drop-remove">Nach ablegen entfernen
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="box box-solid">
-            <div class="box-header with-border">
-                <h4 class="box-title">Favoriten</h4>
-            </div>
-                <div class="box-body">
-                    <div id="external-events">
-                        <div class="checkbox">
-                            <label for="drop-remove">
-                                <input type="checkbox" id="drop-remove">Nach Drop entfernen
-                            </label>
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Neuer Favorit</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
+                            <ul class="fc-color-picker" id="color-chooser">
+                               <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
+                               <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="input-group">
+                            <input id="new-event" type="text" class="form-control" placeholder="Titel">
+                            <div class="input-group-btn">
+                                <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Hinzufügen</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="box box-solid">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Neuer Favorit</h3>
-                </div>
-                <div class="box-body">
-                    <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-                        <ul class="fc-color-picker" id="color-chooser">
-                           <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
-                           <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="input-group">
-                        <input id="new-event" type="text" class="form-control" placeholder="Titel">
-                        <div class="input-group-btn">
-                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Hinzufügen</button>
+            <div class="col-md-9">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab">Kalender</a></li>
+                        <li><a href="#tab_2" data-toggle="tab">Terminübersicht <span id="appointmentCount" class="label label-success"></span></a></li>
+                    </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <div id="calView" class="box box-primary">
+                            <div class="box-body no-padding">
+                               <div id="calendar"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab_1" data-toggle="tab">Kalender</a></li>
-                    <li><a href="#tab_2" data-toggle="tab">Terminübersicht <span id="appointmentCount" class="label label-success"></span></a></li>
-                </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                    <div id="calView" class="box box-primary">
-                        <div class="box-body no-padding">
-                           <div id="calendar"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane" id="tab_2">
-                    <div class="box box-solid">
-                        <div class="box-body">
-                            <div class="box-group" id="accordion">
-                                <div class="panel box box-primary">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">Termine ausstehend</h3>
-                                        <ul id="appointmentListPending"></ul>
+                    <div class="tab-pane" id="tab_2">
+                        <div class="box box-solid">
+                            <div class="box-body">
+                                <div class="box-group" id="accordion">
+                                    <div class="panel box box-primary">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Termine ausstehend</h3>
+                                            <ul id="appointmentListPending"></ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="panel box box-success">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">Termine angenommen</h3>
-                                        <ul id="appointmentListYes"></ul>
+                                    <div class="panel box box-success">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Termine angenommen</h3>
+                                            <ul id="appointmentListYes"></ul>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="panel box box-danger">
-                                    <div class="box-header with-border">
-                                        <h3 class="box-title">Termine abgelehnt</h3>
-                                        <ul id="appointmentListNo"></ul>
+                                    <div class="panel box box-danger">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">Termine abgelehnt</h3>
+                                            <ul id="appointmentListNo"></ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
                 <!-- Modal New Appointment -->
                 <div id="appointment" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form class="noValidateForm" method="post" class="form-vertical">
-
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <h4 class="modal-title">Neuer Termin</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Titel</label>
-                                    <input id="title" type="text" class="form-control" required="true" placeholder="Enter ...">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title">Neuer Termin</h4>
                                 </div>
-                                <div class="form-group">
-                                    <label>Datum:</label>
-                                    <div class="input-group" >
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
-                                        <input type="text" class="form-control" required="true" id="reservationtime">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Titel</label>
+                                        <input id="title" type="text" class="form-control" required="true" placeholder="Enter ...">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="bootstrap-timepicker">
-                                            <div class="form-group">
-                                                <label>Beginn:</label>
-                                                <div class="input-group">
-                                                    <input required="true" id="startTime" type="text" class="form-control timepicker">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-clock-o"></i>
+                                    <div class="form-group">
+                                        <label>Datum:</label>
+                                        <div class="input-group" >
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input type="text" class="form-control" required="true" id="reservationtime">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="bootstrap-timepicker">
+                                                <div class="form-group">
+                                                    <label>Beginn:</label>
+                                                    <div class="input-group">
+                                                        <input required="true" id="startTime" type="text" class="form-control timepicker">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="bootstrap-timepicker">
+                                                <div class="form-group">
+                                                    <label>Ende:</label>
+                                                    <div class="input-group">
+                                                        <input required="true" id="endTime" type="text" class="form-control timepicker">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="bootstrap-timepicker">
+                                    <div class="row">
+                                        <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Ende:</label>
-                                                <div class="input-group">
-                                                    <input required="true" id="endTime" type="text" class="form-control timepicker">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-clock-o"></i>
-                                                    </div>
-                                                </div>
+                                                <label>Stadt:</label>
+                                                <input id="town" type="text" class="form-control" placeholder="Enter ...">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Standort:</label>
+                                                <input id="location" type="text" class="form-control" placeholder="Enter ...">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Stadt:</label>
-                                            <input id="town" type="text" class="form-control" placeholder="Enter ...">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <input id="group" type="checkbox" class="minimal" checked>  Gruppe auswählen
+                                                </label>
+                                                <select id="groupList" class="chzn-select">
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Standort:</label>
-                                            <input id="location" type="text" class="form-control" placeholder="Enter ...">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <input id="user" type="checkbox" class="minimal">  Benutzer auswählen:
+                                                </label>
+                                                <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <input id="userCrit" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
+                                                </label>
+                                                <select id="userListCrit" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>
-                                                <input id="group" type="checkbox" class="minimal" checked>  Gruppe auswählen
-                                            </label>
-                                            <select id="groupList" class="chzn-select">
-                                            </select>
-                                        </div>
+                                    <div class="form-group">
+                                        <label>Anmerkungen</label>
+                                        <textarea id="remark" class="form-control" rows="3" placeholder="Enter ..."></textarea>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>
-                                                <input id="user" type="checkbox" class="minimal">  Benutzer auswählen:
-                                            </label>
-                                            <select id="userList" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>
-                                                <input id="userCrit" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
-                                            </label>
-                                            <select id="userListCrit" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                    <button id="saveEvent" type="submit" class="btn btn-primary">Speichern</button>
                                 </div>
-                                <div class="form-group">
-                                    <label>Anmerkungen</label>
-                                    <textarea id="remark" class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                                <button id="saveEvent" type="submit" class="btn btn-primary">Speichern</button>
-                            </div>
                             </form>
                         </div>
                     </div>
@@ -316,6 +319,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form class="noValidateForm" method="post" class="form-vertical">
+<<<<<<< HEAD
 
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -330,48 +334,65 @@
                                 </div>
                              <div class="form-group">
                                     <label><input id="allDayEditPut" type="checkbox" class="minimal">  Ganztägig</label>
+=======
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title">Termin bearbeiten</h4>
+>>>>>>> development
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="bootstrap-timepicker">
-                                            <div class="form-group">
-                                                <label>Beginn:</label>
-                                                <div class="input-group">
-                                                    <input required="true" id="startTimeEditPut" type="text" class="form-control timepicker" >
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-clock-o"></i>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Titel</label>
+                                        <input required="true" id="titleEditPut" type="text" class="form-control" placeholder="Enter ...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><input id="allDayEditPut" type="checkbox" class="minimal">  Ganztägig</label>                                 
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="bootstrap-timepicker">
+                                                <div class="form-group">
+                                                    <label>Beginn:</label>
+                                                    <div class="input-group">
+                                                        <input required="true" id="startTimeEditPut" type="text" class="form-control timepicker">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="bootstrap-timepicker">
+                                                <div class="form-group">
+                                                    <label>Ende:</label>
+                                                    <div class="input-group">
+                                                        <input required="true" id="endTimeEditPut" type="text" class="form-control timepicker">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="bootstrap-timepicker">
+                                    <div class="row">
+                                        <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Ende:</label>
-                                                <div class="input-group">
-                                                    <input required="true" id="endTimeEditPut" type="text" class="form-control timepicker">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-clock-o"></i>
-                                                    </div>
-                                                </div>
+                                                <label>Stadt:</label>
+                                                <input id="townEditPut" type="text" class="form-control" placeholder="Enter ...">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Standort:</label>
+                                                <input id="locationEditPut" type="text" class="form-control" placeholder="Enter ...">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Stadt:</label>
-                                            <input id="townEditPut" type="text" class="form-control" placeholder="Enter ...">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Standort:</label>
-                                            <input id="locationEditPut" type="text" class="form-control" placeholder="Enter ...">
-                                        </div>
-                                    </div>
+<<<<<<< HEAD
                                 </div>
                                  <div class="row">
                                     <div class="col-lg-6">
@@ -390,23 +411,43 @@
                                             </label>
                                             <select id="userListCritEditPut" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
                                             </select>
+=======
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <input id="userEditPut" type="checkbox" class="minimal">  Benutzer hinzufügen:
+                                                </label>
+                                                <select id="userListEditPut" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <input id="userCritEditPut" type="checkbox" class="minimal"> Kritische Benutzer hinzufügen:
+                                                </label>
+                                                <select id="userListCritEditPut" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                                </select>
+                                            </div>
+>>>>>>> development
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Anmerkungen</label>
+                                        <textarea id="remarkEditPut" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Anmerkungen</label>
-                                    <textarea id="remarkEditPut" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                    <button id="saveEventEditPut" type="submit" class="btn btn-primary">Bearbeitung abschicken</button>
                                 </div>
-                            </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="saveEventEditPut" type="submit" class="btn btn-primary">Bearbeitung abschicken</button>
-                        </div>
                             </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+<<<<<<< HEAD
             <!-- Modal Drop Appointment -->
             <div id="dropAppointment" class="modal fade">
                 <div class="modal-dialog">
@@ -422,59 +463,77 @@
                         <div class="modal-body">
                             <div class="form-group">
                                     <label><input id="allDayDrop" type="checkbox" class="minimal">  Ganztägig</label>
+=======
+                <!-- Modal Drop Appointment -->
+                <div id="dropAppointment" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form class="noValidateForm" method="post" class="form-vertical">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 id="titleDrop" class="modal-title"></h4>
+>>>>>>> development
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="bootstrap-timepicker">
-                                            <div class="form-group">
-                                                <label>Beginn:</label>
-                                                <div class="input-group">
-                                                    <input id="startTimeDrop" required="true" type="text"  required="true" class="form-control timepicker" >
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-clock-o"></i>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label><input id="allDayDrop" type="checkbox" class="minimal">  Ganztägig</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="bootstrap-timepicker">
+                                                <div class="form-group">
+                                                    <label>Beginn:</label>
+                                                    <div class="input-group">
+                                                        <input id="startTimeDrop" required="true" type="text"  required="true" class="form-control timepicker" >
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="bootstrap-timepicker">
+                                                <div class="form-group">
+                                                    <label>Ende:</label>
+                                                    <div class="input-group">
+                                                        <input id="endTimeDrop" required="true" type="text" class="form-control timepicker" >
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-clock-o"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="bootstrap-timepicker">
+                                    <div class="row">
+                                        <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label>Ende:</label>
-                                                <div class="input-group">
-                                                    <input id="endTimeDrop" required="true" type="text" class="form-control timepicker" >
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-clock-o"></i>
-                                                    </div>
-                                                </div>
+                                                 <label>Stadt:</label>
+                                                <input id="townDrop" type="text" class="form-control" placeholder="Enter ...">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Standort:</label>
+                                                <input id="locationDrop" type="text" class="form-control" placeholder="Enter ...">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Stadt:</label>
-                                            <input id="townDrop" type="text" class="form-control" placeholder="Enter ...">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <input id="groupDrop" type="checkbox" class="minimal" checked>  Gruppe auswählen:
+                                                </label>
+                                                <select id="groupListDrop" class="chzn-select" >                                             
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>Standort:</label>
-                                            <input id="locationDrop" type="text" class="form-control" placeholder="Enter ...">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>
-                                                <input id="groupDrop" type="checkbox" class="minimal" checked>  Gruppe auswählen:
-                                            </label>
-                                            <select id="groupListDrop" class="chzn-select">
-                                            </select>
-                                        </div>
-                                    </div>
+<<<<<<< HEAD
                                 </div>
                             <div class="row">
                                     <div class="col-lg-6">
@@ -493,217 +552,187 @@
                                             </label>
                                             <select id="userListCritDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
                                             </select>
+=======
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <input id="userDrop" type="checkbox" class="minimal">  Benutzer auswählen:
+                                                </label>
+                                                <select id="userListDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <input id="userCritDrop" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
+                                                </label>
+                                                <select id="userListCritDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
+                                                </select>
+                                            </div>
+>>>>>>> development
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Anmerkungen</label>
+                                            <textarea id="remarkDrop" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Anmerkungen</label>
-                                    <textarea id="remarkDrop" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                    <button id="saveEventDrop" type="submit" class="btn btn-primary">Speichern</button>
                                 </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="saveEventDrop" type="submit" class="btn btn-primary">Speichern</button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Drop Appointment -->
-            <div id="showAppointment" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button id="editEvent" type="button" class="btn btn-success btn-sm pull-right">
-                                <span class="glyphicon glyphicon glyphicon-pencil">
-                                                                    <span title="Termin bearbeiten" class="glyphicon glyphicon glyphicon-pencil tooltip"></span>
-
-                                </span>
-                            </button>
-                            <h4 id="titleEvent">Titel</p>>Neuer Termin</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div><label>Start:</label></div>
-                            <div><p id="showStartEvent">Start</p></div>
-                        
-                            <div><label id="endLabel">Ende:</label></div>
-                            <div><p id="showEndEvent">Ende</p></div>
-
-                            <div><label>Stadt:</label></div>
-                            <div><p id="showTown">true</p></div>
-
-                            <div><label>Standort:</label></div>
-                            <div><p id="showLocation">true</p></div>
-
-                            <div><label>Benutzer:</label></div>
-                            <div><p id="showUser">true</p></div>
-
-                            <div><label>Anmerkungen:</label></div>
-                            <div><p id="showRemark">true</p></div>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="showDelAppointmentMod" type="button" class="btn btn-danger pull-right">Termin löschen</button>
-
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Modal Accept Appointment -->
-            <div id="acceptAppointment" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Termin annehmen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie den Termin annehmen und zu ihrem persönlichen Kalender hinzufügen?</p>
-                        </div>
-                        <div id="accAppDiv" class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="sendYes" type="button" class="btn btn-success">Termin annehmen</button>
+                <!-- Modal Show Appointment -->
+                <div id="showAppointment" class="modal fade modal-primary">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button id="editEvent" type="button" class="btn btn-success btn-sm pull-right">
+                                    <span class="glyphicon glyphicon glyphicon-pencil">
+                                        <span title="Termin bearbeiten" class="glyphicon glyphicon glyphicon-pencil tooltip"></span>
+                                    </span>
+                                </button>
+                                <h4 id="titleEvent">Titel</p>>Neuer Termin</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div><label>Start:</label></div>
+                                <div><p id="showStartEvent">Start</p></div>
+
+                                <div><label id="endLabel">Ende:</label></div>
+                                <div><p id="showEndEvent">Ende</p></div>
+
+                                <div><label>Stadt:</label></div>
+                                <div><p id="showTown">true</p></div>
+
+                                <div><label>Standort:</label></div>
+                                <div><p id="showLocation">true</p></div>
+
+                                <div><label>Benutzer:</label></div>
+                                <div><p id="showUser">true</p></div>
+
+                                <div><label>Anmerkungen:</label></div>
+                                <div><p id="showRemark">true</p></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                <button id="showDelAppointmentMod" type="button" class="btn btn-danger pull-right">Termin löschen</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Modal Decline Appointment -->
-            <div id="declineAppointment" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Termin ablehnen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie den Termin ablehnen?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="sendNoReplace" type="button" class="btn btn-warning">Termin ablehnen und Ersatztermin wählen</button>
-                            <button id="sendNo" type="button" class="btn btn-danger">Termin ablehnen</button>
-
+                <!-- Modal Accept Appointment -->
+                <div id="acceptAppointment" class="modal fade modal-primary">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Termin annehmen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Möchten Sie den Termin annehmen und zu ihrem persönlichen Kalender hinzufügen?</p>
+                            </div>
+                            <div id="accAppDiv" class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                <button id="sendYes" type="button" class="btn btn-success">Termin annehmen</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-
-
-       <div id="deleteAppointmentMod" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div id="showAppModal" class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Termin löschen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie den aktuellen Termin wirklich löschen? Alle Daten des Termins gehen hierbei verloren!</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="deleteAppointmentButton" type="button" class="btn btn-danger pull-right">Termin endgültig löschen</button>
+                <!-- Modal Decline Appointment -->
+                <div id="declineAppointment" class="modal fade modal-primary">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Termin ablehnen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Möchten Sie den Termin ablehnen?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                <button id="sendNoReplace" type="button" class="btn btn-warning">Termin ablehnen und Ersatztermin wählen</button>
+                                <button id="sendNo" type="button" class="btn btn-danger">Termin ablehnen</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
+               <!-- Modal Delete Appointment -->
+               <div id="deleteAppointmentMod" class="modal fade modal-primary">
+                    <div class="modal-dialog">
+                        <div id="showAppModal" class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Termin löschen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Möchten Sie den aktuellen Termin wirklich löschen? Alle Daten des Termins gehen hierbei verloren!</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                <button id="deleteAppointmentButton" type="button" class="btn btn-danger pull-right">Termin endgültig löschen</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
 {% endblock %}
+                    
 {% block calFunc %}
 <script>
 $(function () {
-jQuery.ajaxSettings.traditional = true;
+    
+    jQuery.ajaxSettings.traditional = true;
 
-                $('.tooltip').tooltipster();
+    // Prevent the form from doing a submit
+    $(document).on('submit','.noValidateForm',function (e) {
+        e.preventDefault();
+        return false;
+    })
 
-$(document).on('submit','.noValidateForm',function (e) {
-    //prevent the form from doing a submit
-    e.preventDefault();
-    return false;
-})
-
-
-    //Global Variables
+    // Global Variables
     var user_id = {{user.id}};
     var events = [];
     var eventSentData = "";
-    var calEventID="";
-    var colDropEvent="";
-    var favorID ="";
-    var currentEditEvent="";
+    var calEventID = "";
+    var colDropEvent = "";
+    var favorID = "";
+    var currentEditEvent = "";
 
-    
-    // Initiate Lists
-    $(".chzn-select").chosen({
-    width:"100%"
-    });
-    
-    
-    // Send CSR Token for Ajax
-    var csrftoken = $.cookie('csrftoken');
-    
-    function csrfSafeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
+    $("#deleteUserButton").click(function () {
 
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8000/api/actor/" + user_id + "/",
+            success: function (data) {
+                window.location.replace("/login");
             }
-        }
+        });
     });
 
-    
-    // Initiate Search Function
-    //// Add Keyup Function for Searchbar
-    $('#navbar-search-input').on('keyup', function() {
-        var input, filter, ul, li, a, i;
-        
-        input = document.getElementById('navbar-search-input');
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName('li');
-        
-        $("#testingHide").show();
-        $(".content-wrapper").hide();
-
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-        if(input.value === "") {
-            $("#testingHide").hide();
-            $(".content-wrapper").show();
-        }
-    });
-
-
-
+    // Delete Appointment function 
     $("#showDelAppointmentMod").click(function(e) {
         $("#showAppointment").modal("hide");
         setTimeout(function(){$('#deleteAppointmentMod').modal('show');}, 400);
-
     });
 
-
     $("#deleteAppointmentButton").click(function(e) {
-
+        
        $.ajax({
         type: "DELETE",
         url: "http://localhost:8000/api/appointment/"+calEventID+"/",
@@ -711,97 +740,16 @@ $(document).on('submit','.noValidateForm',function (e) {
                 {
                     location.reload();
                 },
-                        error: function (data, jqXHR, textStatus, errorThrown) {
-                                var error = data.responseJSON;
-
-                                if(error === "Only the organizer may delete an Appointment") {
-                                    error = "Nur der Ersteller des Termins kann diesen löschen!"
-                                }
-
-                                 $('#showAppModal').notify("Löschen fehlgeschlagen: " + error, "error", {position: "top center"});
-
-                            }
-
-
-
-    });
-
-        });
-
-
-
-    $("#showDeleteModal").click(function() {
-        $("#deleteUserMod").modal("show");
-    });
-
-
-    $("#deleteUserButton").click(function() {
-
-        var user_id = {{ user.id }};
-
-       $.ajax({
-        type: "DELETE",
-        url: "http://localhost:8000/api/actor/"+user_id+"/",
-        success: function(data)
+        error: function (data, jqXHR, textStatus, errorThrown) 
                 {
-                        location.reload();
-                }
-    });
-
-        });
-
-
-
-    //// Config Result List
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8000/api/actor/",
-        success: function(data)
-            {
-                for (var key in data) {
-                    if(data[key].first_name ==  "" && data[key].last_name == "") {
-                        var actorName = "Kein Name angegeben";
+                    var error = data.responseJSON;
+                    if(error === "Only the organizer may delete an Appointment") {
+                        error = "Nur der Ersteller des Termins kann diesen löschen!"
                     }
-                    else {
-                        var actorName = data[key].first_name + " " + data[key].last_name;
-                    }
-                    var actorEmail = data[key].email;
-                    $('#myUL').append('<li><a id='+data[key].id+' class="userSearchResult">'+actorEmail+' - ' + actorName +'</a></li>');
+                    $('#showAppModal').notify("Löschen fehlgeschlagen: " + error, "error", {position: "top center"});
                 }
-            }
-    });
-
-     $("#myUL").on("click", ".userSearchResult", function(e){
-        var userID = e.currentTarget.id;
-
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8000/api/actor/"+userID+"/",
-            success: function (data) {
-                $("#modalUserName").text(data.first_name +" "+ data.last_name);
-                $("#modalUserMail").text(data.email);
-                $("#modalUserTel").text(data.phone);
-                $("#modalUserNote").text(data.contact_notes);
-                $("#modalUserPlace").text(data.location);
-                $("#modalUserSkills").text(data.skills);
-                $("#modalUserSpareTime").text(data.spare_time);
-                $("#modalUserEducation").text(data.education);
-                $("#modalUserJob").text(data.job);
-                if(data.understudy != null ){
-                    $("#modalUserUnderstudy").text(data.understudy.first_name + " " + data.understudy.last_name + " - " + data.understudy.email);
-                }  else {
-                    $("#modalUserUnderstudy").text("");
-                }
-                $("#detailProfileAvatar").attr("src", data.avatar);
-
-            }
         });
-
-        $("#userModal").modal('show');
     });
-
-    $("#testingHide").hide();
-
 
     // Load Favorites
     $.ajax({
@@ -816,16 +764,15 @@ $(document).on('submit','.noValidateForm',function (e) {
             }
     });
 
-
-    // Load Appointments
+    // Load Appointments and add response button
     $.ajax({
         type: "GET",
         url: "http://localhost:8000/api/appointment/",
         success: function(data)
             {
-
                 for (var key in data) {
-                    var event = {
+                    var event = 
+                        {
                             title: data[key].name,
                             start: data[key].dtstart,
                             end: data[key].dtend,
@@ -834,18 +781,18 @@ $(document).on('submit','.noValidateForm',function (e) {
                             color: data[key].color,
                             organizer: data[key].organizer,
                             will_take_place: data[key].will_take_place
-                    };
+                        };
                     events.push(event);
 
                     switch (event.answer) {
-
                         case "y":
                             $("#appointmentListYes").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><br>'+event.start+'</h4><hr>');
                            break;
+                            
                         case "n":
                             $("#appointmentListNo").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
-
                             break;
+                            
                         default:
                             $("#appointmentListPending").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button> <button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
                             break;
@@ -858,25 +805,40 @@ $(document).on('submit','.noValidateForm',function (e) {
                         $('#acceptAppointment').modal('show');
                         eventSentData =  e.currentTarget.id;
                         eventSentData = eventSentData.substring(eventSentData.indexOf("t") + 1);
-
                     });
 
                     $('#noEvent'+event.id).click(function (e){
                         $('#declineAppointment').modal('show');
-                          eventSentData =  e.currentTarget.id;
+                        eventSentData =  e.currentTarget.id;
                         eventSentData = eventSentData.substring(eventSentData.indexOf("t") + 1);
                     });
-
                 }
 
-                // TODO
                 $('#sendYes').click(function (e) {
                     e.preventDefault();
-                            var formData =  {"answer": "yes"}
+                                
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
                         type: "POST",
-                        data : formData,
+                        data : {"answer": "yes"},
+                        success: function(data, textStatus, jqXHR)
+                            {
+                                location.reload();
+                            },
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
+                    });
+                });
+
+                $('#sendNo').click(function (e) {
+                    e.preventDefault();
+         
+                    $.ajax({
+                        url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
+                        type: "POST",
+                        data : {"answer": "no"},
                         success: function(data, textStatus, jqXHR)
                             {
                                 location.reload();
@@ -887,66 +849,40 @@ $(document).on('submit','.noValidateForm',function (e) {
                     });
                 });
 
-                // TODO
-                 $('#sendNo').click(function (e) {
+                $('#sendNoReplace').click(function (e) {
                     e.preventDefault();
-                            var formData =  {"answer": "no"}
+                  
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
                         type: "POST",
-                        data : formData,
+                        data : {"answer": "no"},
                         success: function(data, textStatus, jqXHR)
                             {
-                                location.reload();
+                                $("#declineAppointment").modal("hide");
+                                setTimeout(function(){$('#appointment').modal('show');}, 300);
                             },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
-                    });
-                });
-
-                    $('#sendNoReplace').click(function (e) {
-                    e.preventDefault();
-                            var formData =  {"answer": "no"}
-                    $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
-                        type: "POST",
-                        data : formData,
-                        success: function(data, textStatus, jqXHR)
-
-                        {
-                            $("#declineAppointment").modal("hide");
-                                                setTimeout(function(){$('#appointment').modal('show');}, 300);
-
-
-                            },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
                     });
 
                 });
 
                 $("#appointmentCount").text(events.length);
-
                 $('#calendar').fullCalendar('removeEvents');
                 $('#calendar').fullCalendar('addEventSource', events);
                 $('#calendar').fullCalendar('refetchEvents');
-
-
             }
     });
 
-
-    // initialize the favorites
+    // Initialize the favorites
     function ini_events(ele) {
         ele.each(function () {
-
             var eventObject = {
-                    title: $.trim($(this).text())
+                title: $.trim($(this).text())
             };
             $(this).data('eventObject', eventObject);
-
             $(this).draggable({
                 zIndex: 1070,
                 revert: true,
@@ -957,12 +893,12 @@ $(document).on('submit','.noValidateForm',function (e) {
 
     ini_events($('#external-events div.external-event'));
 
-
-    // initialize the calendar
+    // Initialize the calendar ////////////////////////////////////////////////////////////////////////////
     var date = new Date();
     var d = date.getDate(),
         m = date.getMonth(),
         y = date.getFullYear();
+
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
@@ -974,12 +910,9 @@ $(document).on('submit','.noValidateForm',function (e) {
         timezone:'local',
         displayEventEnd: true,
 
-
         eventRender: function (event, element) {
-    element.find('.fc-time').append("<br/>");
-
+            element.find('.fc-time').append("<br/>");
         },
-
 
         eventClick: function (calEvent, jsEvent, view) {
             var titleEdit = "";
@@ -996,50 +929,45 @@ $(document).on('submit','.noValidateForm',function (e) {
             $.ajax({
                 type: "GET",
                 url: "http://localhost:8000/api/appointment/" + calEvent.id + "/",
-                success: function (data) {
+                success: function (data) 
+                    {
+                        startEdit = new Date(Date.parse(data.dtstart));
+                        startEdit = startEdit.getHours() + ":" + (startEdit.getMinutes()<10?'0':'') + startEdit.getMinutes();
+                        $('#showStartEvent').text(startEdit);
 
-                    startEdit = new Date(Date.parse(data.dtstart));
-                    startEdit = startEdit.getHours() + ":" + (startEdit.getMinutes()<10?'0':'') + startEdit.getMinutes();
-                    $('#showStartEvent').text(startEdit);
+                        endEdit = new Date(Date.parse(data.dtend));
+                        endEdit = endEdit.getHours() + ":" + (endEdit.getMinutes()<10?'0':'') + endEdit.getMinutes();
+                        $('#showEndEvent').text(endEdit);
 
-                    endEdit = new Date(Date.parse(data.dtend));
-                    endEdit = endEdit.getHours() + ":" + (endEdit.getMinutes()<10?'0':'') + endEdit.getMinutes();
-                    $('#showEndEvent').text(endEdit);
+                        var date = new Date(data.dtstart);
+                        var dateEdit = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
+                        currentEditEvent = dateEdit;
 
-                    var date = new Date(data.dtstart);
-                    var dateEdit = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
-                    currentEditEvent = dateEdit;
+                        $('#titleEvent').text(data.name + " - " + dateEdit);
+                        titleEdit = data.name;
 
-                    $('#titleEvent').text(data.name + " - " + dateEdit);
-                    titleEdit = data.name;
+                        $('#showTown').text(data.town);
+                        townEdit = $('#showTown').text();
 
+                        $('#showLocation').text(data.location);
+                        locationEdit = $('#showLocation').text();
 
-                     $('#showTown').text(data.town);
-                    townEdit = $('#showTown').text();
+                        $('#showRemark').text(data.summary);
+                        remarkEdit = $('#showRemark').text();
 
-                     $('#showLocation').text(data.location);
-                    locationEdit = $('#showLocation').text();
-
-                     $('#showRemark').text(data.summary);
-                    remarkEdit = $('#showRemark').text();
-
-                    for (var key in data.participants) {
-                        var crit = "";
-                        if(data.participants[key].is_necessary === true) {
-                            crit = " (kritisch)";
+                        for (var key in data.participants) {
+                            var crit = "";
+                            if(data.participants[key].is_necessary === true) {
+                                crit = " (kritisch)";
+                            }
+                            userEdit.push("\u2022 "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email + crit);
                         }
-                        userEdit.push("\u2022 "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email + crit);
+                        $('#showUser').text(userEdit.join("\n"));
+                        $('#showAppointment').modal('show');
                     }
-
-                     $('#showUser').text(userEdit.join("\n"));
-
-
-                    $('#showAppointment').modal('show');
-                }
             });
 
             $("#editEvent").click(function (e) {
-
                 e.preventDefault();
                 $('#showAppointment').modal('hide');
                 $('#titleEditPut').val(titleEdit);
@@ -1049,98 +977,81 @@ $(document).on('submit','.noValidateForm',function (e) {
                 $('#locationEditPut').val(locationEdit);
                 $('#remarkEditPut').val(remarkEdit);
 
-
                  $.ajax({
-                type: "GET",
-                url: "http://localhost:8000/api/actor/",
-                success: function (data) {
-                    for (var key in data) {
-                        if (data[key].first_name == "" && data[key].last_name == "") {
-                            var actorName = "Kein Name angegeben";
+                    type: "GET",
+                    url: "http://localhost:8000/api/actor/",
+                    success: function (data) 
+                        {
+                            for (var key in data) {
+                                if (data[key].first_name == "" && data[key].last_name == "") {
+                                    var actorName = "Kein Name angegeben";
+                                }
+                                else {
+                                    var actorName = data[key].first_name + " " + data[key].last_name;
+                                }
+                                var actorEmail = data[key].email;
+                                $('#userListEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                                $('#userListCritEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                            }
+                            $("#userListEditPut").trigger("chosen:updated");
+                            $("#userListCritEditPut").trigger("chosen:updated");
+                            setTimeout(function () { $('#appointmentEditPut').modal('show'); }, 400);
                         }
-                        else {
-                            var actorName = data[key].first_name + " " + data[key].last_name;
-                        }
-                        var actorEmail = data[key].email;
-                        $('#userListEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
-                        $('#userListCritEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
-                    }
-                    $("#userListEditPut").trigger("chosen:updated");
-                    $("#userListCritEditPut").trigger("chosen:updated");
-
-
-
-                    setTimeout(function () {
-                    $('#appointmentEditPut').modal('show');
-                }, 400);
-                }
-
+                });
             });
-
-
-
-
-
-            });
-
         },
 
         editable: true,
         eventAfterRender: function (event, element, view) {
             element.addClass('withPointer');
-
             if(user_id == event.organizer && event.color != "3c8dbc") {
+                
+                switch (event.answer) {
+                    case "y":
+                        element.css('background-color', '#' + event.color);
+                        element.css('border-color', '#' + event.color);
+                        break;
 
-            switch (event.answer) {
-                case "y":
-                    element.css('background-color', '#'+event.color);
-                    element.css('border-color', '#'+event.color);
+                    case "n":
+                        element.css('background-color', '#dd4b39');
+                        element.css('border-color', '#dd4b39');
+                        break;
 
-                    break;
-                case "n":
-                    element.css('background-color', '#dd4b39');
-                    element.css('border-color', '#dd4b39');
-
-                    break;
-                default:
-                    element.css('background-color', '#'+event.color);
-                    element.css('border-color', '#'+event.color);
-
-                    break;
-            }
-
+                    default:
+                        element.css('background-color', '#' + event.color);
+                        element.css('border-color', '#' + event.color);
+                        break;
+                }
             } else {
 
                  switch (event.answer) {
-                case "y":
-                    element.css('background-color', '#00a65a');
-                    element.css('border-color', '#00a65a');
-
+                    case "y":
+                        element.css('background-color', '#00a65a');
+                        element.css('border-color', '#00a65a');
                     break;
-                case "n":
-                    element.css('background-color', '#dd4b39');
-                    element.css('border-color', '#dd4b39');
 
+                    case "n":
+                        element.css('background-color', '#dd4b39');
+                        element.css('border-color', '#dd4b39');
                     break;
-                default:
-                    element.css('background-color', '#3c8dbc');
-                    element.css('border-color', '#3c8dbc');
 
+                    default:
+                        element.css('background-color', '#3c8dbc');
+                        element.css('border-color', '#3c8dbc');
                     break;
+                }
             }
-            }
-
 
             var eventID = event.id;
             var eventEnd = event.end;
             var eventStart = Date.parse(event.start._d);
+
             if (eventEnd != null) {
                 var eventEnd = Date.parse(event.end._d);
             }
             else {
                 var eventEnd = "";
             }
-
 
             for (var key in events) {
                 var eventsStart = Date.parse(events[key].start);
@@ -1153,19 +1064,16 @@ $(document).on('submit','.noValidateForm',function (e) {
                 else if (eventID !== events[key].id && (eventStart <= eventsStart && eventEnd >= eventsEnd)) {
                     overlapping();
                 }
-                
                 else if (eventID !== events[key].id && (eventStart >= eventsStart && eventEnd <= eventsEnd && eventEnd > eventsStart)) {
                     overlapping();
                 }
                 else if (eventID !== events[key].id && (eventStart >= eventsStart && eventsEnd >= eventStart)) {
                     overlapping();
                 }
-                else {
-                }
             }
 
             if(event.will_take_place == false) {
-               element.css('background-color', '#aaaaaa');
+                element.css('background-color', '#aaaaaa');
                 element.css('border-color', '#000000');
                 element.css('color', '#000000');
             }
@@ -1176,43 +1084,44 @@ $(document).on('submit','.noValidateForm',function (e) {
                 element.css('color', '#000000');
             }
 
-$(".fc-today-button").text("Heute");
-$(".fc-month-button").text("Monat");
-$(".fc-agendaWeek-button").text("Woche");
-$(".fc-agendaDay-button").text("Tag");
+            $(".fc-today-button").text("Heute");
+            $(".fc-month-button").text("Monat");
+            $(".fc-agendaWeek-button").text("Woche");
+            $(".fc-agendaDay-button").text("Tag");
         },
-eventStartEditable: false,
-droppable: true,
-drop: function (date, allDay, e) {
 
+        eventStartEditable: false,
+        droppable: true,
+        
+        drop: function (date, allDay, e) {
             favorID = $(this)[0].id;
+            colDropEvent = $(this)[0].attributes[0].value;
+
             $('#dropTitleName').text(allDay.target.innerHTML);
             $('#dropAppointment').modal('show');
-                    var originalEventTitle= $(this).data('eventObject').title;
+
+            var originalEventTitle= $(this).data('eventObject').title;
             var date = new Date(date._d);
             var dateNew = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
-           colDropEvent = $(this)[0].attributes[0].value;
 
              $.ajax({
-        type: "GET",
-        url: "http://localhost:8000/api/favorites/"+favorID+"/",
-        success: function(data)
-            {
+                type: "GET",
+                url: "http://localhost:8000/api/favorites/"+favorID+"/",
+                success: function(data)
+                    {
+                        var start = new Date(Date.parse(data.dtstart));
+                        start = start.getHours() + ":" + (start.getMinutes()<10?'0':'') + start.getMinutes();
+                        $("#startTimeDrop").val(start);
 
-                var start = new Date(Date.parse(data.dtstart));
-                    start = start.getHours() + ":" + (start.getMinutes()<10?'0':'') + start.getMinutes();
-                    $("#startTimeDrop").val(start);
+                        var end = new Date(Date.parse(data.dtend));
+                        end = end.getHours() + ":" + (end.getMinutes()<10?'0':'') + end.getMinutes();
+                        $("#endTimeDrop").val(end);
 
-                var end = new Date(Date.parse(data.dtend));
-                    end = end.getHours() + ":" + (end.getMinutes()<10?'0':'') + end.getMinutes();
-                    $("#endTimeDrop").val(end);
-
-                $("#locationDrop").val(data.location);
-                $("#townDrop").val(data.town);
-                $("#remarkDrop").val(data.summary);
-
-            }
-    });
+                        $("#locationDrop").val(data.location);
+                        $("#townDrop").val(data.town);
+                        $("#remarkDrop").val(data.summary);
+                    }
+            });
 
             $.ajax({
                 type: "GET",
@@ -1233,24 +1142,23 @@ drop: function (date, allDay, e) {
                     $("#userListDrop").trigger("chosen:updated");
                     $("#userListCritDrop").trigger("chosen:updated");
                 }
-
             });
-               $.ajax({
-            type: "GET",
-                        url: "http://localhost:8000/api/group/",
 
-            success: function(data)
-                {
-                    for (var key in data) {
-                        $('#groupListDrop').append('<option value='+data[key].id+'>'+ data[key].name +'</option>');
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8000/api/group/",
+                success: function(data)
+                    {
+                        for (var key in data) {
+                            $('#groupListDrop').append('<option value='+data[key].id+'>'+ data[key].name +'</option>');
+                        }
+                        $("#groupListDrop").trigger("chosen:updated");
                     }
-                    $("#groupListDrop").trigger("chosen:updated");
-                }
-        });
+            });
         }
     });
-
-
+    ////////////////////////////////////////////////////////////////////////////////////////// 
+    
     // Initiate DateRangePicker
     $('#reservationtime').daterangepicker({
         "singleDatePicker": true,
@@ -1274,14 +1182,16 @@ drop: function (date, allDay, e) {
         "opens": "center"
     });
 
-
     // Initiate TimePicker
     $(".timepicker").timepicker({
         showInputs: false,
         showMeridian: false
     });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
     // Initiate Checkboxes Normal Appointment
     $('input[type="checkbox"].minimal').iCheck({
         checkboxClass: 'icheckbox_minimal-blue'
@@ -1320,7 +1230,68 @@ drop: function (date, allDay, e) {
         $("#startTime").attr("disabled", false);
         $("#endTime").attr("disabled", false);
     });
-
+    
+    // Initiate Checkboxes Drop Appointment
+    $('input[type="checkbox"][id="groupDrop"]').on('ifChecked', function(event){
+        $('#groupListDrop').prop('disabled', false).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="groupDrop"]').on('ifUnchecked', function(event){
+        $('#groupListDrop').prop('disabled', true).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="userDrop"]').on('ifChecked', function(event){
+        $('#userListDrop').prop('disabled', false).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="userDrop"]').on('ifUnchecked', function(event){
+        $('#userListDrop').prop('disabled', true).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="userCritDrop"]').on('ifChecked', function(event){
+        $('#userListCritDrop').prop('disabled', false).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="userCritDrop"]').on('ifUnchecked', function(event){
+        $('#userListCritDrop').prop('disabled', true).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="allDayDrop"]').on('ifChecked', function(event){
+        $("#startTimeDrop").attr("disabled", true);
+        $("#endTimeDrop").attr("disabled", true);
+    });
+ 
+    $('input[type="checkbox"][id="allDayDrop"]').on('ifUnchecked', function(event){
+        $("#startTimeDrop").attr("disabled", false);
+        $("#endTimeDrop").attr("disabled", false);
+    });
+ 
+    // Initiate Checkboxes Edit Appointment
+    $('input[type="checkbox"][id="userEditPut"]').on('ifChecked', function(event){
+        $('#userListEditPut').prop('disabled', false).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="userEditPut"]').on('ifUnchecked', function(event){
+        $('#userListEditPut').prop('disabled', true).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="userCritEditPut"]').on('ifChecked', function(event){
+        $('#userListCritEditPut').prop('disabled', false).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="userCritEditPut"]').on('ifUnchecked', function(event){
+        $('#userListCritEditPut').prop('disabled', true).trigger("chosen:updated");
+    });
+ 
+    $('input[type="checkbox"][id="allDayEditPut"]').on('ifChecked', function(event){
+        $("#startTimeEditPut").attr("disabled", true);
+        $("#endTimeEditPut").attr("disabled", true);
+    });
+ 
+    $('input[type="checkbox"][id="allDayEditPut"]').on('ifUnchecked', function(event){
+        $("#startTimeEditPut").attr("disabled", false);
+        $("#endTimeEditPut").attr("disabled", false);
+    });
 
     // Initiate Checkboxes Drop Appointment
     $('input[type="checkbox"][id="groupDrop"]').on('ifChecked', function(event){
@@ -1411,11 +1382,9 @@ drop: function (date, allDay, e) {
                 }
         });
 
-
         $.ajax({
             type: "GET",
-                        url: "http://localhost:8000/api/group/",
-
+            url: "http://localhost:8000/api/group/",
             success: function(data)
                 {
                     for (var key in data) {
@@ -1425,51 +1394,39 @@ drop: function (date, allDay, e) {
                 }
         });
 
-
         $('#appointment').modal('show');
     });
 
-
-    // New Event Button Function Save
+    // New Event Modal Save Function 
     $("#saveEvent").click(function (e){
+        if($('#group').is(':checked')){
+            var groupID = $("#groupList").val();
+            var groupMember = [];
 
-                if($('#group').is(':checked')){
-                    var groupID = $("#groupList").val();
-                    var groupMember = [];
-                             $.ajax({
-                        url : "http://localhost:8000/api/group/"+groupID+"/",
-                        type: "GET",
-                        success: function(data, textStatus, jqXHR)
-                            {
-
-
-                                    for (var i = 0; i<data.members.length; i++) {
-                    groupMember.push(data.members[i].email);
+            $.ajax({
+                url : "http://localhost:8000/api/group/"+groupID+"/",
+                type: "GET",
+                success: function(data, textStatus, jqXHR)
+                    {
+                        for (var i = 0; i<data.members.length; i++) {
+                            groupMember.push(data.members[i].email);
+                        }
+                    },
+                error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        console.log(jqXHR);
                     }
+            });
+            
+        } else var groupMember = null;
 
+        if($('#user').is(':checked')){
+            var actors = $("#userList").val();
+        } else var actors = null;
 
-
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-                            }
-                    });
-
-
-
-
-                } else var groupMember = null;
-
-
-                  if($('#user').is(':checked')){
-                    var actors = $("#userList").val();
-                } else var actors = null;
-
-                  if($('#userCrit').is(':checked')){
-                    var actorsCrit = $("#userListCrit").val();
-                } else var actorsCrit = null;
-
+        if($('#userCrit').is(':checked')){
+            var actorsCrit = $("#userListCrit").val();
+        } else var actorsCrit = null;
 
         var title = $("#title").val();
         var dtDate = $("#reservationtime").val();
@@ -1490,15 +1447,9 @@ drop: function (date, allDay, e) {
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
         }
 
-
-
         var formData = {name: title, organizer: {{ user.id }}, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
 
-
-
-
-
-       $.ajax({
+        $.ajax({
             type: "POST",
             url : "http://localhost:8000/api/appointment/",
             data : formData,
@@ -1508,84 +1459,72 @@ drop: function (date, allDay, e) {
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
 
-
-                    if(groupMember !== null) {
                         $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
-                        type: "POST",
-                        data : {actors: groupMember},
-                        success: function(data, textStatus, jqXHR)
-                            {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-                            }
-                        });
-                    }
-
-                    if(actors !== null) {
-                         $.ajax({
                             url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
                             type: "POST",
-                            data : {actors: actors},
+                            data : {actors: groupMember},
                             success: function(data, textStatus, jqXHR)
                                 {
+
+                                $.ajax({
+                                    url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
+                                    type: "POST",
+                                    data : {actors: actors},
+                                    success: function(data, textStatus, jqXHR)
+                                        {
+
+                                        $.ajax({
+                                            url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
+                                            type: "POST",
+                                            data: {actors: actorsCrit},
+                                            success: function (data, textStatus, jqXHR)
+                                                {
+
+                                                $.ajax({
+                                                    url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
+                                                    type: "POST",
+                                                    data : {"answer": "yes"},
+                                                    success: function(data, textStatus, jqXHR)
+                                                        {
+                                                            window.location.reload();
+                                                        },
+                                                    error: function (jqXHR, textStatus, errorThrown) 
+                                                        {
+                                                            console.log(jqXHR);
+                                                        }
+                                                });
+                                                },
+                                            error: function (jqXHR, textStatus, errorThrown) 
+                                                {
+                                                    console.log(jqXHR);
+                                                }
+                                        });
+                                        },
+                                    error: function (jqXHR, textStatus, errorThrown)
+                                        {
+                                            console.log(jqXHR);
+                                        }
+                                });
                                 },
                             error: function (jqXHR, textStatus, errorThrown)
                                 {
                                     console.log(jqXHR);
                                 }
                         });
-                    }
-
-                    if(actorsCrit !== null) {
-                        $.ajax({
-                            url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
-                            type: "POST",
-                            data: {actors: actorsCrit},
-                            success: function (data, textStatus, jqXHR) {
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.log(jqXHR);
-                            }
-                        });
-                    }
-                        var formData =  {"answer": "yes"}
-                    $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
-                        type: "POST",
-                        data : formData,
-                        success: function(data, textStatus, jqXHR)
-                            {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
-                    });
-
-
-
-
-
-                parent.location.reload();
                 },
-            error: function (jqXHR, textStatus, errorThrown)
+                error: function (jqXHR, textStatus, errorThrown)
                 {
                     console.log(jqXHR);
                 }
         });
     });
 
-
-
-    // TODO New Event After Drop Function Save
+    // New Event After Drop Save Function 
     $("#saveEventDrop").click(function (e) {
-
-
         if ($('#group').is(':checked')) {
             var groupID = $("#groupListDrop").val();
             var groupMember = [];
+
             $.ajax({
                 url: "http://localhost:8000/api/group/" + groupID + "/",
                 type: "GET",
@@ -1598,9 +1537,7 @@ drop: function (date, allDay, e) {
                     console.log(jqXHR);
                 }
             });
-
         } else var groupMember = null;
-
 
         if ($('#userDrop').is(':checked')) {
             var actors = $("#userListDrop").val();
@@ -1610,9 +1547,7 @@ drop: function (date, allDay, e) {
             var actorsCrit = $("#userListCritDrop").val();
         } else var actorsCrit = null;
 
-
         var titleElement = $("#titleDrop").text();
-
         var title = titleElement.substring(0, titleElement.indexOf('-'));
         var dtStart = $("#startTimeDrop").val();
         var dtEnd = $("#endTimeDrop").val();
@@ -1620,14 +1555,8 @@ drop: function (date, allDay, e) {
         var town = $("#townDrop").val();
         var remark = $("#remarkDrop").val();
 
-
         var dateTest = titleElement.substring(titleElement.indexOf("-") + 2);
-
-
-        // bei tag ist ein leerzeichen drin
-
         var dateFormat = dateTest.split("/");
-
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
         if ($('#allDayDrop').is(':checked')) {
@@ -1638,7 +1567,6 @@ drop: function (date, allDay, e) {
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
         }
 
-        var user_id = {{user.id}};
         var formData = {
             name: title,
             organizer: user_id,
@@ -1650,125 +1578,110 @@ drop: function (date, allDay, e) {
             color: colDropEvent
         };
 
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/api/appointment/",
+            data: formData,
+            success: function (data, textStatus, jqXHR) {
+                var objectAppID = data.id;
+                $('#dropAppointment').modal('hide');
 
+                    $.ajax({
+                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
+                        type: "POST",
+                        data: {actors: groupMember},
+                        success: function (data, textStatus, jqXHR) {
 
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8000/api/appointment/",
-                    data: formData,
-                    success: function (data, textStatus, jqXHR) {
-                        var objectAppID = data.id;
-                        $('#dropAppointment').modal('hide');
-
-
-                        if (groupMember !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
-                                type: "POST",
-                                data: {actors: groupMember},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-                        }
-
-                        if (actors !== null) {
                             $.ajax({
                                 url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
                                 type: "POST",
                                 data: {actors: actors},
                                 success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
+
+                                    $.ajax({
+                                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
+                                        type: "POST",
+                                        data: {actors: actorsCrit},
+                                        success: function (data, textStatus, jqXHR) {
+
+                                            $.ajax({
+                                                url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
+                                                type: "POST",
+                                                data : {"answer": "yes"},
+                                                success: function(data, textStatus, jqXHR)
+                                                    {
+
+                                                    $.ajax({
+                                                        url: "http://localhost:8000/api/favorites/" + favorID +"/",
+                                                        type: "PATCH",
+                                                        data: formData,
+                                                        success: function (data, textStatus, jqXHR)
+                                                            {
+
+                                                               if($('#drop-remove').is(':checked')){
+                                                                    $.ajax({
+                                                                        type: "DELETE",
+                                                                        url: "http://localhost:8000/api/favorites/"+favorID+"/",
+                                                                        success: function(data, textStatus, jqXHR)
+                                                                             {
+                                                                                 window.location.reload();
+                                                                             },
+                                                                        error: function (jqXHR, textStatus, errorThrown)
+                                                                             {
+                                                                             console.log(jqXHR);
+                                                                             }
+                                                                    });
+                                                               }
+                                                               else {
+                                                                     window.location.reload();
+                                                               }
+                                                            },
+                                                        error: function (jqXHR, textStatus, errorThrown)
+                                                            {
+                                                                console.log(jqXHR);
+                                                            }
+                                                    });
+                                                    },
+                                                error: function (jqXHR, textStatus, errorThrown) 
+                                                    {
+                                                        console.log(jqXHR);
+                                                    }
+                                            });
+                                            },
+                                        error: function (jqXHR, textStatus, errorThrown) 
+                                            {
+                                                console.log(jqXHR);
+                                            }
+                                    });
+                                    },
+                                error: function (jqXHR, textStatus, errorThrown) 
+                                    {
+                                        console.log(jqXHR);
+                                    }
                             });
-                        }
-
-                        if (actorsCrit !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
-                                type: "POST",
-                                data: {actors: actorsCrit},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-
-                        }
-
-
-                        $.ajax({
-                            url: "http://localhost:8000/api/favorites/" + favorID +"/",
-                            type: "PATCH",
-                            data: formData,
-                            success: function (data, textStatus, jqXHR)
-                                {
-                                    console.log(jqXHR);
-                                },
-                            error: function (jqXHR, textStatus, errorThrown)
-                                {
-                                    console.log(jqXHR);
-                                }
-                        });
-
-                        var formData =  {"answer": "yes"}
-                    $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
-                        type: "POST",
-                        data : formData,
-                        success: function(data, textStatus, jqXHR)
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) 
                             {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
-                    });
-
-
-                        if($('#drop-remove').is(':checked')){
-
-                             $.ajax({
-                                    type: "DELETE",
-                                    url: "http://localhost:8000/api/favorites/"+favorID+"/",
-                                    success: function(data, textStatus, jqXHR)
-                             {
-                             },
-                             error: function (jqXHR, textStatus, errorThrown)
-                             {
-                             console.log(jqXHR);
-                             }
-                                });
+                                console.log(jqXHR);
                             }
-                parent.location.reload();
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    }
-                });
-
-
+                    });
+            },
+            error: function (jqXHR, textStatus, errorThrown) 
+                {
+                    console.log(jqXHR);
+                }
+        });
     });
 
-
-
-
-$("#saveEventEditPut").click(function (e){
-
-    var title = $("#titleEditPut").val();
-    var desc = $("#remarkEditPut").val();
-    var start = $("#startTimeEditPut").val();
-    var end = $("#endTimeEditPut").val();
-    var location = $("#locationEditPut").val();
-    var town = $("#townEditPut").val();
-
-
-      var dateFormat = currentEditEvent.split("/");
+    // Edit Event Save Function
+    $("#saveEventEditPut").click(function (e){
+        var title = $("#titleEditPut").val();
+        var desc = $("#remarkEditPut").val();
+        var start = $("#startTimeEditPut").val();
+        var end = $("#endTimeEditPut").val();
+        var location = $("#locationEditPut").val();
+        var town = $("#townEditPut").val();
+        var dateFormat = currentEditEvent.split("/");
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
         if($('#allDayEditPut').is(':checked')){
@@ -1779,6 +1692,7 @@ $("#saveEventEditPut").click(function (e){
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + end;
         }
 
+<<<<<<< HEAD
 
     var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
 
@@ -1812,36 +1726,58 @@ $("#saveEventEditPut").click(function (e){
                         }
 
                         if (actorsCrit !== null) {
+=======
+        var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
+        
+        if ($('#userEditPut').is(':checked')) {
+            var actors = $("#userListEditPut").val();
+        } else var actors = null;
+ 
+        if ($('#userCritEditPut').is(':checked')) {
+            var actorsCrit = $("#userListCritEditPut").val();
+        } else var actorsCrit = null;
+ 
+        $.ajax({
+            url : "http://localhost:8000/api/appointment/"+calEventID+"/",
+            type: "PATCH",
+            data : formData,
+            success: function(data, textStatus, jqXHR)
+                {
+                    $.ajax({
+                        url: "http://localhost:8000/api/appointment/" + calEventID + "/addActors",
+                        type: "POST",
+                        data: {actors: actors},
+                        success: function (data, textStatus, jqXHR) {
+                            
+>>>>>>> development
                             $.ajax({
                                 url: "http://localhost:8000/api/appointment/" + calEventID + "/addCriticalActors",
                                 type: "POST",
                                 data: {actors: actorsCrit},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
+                                success: function (data, textStatus, jqXHR) 
+                                    {
+                                        window.location.reload();
+                                    },
+                                error: function (jqXHR, textStatus, errorThrown) 
+                                    {
+                                        console.log(jqXHR);
+                                    }
                             });
-
-                        }
-
-
-                 parent.location.reload();
-            },
-        error: function (jqXHR, textStatus, errorThrown){
-
-
-            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) 
+                            {
+                                console.log(jqXHR);
+                            }
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    console.log(jqXHR);
+                }
+        });
     });
 
-
-
-
-});
-
-
-
-    // Config Favorites
+    // Config Color of Favorites
     var currColor = "#3c8dbc";
     var colorChooser = $("#color-chooser-btn");
     var currColorHex = "";
@@ -1851,7 +1787,6 @@ $("#saveEventEditPut").click(function (e){
         currColor = $(this).css("color");
         currColorHex = rgb2hex(currColor);
         currColorHex = currColorHex.substr(1);
-
         $('#add-new-event').css({"background-color": currColor, "border-color": currColor});
     });
 
@@ -1876,16 +1811,11 @@ $("#saveEventEditPut").click(function (e){
             });
     });
 
-
     // Convert RGB to HEX
     function rgb2hex(rgb){
- rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
- return (rgb && rgb.length === 4) ? "#" +
-  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
-}
+        rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+        return (rgb && rgb.length === 4) ? "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+     }
 });
 </script>
-
 {% endblock %}

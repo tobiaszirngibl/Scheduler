@@ -1,6 +1,8 @@
 {% extends 'website/base.html' %}
-{% block test %}
+{% load static %}
+{% block htmlBody %}
 
+            <!-- Navigation Bar -->
             <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
@@ -17,37 +19,40 @@
     </nav>
 </header>
 
-
-      <div id="deleteUserMod" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Benutzer löschen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle Daten gehen hierbei verloren!</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal User Delete -->
+<div id="deleteUserMod" class="modal fade modal-primary">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Benutzer löschen</h4>
             </div>
-
-
-<div id="testingHide">
-    <ul id="myUL"></ul>
+            <div class="modal-body">
+                <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle Daten gehen hierbei verloren!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- User Search List -->
+<div id="userSearch">
+    <ul id="userSearchList"></ul>
+</div>
+
+<!-- Modal Detail User -->
 <div id="userModal" class="modal fade modal-primary">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>               </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>               
+                </button>
                 <h4 id="modalUserName"></h4>
             </div>
             <div class="modal-body">
@@ -59,7 +64,7 @@
                         <div><label>Telefon:</label></div>
                         <div><p id="modalUserPlace"></p></div>
 
-                           <div><label>Einspringer:</label></div>
+                        <div><label>Einspringer:</label></div>
                         <div><p id="modalUserUnderstudy"></p></div>
 
                         <div><label>Standort:</label></div>
@@ -73,7 +78,6 @@
 
                         <div><label>Skills:</label></div>
                         <div><p id="modalUserSkills"></p></div>
-
                     </div>
                     <div class="col-sm-6">
                         <div>
@@ -81,8 +85,7 @@
                         </div>
                         <br>
                         <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
-                         <div><p class="pSearchModal" id="modalUserNote"></p></div>
-
+                        <div><p class="pSearchModal" id="modalUserNote"></p></div>
                     </div>
                 </div>
             </div>
@@ -93,6 +96,7 @@
     </div>
 </div>
 
+<!-- Page Content -->
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Gruppen</h1>
@@ -145,31 +149,32 @@
             <div id="addGroupModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Neue Gruppe</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Name:</label>
-                                <input id="groupTitle" type="text" class="form-control" placeholder="Enter..."></input>
+                        <form class="noValidateForm" method="post" class="form-vertical">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Neue Gruppe</h4>
                             </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Name:</label>
+                                    <input id="groupTitle" type="text" class="form-control" required="true" placeholder="Enter..."></input>
+                                </div>
 
-                            <div class="form-group">
-                                <label>Benutzer auswählen (Mehrfachauswahl):</label>
-                                <select id="userList" multiple class="form-control"></select>
+                                <div class="form-group">
+                                    <label>Benutzer auswählen (Mehrfachauswahl):</label>
+                                    <select id="userList" multiple class="form-control"></select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="saveGroup" type="button" class="btn btn-primary">Speichern</button>
-                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                <button id="saveGroup" type="submit" class="btn btn-primary">Speichern</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-
 
             <!-- Modal Leave Group -->
             <div id="leaveGroupMod" class="modal fade modal-primary">
@@ -196,141 +201,36 @@
     </section>
     
 {% endblock %}
+
 {% block calFunc %}
 <script>
 
 $(function () {
-jQuery.ajaxSettings.traditional = true;
+    
+    // Prevent from sending Form
+    $(document).on('submit','.noValidateForm',function (e) {
+        e.preventDefault();
+        return false;
+    })
+
+    jQuery.ajaxSettings.traditional = true;
 
     //Global Variables
     var groupSelected = "";
-    
-    
-     // Initiate Lists
-    $(".chzn-select").chosen({
-    width:"100%"
-    });
-    
-    
-     // Send CSR Token for Ajax
-    var csrftoken = $.cookie('csrftoken');
-    
-    function csrfSafeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
+    var user_id = {{user.id}};
 
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-    
-    // Initiate Search Function
-    //// Add Keyup Function for Searchbar
-    $('#navbar-search-input').on('keyup', function() {
-        var input, filter, ul, li, a, i;
-        
-        input = document.getElementById('navbar-search-input');
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName('li');
-        
-        $("#testingHide").show();
-        $(".content-wrapper").hide();
-
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-        if(input.value === "") {
-            $("#testingHide").hide();
-            $(".content-wrapper").show();
-        }
-    });
-
-
-    $("#showDeleteModal").click(function() {
-        $("#deleteUserMod").modal("show");
-    });
-
-
-    $("#deleteUserButton").click(function() {
-
-        var user_id = {{ user.id }};
-
-       $.ajax({
-        type: "DELETE",
-        url: "http://localhost:8000/api/actor/"+user_id+"/",
-        success: function(data)
-                {
-    window.location.replace("/login");
-                }
-    });
-
-        });
-
-
-    
-    //// Config Result List  
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8000/api/actor/",
-        success: function(data)
-                {
-                    for (var key in data) {
-                        if(data[key].first_name ==  "" && data[key].last_name == "") {
-                            var actorName = "Kein Name angegeben";
-                        }
-                        else {
-                            var actorName = data[key].first_name + " " + data[key].last_name;
-                        }
-                    var actorEmail = data[key].email;
-                    $('#myUL').append('<li><a id='+data[key].id+' class="userSearchResult">'+actorEmail+' - ' + actorName +'</a></li>');
-                    }
-                }
-    });
-    
-    
-     $("#myUL").on("click", ".userSearchResult", function(e){
-        var userID = e.currentTarget.id;
+    $("#deleteUserButton").click(function () {
 
         $.ajax({
-            type: "GET",
-            url: "http://localhost:8000/api/actor/"+userID+"/",
+            type: "DELETE",
+            url: "http://localhost:8000/api/actor/" + user_id + "/",
             success: function (data) {
-                $("#modalUserName").text(data.first_name +" "+ data.last_name);
-                $("#modalUserMail").text(data.email);
-                $("#modalUserTel").text(data.phone);
-                $("#modalUserNote").text(data.contact_notes);
-                $("#modalUserPlace").text(data.location);
-                $("#modalUserSkills").text(data.skills);
-                $("#modalUserSpareTime").text(data.spare_time);
-                $("#modalUserEducation").text(data.education);
-                $("#modalUserJob").text(data.job);
-                if(data.understudy != null ){
-                    $("#modalUserUnderstudy").text(data.understudy.first_name + " " + data.understudy.last_name + " - " + data.understudy.email);
-                } else {
-                    $("#modalUserUnderstudy").text("");
-                }
-                $("#detailProfileAvatar").attr("src", data.avatar);
-
-
+                window.location.replace("/login");
             }
         });
-        
-        $("#userModal").modal('show');
     });
-    
-    $("#testingHide").hide();
-    
-    
+
+
     // Load Groups
     $.ajax({
         type: "GET",
@@ -357,43 +257,19 @@ jQuery.ajaxSettings.traditional = true;
             }
         }
     });
-    
 
-            
-    // Leave Group Tooltip Remove        
-    $('.leaveGroup').tooltip({
-        'show': true,
-        'placement': 'bottom',
-        'title': "Gruppe verlassen"
-    });
-    
     // Leave Group Function        
     $('#leaveGroupButton').click(function (e){
-              $.ajax({
+        $.ajax({
             type: "GET",
             url: "http://localhost:8000/api/group/"+groupSelected+"/leave/",
             success: function(data)
                 {
-
-location.reload();
-
+                    location.reload();
                 }
         });
     });
 
-
-
-
-
-    // No Group Tooltip Remove?
-
-
-    // Function OpenModal
-    function OpenModal() {
-        $('#usersOverview').modal('show');
-    };
-
-            
     // Function Add New Group
     $("#addNewGroup").click(function (e){
         e.preventDefault();
@@ -410,8 +286,8 @@ location.reload();
                         else {
                             var actorName = data[key].first_name + " " + data[key].last_name;
                         }
-                    var actorEmail = data[key].email;
-                    $('#userList').append('<option value='+actorEmail+'>'+actorEmail+' - ' + actorName +'</option>');
+                        var actorEmail = data[key].email;
+                        $('#userList').append('<option value='+actorEmail+'>'+actorEmail+' - ' + actorName +'</option>');
                     }
                 }
         });
@@ -419,12 +295,12 @@ location.reload();
         $('#addGroupModal').modal('show');
     });
 
-
     // Function Add New Group Save
     $("#saveGroup").click(function (e){
         var title = $("#groupTitle").val();
-       var memberList = $("#userList").val();
+        var memberList = $("#userList").val();
         var formData = {name: title};
+
         $.ajax({
             url : "http://localhost:8000/api/group/",
             type: "POST",
@@ -433,10 +309,10 @@ location.reload();
                 {
                    var groupID = data.id;
 
-                    $.ajax({
+                   $.ajax({
                         url : "http://localhost:8000/api/group/"+groupID+"/addActors/",
                         type: "POST",
-                        data : {actors: memberList},
+                        data : { actors: memberList },
                         success: function(data, textStatus, jqXHR)
                             {
                                 location.reload();
@@ -454,9 +330,11 @@ location.reload();
         });
     });
 
-$( document ).on("click", "a.groupMember", function(){
-    $("#groupMemberList li").remove();
-     var groupID = $(this).attr("id");
+    // Show User in Group
+    $(document).on("click", "a.groupMember", function(){
+        $("#groupMemberList li").remove();
+        var groupID = $(this).attr("id");
+
         $.ajax({
             type: "GET",
             url: "http://localhost:8000/api/group/" + groupID + "/",
@@ -464,15 +342,11 @@ $( document ).on("click", "a.groupMember", function(){
                 var memberArray = data.members;
                 $("#memberCount").text(memberArray.length);
                 for (var i = 0; i < memberArray.length; i++) {
-
-
                     $("#groupMemberList").append('<li value='+memberArray[i].email + '>'+ memberArray[i].first_name + ' ' + memberArray[i].last_name + ' - ' + memberArray[i].email + '</option>');
-
                     $("#usersOverview").modal("show");
                 }
             }
         });
-
     });
 });
  </script>

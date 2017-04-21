@@ -4961,7 +4961,7 @@ table.text-center th {
 
 
 
-#myUL {
+#userSearchList {
     /* Remove default list styling */
     list-style-type: none;
     padding: 0;
@@ -4969,7 +4969,7 @@ table.text-center th {
     height:1000px;
 }
 
-#myUL li a {
+#userSearchList li a {
     border: 1px solid #ddd; /* Add a border to all links */
     margin-top: -1px; /* Prevent double borders */
     background-color: #f6f6f6; /* Grey background color */
@@ -4982,12 +4982,12 @@ table.text-center th {
 
 }
 
-#myUL li a.header {
+#userSearchList li a.header {
     background-color: #d2d2d2; /* Add a darker background color for headers */
     cursor: pointer  !important; /* Change cursor style */
 }
 
-#myUL li a:hover {
+#userSearchList li a:hover {
     background-color: #eee; /* Add a hover effect to all links, except for headers */
         cursor: pointer  !important; /* Change cursor style */
 

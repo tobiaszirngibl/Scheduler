@@ -90,11 +90,8 @@
         </ul>
       </div>
 
-
-
-
       
-      {% block test %} {% endblock %}
+      {% block htmlBody %} {% endblock %}
 
 
 
@@ -123,7 +120,6 @@
 <!-- FastClick -->
 <script src="{% static 'website/plugins/fastclick/fastclick.js' %}"></script>
 <!-- AdminLTE App -->
-<script src="{% static 'website/dist/js/app.min.js' %}"></script>
 <script src="{% static 'website/dist/js/tooltipster.bundle.min.js' %}"></script>
 
 <!-- AdminLTE for demo purposes -->
@@ -144,9 +140,12 @@
 <script src="{% static 'website/plugins/fullcalendar/fullcalendar.js' %}"></script>
 <script src="{% static 'website/plugins/fullcalendar/locale-all.js' %}"></script>
 
+<script src="{% static 'website/dist/js/setupApp.js' %}"></script>
 
 
- {% block calFunc %} {% endblock %}
+ {% block calFunc %}
+
+{% endblock %}
 
 
 
