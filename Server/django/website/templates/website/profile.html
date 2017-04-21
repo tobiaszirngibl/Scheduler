@@ -2,6 +2,7 @@
 {% load static %}
 {% block htmlBody %}
 
+            <!-- Navigation Bar -->
             <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
@@ -18,38 +19,40 @@
     </nav>
 </header>
 
-
-       <div id="deleteUserMod" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Benutzer löschen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle ihre Daten gehen hierbei verloren!</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal User Delete -->
+<div id="deleteUserMod" class="modal fade modal-primary">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Benutzer löschen</h4>
             </div>
+            <div class="modal-body">
+                <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle ihre Daten gehen hierbei verloren!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-
+<!-- User Search List -->
 <div id="userSearch">
     <ul id="userSearchList"></ul>
 </div>
 
+<!-- Modal Detail User -->
 <div id="userModal" class="modal fade modal-primary">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>               </button>   
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>               
+                </button>   
                 <h4 id="modalUserName"></h4>
             </div>
             <div class="modal-body">
@@ -75,7 +78,6 @@
                                 
                         <div><label>Fähigkeiten:</label></div>
                         <div><p id="modalUserSkills"></p></div>
-
                     </div>
                     <div class="col-sm-6">
                         <div>
@@ -83,8 +85,7 @@
                         </div>
                         <br>
                         <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
-                         <div><p class="pSearchModal" id="modalUserNote"></p></div>
-
+                        <div><p class="pSearchModal" id="modalUserNote"></p></div>
                     </div>
                 </div>
             </div>
@@ -95,6 +96,7 @@
     </div>
 </div>
 
+<!-- Page Content -->
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Benutzer</h1>
@@ -110,13 +112,10 @@
                             </span>
                         </button>
                         <br><br>
-            <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
-                        <a  id="uploadAvatar" class="user-upload">Profilbild ändern</a><br>
-
+                        <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
+                        <a id="uploadAvatar" class="user-upload">Profilbild ändern</a><br>
                         <h3 class="profile-username text-center"> {{user.first_name}} {{user.last_name}}</h3>
-
                         <p class="text-muted text-center">{{ user.job }}</p>
-
                         <ul class="list-group list-group-unbordered">
                             <li class="list-group-item">
                                 <b>E-Mail</b> 
@@ -129,7 +128,7 @@
                             <li class="list-group-item">
                                 <b>Einspringer:</b>
                                 <a class="pull-right">{{ user.understudy_name }}</a><br>
-                                  <a class="pull-right">{{ user.understudy.email }}<br></a><br>
+                                <a class="pull-right">{{ user.understudy.email }}<br></a><br>
                             </li>
                             <li class="list-group-item">
                                 <b>Anmerkungen zu Kontaktdaten</b>
@@ -156,15 +155,11 @@
 
                         <strong><i class="fa fa-pencil margin-r-5"></i> Fähigkeiten</strong>
                         <p class="text-muted">{{ user.skills }}</p><hr>
-
-
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
     
     <!-- Modal Edit User -->
     <div id="userEdit" class="modal fade">
@@ -216,48 +211,40 @@
 
                     <div class="row">
                         <div class="col-lg-6">
-                      <div class="form-group">
-                        <label>Berufsbezeichnung</label>
-                        <input id="jobEdit" type="text" class="form-control" value="{{user.job}}">
-                    </div>
+                            <div class="form-group">
+                                <label>Berufsbezeichnung:</label>
+                                <input id="jobEdit" type="text" class="form-control" value="{{user.job}}">
+                            </div>
                         </div>
-                                                <div class="col-lg-6">
-
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label>Ausbildung:</label>
-                            <input id="eduEdit" type="text" class="form-control" value="{{user.education}}">
-                        </div>
-                    </div>
-                                                </div>
-                    </div>
-
-                      <div class="row">
                         <div class="col-lg-6">
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label>Standort:</label>
-                            <input id="placeEdit" type="text" class="form-control" value="{{user.location}}">
+                            <div class="form-group">
+                                <label>Ausbildung:</label>
+                                <input id="eduEdit" type="text" class="form-control" value="{{user.education}}">
+                            </div>
                         </div>
                     </div>
+                  
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Standort:</label>
+                                <input id="placeEdit" type="text" class="form-control" value="{{user.location}}">
+                            </div>
                         </div>
-                                            <div class="col-lg-6">
-
-                    <div class="form-group">
-                        <div class="form-group">
-                            <label>Fähigkeiten:</label>
-                            <input id="skillsEdit" type="text" class="form-control" value="{{user.skills}}">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Fähigkeiten:</label>
+                                <input id="skillsEdit" type="text" class="form-control" value="{{user.skills}}">
+                            </div>
                         </div>
                     </div>
-                                            </div>
-                      </div>
+                    
                     <div class="form-group">
                         <div class="form-group">
                             <label>Freie Zeiten:</label>
                             <input id="freetimeEdit" type="text" class="form-control" value="{{user.spare_time}}">
                         </div>
                     </div>
-                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
@@ -267,36 +254,29 @@
         </div>
     </div>
 
- <div id="uploadAvatarModal" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Profilbild ändern</h4>
-                        </div>
-                        <div class="modal-body">
-                        <p> Bitte wählen sie ein Bild zu hochladen aus:</p><br>
- <!-- Upload Avatar -->
-                        <form action="{% url 'upload_avatar' %}" method="post" enctype="multipart/form-data" class="user-upload">
-                            {% csrf_token %}
-                            <p>
-                                <input id="avatra" type="file" class="user-upload" name="avatar">
-                            </p><br>
-                                <input type="submit" value="Hochladen" class="user-uploadModal" />
-                        </form>
-                        <!-- end Upload Avatar -->
-
-
-                        </div>
-
-                    </div>
+    <!-- Modal Upload Avatar -->
+    <div id="uploadAvatarModal" class="modal fade modal-primary">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Profilbild ändern</h4>
+                </div>
+                <div class="modal-body">
+                    <p> Bitte wählen sie ein Bild zu hochladen aus:</p><br>
+                    <form action="{% url 'upload_avatar' %}" method="post" enctype="multipart/form-data" class="user-upload">
+                        {% csrf_token %}
+                        <p>
+                            <input id="avatra" type="file" class="user-upload" name="avatar">
+                        </p><br>
+                        <input type="submit" value="Hochladen" class="user-uploadModal" />
+                    </form>
                 </div>
             </div>
-
-
-
+        </div>
+    </div>
 {% endblock %}
 
 {% block calFunc %}
@@ -304,23 +284,33 @@
 
 $(function () {
 
-            jQuery.ajaxSettings.traditional = true;
+
+    jQuery.ajaxSettings.traditional = true;
 
     // Global Variables
     var user_id = {{ user.id }};
 
+    $("#deleteUserButton").click(function () {
+
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8000/api/actor/" + user_id + "/",
+            success: function (data) {
+                window.location.replace("/login");
+            }
+        });
+    });
 
     // Edit User Function
     $('.editContact').click(function() {
         $("#userEdit").modal("show");
     });
 
-        // Edit User Function
+    // Edit User Function
     $("#uploadAvatar").click(function() {
         $("#uploadAvatarModal").modal("show");
     });
 
-    
     // Edit User Function Save
     $('#saveUserEdit').click(function() {
         var cnEdit = $("#notesEdit").val();

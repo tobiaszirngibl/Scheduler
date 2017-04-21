@@ -1,6 +1,8 @@
 {% extends 'website/base.html' %}
+{% load static %}
 {% block htmlBody %}
 
+            <!-- Navigation Bar -->
             <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/calendar"><i class="fa fa-calendar" aria-hidden="true"></i> Kalender<span class="sr-only">(current)</span></a></li>
@@ -17,38 +19,40 @@
     </nav>
 </header>
 
-
-
-      <div id="deleteUserMod" class="modal fade modal-primary">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Benutzer löschen</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle Daten gehen hierbei verloren!</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal User Delete -->
+<div id="deleteUserMod" class="modal fade modal-primary">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Benutzer löschen</h4>
             </div>
+            <div class="modal-body">
+                <p>Möchten Sie den aktuellen Benutzer wirklich löschen? Alle Daten gehen hierbei verloren!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                <button id="deleteUserButton" type="button" class="btn btn-danger pull-right">Benutzer endgültig löschen</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-
+<!-- User Search List -->
 <div id="userSearch">
     <ul id="userSearchList"></ul>
 </div>
 
+<!-- Modal Detail User -->
 <div id="userModal" class="modal fade modal-primary">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>               </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>               
+                </button>
                 <h4 id="modalUserName"></h4>
             </div>
             <div class="modal-body">
@@ -60,7 +64,7 @@
                         <div><label>Telefon:</label></div>
                         <div><p id="modalUserPlace"></p></div>
 
-                           <div><label>Einspringer:</label></div>
+                        <div><label>Einspringer:</label></div>
                         <div><p id="modalUserUnderstudy"></p></div>
 
                         <div><label>Standort:</label></div>
@@ -74,7 +78,6 @@
 
                         <div><label>Skills:</label></div>
                         <div><p id="modalUserSkills"></p></div>
-
                     </div>
                     <div class="col-sm-6">
                         <div>
@@ -82,8 +85,7 @@
                         </div>
                         <br>
                         <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
-                         <div><p class="pSearchModal" id="modalUserNote"></p></div>
-
+                        <div><p class="pSearchModal" id="modalUserNote"></p></div>
                     </div>
                 </div>
             </div>
@@ -94,6 +96,7 @@
     </div>
 </div>
 
+<!-- Page Content -->
 <div class="content-wrapper">
     <section class="content-header">
         <h1>Gruppen</h1>
@@ -146,31 +149,32 @@
             <div id="addGroupModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title">Neue Gruppe</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Name:</label>
-                                <input id="groupTitle" type="text" class="form-control" placeholder="Enter..."></input>
+                        <form class="noValidateForm" method="post" class="form-vertical">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Neue Gruppe</h4>
                             </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Name:</label>
+                                    <input id="groupTitle" type="text" class="form-control" required="true" placeholder="Enter..."></input>
+                                </div>
 
-                            <div class="form-group">
-                                <label>Benutzer auswählen (Mehrfachauswahl):</label>
-                                <select id="userList" multiple class="form-control"></select>
+                                <div class="form-group">
+                                    <label>Benutzer auswählen (Mehrfachauswahl):</label>
+                                    <select id="userList" multiple class="form-control"></select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="saveGroup" type="button" class="btn btn-primary">Speichern</button>
-                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                                <button id="saveGroup" type="submit" class="btn btn-primary">Speichern</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-
 
             <!-- Modal Leave Group -->
             <div id="leaveGroupMod" class="modal fade modal-primary">
@@ -197,15 +201,35 @@
     </section>
     
 {% endblock %}
+
 {% block calFunc %}
 <script>
 
 $(function () {
+    
+    // Prevent from sending Form
+    $(document).on('submit','.noValidateForm',function (e) {
+        e.preventDefault();
+        return false;
+    })
 
-            jQuery.ajaxSettings.traditional = true;
+    jQuery.ajaxSettings.traditional = true;
 
-      //Global Variables
+    //Global Variables
     var groupSelected = "";
+    var user_id = {{user.id}};
+
+    $("#deleteUserButton").click(function () {
+
+        $.ajax({
+            type: "DELETE",
+            url: "http://localhost:8000/api/actor/" + user_id + "/",
+            success: function (data) {
+                window.location.replace("/login");
+            }
+        });
+    });
+
 
     // Load Groups
     $.ajax({
@@ -234,7 +258,6 @@ $(function () {
         }
     });
 
-
     // Leave Group Function        
     $('#leaveGroupButton').click(function (e){
         $.ajax({
@@ -246,7 +269,6 @@ $(function () {
                 }
         });
     });
-
 
     // Function Add New Group
     $("#addNewGroup").click(function (e){
@@ -273,7 +295,6 @@ $(function () {
         $('#addGroupModal').modal('show');
     });
 
-
     // Function Add New Group Save
     $("#saveGroup").click(function (e){
         var title = $("#groupTitle").val();
@@ -288,7 +309,7 @@ $(function () {
                 {
                    var groupID = data.id;
 
-                    $.ajax({
+                   $.ajax({
                         url : "http://localhost:8000/api/group/"+groupID+"/addActors/",
                         type: "POST",
                         data : { actors: memberList },
@@ -309,6 +330,7 @@ $(function () {
         });
     });
 
+    // Show User in Group
     $(document).on("click", "a.groupMember", function(){
         $("#groupMemberList li").remove();
         var groupID = $(this).attr("id");

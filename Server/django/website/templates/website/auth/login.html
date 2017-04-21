@@ -1,40 +1,29 @@
 {% extends 'website/auth/base_login.html' %}
 {% load static %}
 {% block content %}
+
 <body class="hold-transition login-page">
-<div class="login-box">
-
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-        <img src="{% static 'website/dist/img/Organized.png' %}" class="user-image" alt="Logo Image" width="50%" height="50%">
-          <p href="http://ekulturportal.de/" class="whiteFont"><b class="orangeBold">e</b><b class="whiteFont">KulturPortal</b></p>    
-      
-    <p class="login-box-msg">Bitte loggen Sie sich ein:</p>
-
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Einloggen</button>
-        <!-- /.col -->
-    </form>
-
-    <!--<a href="#">Passwort vergessen</a><br> -->
-    <a href="{% url 'register' %}" class="text-center">Neuen Benutzer registrieren</a>
-
-  </div>
-  <!-- /.login-box-body -->
-</div>
-<!-- /.login-box -->
+    <div class="login-box">
+        <div class="login-box-body">
+            <img src="{% static 'website/dist/img/Organized.png' %}" class="user-image" alt="Logo Image" width="50%" height="50%">
+            <p href="http://ekulturportal.de/" class="whiteFont"><b class="orangeBold">e</b><b class="whiteFont">KulturPortal</b></p>    
+            <p class="login-box-msg">Bitte loggen Sie sich ein:</p>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Einloggen</button>
+            </form>
+            <a href="{% url 'register' %}" class="text-center">Neuen Benutzer registrieren</a>
+        </div>
+    </div>
+    
 {% endblock %}
+    
 {% block func %}
-<!-- jQuery 2.2.3 -->
-<script src="{% static 'website/plugins/jQuery/jquery-2.2.3.min.js' %}"></script>
-<!-- Bootstrap 3.3.6 -->
-<!-- iCheck -->
-<script>
-  $(function () {
-  });
-</script>
+    <script src="{% static 'website/plugins/jQuery/jquery-2.2.3.min.js' %}"></script>
+    <script>
+    $(function () {
+    });
+    </script>
 </body>
 {% endblock %}

@@ -56,20 +56,6 @@ $(function () {
         $("#deleteUserMod").modal("show");
     });
 
-
-    $("#deleteUserButton").click(function () {
-
-
-        $.ajax({
-            type: "DELETE",
-            url: "http://localhost:8000/api/actor/" + user_id + "/",
-            success: function (data) {
-                window.location.replace("/login");
-            }
-        });
-    });
-
-
      //// Config Result List
     $.ajax({
         type: "GET",
