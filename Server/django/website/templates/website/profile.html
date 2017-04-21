@@ -1,6 +1,6 @@
 {% extends 'website/base.html' %}
 {% load static %}
-{% block test %}
+{% block htmlBody %}
 
             <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -41,8 +41,8 @@
 
 
 
-<div id="testingHide">
-    <ul id="myUL"></ul>
+<div id="userSearch">
+    <ul id="userSearchList"></ul>
 </div>
 
 <div id="userModal" class="modal fade modal-primary">
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div>
-                        <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
+                        <img id="detailProfileAvatar" class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
                         </div>
                         <br>
                         <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
@@ -105,7 +105,9 @@
                 <div class="box box-primary">
                     <div class="box-body box-profile">
                         <button type="button" class="editContact btn btn-primary btn-sm pull-right">
-                            <span class="glyphicon glyphicon glyphicon-pencil"></span>
+                            <span class="glyphicon glyphicon glyphicon-pencil">
+                                <span title="Profil bearbeiten" class="glyphicon glyphicon glyphicon-pencil tooltip"></span>
+                            </span>
                         </button>
                         <br><br>
             <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
@@ -126,7 +128,8 @@
                             </li>
                             <li class="list-group-item">
                                 <b>Einspringer:</b>
-                                <a class="pull-right">{{ user.understudy }}</a>
+                                <a class="pull-right">{{ user.understudy_name }}</a><br>
+                                  <a class="pull-right">{{ user.understudy.email }}<br></a><br>
                             </li>
                             <li class="list-group-item">
                                 <b>Anmerkungen zu Kontaktdaten</b>
@@ -166,7 +169,7 @@
     <!-- Modal Edit User -->
     <div id="userEdit" class="modal fade">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div id="userEditContent" class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -174,20 +177,34 @@
                     <h4 class="modal-title">{{user.first_name}} {{user.last_name}} - {{user.email}}</h4>
                 </div>
                 <div class="modal-body">
-                    
-                    <div class="form-group">
-                        <label>Berufsbezeichnung</label>
-                        <input id="jobEdit" type="text" class="form-control" value="{{user.job}}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Telefon:</label>
-                        <input id="telEdit" type="text" class="form-control" value="{{user.phone}}">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                 <label>Vorname:</label>
+                                 <input id="firstnameEdit" type="text" class="form-control" value="{{user.first_name}}">
+                            </div>
+                        </div>
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                 <label>Nachname:</label>
+                                 <input id="lastnameEdit" type="text" class="form-control" value="{{user.last_name}}">
+                            </div>
+                        </div>
                     </div>
 
-                      <div class="form-group">
-                        <label>Einspringer:</label>
-                        <input id="understudyEdit" type="text" class="form-control" value="{{user.understudy}}">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Telefon:</label>
+                                <input id="telEdit" type="text" class="form-control" value="{{user.phone}}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Einspringer E-Mail oder ID:</label>
+                                <input id="understudyEdit" type="text" class="form-control"  value="{{user.understudy_email}}">
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -196,28 +213,44 @@
                             <input id="notesEdit" type="text" class="form-control" value="{{user.contact_notes}}">
                         </div>
                     </div>
-                    
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                      <div class="form-group">
+                        <label>Berufsbezeichnung</label>
+                        <input id="jobEdit" type="text" class="form-control" value="{{user.job}}">
+                    </div>
+                        </div>
+                                                <div class="col-lg-6">
+
                     <div class="form-group">
                         <div class="form-group">
                             <label>Ausbildung:</label>
                             <input id="eduEdit" type="text" class="form-control" value="{{user.education}}">
                         </div>
                     </div>
-                    
+                                                </div>
+                    </div>
+
+                      <div class="row">
+                        <div class="col-lg-6">
                     <div class="form-group">
                         <div class="form-group">
                             <label>Standort:</label>
                             <input id="placeEdit" type="text" class="form-control" value="{{user.location}}">
                         </div>
                     </div>
-                    
+                        </div>
+                                            <div class="col-lg-6">
+
                     <div class="form-group">
                         <div class="form-group">
                             <label>Fähigkeiten:</label>
                             <input id="skillsEdit" type="text" class="form-control" value="{{user.skills}}">
                         </div>
                     </div>
-                    
+                                            </div>
+                      </div>
                     <div class="form-group">
                         <div class="form-group">
                             <label>Freie Zeiten:</label>
@@ -265,141 +298,18 @@
 
 
 {% endblock %}
+
 {% block calFunc %}
 <script>
 
 $(function () {
 
-jQuery.ajaxSettings.traditional = true;
+            jQuery.ajaxSettings.traditional = true;
+
+    // Global Variables
+    var user_id = {{ user.id }};
 
 
-    // Send CSR Token for Ajax
-    var csrftoken = $.cookie('csrftoken');
-    
-    function csrfSafeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-    
-    // Initiate Search Function
-    //// Add Keyup Function for Searchbar
-    $('#navbar-search-input').on('keyup', function() {
-        var input, filter, ul, li, a, i;
-        
-        input = document.getElementById('navbar-search-input');
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName('li');
-        
-        $("#testingHide").show();
-        $(".content-wrapper").hide();
-
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-        if(input.value === "") {
-            $("#testingHide").hide();
-            $(".content-wrapper").show();
-        }
-    });
-
-
-    $("#showDeleteModal").click(function() {
-        $("#deleteUserMod").modal("show");
-    });
-
-
-    $("#deleteUserButton").click(function() {
-
-        var user_id = {{ user.id }};
-
-       $.ajax({
-        type: "DELETE",
-        url: "http://localhost:8000/api/actor/"+user_id+"/",
-        success: function(data)
-                {
-    window.location.replace("/login");
-                }
-    });
-
-        });
-
-
-
-
-
-
-
-    
-    //// Config Result List  
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8000/api/actor/",
-        success: function(data)
-                {
-                    for (var key in data) {
-                        if(data[key].first_name ==  "" && data[key].last_name == "") {
-                            var actorName = "Kein Name angegeben";
-                        }
-                        else {
-                            var actorName = data[key].first_name + " " + data[key].last_name;
-                        }
-                    var actorEmail = data[key].email;
-                    $('#myUL').append('<li><a id='+data[key].id+' class="userSearchResult">'+actorEmail+' - ' + actorName +'</a></li>');
-                    }
-                }
-    });
-    
-    
-    $("#myUL").on("click", ".userSearchResult", function(e){
-        var userID = e.currentTarget.id;
-        
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8000/api/actor/"+userID+"/",
-            success: function (data) {
-                console.log(data);
-                $("#modalUserName").text(data.first_name +" "+ data.last_name);
-                $("#modalUserMail").text(data.email);
-                $("#modalUserTel").text(data.phone);
-                $("#modalUserUnderstudy").text(data.understudy);
-                $("#modalUserNote").text(data.contact_notes);
-                $("#modalUserPlace").text(data.location);
-                $("#modalUserSkills").text(data.skills);
-                $("#modalUserSpareTime").text(data.spare_time);
-                $("#modalUserEducation").text(data.education);
-                $("#modalUserJob").text(data.job);
-
-            }
-        });
-        
-        $("#userModal").modal('show');
-    });
-    
-    $("#testingHide").hide();
-
-
-    // Edit User Tooltip Remove?
-    $('.editContact').tooltip({
-        'show': true,
-        'placement': 'bottom',
-        'title': "Profil bearbeiten"
-    });
-    
-    
     // Edit User Function
     $('.editContact').click(function() {
         $("#userEdit").modal("show");
@@ -421,20 +331,28 @@ jQuery.ajaxSettings.traditional = true;
         var placeEdit = $("#placeEdit").val();
         var timeEdit = $("#freetimeEdit").val();
         var skillsEdit = $("#skillsEdit").val();
-var user_id = {{ user.id }};
-        var formData = {skills: skillsEdit, phone: telEdit, job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit, contact_notes: cnEdit, understudy: understudyEdit};
-        
+        var firstnameEdit = $("#firstnameEdit").val();
+        var lastnameEdit = $("#lastnameEdit").val();
+
+        var formData = {first_name: firstnameEdit, last_name: lastnameEdit, skills: skillsEdit, phone: telEdit,
+                        job: jobEdit, location: placeEdit, spare_time: timeEdit, education: eduEdit,
+                        contact_notes: cnEdit, understudy: understudyEdit};
+
         $.ajax({
             url : "http://localhost:8000/api/actor/"+user_id+"/",
             type: "PATCH",
             data : formData,
             success: function(data, textStatus, jqXHR)
                 {
-                    $('#userEdit').modal('hide');
-                    //location.reload();
+                    location.reload();
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
+                    var response = jqXHR.responseText.toString();
+                    if(response == '{"detail":"Nicht gefunden."}'){
+                        var errorString = "Einspringer wurde nicht gefunden!";
+                        $('#userEditContent').notify("Bearbeiten fehlgeschlagen: " + errorString, "error", {position: "top center"});
+                    }
                     console.log(jqXHR);
                 }
         });

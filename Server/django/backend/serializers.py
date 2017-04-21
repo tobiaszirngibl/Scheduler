@@ -6,15 +6,24 @@ from .models import Actor, Appointment, Group, Participation, Favorite
 Serializers are part of the Django-REST-Framework(DRF).
 The are used to specify the way, data, in this case models are represented when calling the API
 """
+class ActorNestedSerializer(serializers.ModelSerializer):
+	"""
+	Serializer for the Actor-model containing only necessary fields
+	"""
 
+	class Meta:
+		model = Actor
+		fields = ('id', 'email', "first_name", "last_name")
+		read_only_fields = ('id', )
 
 class ActorSerializer(serializers.ModelSerializer):
+	understudy = ActorNestedSerializer(read_only=True)
 
 	class Meta:
 		model = Actor
 		fields = ('id', 'email', 'password', 'first_name', 'last_name',
 		          'contact_notes', 'education', 'phone', 'location', 'skills',
-		          'spare_time', 'job', 'understudy',)
+		          'spare_time', 'job', 'understudy', 'avatar')
 		read_only_fields = ('id',)
 
 	def create(self, validated_data):
@@ -27,16 +36,6 @@ class ActorSerializer(serializers.ModelSerializer):
 
 		return user
 
-
-class ActorNestedSerializer(serializers.ModelSerializer):
-	"""
-	Serializer for the Actor-model containing only necessary fields
-	"""
-
-	class Meta:
-		model = Actor
-		fields = ('id', 'email', "first_name", "last_name")
-		read_only_fields = ('id', )
 
 
 class ParticipationSerializer(serializers.ModelSerializer):
@@ -71,8 +70,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
 
 	def create(self, validated_data):
 		instance = super(AppointmentSerializer, self).create(validated_data)
-		instance.organizer = self.context['request'].user
-		instance.save()
 		Participation.objects.create(appointment=instance, actor=instance.organizer)
 		return instance
 
@@ -100,7 +97,7 @@ class FavoriteSerializer(AppointmentSerializer):
 		fields = '__all__'
 
 	def create(self, validated_data):
-		instance = super(FavoriteSerializer, self).create(validated_data)
+		instance = serializers.ModelSerializer.create(self, validated_data=validated_data)
 		instance.owner = self.context['request'].user
 		instance.save()
 		return instance

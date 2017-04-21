@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="{% static 'website/plugins/fullcalendar/fullcalendar.print.css' %}" media="print">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'website/dist/css/AdminLTE.css' %}">
+    <link rel="stylesheet" href="{% static 'website/dist/css/tooltipster.bundle.min.css' %}">
+
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{% static 'website/dist/css/skins/_all-skins.min.css' %}">
@@ -71,7 +73,7 @@
 
 
                 <p>
-                  {{user.first_name}} {{user.last_name}}
+                {{ user.first_name }} {{ user.last_name }}
                 </p>
               </li>
               <!-- Menu Body -->
@@ -88,11 +90,8 @@
         </ul>
       </div>
 
-
-
-
       
-      {% block test %} {% endblock %}
+      {% block htmlBody %} {% endblock %}
 
 
 
@@ -121,7 +120,8 @@
 <!-- FastClick -->
 <script src="{% static 'website/plugins/fastclick/fastclick.js' %}"></script>
 <!-- AdminLTE App -->
-<script src="{% static 'website/dist/js/app.min.js' %}"></script>
+<script src="{% static 'website/dist/js/tooltipster.bundle.min.js' %}"></script>
+
 <!-- AdminLTE for demo purposes -->
 <!-- fullCalendar 2.2.5 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
@@ -140,9 +140,12 @@
 <script src="{% static 'website/plugins/fullcalendar/fullcalendar.js' %}"></script>
 <script src="{% static 'website/plugins/fullcalendar/locale-all.js' %}"></script>
 
+<script src="{% static 'website/dist/js/setupApp.js' %}"></script>
 
 
- {% block calFunc %} {% endblock %}
+ {% block calFunc %}
+
+{% endblock %}
 
 
 

@@ -1,6 +1,6 @@
 {% extends 'website/base.html' %}
 {% load static %}
-{% block test %}
+{% block htmlBody %}
 
             <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -17,7 +17,6 @@
         </div>
     </nav>
 </header>
-
 
       <div id="deleteUserMod" class="modal fade modal-primary">
                 <div class="modal-dialog">
@@ -39,15 +38,16 @@
                 </div>
             </div>
 
-<div id="testingHide">
-    <ul id="myUL"></ul>
+<div id="userSearch">
+    <ul id="userSearchList"></ul>
 </div>
 
 <div id="userModal" class="modal fade modal-primary">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>               </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 id="modalUserName"></h4>
             </div>
             <div class="modal-body">
@@ -58,6 +58,9 @@
 
                         <div><label>Telefon:</label></div>
                         <div><p id="modalUserPlace"></p></div>
+
+                           <div><label>Einspringer:</label></div>
+                        <div><p id="modalUserUnderstudy"></p></div>
 
                         <div><label>Standort:</label></div>
                         <div><p id="modalUserTel"></p></div>
@@ -74,7 +77,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div>
-                        <img class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
+                        <img id="detailProfileAvatar" class="profile-user-img img-responsive" src="{{ user.avatar.url }}" alt="User profile picture">
                         </div>
                         <br>
                         <div><p class="pSearchModal" id="modalUserJob">Schauspieler</p></div><br>
@@ -115,10 +118,9 @@
             </div>
                 <div class="box-body">
                     <div id="external-events">
-                        <div class="external-event bg-yellow">Go home</div>
                         <div class="checkbox">
                             <label for="drop-remove">
-                                <input type="checkbox" id="drop-remove">Nach Drop entferen
+                                <input type="checkbox" id="drop-remove">Nach Drop entfernen
                             </label>
                         </div>
                     </div>
@@ -197,6 +199,8 @@
                 <div id="appointment" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
+                            <form class="noValidateForm" method="post" class="form-vertical">
+
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -206,7 +210,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>Titel</label>
-                                    <input id="title" type="text" class="form-control" placeholder="Enter ...">
+                                    <input id="title" type="text" class="form-control" required="true" placeholder="Enter ...">
                                 </div>
                                 <div class="form-group">
                                     <label>Datum:</label>
@@ -214,7 +218,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-clock-o"></i>
                                         </div>
-                                        <input type="text" class="form-control" id="reservationtime" >
+                                        <input type="text" class="form-control" required="true" id="reservationtime">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -226,7 +230,7 @@
                                             <div class="form-group">
                                                 <label>Beginn:</label>
                                                 <div class="input-group">
-                                                    <input id="startTime" type="text" class="form-control timepicker" >
+                                                    <input required="true" id="startTime" type="text" class="form-control timepicker">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -239,7 +243,7 @@
                                             <div class="form-group">
                                                 <label>Ende:</label>
                                                 <div class="input-group">
-                                                    <input id="endTime" type="text" class="form-control timepicker" >
+                                                    <input required="true" id="endTime" type="text" class="form-control timepicker">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -300,8 +304,9 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                                <button id="saveEvent" type="button" class="btn btn-primary">Speichern</button>
+                                <button id="saveEvent" type="submit" class="btn btn-primary">Speichern</button>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -310,6 +315,8 @@
                 <div id="appointmentEditPut" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
+                            <form class="noValidateForm" method="post" class="form-vertical">
+
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -319,7 +326,7 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label>Titel</label>
-                                    <input id="titleEditPut" type="text" class="form-control" placeholder="Enter ...">
+                                    <input required="true" id="titleEditPut" type="text" class="form-control" placeholder="Enter ...">
                                 </div>
                              <div class="form-group">
                                     <label><input id="allDay" type="checkbox" class="minimal">  Ganztägig</label>
@@ -330,7 +337,7 @@
                                             <div class="form-group">
                                                 <label>Beginn:</label>
                                                 <div class="input-group">
-                                                    <input id="startTimeEditPut" type="text" class="form-control timepicker" >
+                                                    <input required="true" id="startTimeEditPut" type="text" class="form-control timepicker" >
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -343,7 +350,7 @@
                                             <div class="form-group">
                                                 <label>Ende:</label>
                                                 <div class="input-group">
-                                                    <input id="endTimeEditPut" type="text" class="form-control timepicker" >
+                                                    <input required="true" id="endTimeEditPut" type="text" class="form-control timepicker">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -393,8 +400,9 @@
                             </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="saveEventEditPut" type="button" class="btn btn-primary">Bearbeitung abschicken</button>
+                            <button id="saveEventEditPut" type="submit" class="btn btn-primary">Bearbeitung abschicken</button>
                         </div>
+                            </form>
                     </div>
                 </div>
             </div>
@@ -403,6 +411,8 @@
             <div id="dropAppointment" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
+                        <form class="noValidateForm" method="post" class="form-vertical">
+
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -419,7 +429,7 @@
                                             <div class="form-group">
                                                 <label>Beginn:</label>
                                                 <div class="input-group">
-                                                    <input id="startTimeDrop" type="text" class="form-control timepicker" >
+                                                    <input id="startTimeDrop" required="true" type="text"  required="true" class="form-control timepicker" >
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -432,7 +442,7 @@
                                             <div class="form-group">
                                                 <label>Ende:</label>
                                                 <div class="input-group">
-                                                    <input id="endTimeDrop" type="text" class="form-control timepicker" >
+                                                    <input id="endTimeDrop" required="true" type="text" class="form-control timepicker" >
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-clock-o"></i>
                                                     </div>
@@ -459,7 +469,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>
-                                                <input id="groupDrop" type="checkbox" class="minimal" checked>  Gruppe auswählen
+                                                <input id="groupDrop" type="checkbox" class="minimal" checked>  Gruppe auswählen:
                                             </label>
                                             <select id="groupListDrop" class="chzn-select">
                                             </select>
@@ -493,8 +503,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
-                            <button id="saveEventDrop" type="button" class="btn btn-primary">Speichern</button>
+                            <button id="saveEventDrop" type="submit" class="btn btn-primary">Speichern</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -505,7 +516,10 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button id="editEvent" type="button" class="btn btn-success btn-sm pull-right">
-                                <span class="glyphicon glyphicon glyphicon-pencil"></span>
+                                <span class="glyphicon glyphicon glyphicon-pencil">
+                                                                    <span title="Termin bearbeiten" class="glyphicon glyphicon glyphicon-pencil tooltip"></span>
+
+                                </span>
                             </button>
                             <h4 id="titleEvent">Titel</p>>Neuer Termin</h4>
                         </div>
@@ -575,6 +589,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Schließen</button>
+                            <button id="sendNoReplace" type="button" class="btn btn-warning">Termin ablehnen und Ersatztermin wählen</button>
                             <button id="sendNo" type="button" class="btn btn-danger">Termin ablehnen</button>
 
                         </div>
@@ -586,12 +601,12 @@
 
        <div id="deleteAppointmentMod" class="modal fade modal-primary">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div id="showAppModal" class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <h4 class="modal-title">Benutzer löschen</h4>
+                            <h4 class="modal-title">Termin löschen</h4>
                         </div>
                         <div class="modal-body">
                             <p>Möchten Sie den aktuellen Termin wirklich löschen? Alle Daten des Termins gehen hierbei verloren!</p>
@@ -608,67 +623,23 @@
 {% block calFunc %}
 <script>
 $(function () {
-jQuery.ajaxSettings.traditional = true;
+            jQuery.ajaxSettings.traditional = true;
 
+
+    //prevent the form from doing a submit
+    $(document).on('submit','.noValidateForm',function (e) {
+        e.preventDefault();
+        return false;
+    })
 
     //Global Variables
+    var user_id = {{user.id}};
     var events = [];
     var eventSentData = "";
     var calEventID="";
     var colDropEvent="";
     var favorID ="";
-
-    
-    // Initiate Lists
-    $(".chzn-select").chosen({
-    width:"100%"
-    });
-    
-    
-    // Send CSR Token for Ajax
-    var csrftoken = $.cookie('csrftoken');
-    
-    function csrfSafeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-
-    
-    // Initiate Search Function
-    //// Add Keyup Function for Searchbar
-    $('#navbar-search-input').on('keyup', function() {
-        var input, filter, ul, li, a, i;
-        
-        input = document.getElementById('navbar-search-input');
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName('li');
-        
-        $("#testingHide").show();
-        $(".content-wrapper").hide();
-
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-        if(input.value === "") {
-            $("#testingHide").hide();
-            $(".content-wrapper").show();
-        }
-    });
-
-
+    var currentEditEvent="";
 
     $("#showDelAppointmentMod").click(function(e) {
         $("#showAppointment").modal("hide");
@@ -684,85 +655,19 @@ jQuery.ajaxSettings.traditional = true;
         url: "http://localhost:8000/api/appointment/"+calEventID+"/",
         success: function(data)
                 {
-                    console.log(data);
                     location.reload();
                 },
                         error: function (data, jqXHR, textStatus, errorThrown) {
-                        console.log(data);
-                        console.log(jqXHR);
-                        }
-    });
+                                var error = data.responseJSON;
 
+                                if(error === "Only the organizer may delete an Appointment") {
+                                    error = "Nur der Ersteller des Termins kann diesen löschen!"
+                                }
+
+                                 $('#showAppModal').notify("Löschen fehlgeschlagen: " + error, "error", {position: "top center"});
+                            }
+    });
         });
-
-
-
-
-    $("#showDeleteModal").click(function() {
-        $("#deleteUserMod").modal("show");
-    });
-
-
-    $("#deleteUserButton").click(function() {
-
-        var user_id = {{ user.id }};
-
-       $.ajax({
-        type: "DELETE",
-        url: "http://localhost:8000/api/actor/"+user_id+"/",
-        success: function(data)
-                {
-                        location.reload();
-                }
-    });
-
-        });
-
-
-
-    //// Config Result List
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8000/api/actor/",
-        success: function(data)
-            {
-                for (var key in data) {
-                    if(data[key].first_name ==  "" && data[key].last_name == "") {
-                        var actorName = "Kein Name angegeben";
-                    }
-                    else {
-                        var actorName = data[key].first_name + " " + data[key].last_name;
-                    }
-                    var actorEmail = data[key].email;
-                    $('#myUL').append('<li><a id='+data[key].id+' class="userSearchResult">'+actorEmail+' - ' + actorName +'</a></li>');
-                }
-            }
-    });
-
-     $("#myUL").on("click", ".userSearchResult", function(e){
-        var userID = e.currentTarget.id;
-
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8000/api/actor/"+userID+"/",
-            success: function (data) {
-                $("#modalUserName").text(data.first_name +" "+ data.last_name);
-                $("#modalUserMail").text(data.email);
-                $("#modalUserTel").text(data.phone);
-                $("#modalUserNote").text(data.contact_notes);
-                $("#modalUserPlace").text(data.location);
-                $("#modalUserSkills").text(data.skills);
-                $("#modalUserSpareTime").text(data.spare_time);
-                $("#modalUserEducation").text(data.education);
-                $("#modalUserJob").text(data.job);
-
-            }
-        });
-
-        $("#userModal").modal('show');
-    });
-
-    $("#testingHide").hide();
 
 
     // Load Favorites
@@ -785,27 +690,30 @@ jQuery.ajaxSettings.traditional = true;
         url: "http://localhost:8000/api/appointment/",
         success: function(data)
             {
-
                 for (var key in data) {
                     var event = {
                             title: data[key].name,
                             start: data[key].dtstart,
                             end: data[key].dtend,
                             id: data[key].id,
-                            answer: data[key].own_answer
+                            answer: data[key].own_answer,
+                            color: data[key].color,
+                            organizer: data[key].organizer,
+                            will_take_place: data[key].will_take_place
                     };
                     events.push(event);
 
                     switch (event.answer) {
 
                         case "y":
-                            $("#appointmentListYes").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
+                            $("#appointmentListYes").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><br>'+event.start+'</h4><hr>');
                            break;
                         case "n":
-                            $("#appointmentListNo").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
+                            $("#appointmentListNo").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
+
                             break;
                         default:
-                            $("#appointmentListPending").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button><button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
+                            $("#appointmentListPending").append('<h4 id="eventList'+event.id+'">'+event.title+'<button id="noEvent'+event.id+'"  type="button" class="btn btn-danger btn-sm pull-right"><span class="ion-close-circled"></span></button> <button id="yesEvent'+event.id+'"  type="button" class="btn btn-success btn-sm pull-right"><span class="ion-checkmark-circled"></span></button><br>'+event.start+'</h4><hr>');
                             break;
                     }
 
@@ -816,7 +724,6 @@ jQuery.ajaxSettings.traditional = true;
                         $('#acceptAppointment').modal('show');
                         eventSentData =  e.currentTarget.id;
                         eventSentData = eventSentData.substring(eventSentData.indexOf("t") + 1);
-
                     });
 
                     $('#noEvent'+event.id).click(function (e){
@@ -824,10 +731,8 @@ jQuery.ajaxSettings.traditional = true;
                           eventSentData =  e.currentTarget.id;
                         eventSentData = eventSentData.substring(eventSentData.indexOf("t") + 1);
                     });
-
                 }
 
-                // TODO
                 $('#sendYes').click(function (e) {
                     e.preventDefault();
                             var formData =  {"answer": "yes"}
@@ -839,16 +744,17 @@ jQuery.ajaxSettings.traditional = true;
                             {
                                 location.reload();
                             },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
                     });
                 });
 
-                // TODO
-                 $('#sendNo').click(function (e) {
+                $('#sendNo').click(function (e) {
                     e.preventDefault();
-                            var formData =  {"answer": "no"}
+                    var formData =  {"answer": "no"}
+
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
                         type: "POST",
@@ -863,24 +769,23 @@ jQuery.ajaxSettings.traditional = true;
                     });
                 });
 
-                    $('#sendNoReplace').click(function (e) {
+                $('#sendNoReplace').click(function (e) {
                     e.preventDefault();
-                            var formData =  {"answer": "no"}
+                    var formData =  {"answer": "no"}
+
                     $.ajax({
                         url : "http://localhost:8000/api/appointment/"+eventSentData+"/response/",
                         type: "POST",
                         data : formData,
                         success: function(data, textStatus, jqXHR)
-
-                        {
-                            $("#declineAppointment").modal("hide");
-                                                setTimeout(function(){$('#appointment').modal('show');}, 300);
-
-
+                            {
+                                $("#declineAppointment").modal("hide");
+                                setTimeout(function(){$('#appointment').modal('show');}, 300);
                             },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        }
+                        error: function (jqXHR, textStatus, errorThrown)
+                            {
+                                console.log(jqXHR);
+                            }
                     });
 
                 });
@@ -890,8 +795,6 @@ jQuery.ajaxSettings.traditional = true;
                 $('#calendar').fullCalendar('removeEvents');
                 $('#calendar').fullCalendar('addEventSource', events);
                 $('#calendar').fullCalendar('refetchEvents');
-
-
             }
     });
 
@@ -899,9 +802,8 @@ jQuery.ajaxSettings.traditional = true;
     // initialize the favorites
     function ini_events(ele) {
         ele.each(function () {
-
             var eventObject = {
-                    title: $.trim($(this).text())
+                title: $.trim($(this).text())
             };
             $(this).data('eventObject', eventObject);
 
@@ -921,6 +823,7 @@ jQuery.ajaxSettings.traditional = true;
     var d = date.getDate(),
         m = date.getMonth(),
         y = date.getFullYear();
+
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
@@ -932,12 +835,9 @@ jQuery.ajaxSettings.traditional = true;
         timezone:'local',
         displayEventEnd: true,
 
-
         eventRender: function (event, element) {
-    element.find('.fc-time').append("<br/>");
-
+            element.find('.fc-time').append("<br/>");
         },
-
 
         eventClick: function (calEvent, jsEvent, view) {
             var titleEdit = "";
@@ -966,33 +866,36 @@ jQuery.ajaxSettings.traditional = true;
 
                     var date = new Date(data.dtstart);
                     var dateEdit = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
+                    currentEditEvent = dateEdit;
 
                     $('#titleEvent').text(data.name + " - " + dateEdit);
                     titleEdit = data.name;
 
-
-                     $('#showTown').text(data.town);
+                    $('#showTown').text(data.town);
                     townEdit = $('#showTown').text();
 
-                     $('#showLocation').text(data.location);
+                    $('#showLocation').text(data.location);
                     locationEdit = $('#showLocation').text();
 
-                     $('#showRemark').text(data.summary);
+                    $('#showRemark').text(data.summary);
                     remarkEdit = $('#showRemark').text();
 
                     for (var key in data.participants) {
-                        userEdit.push(" "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email);
+                        var crit = "";
+                        if(data.participants[key].is_necessary === true) {
+                            crit = " (kritisch)";
+                        }
+                        userEdit.push("\u2022 "+data.participants[key].first_name + " " + data.participants[key].last_name + " - " + data.participants[key].email + crit);
                     }
 
-                     $('#showUser').text(userEdit);
-                    userEdit = $('#showUser').text();
-
+                     $('#showUser').text(userEdit.join("\n"));
 
                     $('#showAppointment').modal('show');
                 }
             });
 
             $("#editEvent").click(function (e) {
+
                 e.preventDefault();
                 $('#showAppointment').modal('hide');
                 $('#titleEditPut').val(titleEdit);
@@ -1002,68 +905,83 @@ jQuery.ajaxSettings.traditional = true;
                 $('#locationEditPut').val(locationEdit);
                 $('#remarkEditPut').val(remarkEdit);
 
-
                  $.ajax({
-                type: "GET",
-                url: "http://localhost:8000/api/actor/",
-                success: function (data) {
-                    for (var key in data) {
-                        if (data[key].first_name == "" && data[key].last_name == "") {
-                            var actorName = "Kein Name angegeben";
+                    type: "GET",
+                    url: "http://localhost:8000/api/actor/",
+                    success: function (data) {
+                        for (var key in data) {
+                            if (data[key].first_name == "" && data[key].last_name == "") {
+                                var actorName = "Kein Name angegeben";
+                            }
+                            else {
+                                var actorName = data[key].first_name + " " + data[key].last_name;
+                            }
+                            var actorEmail = data[key].email;
+                            $('#userListEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                            $('#userListCritEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
                         }
-                        else {
-                            var actorName = data[key].first_name + " " + data[key].last_name;
-                        }
-                        var actorEmail = data[key].email;
-                        $('#userListEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
-                        $('#userListCritEditPut').append('<option value=' + actorEmail + '>' + actorEmail + ' - ' + actorName + '</option>');
+                        $("#userListEditPut").trigger("chosen:updated");
+                        $("#userListCritEditPut").trigger("chosen:updated");
+
+                        setTimeout(function () { $('#appointmentEditPut').modal('show'); }, 400);
                     }
-                    $("#userListEditPut").trigger("chosen:updated");
-                    $("#userListCritEditPut").trigger("chosen:updated");
-
-
-
-                    setTimeout(function () {
-                    $('#appointmentEditPut').modal('show');
-                }, 400);
-                }
-
+                });
             });
-
-
-
-
-
-            });
-
         },
 
         editable: true,
         eventAfterRender: function (event, element, view) {
             element.addClass('withPointer');
 
+            if(user_id == event.organizer && event.color != "3c8dbc") {
 
-            switch (event.answer) {
-                case "y":
-                    element.css('background-color', '#00a65a');
+                switch (event.answer) {
+                    case "y":
+                        element.css('background-color', '#' + event.color);
+                        element.css('border-color', '#' + event.color);
+                        break;
+
+                    case "n":
+                        element.css('background-color', '#dd4b39');
+                        element.css('border-color', '#dd4b39');
+                        break;
+
+                    default:
+                        element.css('background-color', '#' + event.color);
+                        element.css('border-color', '#' + event.color);
+                        break;
+                }
+
+            } else {
+
+                 switch (event.answer) {
+                    case "y":
+                        element.css('background-color', '#00a65a');
+                        element.css('border-color', '#00a65a');
                     break;
-                case "n":
-                    element.css('background-color', '#dd4b39');
+
+                    case "n":
+                        element.css('background-color', '#dd4b39');
+                        element.css('border-color', '#dd4b39');
                     break;
-                default:
-                    element.css('background-color', '#3c8dbc');
+
+                    default:
+                        element.css('background-color', '#3c8dbc');
+                        element.css('border-color', '#3c8dbc');
                     break;
+                }
             }
+
             var eventID = event.id;
             var eventEnd = event.end;
             var eventStart = Date.parse(event.start._d);
+
             if (eventEnd != null) {
                 var eventEnd = Date.parse(event.end._d);
             }
             else {
                 var eventEnd = "";
             }
-
 
             for (var key in events) {
                 var eventsStart = Date.parse(events[key].start);
@@ -1082,36 +1000,58 @@ jQuery.ajaxSettings.traditional = true;
                 else if (eventID !== events[key].id && (eventStart >= eventsStart && eventsEnd >= eventStart)) {
                     overlapping();
                 }
-                else {
-                }
+            }
+
+            if(event.will_take_place == false) {
+                element.css('background-color', '#aaaaaa');
+                element.css('border-color', '#000000');
+                element.css('color', '#000000');
             }
 
             function overlapping() {
-                //var s = '<span class="glyphicon glyphicon-info-sign"> '+events[key].title+'</span><br>';
-                //var span = document.createElement('span');
-                //span.innerHTML = s;
-                //element[0].children[0].prepend(span);
                 element.css('background-color', '#fff600');
                 element.css('border-color', '#000000');
                 element.css('color', '#000000');
             }
 
-$(".fc-today-button").text("Heute");
-$(".fc-month-button").text("Monat");
-$(".fc-agendaWeek-button").text("Woche");
-$(".fc-agendaDay-button").text("Tag");
+            $(".fc-today-button").text("Heute");
+            $(".fc-month-button").text("Monat");
+            $(".fc-agendaWeek-button").text("Woche");
+            $(".fc-agendaDay-button").text("Tag");
         },
-eventStartEditable: false,
-droppable: true,
-drop: function (date, allDay, e) {
+
+        eventStartEditable: false,
+        droppable: true,
+
+        drop: function (date, allDay, e) {
             favorID = $(this)[0].id;
+            colDropEvent = $(this)[0].attributes[0].value;
+
             $('#dropTitleName').text(allDay.target.innerHTML);
             $('#dropAppointment').modal('show');
-                    var originalEventTitle= $(this).data('eventObject').title;
+
+            var originalEventTitle= $(this).data('eventObject').title;
             var date = new Date(date._d);
             var dateNew = date.getDate() + '/' +(date.getMonth()+1)+'/'+date.getFullYear();
-           colDropEvent = $(this)[0].attributes[0].value;
-           console.log(colDropEvent);
+
+             $.ajax({
+                type: "GET",
+                url: "http://localhost:8000/api/favorites/"+favorID+"/",
+                success: function(data)
+                    {
+                        var start = new Date(Date.parse(data.dtstart));
+                        start = start.getHours() + ":" + (start.getMinutes()<10?'0':'') + start.getMinutes();
+                        $("#startTimeDrop").val(start);
+
+                        var end = new Date(Date.parse(data.dtend));
+                        end = end.getHours() + ":" + (end.getMinutes()<10?'0':'') + end.getMinutes();
+                        $("#endTimeDrop").val(end);
+
+                        $("#locationDrop").val(data.location);
+                        $("#townDrop").val(data.town);
+                        $("#remarkDrop").val(data.summary);
+                    }
+            });
 
             $.ajax({
                 type: "GET",
@@ -1132,20 +1072,19 @@ drop: function (date, allDay, e) {
                     $("#userListDrop").trigger("chosen:updated");
                     $("#userListCritDrop").trigger("chosen:updated");
                 }
-
             });
-               $.ajax({
-            type: "GET",
-                        url: "http://localhost:8000/api/group/",
 
-            success: function(data)
-                {
-                    for (var key in data) {
-                        $('#groupListDrop').append('<option value='+data[key].id+'>'+ data[key].name +'</option>');
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8000/api/group/",
+                success: function(data)
+                    {
+                        for (var key in data) {
+                            $('#groupListDrop').append('<option value='+data[key].id+'>'+ data[key].name +'</option>');
+                        }
+                        $("#groupListDrop").trigger("chosen:updated");
                     }
-                    $("#groupListDrop").trigger("chosen:updated");
-                }
-        });
+            });
         }
     });
 
@@ -1179,7 +1118,6 @@ drop: function (date, allDay, e) {
         showInputs: false,
         showMeridian: false
     });
-
 
 
     // Initiate Checkboxes
@@ -1247,11 +1185,9 @@ drop: function (date, allDay, e) {
                 }
         });
 
-
         $.ajax({
             type: "GET",
-                        url: "http://localhost:8000/api/group/",
-
+            url: "http://localhost:8000/api/group/",
             success: function(data)
                 {
                     for (var key in data) {
@@ -1261,51 +1197,39 @@ drop: function (date, allDay, e) {
                 }
         });
 
-
         $('#appointment').modal('show');
     });
 
 
     // New Event Button Function Save
     $("#saveEvent").click(function (e){
+        if($('#group').is(':checked')){
+            var groupID = $("#groupList").val();
+            var groupMember = [];
 
-                if($('#group').is(':checked')){
-                    var groupID = $("#groupList").val();
-                    var groupMember = [];
-                             $.ajax({
-                        url : "http://localhost:8000/api/group/"+groupID+"/",
-                        type: "GET",
-                        success: function(data, textStatus, jqXHR)
-                            {
-
-
-                                    for (var i = 0; i<data.members.length; i++) {
-                    groupMember.push(data.members[i].email);
+            $.ajax({
+                url : "http://localhost:8000/api/group/"+groupID+"/",
+                type: "GET",
+                success: function(data, textStatus, jqXHR)
+                    {
+                        for (var i = 0; i<data.members.length; i++) {
+                            groupMember.push(data.members[i].email);
+                        }
+                    },
+                error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        console.log(jqXHR);
                     }
+            });
+        } else var groupMember = null;
 
+        if($('#user').is(':checked')){
+            var actors = $("#userList").val();
+        } else var actors = null;
 
-
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-                            }
-                    });
-
-
-
-
-                } else var groupMember = null;
-
-
-                  if($('#user').is(':checked')){
-                    var actors = $("#userList").val();
-                } else var actors = null;
-
-                  if($('#userCrit').is(':checked')){
-                    var actorsCrit = $("#userListCrit").val();
-                } else var actorsCrit = null;
-
+        if($('#userCrit').is(':checked')){
+            var actorsCrit = $("#userListCrit").val();
+        } else var actorsCrit = null;
 
         var title = $("#title").val();
         var dtDate = $("#reservationtime").val();
@@ -1326,15 +1250,9 @@ drop: function (date, allDay, e) {
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
         }
 
+        var formData = {name: title, organizer: {{ user.id }}, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
 
-
-        var formData = {name: title, organizer: 1, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary: remark};
-
-
-
-
-
-       $.ajax({
+        $.ajax({
             type: "POST",
             url : "http://localhost:8000/api/appointment/",
             data : formData,
@@ -1344,56 +1262,56 @@ drop: function (date, allDay, e) {
                     var objectAppID = data.id;
                     $('#appointment').modal('hide');
 
-
-                    if(groupMember !== null) {
                         $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
-                        type: "POST",
-                        data : {actors: groupMember},
-                        success: function(data, textStatus, jqXHR)
-                            {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-                            }
-                        });
-                    }
-
-                    if(actors !== null) {
-                         $.ajax({
                             url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
                             type: "POST",
-                            data : {actors: actors},
+                            data : {actors: groupMember},
                             success: function(data, textStatus, jqXHR)
                                 {
+
+                                $.ajax({
+                                    url : "http://localhost:8000/api/appointment/"+objectAppID+"/addActors",
+                                    type: "POST",
+                                    data : {actors: actors},
+                                    success: function(data, textStatus, jqXHR)
+                                        {
+
+                                        $.ajax({
+                                            url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
+                                            type: "POST",
+                                            data: {actors: actorsCrit},
+                                            success: function (data, textStatus, jqXHR)
+                                                {
+
+                                                $.ajax({
+                                                    url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
+                                                    type: "POST",
+                                                    data : {"answer": "yes"},
+                                                    success: function(data, textStatus, jqXHR)
+                                                        {
+                                                            window.location.reload();
+                                                        },
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        console.log(jqXHR);
+                                                    }
+                                                });
+                                                },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                console.log(jqXHR);
+                                            }
+                                        });
+                                        },
+                                    error: function (jqXHR, textStatus, errorThrown)
+                                        {
+                                            console.log(jqXHR);
+                                        }
+                                });
                                 },
                             error: function (jqXHR, textStatus, errorThrown)
                                 {
                                     console.log(jqXHR);
                                 }
                         });
-                    }
-
-                    if(actorsCrit !== null) {
-                             $.ajax({
-                        url : "http://localhost:8000/api/appointment/"+objectAppID+"/addCriticalActors",
-                        type: "POST",
-                        data : {actors: actorsCrit},
-                        success: function(data, textStatus, jqXHR)
-                            {
-                            },
-                        error: function (jqXHR, textStatus, errorThrown)
-                            {
-                                console.log(jqXHR);
-                            }
-                    });
-
-                    }
-
-
-
-
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -1403,15 +1321,12 @@ drop: function (date, allDay, e) {
     });
 
 
-
-    // TODO New Event After Drop Function Save
+    // New Event After Drop Function Save
     $("#saveEventDrop").click(function (e) {
-
-        console.log(e);
-
         if ($('#group').is(':checked')) {
             var groupID = $("#groupListDrop").val();
             var groupMember = [];
+
             $.ajax({
                 url: "http://localhost:8000/api/group/" + groupID + "/",
                 type: "GET",
@@ -1424,9 +1339,7 @@ drop: function (date, allDay, e) {
                     console.log(jqXHR);
                 }
             });
-
         } else var groupMember = null;
-
 
         if ($('#userDrop').is(':checked')) {
             var actors = $("#userListDrop").val();
@@ -1436,9 +1349,7 @@ drop: function (date, allDay, e) {
             var actorsCrit = $("#userListCritDrop").val();
         } else var actorsCrit = null;
 
-
         var titleElement = $("#titleDrop").text();
-
         var title = titleElement.substring(0, titleElement.indexOf('-'));
         var dtStart = $("#startTimeDrop").val();
         var dtEnd = $("#endTimeDrop").val();
@@ -1446,14 +1357,8 @@ drop: function (date, allDay, e) {
         var town = $("#townDrop").val();
         var remark = $("#remarkDrop").val();
 
-
         var dateTest = titleElement.substring(titleElement.indexOf("-") + 2);
-
-
-        // bei tag ist ein leerzeichen drin
-
         var dateFormat = dateTest.split("/");
-
         var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
 
         if ($('#allDay').is(':checked')) {
@@ -1464,99 +1369,161 @@ drop: function (date, allDay, e) {
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + dtEnd;
         }
 
-
         var formData = {
             name: title,
-            organizer: 1,
+            organizer: user_id,
             dtstart: newDateTimeStart,
             dtend: newDateTimeEnd,
             town: town,
             location: location,
-            summary: remark
+            summary: remark,
+            color: colDropEvent
         };
 
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/api/appointment/",
+            data: formData,
+            success: function (data, textStatus, jqXHR) {
+                var objectAppID = data.id;
+                $('#dropAppointment').modal('hide');
 
+                    $.ajax({
+                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
+                        type: "POST",
+                        data: {actors: groupMember},
+                        success: function (data, textStatus, jqXHR) {
 
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8000/api/appointment/",
-                    data: formData,
-                    success: function (data, textStatus, jqXHR) {
-                        var objectAppID = data.id;
-                        $('#dropAppointment').modal('hide');
-
-
-                        if (groupMember !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
-                                type: "POST",
-                                data: {actors: groupMember},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-                        }
-
-                        if (actors !== null) {
                             $.ajax({
                                 url: "http://localhost:8000/api/appointment/" + objectAppID + "/addActors",
                                 type: "POST",
                                 data: {actors: actors},
                                 success: function (data, textStatus, jqXHR) {
-                                },
+
+                                    $.ajax({
+                                        url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
+                                        type: "POST",
+                                        data: {actors: actorsCrit},
+                                        success: function (data, textStatus, jqXHR) {
+
+                                            $.ajax({
+                                                url : "http://localhost:8000/api/appointment/"+objectAppID+"/response/",
+                                                type: "POST",
+                                                data : {"answer": "yes"},
+                                                success: function(data, textStatus, jqXHR)
+                                                    {
+
+                                                    $.ajax({
+                                                        url: "http://localhost:8000/api/favorites/" + favorID +"/",
+                                                        type: "PATCH",
+                                                        data: formData,
+                                                        success: function (data, textStatus, jqXHR)
+                                                            {
+
+                                                               if($('#drop-remove').is(':checked')){
+                                                                    $.ajax({
+                                                                        type: "DELETE",
+                                                                        url: "http://localhost:8000/api/favorites/"+favorID+"/",
+                                                                        success: function(data, textStatus, jqXHR)
+                                                                             {
+                                                                                 window.location.reload();
+                                                                             },
+                                                                        error: function (jqXHR, textStatus, errorThrown)
+                                                                             {
+                                                                             console.log(jqXHR);
+                                                                             }
+                                                                    });
+                                                               }
+                                                               else {
+                                                                     window.location.reload();
+                                                               }
+                                                            },
+                                                        error: function (jqXHR, textStatus, errorThrown)
+                                                            {
+                                                                console.log(jqXHR);
+                                                            }
+                                                    });
+                                                    },
+                                                error: function (jqXHR, textStatus, errorThrown) {
+                                                    console.log(jqXHR);
+                                                }
+                                            });
+                                            },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            console.log(jqXHR);
+                                        }
+                                    });
+                                    },
                                 error: function (jqXHR, textStatus, errorThrown) {
                                     console.log(jqXHR);
                                 }
                             });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR);
                         }
-
-                        if (actorsCrit !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + objectAppID + "/addCriticalActors",
-                                type: "POST",
-                                data: {actors: actorsCrit},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-
-                        }
-
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(jqXHR);
-                    }
-                });
-
-
+                    });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+            }
+        });
     });
 
 
-
-
-    // Edit Event Save
     $("#saveEventEditPut").click(function (e){
         var title = $("#titleEditPut").val();
         var desc = $("#remarkEditPut").val();
-        var formData = {name: title,date_begin:"",date_end:"",town:"",location:"",description:desc,notes:""};
+        var start = $("#startTimeEditPut").val();
+        var end = $("#endTimeEditPut").val();
+        var location = $("#locationEditPut").val();
+        var town = $("#townEditPut").val();
+
+        var dateFormat = currentEditEvent.split("/");
+        var day = dateFormat[0], month = dateFormat[1], year = dateFormat[2];
+
+        if($('#allDay').is(':checked')){
+            var newDateTimeStart = year + "-" + month + "-" + day + " 00:00";
+            var newDateTimeEnd = year + "-" + month + "-" + day + " 23:59";
+        } else {
+            var newDateTimeStart = year + "-" + month + "-" + day + " " + start;
+            var newDateTimeEnd = year + "-" + month + "-" + day + " " + end;
+        }
+
+        var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
+
+        var actors = $("#userListEditPut").val();
+        var actorsCrit = $("#userListCritEditPut").val();
 
         $.ajax({
             url : "http://localhost:8000/api/appointment/"+calEventID+"/",
-            type: "PUT",
+            type: "PATCH",
             data : formData,
             success: function(data, textStatus, jqXHR)
                 {
-                    $('#appointmentEditPut').modal('hide');
-                    location.reload();
+                        $.ajax({
+                            url: "http://localhost:8000/api/appointment/" + calEventID + "/addActors",
+                            type: "POST",
+                            data: {actors: actors},
+                            success: function (data, textStatus, jqXHR) {
+                                $.ajax({
+                                    url: "http://localhost:8000/api/appointment/" + calEventID + "/addCriticalActors",
+                                    type: "POST",
+                                    data: {actors: actorsCrit},
+                                    success: function (data, textStatus, jqXHR) {
+                                        window.location.reload();
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        console.log(jqXHR);
+                                    }
+                                });
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(jqXHR);
+                            }
+                        });
                 },
-            error: function (jqXHR, textStatus, errorThrown)
-                {
-                    console.log(jqXHR);
+                error: function (jqXHR, textStatus, errorThrown){
                 }
         });
     });
@@ -1570,11 +1537,9 @@ drop: function (date, allDay, e) {
     $("#color-chooser > li > a").click(function (e) {
         e.preventDefault();
         currColor = $(this).css("color");
-        console.log(currColor);
         currColorHex = rgb2hex(currColor);
         currColorHex = currColorHex.substr(1);
 
-console.log(currColorHex);
         $('#add-new-event').css({"background-color": currColor, "border-color": currColor});
     });
 
@@ -1590,7 +1555,7 @@ console.log(currColorHex);
             success: function(data, textStatus, jqXHR)
                 {
                     $("#new-event").val("");
-                    console.log(jqXHR);
+                    location.reload();
                 },
             error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -1602,13 +1567,10 @@ console.log(currColorHex);
 
     // Convert RGB to HEX
     function rgb2hex(rgb){
- rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
- return (rgb && rgb.length === 4) ? "#" +
-  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
-}
+        rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+        return (rgb && rgb.length === 4) ? "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) + ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+               ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+     }
 });
 </script>
-
 {% endblock %}

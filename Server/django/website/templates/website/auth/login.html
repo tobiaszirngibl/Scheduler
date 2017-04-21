@@ -13,17 +13,14 @@
 
 
     <form method="post">
-
         {% csrf_token %}
         {{ form.as_p }}
           <button type="submit" class="btn btn-primary btn-block btn-flat">Einloggen</button>
         <!-- /.col -->
     </form>
 
-
-
-    <a href="#">Passwort vergessen</a><br>
-    <a href="/register" class="text-center">Neuen Benutzer registrieren</a>
+    <!--<a href="#">Passwort vergessen</a><br> -->
+    <a href="{% url 'register' %}" class="text-center">Neuen Benutzer registrieren</a>
 
   </div>
   <!-- /.login-box-body -->
@@ -37,7 +34,6 @@
 <!-- iCheck -->
 <script>
   $(function () {
-
   });
 </script>
 </body>
