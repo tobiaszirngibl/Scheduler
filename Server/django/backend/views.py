@@ -60,6 +60,8 @@ class AddActorToEvent(APIView):
 
 	def post(self, request, id):
 		appointment = get_object_or_404(Appointment, id=id)
+		if 'actors' not in request.POST:
+			return Response(status=status.HTTP_400_BAD_REQUEST, data='POST did not contain key "actors"')
 		actors = request.POST.getlist('actors')
 		for a in actors:
 			try:
@@ -77,6 +79,8 @@ class AddCriticalActorToEvent(APIView):
 
 	def post(self, request, id):
 		appointment = get_object_or_404(Appointment, id=id)
+		if 'actors' not in request.POST:
+			return Response(status=status.HTTP_400_BAD_REQUEST, data='POST did not contain key "actors"')
 		actors = request.POST.getlist('actors')
 		for a in actors:
 			try:
@@ -95,6 +99,8 @@ class AddActorToGroup(APIView):
 
 	def post(self, request, id):
 		group = get_object_or_404(Group, id=id)
+		if 'actors' not in request.POST:
+			return Response(status=status.HTTP_400_BAD_REQUEST, data='POST did not contain key "actors"')
 		actors = request.POST.getlist('actors')
 		for a in actors:
 			try:
