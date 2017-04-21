@@ -171,13 +171,13 @@ class ActorViewSet(viewsets.ModelViewSet):
 		return Actor.objects.all()
 
 	def update(self, request, *args, **kwargs):
-		custom_data = {}
-		if request.data['understudy'].isdigit() is False:  # Subsitute mail with id
-			custom_data = request.data.copy()
-			custom_data['understudy'] = get_object_or_404(Actor, email=custom_data['understudy']).id
+		custom_data = request.data.copy()
+		if request.data['understudy'].isdigit() is False:  # Get Actor by mail
+			custom_data['understudy'] = get_object_or_404(Actor, email=custom_data['understudy'])
 		else:
-			custom_data = request.data
+			custom_data['understudy'] = get_object_or_404(Actor, id=custom_data['understudy'])
 		instance = self.get_object()
+		instance.understudy = custom_data['understudy']
 		serializer = self.get_serializer(instance, data=custom_data, partial=True)
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
