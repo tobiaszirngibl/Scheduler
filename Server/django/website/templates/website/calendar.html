@@ -319,28 +319,11 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form class="noValidateForm" method="post" class="form-vertical">
-<<<<<<< HEAD
-
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <h4 class="modal-title">Termin bearbeiten</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Titel</label>
-                                    <input required="true" id="titleEditPut" type="text" class="form-control" placeholder="Enter ...">
-                                </div>
-                             <div class="form-group">
-                                    <label><input id="allDayEditPut" type="checkbox" class="minimal">  Ganztägig</label>
-=======
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     <h4 class="modal-title">Termin bearbeiten</h4>
->>>>>>> development
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
@@ -392,26 +375,6 @@
                                             </div>
                                         </div>
                                     </div>
-<<<<<<< HEAD
-                                </div>
-                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>
-                                                <input id="userEditPut" type="checkbox" class="minimal">  Benutzer hinzufügen:
-                                            </label>
-                                            <select id="userListEditPut" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>
-                                                <input id="userCritEditPut" type="checkbox" class="minimal"> Kritische Benutzer hinzufügen:
-                                            </label>
-                                            <select id="userListCritEditPut" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
-                                            </select>
-=======
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
@@ -430,7 +393,6 @@
                                                 <select id="userListCritEditPut" data-placeholder="Kritische Benutzer auswählen..." multiple class="chzn-select" disabled>
                                                 </select>
                                             </div>
->>>>>>> development
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -447,23 +409,6 @@
                     </div>
                 </div>
 
-<<<<<<< HEAD
-            <!-- Modal Drop Appointment -->
-            <div id="dropAppointment" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form class="noValidateForm" method="post" class="form-vertical">
-
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 id="titleDrop" class="modal-title"></h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                    <label><input id="allDayDrop" type="checkbox" class="minimal">  Ganztägig</label>
-=======
                 <!-- Modal Drop Appointment -->
                 <div id="dropAppointment" class="modal fade">
                     <div class="modal-dialog">
@@ -474,7 +419,6 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     <h4 id="titleDrop" class="modal-title"></h4>
->>>>>>> development
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
@@ -533,26 +477,6 @@
                                             </div>
                                         </div>
                                     </div>
-<<<<<<< HEAD
-                                </div>
-                            <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>
-                                                <input id="userDrop" type="checkbox" class="minimal">  Benutzer auswählen:
-                                            </label>
-                                            <select id="userListDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
-                                            </select>
-                                        </div>
-                                    </div>
-                                  <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>
-                                                <input id="userCritDrop" type="checkbox" class="minimal"> Kritische Benutzer auswählen:
-                                            </label>
-                                            <select id="userListCritDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
-                                            </select>
-=======
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
@@ -571,7 +495,6 @@
                                                 <select id="userListCritDrop" data-placeholder="Benutzer auswählen..." multiple class="chzn-select" disabled>
                                                 </select>
                                             </div>
->>>>>>> development
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -1188,10 +1111,6 @@ $(function () {
         showMeridian: false
     });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> development
     // Initiate Checkboxes Normal Appointment
     $('input[type="checkbox"].minimal').iCheck({
         checkboxClass: 'icheckbox_minimal-blue'
@@ -1692,41 +1611,6 @@ $(function () {
             var newDateTimeEnd = year + "-" + month + "-" + day + " " + end;
         }
 
-<<<<<<< HEAD
-
-    var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
-
-           if ($('#userEditPut').is(':checked')) {
-            var actors = $("#userListEditPut").val();
-        } else var actors = null;
-
-        if ($('#userCritEditPut').is(':checked')) {
-            var actorsCrit = $("#userListCritEditPut").val();
-        } else var actorsCrit = null;
-
-
-    $.ajax({
-        url : "http://localhost:8000/api/appointment/"+calEventID+"/",
-        type: "PATCH",
-        data : formData,
-        success: function(data, textStatus, jqXHR)
-            {
-
-                 if (actors !== null) {
-                            $.ajax({
-                                url: "http://localhost:8000/api/appointment/" + calEventID + "/addActors",
-                                type: "POST",
-                                data: {actors: actors},
-                                success: function (data, textStatus, jqXHR) {
-                                },
-                                error: function (jqXHR, textStatus, errorThrown) {
-                                    console.log(jqXHR);
-                                }
-                            });
-                        }
-
-                        if (actorsCrit !== null) {
-=======
         var formData = {name: title, dtstart: newDateTimeStart, dtend: newDateTimeEnd, town: town, location: location, summary:desc};
         
         if ($('#userEditPut').is(':checked')) {
@@ -1748,8 +1632,7 @@ $(function () {
                         type: "POST",
                         data: {actors: actors},
                         success: function (data, textStatus, jqXHR) {
-                            
->>>>>>> development
+
                             $.ajax({
                                 url: "http://localhost:8000/api/appointment/" + calEventID + "/addCriticalActors",
                                 type: "POST",
