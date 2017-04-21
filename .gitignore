@@ -1,5 +1,4 @@
 .idea
-Server/django/db.sqlite3
 
 Server/django/backend/migrations/0014_auto_20170418_1308.py
 
